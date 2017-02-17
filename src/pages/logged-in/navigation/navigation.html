@@ -1,0 +1,26 @@
+<!-- Menu Left -->
+<ion-menu #menuLeft side="left" type="overlay" [content]="loggedInContent">
+  <ion-header>
+    <ion-toolbar text-center style="height:auto;">
+      <img margin class='logo' src="assets/logo.png" />
+      <h3>Payroll Admin</h3>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+
+
+    <ion-list>
+      <ion-list-header>Personal</ion-list-header>
+
+      <button ion-item (click)="logout()">
+        <ion-icon name="ios-log-out" item-left></ion-icon>
+        Logout
+      </button>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #loggedInContent
+  swipeBackEnabled="true"
+  [root]="rootPage"></ion-nav>
