@@ -1,2 +1,2 @@
-# payroll-admin
-Frontend app for the Admin portal
+# payroll-candidate
+Frontend app for the Candidate portal
