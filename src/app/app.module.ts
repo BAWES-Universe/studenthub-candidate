@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 
@@ -32,11 +32,11 @@ import { ConfigService } from '../providers/config.service';
     HomePage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   providers: [
       {provide: ErrorHandler, useClass: IonicErrorHandler},
-      Storage, // Ionic Storage
       AuthService, // Handles all Authorization
       ConfigService // Handles Environment-specific Variables
   ],
