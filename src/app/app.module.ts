@@ -9,10 +9,15 @@ import { LoginPage } from '../pages/start-pages/login/login';
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
 import { HomePage } from '../pages/logged-in/home/home';
+import { TransferListPage } from '../pages/transfer/transfer-list/transfer-list';
 
 // Providers / Services
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
+import { AuthHttpService } from '../providers/logged-in/authhttp.service';
+
+import { TransferService } from '../providers/logged-in/transfer.service';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +26,10 @@ import { ConfigService } from '../providers/config.service';
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage
+    HomePage,
+ 
+    TransferListPage
+
   ],
   entryComponents: [
     MyApp,
@@ -29,16 +37,22 @@ import { ConfigService } from '../providers/config.service';
     LoginPage,
     // Logged In
     NavigationPage,
-    HomePage
+    HomePage,
+ 
+    TransferListPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+     IonicStorageModule.forRoot()
   ],
   providers: [
-      {provide: ErrorHandler, useClass: IonicErrorHandler},
-      AuthService, // Handles all Authorization
-      ConfigService // Handles Environment-specific Variables
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    Storage, // Ionic Storage  
+    AuthService, // Handles all Authorization
+    ConfigService, // Handles Environment-specific Variables
+    
+    TransferService,
+    AuthHttpService
   ],
   bootstrap: [IonicApp]
 })
