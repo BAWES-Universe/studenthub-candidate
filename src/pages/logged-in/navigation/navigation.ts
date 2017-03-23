@@ -3,6 +3,7 @@ import { MenuController, NavController } from 'ionic-angular';
 
 // Page Imports
 import { HomePage } from '../home/home';
+import { TransferListPage } from '../../../pages/transfer/transfer-list/transfer-list';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -21,6 +22,15 @@ export class NavigationPage {
     private _auth: AuthService,
     private _menuCtrl: MenuController
   ){}
+
+   loadPage(pageName: string) {
+    switch (pageName) {
+      case "transfer":
+        this.rootPage = TransferListPage;
+        break;
+    }
+    this._menuCtrl.close();
+  }
 
   /**
    * Log Agent out of the app

@@ -11,7 +11,10 @@
 
     <ion-list>
       <ion-list-header>Personal</ion-list-header>
-
+      <button ion-item (click)="loadPage('transfer')">
+        <ion-icon name="person" item-left></ion-icon>
+            Transfer History
+      </button>
       <button ion-item (click)="logout()">
         <ion-icon name="ios-log-out" item-left></ion-icon>
         Logout
