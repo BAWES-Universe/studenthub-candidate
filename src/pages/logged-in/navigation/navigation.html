@@ -15,15 +15,18 @@
         <ion-icon name="person" item-left></ion-icon>
             Transfer History
       </button>
+      <button ion-item (click)="loadPage('assigned')">
+        <ion-icon name="repeat" item-left></ion-icon>
+            Currently Assigned
+      </button>
       <button ion-item (click)="logout()">
         <ion-icon name="ios-log-out" item-left></ion-icon>
         Logout
       </button>
 
     </ion-list>
+
   </ion-content>
 </ion-menu>
 
-<ion-nav #loggedInContent
-  swipeBackEnabled="true"
-  [root]="rootPage"></ion-nav>
+<ion-nav #loggedInContent swipeBackEnabled="true" [root]="rootPage"></ion-nav>
