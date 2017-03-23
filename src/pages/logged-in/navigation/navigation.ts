@@ -3,6 +3,7 @@ import { MenuController, NavController } from 'ionic-angular';
 
 // Page Imports
 import { HomePage } from '../home/home';
+import { AssignedListPage } from '../../../pages/assigned/assigned-list/assigned-list';
 import { TransferListPage } from '../../../pages/transfer/transfer-list/transfer-list';
 
 // Services
@@ -27,6 +28,9 @@ export class NavigationPage {
     switch (pageName) {
       case "transfer":
         this.rootPage = TransferListPage;
+        break;
+      case "assigned":
+        this.rootPage = AssignedListPage;
         break;
     }
     this._menuCtrl.close();
