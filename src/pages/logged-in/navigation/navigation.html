@@ -3,7 +3,7 @@
   <ion-header>
     <ion-toolbar text-center style="height:auto;">
       <img margin class='logo' src="assets/logo.png" />
-      <h3>Payroll Admin</h3>
+      <h3>Payroll Candidate</h3>
     </ion-toolbar>
   </ion-header>
   <ion-content>
@@ -11,6 +11,16 @@
 
     <ion-list>
       <ion-list-header>Personal</ion-list-header>
+      
+      <button ion-item (click)="loadPage('summary')">
+        <ion-icon name="stats" item-left></ion-icon>
+        Summary
+      </button>
+      
+      <button ion-item (click)="loadPage('salary')">
+        <ion-icon name="globe" item-left></ion-icon>
+        Salary Transfers
+      </button>
 
       <button ion-item (click)="logout()">
         <ion-icon name="ios-log-out" item-left></ion-icon>

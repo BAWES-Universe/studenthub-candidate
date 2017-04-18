@@ -16,8 +16,6 @@ import { ConfigService } from './config.service';
 @Injectable()
 export class AuthService {
 
-  public isLoggedIn = false;
-
   // Logged in agent details
   private _accessToken;
   public id: number;
@@ -34,23 +32,8 @@ export class AuthService {
     private _events: Events,
     private _alertCtrl: AlertController,
     private _loadingCtrl: LoadingController
-    ) {
-      _platform.ready().then(() => {
-        this._updateLoginStatus();
-      });
-    }
+    ) { }
 
-  /**
-   * Sets this.isLoggedIn based on availability of BEARER Access Token
-   */
-  private _updateLoginStatus(){
-    if(this.getAccessToken()){
-      this.isLoggedIn = true;
-    }else{
-      this.isLoggedIn = false;
-      this._events.publish("user:logout");
-    }
-  }
 
   /**
    * Logs a user out by setting logged in to false and clearing token from storage
@@ -60,7 +43,6 @@ export class AuthService {
     // Remove from Storage then process logout
     this._accessToken = null;
     this._storage.clear().then(() => {
-       this._updateLoginStatus();
        this._events.publish('user:logout', reason?reason:false);
     });
   }
@@ -79,9 +61,6 @@ export class AuthService {
     this._storage.set('id', id);
     this._storage.set('name', name);
     this._storage.set('email', email);
-
-    // Update Public Login Status
-    this._updateLoginStatus();
 
     // Log User In by Triggering Event that Access Token has been Set
     this._events.publish('user:login', 'TokenSet');
@@ -106,7 +85,12 @@ export class AuthService {
       if(results[0] && results[1] && results[2] && results[3]){
         this.setAccessToken(results[0], results[1], results[2], results[3]);
         return this.getAccessToken();
+      }else{
+        this.logout();
       }
+    }, () => {
+      // On Promise Failure
+      this.logout();
     });
 
     // No Access Token Available
