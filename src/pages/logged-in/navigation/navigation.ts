@@ -3,6 +3,7 @@ import { MenuController, NavController } from 'ionic-angular';
 
 // Page Imports
 import { HomePage } from '../home/home';
+import { SalaryPage } from '../account/salary/salary';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -21,6 +22,18 @@ export class NavigationPage {
     private _auth: AuthService,
     private _menuCtrl: MenuController
   ){}
+
+  loadPage(pageName: string) {
+    switch (pageName) {
+      case "summary":
+        this.rootPage = HomePage;
+        break;
+      case "salary":
+        this.rootPage = SalaryPage;
+        break;
+    }
+    this._menuCtrl.close();
+  }
 
   /**
    * Log Agent out of the app
