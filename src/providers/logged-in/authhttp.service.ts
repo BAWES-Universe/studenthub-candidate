@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { Http, Headers, Response } from '@angular/http';
 import { Platform, Events } from 'ionic-angular';
 
@@ -25,6 +26,21 @@ export class AuthHttpService {
     private _platform: Platform,
     private _events: Events
   ) { }
+  
+  /**
+   * Requests via GET verb
+   * @param {string} endpointUrl
+   * @returns {Observable<any>}
+   */
+  getRaw(endpointUrl: string): Observable<any> {
+    const url = this._config.apiBaseUrl + endpointUrl;
+    return this._http.get(url, { headers: this._buildAuthHeaders() })
+      .catch((err) => this._handleError(err))
+      .take(1)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 
   /**
    * Requests via GET verb
@@ -99,7 +115,6 @@ export class AuthHttpService {
 
     return headers;
   }
-
 
   /**
    * Handles Caught Errors from All Authorized Requests Made to Server

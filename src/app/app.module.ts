@@ -14,19 +14,17 @@ import { MyApp } from './app.component';
 
 // Start Pages [Logged Out]
 import { LoginPage } from '../pages/start-pages/login/login';
+import { SalaryPage } from '../pages/logged-in/account/salary/salary'; 
+
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
 import { HomePage } from '../pages/logged-in/home/home';
 
-import { AssignedListPage } from '../pages/assigned/assigned-list/assigned-list';
-import { TransferListPage } from '../pages/transfer/transfer-list/transfer-list';
-
 // Providers / Services
+import { AuthHttpService } from '../providers/logged-in/authhttp.service';
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
-import { AuthHttpService } from '../providers/logged-in/authhttp.service';
-import { AssignedService } from '../providers/logged-in/assigned.service';
-import { TransferService } from '../providers/logged-in/transfer.service';
+import { AccountService } from '../providers/logged-in/account.service';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -42,9 +40,7 @@ const cloudSettings: CloudSettings = {
     // Logged In
     NavigationPage,
     HomePage,
-    AssignedListPage,
-    TransferListPage
-
+    SalaryPage
   ],
   entryComponents: [
     MyApp,
@@ -53,8 +49,7 @@ const cloudSettings: CloudSettings = {
     // Logged In
     NavigationPage,
     HomePage,
-    AssignedListPage,
-    TransferListPage
+    SalaryPage
   ],
   imports: [
     BrowserModule,
@@ -71,8 +66,7 @@ const cloudSettings: CloudSettings = {
     // Custom
     AuthService, // Handles all Authorization
     ConfigService, // Handles Environment-specific Variables
-    AssignedService,
-    TransferService,
+    AccountService,
     AuthHttpService
   ],
   bootstrap: [IonicApp]

@@ -39,6 +39,7 @@ export class MyApp implements OnInit {
 
         // Initiate the access token request which determines login status.
         this._auth.getAccessToken();
+
     });
   }
 
@@ -62,7 +63,6 @@ export class MyApp implements OnInit {
         if(logoutReason){
           console.log(logoutReason);
         }
-
       });
   }
 
@@ -123,5 +123,4 @@ export class MyApp implements OnInit {
       }
     });
   }
-  
 }

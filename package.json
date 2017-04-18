@@ -1,5 +1,5 @@
 {
-  "name": "payroll-candidate",
+  "name": "payroll-company",
   "author": "BAWES",
   "homepage": "http://bawes.net/",
   "private": true,
@@ -50,5 +50,5 @@
       "locator": "ios"
     }
   ],
-  "description": "payroll-candidate: Payroll Candidate app"
+  "description": "payroll-company: Payroll Company Accounts"
 }

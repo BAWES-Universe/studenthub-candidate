@@ -3,8 +3,7 @@ import { MenuController, NavController } from 'ionic-angular';
 
 // Page Imports
 import { HomePage } from '../home/home';
-import { AssignedListPage } from '../../../pages/assigned/assigned-list/assigned-list';
-import { TransferListPage } from '../../../pages/transfer/transfer-list/transfer-list';
+import { SalaryPage } from '../account/salary/salary';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -24,13 +23,13 @@ export class NavigationPage {
     private _menuCtrl: MenuController
   ){}
 
-   loadPage(pageName: string) {
+  loadPage(pageName: string) {
     switch (pageName) {
-      case "transfer":
-        this.rootPage = TransferListPage;
+      case "summary":
+        this.rootPage = HomePage;
         break;
-      case "assigned":
-        this.rootPage = AssignedListPage;
+      case "salary":
+        this.rootPage = SalaryPage;
         break;
     }
     this._menuCtrl.close();

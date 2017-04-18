@@ -34,10 +34,9 @@ export class ConfigService {
    * @param {string} [platform]
    */
   initDevEnvironment(platform?: string){
-   // this.apiBaseUrl = "http://localhost/~BAWES/payroll/admin/web/v1";
+    // this.apiBaseUrl = "http://localhost/~BAWES/payroll/admin/web/v1";
+    //this.apiBaseUrl = "http://localhost/payroll/candidate/web/v1";
     this.apiBaseUrl = "http://payroll-candidate.dev.studenthub.co/v1";
-
-
     this.setupDeviceSpecificConfigs();
   }
 
@@ -47,6 +46,8 @@ export class ConfigService {
    */
   initProdEnvironment(platform?: string){
     this.apiBaseUrl = "http://payroll-candidate.dev.studenthub.co/v1";
+    //this.apiBaseUrl = "http://localhost/payroll/candidate/web/v1";
+    //this.apiBaseUrl = "https://payroll-candidate.studenthub.co/v1";
 
     this.setupDeviceSpecificConfigs();
   }
