@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Currently Assigned</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngIf="employer">
+      <button ion-item>
+        Company Name:{{ employer.company_name}}<br>
+        Company Email: {{ employer.company_email}}<br>
+        Store Name: {{ employer.store_name}}  <br>
+      </button>
+    </ion-item>
+
+    <ion-item *ngIf="!employer">
+      Employer not assigned yet!
+    </ion-item>
+
+  </ion-list>
+</ion-content>
