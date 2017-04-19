@@ -1,5 +1,5 @@
 
-export class Assigned {
+export class Employer {
     company_id: number;
     store_id: number;
     store_name: string;

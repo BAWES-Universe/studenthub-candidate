@@ -15,6 +15,7 @@ import { MyApp } from './app.component';
 // Start Pages [Logged Out]
 import { LoginPage } from '../pages/start-pages/login/login';
 import { SalaryPage } from '../pages/logged-in/account/salary/salary'; 
+import { EmployerPage } from '../pages/logged-in/account/employer/employer'; 
 
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
@@ -40,7 +41,8 @@ const cloudSettings: CloudSettings = {
     // Logged In
     NavigationPage,
     HomePage,
-    SalaryPage
+    SalaryPage,
+    EmployerPage
   ],
   entryComponents: [
     MyApp,
@@ -49,7 +51,8 @@ const cloudSettings: CloudSettings = {
     // Logged In
     NavigationPage,
     HomePage,
-    SalaryPage
+    SalaryPage,
+    EmployerPage
   ],
   imports: [
     BrowserModule,
