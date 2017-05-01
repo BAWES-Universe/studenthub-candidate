@@ -12,11 +12,11 @@
   <ion-list>
     <ion-item *ngFor="let salary of salaries">
       Company name : {{ salary.company_name }} <br />
-      Hourly rate : {{ salary.hourly_rate }} <br />
+      Hourly rate : {{ salary.candidate_hourly_rate }} <br />
       Hours : {{ salary.hours }} <br />
       <span *ngIf="salary.bonus">Bonus : {{ salary.bonus }} <br /></span>
       Total : {{ salary.total }} <br />
-      Created at : {{ salary.ic_created_at }}
+      Created at : {{ salary.tc_created_at }}
     </ion-item>
   </ion-list>
 

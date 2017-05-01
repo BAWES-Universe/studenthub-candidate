@@ -55,10 +55,6 @@ export class SalaryPage {
 
       this.salaries = response.json();
 
-      console.log(response.json());
-
-      console.log(this.salaries);
-
       loader.dismiss();
     });
   }
