@@ -1,12 +1,12 @@
 
 export class Salary {
-	ic_id: number;
+	tc_id: number;
 	invoice_id: number;
 	company_email: string
 	company_name: string;
-	hourly_rate: number;
+	candidate_hourly_rate: number;
 	hours: number;
 	bonus: number;
 	total: number;
-	ic_created_at: string;
+	tc_created_at: string;
 }
