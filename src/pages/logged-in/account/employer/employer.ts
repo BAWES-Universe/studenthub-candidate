@@ -21,10 +21,7 @@ export class EmployerPage {
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public params: NavParams,
-  ) {
-
-
-  }
+  ) {}
 
   ionViewDidLoad() {
     this.loadData();
@@ -36,8 +33,10 @@ export class EmployerPage {
     loader.present();
     this.accountService.employer().subscribe(response => {
       this.employer = response;
-      loader.dismiss();
-    });
+    },
+    error=>{},
+    ()=>{loader.dismiss();}
+    );
   }
 
 
