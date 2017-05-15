@@ -54,9 +54,10 @@ export class SalaryPage {
         this.pages = [];
 
       this.salaries = response.json();
-
-      loader.dismiss();
-    });
+    },
+    error=>{},
+    ()=>{loader.dismiss();}
+    );
   }
 
   pageLinkColor(page: number) {
