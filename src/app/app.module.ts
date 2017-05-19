@@ -16,6 +16,7 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/start-pages/login/login';
 import { SalaryPage } from '../pages/logged-in/account/salary/salary'; 
 import { EmployerPage } from '../pages/logged-in/account/employer/employer'; 
+import { ChangePassword } from '../pages/logged-in/account/change-password/change-password'; 
 
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
@@ -26,6 +27,7 @@ import { AuthHttpService } from '../providers/logged-in/authhttp.service';
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
 import { AccountService } from '../providers/logged-in/account.service';
+import { StatisticService } from '../providers/logged-in/statistic.service';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -42,7 +44,8 @@ const cloudSettings: CloudSettings = {
     NavigationPage,
     HomePage,
     SalaryPage,
-    EmployerPage
+    EmployerPage,
+    ChangePassword
   ],
   entryComponents: [
     MyApp,
@@ -52,7 +55,8 @@ const cloudSettings: CloudSettings = {
     NavigationPage,
     HomePage,
     SalaryPage,
-    EmployerPage
+    EmployerPage,
+    ChangePassword
   ],
   imports: [
     BrowserModule,
@@ -70,7 +74,8 @@ const cloudSettings: CloudSettings = {
     AuthService, // Handles all Authorization
     ConfigService, // Handles Environment-specific Variables
     AccountService,
-    AuthHttpService
+    AuthHttpService,
+    StatisticService
   ],
   bootstrap: [IonicApp]
 })

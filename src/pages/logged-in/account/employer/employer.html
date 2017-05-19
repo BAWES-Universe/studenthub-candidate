@@ -10,15 +10,15 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngIf="employer">
-      <button ion-item>
+    <ion-item *ngIf="employer && employer.company_id">
+      <button ion-item *ngIf="employer.company_id">
         Company Name:{{ employer.company_name}}<br>
         Company Email: {{ employer.company_email}}<br>
         Store Name: {{ employer.store_name}}  <br>
       </button>
     </ion-item>
 
-    <ion-item *ngIf="!employer">
+    <ion-item *ngIf="employer && !employer.company_id">
       Employer not assigned yet!
     </ion-item>
 
