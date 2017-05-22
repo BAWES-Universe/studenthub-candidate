@@ -9,6 +9,7 @@
 </ion-header>
 
 <ion-content >
+
   <ion-list>
     <ion-item *ngFor="let salary of salaries">
       Company name : {{ salary.company_name }} <br />
@@ -27,6 +28,10 @@
       </button>
     </div>
   </ion-row>
+
+  <ion-item *ngIf="!salaries">
+      No Result(s)
+  </ion-item>
 
 </ion-content>
 
