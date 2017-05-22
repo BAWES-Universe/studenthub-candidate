@@ -12,6 +12,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 // App Imports
 import { MyApp } from './app.component';
 
+/**
+ * Modules
+ */
+import { EnvironmentsModule } from './environments/environments.module';
+
 // Start Pages [Logged Out]
 import { LoginPage } from '../pages/start-pages/login/login';
 import { SalaryPage } from '../pages/logged-in/account/salary/salary'; 
@@ -63,7 +68,9 @@ const cloudSettings: CloudSettings = {
     HttpModule,
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    // Custom Modules
+    EnvironmentsModule
   ],
   providers: [
     // Ionic Native 
