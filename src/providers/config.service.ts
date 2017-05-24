@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { Platform } from 'ionic-angular';
+
+// Custom
+import { EnvConfig } from '../app/environments/environments.token';
 
 /*
   Handles all Environment-based config
@@ -16,39 +19,18 @@ export class ConfigService {
   public browserOptions: string;
   public browserOptionsWithCache: string;
 
-  constructor(public platform: Platform) {
-    // Initiate dev environment on computer while
-    // running the production on mobile
-    platform.ready().then(() => {
-      if (platform.is('cordova')) {
-        this.initProdEnvironment();
-      }else{
-        this.initDevEnvironment();
-      }
-    });
-
-  }
-
   /**
-   * Initialize the Dev Environment
-   * @param {string} [platform]
+   * Be sure to set NODE_ENV to the envName configured in environments
+   * to load its configuration on Ionic serve / build or any other command
+   * 
+   * eg: export NODE_ENV=prod && ionic serve
    */
-  initDevEnvironment(platform?: string){
-    // this.apiBaseUrl = "http://localhost/~BAWES/payroll/admin/web/v1";
-    this.apiBaseUrl = "http://candidate.payroll.local/v1";
-    //this.apiBaseUrl = "http://payroll-candidate.dev.studenthub.co/v1";
-    
-    this.setupDeviceSpecificConfigs();
-  }
+  constructor(public platform: Platform, @Inject(EnvConfig) public envConfig) {
+    console.log("Loaded Environment: " + this.envConfig.environmentName);
 
-  /**
-   * Initialize the Production Environment
-   * @param {string} [platform]
-   */
-  initProdEnvironment(platform?: string){
-    this.apiBaseUrl = "http://payroll-candidate.dev.studenthub.co/v1";
-    //this.apiBaseUrl = "http://localhost/payroll/candidate/web/v1";
-    //this.apiBaseUrl = "https://payroll-candidate.studenthub.co/v1";
+    // Set base API endpoint based on env config
+    this.apiBaseUrl = this.envConfig.apiEndpoint;
+
     this.setupDeviceSpecificConfigs();
   }
 
