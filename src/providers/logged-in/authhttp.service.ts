@@ -37,9 +37,7 @@ export class AuthHttpService {
     return this._http.get(url, { headers: this._buildAuthHeaders() })
       .catch((err) => this._handleError(err))
       .take(1)
-      .map((res: Response) => {
-        return res;
-      });
+      .map((res: Response) => {return res;});
   }
 
   /**
@@ -129,19 +127,23 @@ export class AuthHttpService {
     // account that he's been removed from assigning
     if (error.status === 400) {
       this._events.publish("accountAssignment:removed");
+      console.log('accountAssignment:removed');
       return Observable.empty<Response>();
     }
 
     // Handle No Internet Connection Error
     if (error.status == 0) {
+      
       this._events.publish("internet:offline");
       //this._auth.logout("Unable to connect to Plugn servers. Please check your internet connection.");
+      console.log('Handle No Internet Connection Error');
       return Observable.empty<Response>();
     }
 
     // Handle Expired Session Error
     if (error.status === 401) {
       this._auth.logout('Session expired, please log back in.');
+      console.log('Session expired, please log back in.');
       return Observable.empty<Response>();
     }
 

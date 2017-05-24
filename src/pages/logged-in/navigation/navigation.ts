@@ -47,7 +47,7 @@ export class NavigationPage {
    * Log Agent out of the app
    */
   logout(){
-    this._auth.logout();
+    this._auth.logout('Navigation Logout');
   }
 
 }

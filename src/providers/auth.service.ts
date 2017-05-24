@@ -86,11 +86,11 @@ export class AuthService {
         this.setAccessToken(results[0], results[1], results[2], results[3]);
         return this.getAccessToken();
       }else{
-        this.logout();
+        this.logout('storage issue');
       }
     }, () => {
       // On Promise Failure
-      this.logout();
+      this.logout('On Promise Failure');
     });
 
     // No Access Token Available
@@ -116,6 +116,4 @@ export class AuthService {
       .first()
       .map((res: Response) => res.json());
   }
-
-
 }

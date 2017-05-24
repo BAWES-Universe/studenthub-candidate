@@ -50,6 +50,7 @@ export class MyApp implements OnInit {
 
       // Check for network connection
       this._events.subscribe('internet:offline', (userEventData) => {
+        console.log('internet office event occured');
         let alert = this._alertCtrl.create({
           title: 'No Internet Connection',
           subTitle: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
@@ -60,6 +61,7 @@ export class MyApp implements OnInit {
 
       // On Login Event, set root to Internal app page
       this._events.subscribe('user:login', (userEventData) => {
+        console.log('login event occured');
         this._zone.run(() => {
           this.rootPage = NavigationPage;
         });
@@ -67,6 +69,7 @@ export class MyApp implements OnInit {
 
       // On Logout Event, set root to Login Page
       this._events.subscribe('user:logout', (logoutReason) => {
+        console.log('logout event occured');
         // Set root to Login Page
         this.rootPage = LoginPage;
 

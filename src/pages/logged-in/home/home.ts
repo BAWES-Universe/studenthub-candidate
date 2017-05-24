@@ -14,12 +14,9 @@ public statistics: any;
 
   constructor(
   	public navCtrl: NavController,
-  	public statisticService: StatisticService,
+    public statisticService: StatisticService,
   	private _loadingCtrl: LoadingController,
-  ) {
-
-  }
-
+  ) {}
 
   ionViewDidLoad() {
     this.loadData();
