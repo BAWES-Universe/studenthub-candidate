@@ -32,7 +32,6 @@ export class SalaryPage {
     private alertCtrl: AlertController
   ) {     this.statisticService.get().subscribe(response => {
       this.statistics = response;
-      console.log(this.statistics);
       });}
 
   ionViewDidLoad() {

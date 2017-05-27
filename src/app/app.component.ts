@@ -7,7 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/start-pages/login/login';
-import { SalaryPage } from '../pages/logged-in/acount/salary/salary';
+import { SalaryPage } from '../pages/logged-in/account/salary/salary';
 
 
 import { AuthService } from '../providers/auth.service';

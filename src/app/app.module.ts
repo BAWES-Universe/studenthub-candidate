@@ -20,7 +20,7 @@ import { EnvironmentsModule } from './environments/environments.module';
 // Start Pages [Logged Out]
 import { LoginPage } from '../pages/start-pages/login/login';
 import { ChangePassword } from '../pages/logged-in/account/change-password/change-password'; 
-import { SalaryPage } from '../../pages/logged-in/account/salary/salary'; 
+import { SalaryPage } from '../pages/logged-in/account/salary/salary'; 
 
 // Pages when logged in
 import { PopoverContentPage } from '../pages/logged-in/account/popover/popover';
