@@ -19,13 +19,11 @@ import { EnvironmentsModule } from './environments/environments.module';
 
 // Start Pages [Logged Out]
 import { LoginPage } from '../pages/start-pages/login/login';
-import { SalaryPage } from '../pages/logged-in/account/salary/salary'; 
-import { EmployerPage } from '../pages/logged-in/account/employer/employer'; 
 import { ChangePassword } from '../pages/logged-in/account/change-password/change-password'; 
+import { SalaryPage } from '../../pages/logged-in/account/salary/salary'; 
 
 // Pages when logged in
-import { NavigationPage } from '../pages/logged-in/navigation/navigation';
-import { HomePage } from '../pages/logged-in/home/home';
+import { PopoverContentPage } from '../pages/logged-in/account/popover/popover';
 
 // Providers / Services
 import { AuthHttpService } from '../providers/logged-in/authhttp.service';
@@ -46,10 +44,8 @@ const cloudSettings: CloudSettings = {
     // Logged Out
     LoginPage,
     // Logged In
-    NavigationPage,
-    HomePage,
+    PopoverContentPage,
     SalaryPage,
-    EmployerPage,
     ChangePassword
   ],
   entryComponents: [
@@ -57,10 +53,8 @@ const cloudSettings: CloudSettings = {
     // Logged Out
     LoginPage,
     // Logged In
-    NavigationPage,
-    HomePage,
+    PopoverContentPage,
     SalaryPage,
-    EmployerPage,
     ChangePassword
   ],
   imports: [

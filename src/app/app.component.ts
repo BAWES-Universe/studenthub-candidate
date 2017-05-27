@@ -7,7 +7,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/start-pages/login/login';
-import { NavigationPage } from '../pages/logged-in/navigation/navigation';
+import { SalaryPage } from '../pages/logged-in/acount/salary/salary';
+
 
 import { AuthService } from '../providers/auth.service';
 
@@ -63,7 +64,7 @@ export class MyApp implements OnInit {
       this._events.subscribe('user:login', (userEventData) => {
         console.log('login event occured');
         this._zone.run(() => {
-          this.rootPage = NavigationPage;
+          this.rootPage = SalaryPage;
         });
       });
 
