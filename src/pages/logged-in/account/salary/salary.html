@@ -1,27 +1,52 @@
-<ion-header >
+<ion-header>
   <ion-navbar>
-    <button ion-button menuToggle="left">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-
-    <ion-title>Salary Transfers</ion-title>
+    <ion-title>StudentHub</ion-title>
+    <ion-buttons end>
+     <a ion-button icon-only (click)="openPopover($event)">
+      <ion-icon name="more"></ion-icon>
+    </a>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content >
 
-  <ion-list>
-    <ion-item *ngFor="let salary of salaries">
-      Company name : {{ salary.company_name }} <br />
-      Hourly rate : {{ salary.candidate_hourly_rate }} <br />
-      Hours : {{ salary.hours }} <br />
-      <span *ngIf="salary.bonus">Bonus : {{ salary.bonus }} <br /></span>
-      Total : {{ salary.total }} <br />
-      Status : {{ salary.status }} <br />
-      Created at : {{ salary.tc_created_at }}
-    </ion-item>
-  </ion-list>
 
+  <ion-item>
+    <ion-avatar item-left *ngIf="statistics">
+      <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}">
+    </ion-avatar>
+        <ion-grid>
+            <ion-row>
+                <ion-col  col-9>
+                  <h2 *ngIf="statistics">{{statistics.candidate.candidate_name}}</h2>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+  <p item-right *ngIf="statistics && (statistics.candidate.candidate_hourly_rate | number) > 0">Per Hour: <span><b>KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}</b></span></p>
+    <p  *ngIf="salaries">  {{ salaries[0].company_name }}</p>
+  </ion-item>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+ <ion-item-group>
+  <ion-item-divider color="light">Transactions</ion-item-divider>
+    <ion-item *ngFor="let salary of salaries">
+        {{ salary.tc_created_at }}
+        <p>KWD {{salary.total | number:'1.3-3' }}</p>
+        <p *ngIf="(salary.bonus | number) > 0">Bonus:<b>KWD {{salary.bonus | number:'1.3-3' }}</b></p>
+        <ion-badge item-right color="secondary" *ngIf="salary.status =='Paid'">{{salary.status}}</ion-badge>
+        <ion-badge item-right *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
+    </ion-item>
+  </ion-item-group>
   <ion-row text-center>
     <div class="pagination-wrapper">
       <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
@@ -29,15 +54,6 @@
       </button>
     </div>
   </ion-row>
-
   <ion-item *ngIf="!salaries">
       No Result(s)
   </ion-item>
-
-</ion-content>
-
-<ion-footer>
-  <!--  <button ion-button full (click)="create()">
-    Create
-  </button> -->
-</ion-footer>
