@@ -7,6 +7,9 @@ import { AccountService } from '../../../../providers/logged-in/account.service'
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+//Pages
+import { SalaryPage } from '../salary/salary';
+
 @Component({
   selector: 'change-password',
   templateUrl: 'change-password.html'
@@ -56,6 +59,8 @@ export class ChangePassword {
             });
             alert.present();
             this.passwordForm.reset();
+
+            this.navCtrl.setRoot(SalaryPage, {}, {animate: true, direction: 'forward'});
           } else if (res.operation == "error") {
             let alert = this._alertCtrl.create({
               title: 'Error',
