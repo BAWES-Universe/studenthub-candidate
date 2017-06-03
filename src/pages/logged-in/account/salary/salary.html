@@ -1,6 +1,6 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>StudentHub</ion-title>
+<ion-header no-border>
+  <ion-navbar color="primary" no-border>
+    <ion-title>StudentHub Internship</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="openPopover($event)">
         <ion-icon name="more"></ion-icon>
@@ -15,7 +15,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-item *ngIf="statistics" style="text-align: center;">
+  <ion-item class='profileArea' *ngIf="statistics" style="text-align: center;">
     <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}" style='width:100px; border-radius: 50%;'>
     <h2>{{statistics.candidate.candidate_name}}</h2>
     

@@ -37,20 +37,28 @@ export class SalaryPage {
   ionViewDidLoad() {
     // this.loadData();   
   }
-
-   openPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverContentPage);
-    popover.present({
-      ev: myEvent
-    });
-  }
   ionViewWillEnter() {
     this.loadData(this.currentPage);
   }
 
 
+  /**
+   * Display Popover with Additional Actions (Change Password and Logout)
+   * @param myEvent
+   */
+  openPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverContentPage);
+    popover.present({
+      ev: myEvent
+    });
+  }
+
+  /**
+   * Load list of transfers
+   * @param page 
+   * @param refresher 
+   */
   loadData(page: number, refresher: any = null) {
-    // Load list of transfer
     let loader = this._loadingCtrl.create();
     loader.present();
     this.accountService.listSalary(page).subscribe(response => {
@@ -82,12 +90,9 @@ export class SalaryPage {
 
   doRefresh($event) {
     this.loadData(this.currentPage, $event);
-
   }
 
-
   pageLinkColor(page: number) {
-
     if(page == this.currentPage) 
       return 'light';
     
