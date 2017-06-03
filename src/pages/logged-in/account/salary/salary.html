@@ -2,9 +2,9 @@
   <ion-navbar>
     <ion-title>StudentHub</ion-title>
     <ion-buttons end>
-     <a ion-button icon-only (click)="openPopover($event)">
-      <ion-icon name="more"></ion-icon>
-    </a>
+      <button ion-button icon-only (click)="openPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -15,20 +15,12 @@
     </ion-refresher-content>
   </ion-refresher>
 
-
-  <ion-item>
-    <ion-avatar item-left *ngIf="statistics">
-      <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}">
-    </ion-avatar>
-    <ion-grid>
-        <ion-row>
-            <ion-col  col-9>
-              <h2 *ngIf="statistics">{{statistics.candidate.candidate_name}}</h2>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-    <p item-right *ngIf="statistics && (statistics.candidate.candidate_hourly_rate | number) > 0">Per Hour: <b>KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}</b></p>
-    <p  *ngIf="salaries">  {{ salaries[0].company_name }}</p>
+  <ion-item *ngIf="statistics" style="text-align: center;">
+    <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}" style='width:100px; border-radius: 50%;'>
+    <h2>{{statistics.candidate.candidate_name}}</h2>
+    
+    <p *ngIf="statistics.candidate.company_name && statistics.candidate.store_name">Assigned to work at {{statistics.candidate.store_name}}<br/>{{ statistics.candidate.company_name }}</p>
+    <p  *ngIf="(statistics.candidate.candidate_hourly_rate | number) > 0">Hourly Rate <b>KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}</b></p>
   </ion-item>
 
   <ion-list>
