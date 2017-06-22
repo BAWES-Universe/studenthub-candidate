@@ -43,7 +43,6 @@ export class AccountService {
       "old_password": oldPassword,
       "new_password": newPassword,
     };
-
     return this._authhttp.post(postUrl, params);
   }
 }

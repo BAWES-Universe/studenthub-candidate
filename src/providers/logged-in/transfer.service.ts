@@ -18,7 +18,4 @@ export class TransferService {
     let url = `/account/salary`;
     return this._authhttp.get(url);
   }
-
-
-
 }
