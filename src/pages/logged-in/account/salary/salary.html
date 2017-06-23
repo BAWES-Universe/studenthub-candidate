@@ -15,16 +15,32 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-item class='profileArea' *ngIf="statistics">
-    <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}"/>
-    <h2>{{statistics.candidate.candidate_name}}</h2> 
-    <p *ngIf="statistics.candidate.company_name && statistics.candidate.store_name && statistics.candidate.store_id">
-      Assigned to work at {{statistics.candidate.store_name}}<br/>{{ statistics.candidate.company_name }}
-    </p>
-    <p *ngIf="(statistics.candidate.candidate_hourly_rate | number) > 0">
-      Hourly Rate <b>KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}</b>
-    </p>
-  </ion-item>
+  <ion-grid class='profileArea' *ngIf="statistics">
+    <ion-row align-items-center>
+      <ion-col col-3 col-sm-2 col-lg-1>
+        <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}"/>
+      </ion-col>
+      <ion-col col-9 col-sm-10 col-lg-11>
+        <ion-grid>
+          <ion-row align-items-center>
+            <ion-col col-12 col-sm-6>
+              <h2>{{statistics.candidate.candidate_name}}</h2>
+            </ion-col>
+            <ion-col col-6 col-sm-3
+              *ngIf="statistics.candidate.company_name && statistics.candidate.store_name && statistics.candidate.store_id">
+              <h4>Work Location</h4>
+              {{statistics.candidate.store_name}} @ {{ statistics.candidate.company_name }}
+            </ion-col>
+            <ion-col col-6 col-sm-3
+              *ngIf="(statistics.candidate.candidate_hourly_rate | number) > 0">
+              <h4>Hourly Rate</h4>
+              KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <!-- If no transfers available -->
   <ion-card *ngIf="total == 0">
