@@ -51,10 +51,9 @@ export class MyApp implements OnInit {
 
       // Check for network connection
       this._events.subscribe('internet:offline', (userEventData) => {
-        console.log('internet office event occured');
         let alert = this._alertCtrl.create({
           title: 'No Internet Connection',
-          subTitle: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
+          subTitle: 'Please reconnect and try again.',
           buttons: ['Dismiss']
         });
         alert.present();
@@ -62,7 +61,6 @@ export class MyApp implements OnInit {
 
       // On Login Event, set root to Internal app page
       this._events.subscribe('user:login', (userEventData) => {
-        console.log('login event occured');
         this._zone.run(() => {
           this.rootPage = SalaryPage;
         });
@@ -70,7 +68,6 @@ export class MyApp implements OnInit {
 
       // On Logout Event, set root to Login Page
       this._events.subscribe('user:logout', (logoutReason) => {
-        console.log('logout event occured');
         // Set root to Login Page
         this.rootPage = LoginPage;
 
@@ -90,23 +87,21 @@ export class MyApp implements OnInit {
       if (hasUpdate) {
         // Show Toast with Download Progress
         let toast = this._toastCtrl.create({
-                        message: 'Downloading Update .. 0%',
-                        position: 'bottom',
-                        showCloseButton: false,
-                    });
+            message: 'Downloading Update .. 0%',
+            position: 'bottom',
+            showCloseButton: false,
+        });
         toast.present();
 
         // update is available, download and extract the update
         this.deploy.download({
             onProgress: p => {
                 toast.setMessage('Downloading Update .. ' + p + '%');
-                //console.log('Downloading = ' + p + '%');
             }
         }).then(() => {
           this.deploy.extract({
               onProgress: p => {
                   toast.setMessage('Extracting .. ' + p + '%');
-                  //console.log('Extracting = ' + p + '%');
               }
           }).then(() => {
             // Reload App after 3 seconds
