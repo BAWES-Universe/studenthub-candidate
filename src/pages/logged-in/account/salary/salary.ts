@@ -65,27 +65,25 @@ export class SalaryPage {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.accountService.listSalary(page).subscribe(response => {
+      this.salaries = response.json();
 
+      // Dismiss the refresher if available
       if (refresher) {
         refresher.complete();
       }
 
+      // Setup the pagination
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
       this.total = response.headers.get('X-Pagination-Total-Count');
-
       this.pages = [];
-
       for (var i = 1; i <= this.pageCount; i++) {
         this.pages.push(i);
       }
 
-      //hide if no page = 1 
-
+      // Hide Pages if there's only one page available
       if (this.pageCount == 1)
         this.pages = [];
-
-      this.salaries = response.json();
     },
       error => { },
       () => { loader.dismiss(); }
