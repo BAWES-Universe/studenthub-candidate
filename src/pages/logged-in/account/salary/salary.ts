@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, PopoverController,AlertController } from 'ionic-angular';
+import { NavController, LoadingController, PopoverController, AlertController } from 'ionic-angular';
 
 // Providers
 import { AccountService } from '../../../../providers/logged-in/account.service';
@@ -18,11 +18,12 @@ import { PopoverContentPage } from '../popover/popover';
 export class SalaryPage {
 
   public pageCount = 0;
+  public total = 0;
   public currentPage = 1;
   public pages: number[] = [];
   public statistics: any;
   public salaries: Salary[];
-  
+
   constructor(
     public navCtrl: NavController,
     public statisticService: StatisticService,
@@ -30,9 +31,11 @@ export class SalaryPage {
     public accountService: AccountService,
     private _loadingCtrl: LoadingController,
     private alertCtrl: AlertController
-  ) {     this.statisticService.get().subscribe(response => {
+  ) {
+    this.statisticService.get().subscribe(response => {
       this.statistics = response;
-      });}
+    });
+  }
 
   ionViewDidLoad() {
     // this.loadData();   
@@ -62,29 +65,28 @@ export class SalaryPage {
     let loader = this._loadingCtrl.create();
     loader.present();
     this.accountService.listSalary(page).subscribe(response => {
+      this.salaries = response.json();
 
-      if(refresher){
+      // Dismiss the refresher if available
+      if (refresher) {
         refresher.complete();
       }
 
+      // Setup the pagination
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
-
+      this.total = response.headers.get('X-Pagination-Total-Count');
       this.pages = [];
-
-      for(var i = 1; i <= this.pageCount; i++){
-         this.pages.push(i);
+      for (var i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
       }
 
-      //hide if no page = 1 
-
-      if(this.pageCount == 1)
+      // Hide Pages if there's only one page available
+      if (this.pageCount == 1)
         this.pages = [];
-
-      this.salaries = response.json();
     },
-    error=>{},
-    ()=>{loader.dismiss();}
+      error => { },
+      () => { loader.dismiss(); }
     );
   }
 
@@ -93,9 +95,9 @@ export class SalaryPage {
   }
 
   pageLinkColor(page: number) {
-    if(page == this.currentPage) 
+    if (page == this.currentPage)
       return 'light';
-    
+
     return '';
   }
 }
