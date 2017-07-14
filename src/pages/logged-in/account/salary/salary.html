@@ -42,7 +42,7 @@
   </ion-grid>
 
   <!-- If no transfers available -->
-  <ion-card *ngIf="total == 0">
+  <ion-card *ngIf="salaries && (total == 0)">
     <ion-card-content text-center padding>
       <ion-icon name="md-filing" style='font-size:2em'></ion-icon>
       <h1>When will I get paid?</h1>
@@ -51,7 +51,7 @@
   </ion-card> 
 
   <!-- If Transfers Exist -->
-  <ion-list *ngIf="total > 0">
+  <ion-list *ngIf="salaries && (total > 0)">
     <ion-item-divider color="light">Transfers</ion-item-divider>
     <ion-item *ngFor="let salary of salaries">
         {{ salary.tc_created_at }}
