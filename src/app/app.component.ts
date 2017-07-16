@@ -1,16 +1,16 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Deploy } from '@ionic/cloud-angular';
-import { Platform, Events, ToastController } from 'ionic-angular';
+import { Platform, Events, ToastController, AlertController } from 'ionic-angular';
 
 // Native Components
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/start-pages/login/login';
-import { NavigationPage } from '../pages/logged-in/navigation/navigation';
+import { SalaryPage } from '../pages/logged-in/account/salary/salary';
+
 
 import { AuthService } from '../providers/auth.service';
-
 
 @Component({
   templateUrl: 'app.html'
@@ -23,22 +23,24 @@ export class MyApp implements OnInit {
       private _platform: Platform,
       private _events: Events,
       private _toastCtrl: ToastController,
+      private _alertCtrl: AlertController,
       private _auth: AuthService,
       private _zone: NgZone,
       statusBar: StatusBar, splashScreen: SplashScreen
   ) {
     this._platform.ready().then(() => {
-      // Native functions
-      if (this._platform.is('cordova') && this._platform.is('mobile')) {
-        statusBar.styleDefault();
-        splashScreen.hide();
+        // Native functions
+        if (this._platform.is('cordova') && this._platform.is('mobile')) {
+            statusBar.styleDefault();
+            splashScreen.hide();
 
-        // Check for App update via Ionic Deploy
-        this._checkForUpdate();
-      }
+            // Check for App update via Ionic Deploy
+            this._checkForUpdate();
+        }
 
-      // Initiate the access token request which determines login status.
-      this._auth.getAccessToken();
+        // Initiate the access token request which determines login status.
+        this._auth.getAccessToken();
+
     });
   }
 
@@ -46,10 +48,21 @@ export class MyApp implements OnInit {
    * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
    */
   ngOnInit(){
+
+      // Check for network connection
+      this._events.subscribe('internet:offline', (userEventData) => {
+        let alert = this._alertCtrl.create({
+          title: 'No Internet Connection',
+          subTitle: 'Please reconnect and try again.',
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      });
+
       // On Login Event, set root to Internal app page
       this._events.subscribe('user:login', (userEventData) => {
         this._zone.run(() => {
-          this.rootPage = NavigationPage;
+          this.rootPage = SalaryPage;
         });
       });
 
@@ -74,23 +87,21 @@ export class MyApp implements OnInit {
       if (hasUpdate) {
         // Show Toast with Download Progress
         let toast = this._toastCtrl.create({
-                        message: 'Downloading Update .. 0%',
-                        position: 'bottom',
-                        showCloseButton: false,
-                    });
+            message: 'Downloading Update .. 0%',
+            position: 'bottom',
+            showCloseButton: false,
+        });
         toast.present();
 
         // update is available, download and extract the update
         this.deploy.download({
             onProgress: p => {
                 toast.setMessage('Downloading Update .. ' + p + '%');
-                //console.log('Downloading = ' + p + '%');
             }
         }).then(() => {
           this.deploy.extract({
               onProgress: p => {
                   toast.setMessage('Extracting .. ' + p + '%');
-                  //console.log('Extracting = ' + p + '%');
               }
           }).then(() => {
             // Reload App after 3 seconds

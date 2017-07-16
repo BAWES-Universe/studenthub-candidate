@@ -21,5 +21,29 @@ export class AccountService {
     let url = this._accountEndpoint + '/salary?page=' + page;
     return this._authhttp.getRaw(url);
   }
+
+  /**
+   * List of all stores
+   * @returns {Observable<any>}
+   */
+  employer(): Observable<any> {
+    let url = this._accountEndpoint + '/employer';
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * Create
+   * @param {oldPassword} string
+   * @param {newPassword} string
+   * @returns {Observable<any>}
+   */
+  changePassword(oldPassword:string,newPassword:string): Observable<any>{
+    let postUrl = `${this._accountEndpoint}`+ '/change-password';
+    let params = {
+      "old_password": oldPassword,
+      "new_password": newPassword,
+    };
+    return this._authhttp.post(postUrl, params);
+  }
 }
 

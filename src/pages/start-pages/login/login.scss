@@ -6,16 +6,22 @@ page-login {
     }
 
     .contentArea{
-        background: #eceff4;
+        background: #4354a5;
     }
 
     .brand {
-        margin-top: 20px;
-        margin-bottom:20px;
         text-align: center;
 
         img{
             width: 180px;
+        }
+
+        h3{
+            color:white;
+            margin:0;
+            padding:0;
+            padding-bottom: 10px;
+            font-size:1.6em;
         }
     }
 

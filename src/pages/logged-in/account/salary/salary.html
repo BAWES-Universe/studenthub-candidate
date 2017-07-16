@@ -1,37 +1,73 @@
-<ion-header >
-  <ion-navbar>
-    <button ion-button menuToggle="left">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-
-    <ion-title>Salary Transfers</ion-title>
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>SH Internship Program</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content >
-  <ion-list>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid class='profileArea' *ngIf="statistics">
+    <ion-row align-items-center>
+      <ion-col col-3 col-sm-2 col-lg-1>
+        <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}"/>
+      </ion-col>
+      <ion-col col-9 col-sm-10 col-lg-11>
+        <ion-grid>
+          <ion-row align-items-center>
+            <ion-col col-12 col-sm-6>
+              <h2>{{statistics.candidate.candidate_name}}</h2>
+            </ion-col>
+            <ion-col col-6 col-sm-3 *ngIf="statistics.candidate.store_id > 0">
+              <h4>Work Location</h4>
+              {{statistics.candidate.store.store_name}} @ {{ statistics.candidate.company.company_name }}
+            </ion-col>
+            <ion-col col-6 col-sm-3
+              *ngIf="(statistics.candidate.candidate_hourly_rate | number) > 0">
+              <h4>Hourly Rate</h4>
+              KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- If no transfers available -->
+  <ion-card *ngIf="salaries && (total == 0)">
+    <ion-card-content text-center padding>
+      <ion-icon name="md-filing" style='font-size:2em'></ion-icon>
+      <h1>When will I get paid?</h1>
+      <h2>Your payment for hours worked will be listed here as soon as the company you work for starts distributing.</h2>
+    </ion-card-content>
+  </ion-card> 
+
+  <!-- If Transfers Exist -->
+  <ion-list *ngIf="salaries && (total > 0)">
+    <ion-item-divider color="light">Transfers</ion-item-divider>
     <ion-item *ngFor="let salary of salaries">
-      Company name : {{ salary.company_name }} <br />
-      Hourly rate : {{ salary.hourly_rate }} <br />
-      Hours : {{ salary.hours }} <br />
-      <span *ngIf="salary.bonus">Bonus : {{ salary.bonus }} <br /></span>
-      Total : {{ salary.total }} <br />
-      Created at : {{ salary.ic_created_at }}
+        {{ salary.tc_created_at }}
+        <p>KWD {{salary.total | number:'1.3-3' }}</p>
+        <p *ngIf="(salary.bonus | number) > 0">Bonus:<b>KWD {{salary.bonus | number:'1.3-3' }}</b></p>
+        <ion-badge item-right color="secondary" *ngIf="salary.status =='Paid'">{{salary.status}}</ion-badge>
+        <ion-badge item-right *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
+    </ion-item>
+
+    <ion-item text-center>
+      <div class="pagination-wrapper">
+        <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+          {{ page }}
+        </button>
+      </div>
     </ion-item>
   </ion-list>
 
-  <ion-row text-center>
-    <div class="pagination-wrapper">
-      <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-        {{ page }}
-      </button>
-    </div>
-  </ion-row>
-
 </ion-content>
-
-<ion-footer>
-  <!--  <button ion-button full (click)="create()">
-    Create
-  </button> -->
-</ion-footer>

@@ -6,7 +6,6 @@ import { AuthService } from '../../../providers/auth.service';
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../../validators/custom.validator';
-
 /*
   Login Page
 */
@@ -36,12 +35,12 @@ export class LoginPage {
     private _events: Events
     ){
       // Initialize the Login Form
+      
       this.loginForm = this._fb.group({
         email: ["", [Validators.required, CustomValidator.emailValidator]],
         password: ["", Validators.required]
       });
   }
-
 
   /**
    * Attempts to login with the provided email and password
@@ -58,7 +57,7 @@ export class LoginPage {
 
       if(res.operation == "success"){
         // Successfully logged in, set the access token within AuthService
-        this._auth.setAccessToken(res.token, res.id, res.name, res.email);
+        this._auth.setAccessToken(res.token, res.candidateId, res.name, res.email);
       }else if(res.operation == "error"){
         let alert = this._alertCtrl.create({
           title: 'Unable to Log In',
