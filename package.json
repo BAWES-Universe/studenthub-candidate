@@ -1,5 +1,5 @@
 {
-  "name": "payroll-company",
+  "name": "payroll-candidate",
   "author": "BAWES",
   "homepage": "http://bawes.net/",
   "private": true,
@@ -56,5 +56,5 @@
       "locator": "ios"
     }
   ],
-  "description": "payroll-company: Payroll Company Accounts"
+  "description": "payroll-candidate: Intern Profile and Salary"
 }
