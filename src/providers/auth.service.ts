@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
 
-import { Platform, Events, LoadingController, AlertController } from 'ionic-angular';
+import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { ConfigService } from './config.service';
@@ -26,12 +26,9 @@ export class AuthService {
 
   constructor(
     private _http: Http,
-    private _platform: Platform,
     private _config: ConfigService,
     private _storage: Storage,
-    private _events: Events,
-    private _alertCtrl: AlertController,
-    private _loadingCtrl: LoadingController
+    private _events: Events
     ) { }
 
 
