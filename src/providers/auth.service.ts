@@ -53,7 +53,7 @@ export class AuthService {
     this.name = name;
     this.email = email;
 
-    // Save to Storage 
+    // Save to Storage
     this._storage.set('bearer', token);
     this._storage.set('id', id);
     this._storage.set('name', name);
@@ -82,12 +82,7 @@ export class AuthService {
       if(results[0] && results[1] && results[2] && results[3]){
         this.setAccessToken(results[0], results[1], results[2], results[3]);
         return this.getAccessToken();
-      }else{
-        this.logout('storage issue');
       }
-    }, () => {
-      // On Promise Failure
-      this.logout('On Promise Failure');
     });
 
     // No Access Token Available

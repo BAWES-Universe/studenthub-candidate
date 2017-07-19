@@ -151,5 +151,4 @@ export class AuthHttpService {
 
     return Observable.throw(errMsg);
   }
-
 }
