@@ -64,5 +64,4 @@ export class ConfigService {
       this.browserTarget = "_system";
     }
   }
-
 }
