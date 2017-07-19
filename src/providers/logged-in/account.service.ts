@@ -21,16 +21,7 @@ export class AccountService {
     let url = this._accountEndpoint + '/salary?page=' + page;
     return this._authhttp.getRaw(url);
   }
-
-  /**
-   * List of all stores
-   * @returns {Observable<any>}
-   */
-  employer(): Observable<any> {
-    let url = this._accountEndpoint + '/employer';
-    return this._authhttp.get(url);
-  }
-
+  
   /**
    * Create
    * @param {oldPassword} string
