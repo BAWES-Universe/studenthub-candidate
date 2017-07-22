@@ -82,7 +82,12 @@ export class AuthService {
       if(results[0] && results[1] && results[2] && results[3]){
         this.setAccessToken(results[0], results[1], results[2], results[3]);
         return this.getAccessToken();
+      }else{
+        this.logout();
       }
+    }, () => {
+      // On Promise Failure
+      this.logout();
     });
 
     // No Access Token Available
