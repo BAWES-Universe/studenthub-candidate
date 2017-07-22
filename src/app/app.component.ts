@@ -40,7 +40,6 @@ export class MyApp implements OnInit {
 
         // Initiate the access token request which determines login status.
         this._auth.getAccessToken();
-
     });
   }
 
@@ -48,7 +47,6 @@ export class MyApp implements OnInit {
    * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
    */
   ngOnInit(){
-
       // Check for network connection
       this._events.subscribe('internet:offline', (userEventData) => {
         let alert = this._alertCtrl.create({
