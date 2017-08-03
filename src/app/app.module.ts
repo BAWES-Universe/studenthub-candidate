@@ -31,6 +31,7 @@ import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
 import { AccountService } from '../providers/logged-in/account.service';
 import { StatisticService } from '../providers/logged-in/statistic.service';
+import { CandidateService } from '../providers/logged-in/candidate.service';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -76,7 +77,8 @@ const cloudSettings: CloudSettings = {
     ConfigService, // Handles Environment-specific Variables
     AccountService,
     AuthHttpService,
-    StatisticService
+    StatisticService,
+    CandidateService
   ],
   bootstrap: [IonicApp]
 })
