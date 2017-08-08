@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController } from 'ionic-angular';
 
 // Providers
 import { AccountService } from '../../../../providers/logged-in/account.service';
@@ -29,8 +29,7 @@ export class ChangePassword {
     private _fb: FormBuilder,
     public accountService: AccountService,
     private _loadingCtrl: LoadingController,
-    private _alertCtrl: AlertController,
-    private _viewCtrl: ViewController,
+    private _alertCtrl: AlertController
   ) { 
   // Initialize the Login Form
       this.passwordForm = this._fb.group({

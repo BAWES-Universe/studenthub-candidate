@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { ViewController, NavController } from 'ionic-angular';
+
+// Services
 import { AuthService } from '../../../../providers/auth.service';
 
+// Pages
 import { ChangePassword } from '../change-password/change-password'
+
 @Component({
   templateUrl: 'popover.html'
 })
@@ -11,7 +15,8 @@ export class PopoverContentPage {
   constructor(
     public navCtrl: NavController,
     private _auth: AuthService,
-    public viewCtrl: ViewController) { }
+    public viewCtrl: ViewController
+  ) { }
 
   loadChangePassword() {
     // Load change password page
