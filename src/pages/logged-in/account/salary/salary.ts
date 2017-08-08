@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, PopoverController, AlertController } from 'ionic-angular';
+import { LoadingController, PopoverController } from 'ionic-angular';
 
 // Providers
 import { AccountService } from '../../../../providers/logged-in/account.service';
 import { StatisticService } from '../../../../providers/logged-in/statistic.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+
 // Models
 import { Salary } from '../../../../models/salary';
 
@@ -26,18 +27,15 @@ export class SalaryPage {
   public salaries: Salary[];
 
   constructor(
-    public navCtrl: NavController,
     public statisticService: StatisticService,
     public candidateService: CandidateService,
     public popoverCtrl: PopoverController,
     public accountService: AccountService,
-    private _loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private _loadingCtrl: LoadingController
   ) {
     this.statisticService.get().subscribe(response => {
       this.statistics = response;
     });
-
   }
 
   ionViewDidLoad() {
