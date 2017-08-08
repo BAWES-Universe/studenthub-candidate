@@ -4,7 +4,7 @@ import { NavController, LoadingController, PopoverController, AlertController } 
 // Providers
 import { AccountService } from '../../../../providers/logged-in/account.service';
 import { StatisticService } from '../../../../providers/logged-in/statistic.service';
-
+import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 // Models
 import { Salary } from '../../../../models/salary';
 
@@ -19,6 +19,7 @@ export class SalaryPage {
 
   public pageCount = 0;
   public total = 0;
+  public workHistory: any[] = [];
   public currentPage = 1;
   public pages: number[] = [];
   public statistics: any;
@@ -27,6 +28,7 @@ export class SalaryPage {
   constructor(
     public navCtrl: NavController,
     public statisticService: StatisticService,
+    public candidateService: CandidateService,
     public popoverCtrl: PopoverController,
     public accountService: AccountService,
     private _loadingCtrl: LoadingController,
@@ -35,15 +37,25 @@ export class SalaryPage {
     this.statisticService.get().subscribe(response => {
       this.statistics = response;
     });
+
   }
 
   ionViewDidLoad() {
     // this.loadData();   
+      this.loadWorkHistoryData();
   }
   ionViewWillEnter() {
     this.loadData(this.currentPage);
   }
 
+  /**
+   * Load candidate work history data
+   */
+  loadWorkHistoryData() {
+    this.candidateService.workHistory().subscribe(response => {
+      this.workHistory = response;
+    });
+  }
 
   /**
    * Display Popover with Additional Actions (Change Password and Logout)

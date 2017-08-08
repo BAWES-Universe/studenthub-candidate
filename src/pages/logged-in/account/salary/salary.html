@@ -50,6 +50,18 @@
     </ion-card-content>
   </ion-card> 
 
+
+  <!--Work History-->
+  <ion-list *ngIf="workHistory && workHistory.length > 0">
+    <ion-item-divider color="light">Work History</ion-item-divider>
+    <ion-item *ngFor="let history of workHistory">
+        <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to 
+        <label *ngIf="history.end_date" >{{ history.end_date | date }}</label>
+        <label *ngIf="!history.end_date" >now</label>
+    </ion-item>
+  </ion-list>
+
+
   <!-- If Transfers Exist -->
   <ion-list *ngIf="salaries && (total > 0)">
     <ion-item-divider color="light">Transfers</ion-item-divider>
@@ -69,5 +81,4 @@
       </div>
     </ion-item>
   </ion-list>
-
 </ion-content>
