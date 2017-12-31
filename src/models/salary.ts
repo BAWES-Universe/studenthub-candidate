@@ -4,7 +4,7 @@ export class Salary {
 	candidate_id: number;
 	candidate_hourly_rate: number;
 	hours: number;
-	bonus: number;
+	candidate_bonus: number;
 	tc_created_at: string;
 	status: string;
 	total: number;
