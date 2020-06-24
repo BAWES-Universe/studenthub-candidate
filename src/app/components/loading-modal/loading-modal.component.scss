@@ -1,0 +1,23 @@
+
+.text-list,
+.salary-list {
+    skeleton-text {
+        height: 20px;
+        margin: 0;
+        padding: 0;
+        width: 50%;
+        display: block; 
+    }
+
+    ion-item:nth-child(2) skeleton-text {
+        width: 80%;
+    }
+
+    ion-item:nth-child(3) skeleton-text {
+        width: 70%;
+    }
+    
+    ion-item:nth-child(4) skeleton-text {
+        width: 30%;
+    }
+}

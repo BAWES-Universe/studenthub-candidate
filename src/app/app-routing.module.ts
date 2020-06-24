@@ -1,0 +1,58 @@
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthService } from './providers/auth.service';
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/logged-in/dashboard/dashboard.module').then( m => m.DashboardPageModule),
+    canActivate: [AuthService],
+  },
+  {
+    path: 'no-internet',
+    loadChildren: () => import('./pages/start-pages/no-internet/no-internet.module').then(m => m.NoInternetPageModule),
+    data: {
+      name: 'NoInternetPage',
+    }
+  },
+  {
+    path: 'server-error',
+    loadChildren: () => import('./pages/errors/server-error/server-error.module').then(m => m.ServerErrorPageModule),
+    data: {
+      name: 'ServerErrorPage',
+    }
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./pages/errors/not-found/not-found.module').then(m => m.NotFoundPageModule),
+    data: {
+      name: 'NotFoundPage',
+    }
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./pages/logged-in/change-password/change-password.module').then( m => m.ChangePasswordPageModule),
+    canActivate: [AuthService]
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
+  },
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
