@@ -1,0 +1,15 @@
+.profileArea {
+    background: var(--ion-color-primary);
+    color: #eee;
+
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    h2 {
+        color: white;
+        font-weight: bold;
+    }
+}
