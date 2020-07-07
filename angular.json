@@ -69,6 +69,40 @@
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             },
+            "production-mobile": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.mobile.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ],
+              "serviceWorker": false
+            },
+            "dev-mobile": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.mobile.ts"
+                }
+              ],
+              "serviceWorker": false
+            },
             "dev": {
               "fileReplacements": [
                 {
@@ -122,11 +156,17 @@
             "production": {
               "browserTarget": "app:build:production"
             },
+            "production-mobile": {
+              "browserTarget": "app:build:production-mobile"
+            },
             "anil": {
               "browserTarget": "app:build:anil"
             },
             "dev": {
               "browserTarget": "app:build:dev"
+            },
+            "dev-mobile": {
+              "browserTarget": "app:build:dev-mobile"
             },
             "khalid": {
               "browserTarget": "app:build:khalid"
@@ -198,6 +238,9 @@
             "production": {
               "devServerTarget": "app:serve:production"
             },
+            "production-mobile": {
+              "devServerTarget": "app:serve:production-mobile"
+            },
             "ci": {
               "devServerTarget": "app:serve:ci"
             }
@@ -211,6 +254,9 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
+            },
+            "production-mobile": {
+              "browserTarget": "app:build:production-mobile"
             }
           }
         },
@@ -224,6 +270,10 @@
             "production": {
               "cordovaBuildTarget": "app:ionic-cordova-build:production",
               "devServerTarget": "app:serve:production"
+            },
+            "production-mobile": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:production-mobile",
+              "devServerTarget": "app:serve:production-mobile"
             }
           }
         }
