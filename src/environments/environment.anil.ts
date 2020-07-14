@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   serviceWorker: false,
   envName: 'anil',
-  apiEndpoint: 'http://backend.payroll.local/v1',
+  apiEndpoint: 'http://localhost/bawes/studenthub/studenthub/web/v1',
 };
 
 /*
