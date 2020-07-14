@@ -1,2 +1,3 @@
-# payroll-candidate
+# StudentHub-candidate
+
 Frontend app for the Candidate portal
