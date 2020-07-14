@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   serviceWorker: false,
   envName: 'dev',
-  apiEndpoint: 'http://payroll-candidate.dev.studenthub.co/v1'
+  apiEndpoint: 'http://student.api.dev.studenthub.co/v1'
 };
 
 /*
