@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   serviceWorker: false,
   envName: 'anil',
+  permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'http://localhost/bawes/studenthub/studenthub/candidate/web/v1',
 };
 

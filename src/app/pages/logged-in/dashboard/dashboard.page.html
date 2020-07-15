@@ -29,7 +29,7 @@
   <ion-grid class='profileArea' *ngIf="statistics">
     <ion-row class="ion-align-items-center">
       <ion-col size="4" size-sm="2" size-lg="2">
-        <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{statistics.candidate.candidate_personal_photo}}" />
+        <img src="{{ permanentBucketUrl + statistics.candidate.candidate_personal_photo }}" />
       </ion-col>
       <ion-col size="8" size-sm="10" size-lg="10">
         <ion-grid>
