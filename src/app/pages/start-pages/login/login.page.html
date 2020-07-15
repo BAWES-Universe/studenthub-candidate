@@ -6,10 +6,10 @@
   
     <ion-card class='loginCard'>
 
-      <ion-card-content class='authArea'>
+      <ion-card-content class='authArea'  *ngIf="loginForm" >
   
         <!-- Login Form -->
-        <form [formGroup]="loginForm" *ngIf="loginForm" (ngSubmit)="onSubmit()" class="classicInput" novalidate>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" class="classicInput">
   
           <ion-input type="email" inputmode="email" #emailInput
             formControlName="email"
@@ -22,7 +22,7 @@
           </ion-input>
   
           <div class="ion-text-center">
-            <ion-button fill="outline" color="dark" type="submit"
+            <ion-button type="submit" fill="outline" color="dark"
               [disabled]="!loginForm.valid || isLoading ||
                           (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
   
@@ -38,4 +38,3 @@
     </ion-card>
   
   </ion-content>
-  
