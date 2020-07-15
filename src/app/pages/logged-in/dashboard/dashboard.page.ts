@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 //models
 import { Salary } from 'src/app/models/salary';
 //services
@@ -16,6 +17,8 @@ import { OptionPage } from '../option/option.page';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+
+  public permanentBucketUrl = environment.permanentBucketUrl;
 
   public pageCount = 0;
   public currentPage = 1;
