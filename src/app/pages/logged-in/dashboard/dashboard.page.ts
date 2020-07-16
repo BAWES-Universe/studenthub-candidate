@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-//models
+// models
 import { Salary } from 'src/app/models/salary';
-//services
+// services
 import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
-//pages
+// pages
 import { OptionPage } from '../option/option.page';
 
 
@@ -24,11 +24,11 @@ export class DashboardPage implements OnInit {
   public currentPage = 1;
 
   public workHistory: any[] = [];
-  
+
   public statistics: any;
   public salaries: Salary[];
 
-  public loading: boolean = false; 
+  public loading = false;
 
   constructor(
     public statisticService: StatisticService,
@@ -38,15 +38,15 @@ export class DashboardPage implements OnInit {
   ) {
   }
 
-  ngOnInit() { 
+  ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.loadData(); 
+    this.loadData();
   }
 
   /**
-   * load page data 
+   * load page data
    */
   loadData(refresh = false) {
     this.statisticService.get().subscribe(response => {
@@ -73,8 +73,8 @@ export class DashboardPage implements OnInit {
    * @param e
    */
   async openPopover(e) {
-    let popover = await this.popoverCtrl.create({
-      component: OptionPage, 
+    const popover = await this.popoverCtrl.create({
+      component: OptionPage,
       event: e
     });
     popover.present();
@@ -82,13 +82,14 @@ export class DashboardPage implements OnInit {
 
   /**
    * Load list of transfers
-   * @param page 
-   * @param refresher 
+   * @param page
+   * @param refresher
    */
   async listSalary(page: number, refresher: any = null) {
 
-    if(!refresher)
+    if (!refresher) {
       this.loading = true;
+    }
 
     this.accountService.listSalary(page).subscribe(response => {
 
@@ -101,17 +102,17 @@ export class DashboardPage implements OnInit {
 
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
-     
+
     },
     error => { },
-    () => { 
-      this.loading = false; 
+    () => {
+      this.loading = false;
     });
   }
 
   /**
    * load more data on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfinite(event) {
 
@@ -128,8 +129,8 @@ export class DashboardPage implements OnInit {
       event.target.complete();
     },
     error => { },
-    () => { 
-      this.loading = false; 
+    () => {
+      this.loading = false;
     });
   }
 }
