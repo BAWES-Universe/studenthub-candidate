@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import {NgModule, APP_INITIALIZER, ErrorHandler} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -14,6 +14,7 @@ import { UpdateAlertModule } from './components/update-alert/update-alert.module
 
 import { AuthService } from './providers/auth.service';
 import { OptionPageModule } from './pages/logged-in/option/option.module';
+import {SentryErrorhandlerService} from "./providers/sentry.errorhandler.service";
 
 
 export function startupServiceFactory(authService) {
@@ -44,7 +45,9 @@ export function startupServiceFactory(authService) {
       multi: true
     },
     SwUpdate,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
+
   ],
   bootstrap: [AppComponent]
 })
