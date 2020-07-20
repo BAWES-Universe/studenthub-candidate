@@ -7,7 +7,7 @@ export const environment = {
   serviceWorker: false,
   envName: 'krushn',
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
-  apiEndpoint: 'https://candidate.api.dev.studenthub.co/v1'
+  apiEndpoint: 'https://student.api.dev.studenthub.co/v1'
 };
 
 /*

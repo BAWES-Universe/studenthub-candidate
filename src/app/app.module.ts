@@ -14,7 +14,7 @@ import { UpdateAlertModule } from './components/update-alert/update-alert.module
 
 import { AuthService } from './providers/auth.service';
 import { OptionPageModule } from './pages/logged-in/option/option.module';
-import {SentryErrorhandlerService} from "./providers/sentry.errorhandler.service";
+import {SentryErrorhandlerService} from './providers/sentry.errorhandler.service';
 
 
 export function startupServiceFactory(authService) {
