@@ -9,16 +9,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { IonicStorageModule } from '@ionic/storage';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 
 import { AuthService } from './providers/auth.service';
 import { OptionPageModule } from './pages/logged-in/option/option.module';
 import {SentryErrorhandlerService} from './providers/sentry.errorhandler.service';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/');
 }
 
 @NgModule({
@@ -26,6 +32,13 @@ export function startupServiceFactory(authService) {
   entryComponents: [],
   imports: [
     HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

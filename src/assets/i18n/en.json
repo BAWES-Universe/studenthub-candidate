@@ -1,0 +1,8 @@
+{
+    "Welcome": "Welcome",
+    "txt_minutes_ago": "{{ value }} minutes ago",
+    "txt_hours_ago": "{{ value }} hours ago",
+    "txt_days_ago" : "{{ value }} days ago",
+    "txt_months_ago": "{{ value }} months ago",
+    "txt_years_ago": "{{ value }} years ago"
+}

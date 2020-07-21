@@ -48,10 +48,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/start-pages/landing/landing.module').then( m => m.LandingPageModule)
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },
-  {
     path: 'email',
     loadChildren: () => import('./pages/start-pages/email/email.module').then( m => m.EmailPageModule)
   },
@@ -62,6 +58,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/start-pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   },
 ];
 

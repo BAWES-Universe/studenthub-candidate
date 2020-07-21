@@ -5,7 +5,7 @@ import { catchError, first, take, map, retryWhen } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
-//services
+// services
 import { EventService } from './event.service';
 
 
@@ -14,16 +14,17 @@ import { EventService } from './event.service';
 })
 export class AuthService {
 
-  public isLogin: boolean = false;
+  public isLogin = false;
 
   // Logged in agent details
   private _accessToken;
   public id: number;
   public name: string;
   public email: string;
+  public language_pref: string;
 
-  private _urlBasicAuth: string = "/auth/login";
-
+  private _urlBasicAuth = '/auth/login';
+  public _urlEmailCheck = '/auth/email-check';
   constructor(
     public _http: HttpClient,
     private _storage: Storage,
@@ -67,7 +68,7 @@ export class AuthService {
             resolve(true);
           } else {
             resolve(false);
-            this.router.navigate(['login']);
+            this.router.navigate(['landing']);
           }
         });
     });
@@ -85,7 +86,7 @@ export class AuthService {
 
     return Promise.all(promises)
       .then(results => {
-        
+
         if (results[0] && results[1] && results[2] && results[3]) {
           this.setAccessToken(results[0], results[1], results[2], results[3]);
           return this.getAccessToken();
@@ -127,7 +128,7 @@ export class AuthService {
     this.name = name;
     this.email = email;
 
-    // Save to Storage 
+    // Save to Storage
     this._storage.set('bearer', token);
     this._storage.set('id', id);
     this._storage.set('name', name);
@@ -180,7 +181,7 @@ export class AuthService {
 
     const authHeader = new HttpHeaders({
       'Content-Type': 'application/json',
-      "Authorization": "Basic " + btoa(`${email}:${password}`)
+      Authorization: 'Basic ' + btoa(`${email}:${password}`)
     });
 
     const url = environment.apiEndpoint + this._urlBasicAuth;
@@ -190,13 +191,35 @@ export class AuthService {
     })
       .pipe(
         take(1),
-        //map((res: Response) => res)
+        // map((res: Response) => res)
       );
   }
 
   /**
-   * json to string error message 
-   * @param message 
+   * mobile check
+   * @param form
+   */
+  mobileCheck(form): Observable<any> {
+    const url = environment.apiEndpoint + this._urlEmailCheck;
+    return this._http.post(url, JSON.stringify(form), this.setHeaders())
+        .pipe(
+            first(),
+            map((res: HttpResponse<any>) => res)
+        );
+  }
+
+  setHeaders() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Language: this.language_pref || 'en'
+      })
+    };
+  }
+
+  /**
+   * json to string error message
+   * @param message
    */
   errorMessage(message): string {
 
@@ -204,16 +227,16 @@ export class AuthService {
       return message + '';
     }
 
-    let a = [];
+    const a = [];
 
-    for (let i in message) {
+    for (const i in message) {
 
       if (!Array.isArray(message[i])) {
         a.push(message[i]);
         continue;
       }
 
-      for (let j of message[i]) {
+      for (const j of message[i]) {
         a.push(j);
       }
     }

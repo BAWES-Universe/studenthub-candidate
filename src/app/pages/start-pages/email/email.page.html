@@ -1,11 +1,21 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>email</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <h1>What’s your email?</h1>
-  <ion-input></ion-input>
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <ion-icon class="cancel-btn" src="assets/images/ic_cancel.svg"></ion-icon>
+    </ion-button>
+
+    <h3>{{ "What’s your email?" | translate }}</h3>
+
+    <form [formGroup]="registerMobileForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <ion-input type="text" #emailInput enterkeyhint='{{ "Continue" | translate }}'
+               formControlName="email" placeholder="{{ 'Your Email' | translate }}"></ion-input>
+
+      <ion-button class="btn-signup" [disabled]="!registerMobileForm.valid || isLoading" type="submit">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">{{ "Continue" | translate }}</span>
+      </ion-button>
+    </form>
+  </div>
 
 </ion-content>

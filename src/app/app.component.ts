@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
     // On Logout Event, set root to Login Page
     this.eventService.userLogout$.subscribe((logoutReason) => {
       // Set root to Login Page
-      this.navCtrl.navigateRoot(['/login']);
+      this.navCtrl.navigateRoot(['/landing']);
 
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-landing',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPage implements OnInit {
 
-  constructor() { }
+  constructor(
+      public navCtrl: NavController
+  ) { }
 
   ngOnInit() {
   }
@@ -17,6 +20,6 @@ export class LandingPage implements OnInit {
   }
 
   loginPage() {
-
+    this.navCtrl.navigateForward(['email']);
   }
 }

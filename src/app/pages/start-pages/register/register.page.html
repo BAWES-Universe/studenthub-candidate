@@ -1,9 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <ion-icon class="cancel-btn" src="assets/images/ic_cancel.svg"></ion-icon>
+    </ion-button>
 
+    <h3>{{ "Sign Up" | translate }}</h3>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <ion-input type="text" #nameInput formControlName="name" placeholder="{{ 'Your name' | translate }}"></ion-input>
+
+      <ion-input type="number" #phoneInput formControlName="phone" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
+
+      <ion-input type="password" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>
+
+      <ion-button class="btn-signup" [disabled]="!registerForm.valid || isLoading" type="submit">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">{{ "Create Account" | translate }}</span>
+      </ion-button>
+    </form>
+  </div>
 </ion-content>
