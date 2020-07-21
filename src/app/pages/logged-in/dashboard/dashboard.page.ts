@@ -133,4 +133,12 @@ export class DashboardPage implements OnInit {
       this.loading = false;
     });
   }
+
+  /**
+   * @param $event
+   * @param candidate
+   */
+  loadLogo($event, candidate) {
+    return candidate.candidate_personal_photo_thumb = null;
+  }
 }

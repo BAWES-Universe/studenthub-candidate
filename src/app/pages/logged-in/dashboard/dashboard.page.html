@@ -29,7 +29,8 @@
   <ion-grid class='profileArea' *ngIf="statistics">
     <ion-row class="ion-align-items-center">
       <ion-col size="4" size-sm="2" size-lg="2">
-        <img src="{{ permanentBucketUrl + statistics.candidate.candidate_personal_photo }}" />
+        <img width="100"  *ngIf="statistics.candidate.candidate_personal_photo_thumb" src="{{ permanentBucketUrl + statistics.candidate.candidate_personal_photo_thumb }}" (error)="loadLogo($event,statistics.candidate)">
+        <img width="100"  *ngIf="!statistics.candidate.candidate_personal_photo_thumb" src="/assets/icon.png">
       </ion-col>
       <ion-col size="8" size-sm="10" size-lg="10">
         <ion-grid>
