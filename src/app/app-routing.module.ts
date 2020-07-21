@@ -44,8 +44,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
+    path: 'landing',
+    loadChildren: () => import('./pages/start-pages/landing/landing.module').then( m => m.LandingPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
+  },
+  {
+    path: 'email',
+    loadChildren: () => import('./pages/start-pages/email/email.module').then( m => m.EmailPageModule)
+  },
+  {
+    path: 'password',
+    loadChildren: () => import('./pages/start-pages/password/password.module').then( m => m.PasswordPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/start-pages/register/register.module').then( m => m.RegisterPageModule)
   },
 ];
 
