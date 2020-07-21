@@ -25,6 +25,7 @@ export class AuthService {
 
   private _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
+  public _urlRegistration = '/auth/register';
   constructor(
     public _http: HttpClient,
     private _storage: Storage,
@@ -215,6 +216,19 @@ export class AuthService {
         Language: this.language_pref || 'en'
       })
     };
+  }
+
+  /**
+   * create new account
+   * @param form
+   */
+  createAccount(form): Observable<any> {
+    const url = environment.apiEndpoint + this._urlRegistration;
+    return this._http.post(url, JSON.stringify(form), this.setHeaders())
+        .pipe(
+            first(),
+            map((res: HttpResponse<any>) => res)
+        );
   }
 
   /**

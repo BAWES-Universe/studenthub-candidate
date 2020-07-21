@@ -60,6 +60,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/start-pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
+    path: 'verify-email',
+    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

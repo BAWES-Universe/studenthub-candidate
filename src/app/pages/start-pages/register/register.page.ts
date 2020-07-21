@@ -23,6 +23,7 @@ export class RegisterPage implements OnInit {
 
   // Disable submit button if loading response
   public isLoading = false;
+  public email;
 
   constructor(
       public router: Router,
@@ -34,6 +35,11 @@ export class RegisterPage implements OnInit {
       public navCtrl: NavController,
       public modalCtrl: ModalController,
   ) {
+    if (window.history.state.email)  {
+      this.email = window.history.state.email;
+    } else  {
+      this.dismiss();
+    }
     // Initialize the Login Form
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -51,7 +57,7 @@ export class RegisterPage implements OnInit {
   }
 
   async ngOnInit() {
-    // this.registerForm.setValue({email: this.email, phone: null, name: null, password: null});
+    this.registerForm.setValue({email: this.email, phone: null, name: null, password: null});
   }
 
   /**
@@ -59,30 +65,27 @@ export class RegisterPage implements OnInit {
    * Then process his previous request
    */
   onSubmit() {
-    // if (this.registerForm.valid) {
-    //   this.isLoading = true;
-    //   this._auth.createAccount(this.registerForm.value).subscribe(res => {
-    //         if (res.operation === 'success' && res.token) {
-    //
-    //
-    //           this._auth.setAccessToken(res);
-    //           this._modalCtrl.dismiss();
-    //         } else if (res.operation === 'error') {
-    //           this._alertCtrl.create({
-    //             message: this._auth.errorMessage(res.message),
-    //             buttons: [this.translateService.transform('Okay')]
-    //           }).then(alert => {
-    //             alert.present();
-    //           });
-    //         }
-    //       }, error => {
-    //         this.isLoading = false;
-    //       },
-    //       () => {
-    //         this.isLoading = false;
-    //       }
-    //   );
-    // }
+    if (this.registerForm.valid) {
+      this.isLoading = true;
+      this.authService.createAccount(this.registerForm.value).subscribe(res => {
+            if (res.operation === 'success' && res.token) {
+
+            } else if (res.operation === 'error') {
+              this.alertCtrl.create({
+                message: this.authService.errorMessage(res.message),
+                buttons: [this.translateService.transform('Okay')]
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }, error => {
+            this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
+          }
+      );
+    }
   }
 
   dismiss() {
