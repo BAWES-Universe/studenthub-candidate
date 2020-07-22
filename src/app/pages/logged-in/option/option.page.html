@@ -2,11 +2,11 @@
   <ion-list>
     <ion-item routerLink="change-password" (click)="dismiss()">
       <ion-icon slot="start" name="key-outline"></ion-icon>
-      Change Password
+      {{ "Change Password" | translate }}
     </ion-item>
     <ion-item lines="none" tappable class="ion-activatable ion-focusable" (click)="logout()">
       <ion-icon slot="start" name="log-out-outline"></ion-icon> 
-      Logout
+      {{ "Logout" | translate }}
     </ion-item>
   </ion-list>
 </ion-content>

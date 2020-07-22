@@ -2,8 +2,10 @@ import { Component, Input, OnInit, Optional, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
-import {AuthService} from "../../../providers/auth.service";
-import {TranslateLabelService} from "../../../providers/translate-label.service";
+//services
+import { AuthService } from "../../../providers/auth.service";
+import { TranslateLabelService } from "../../../providers/translate-label.service";
+
 
 @Component({
   selector: 'app-password',
@@ -27,18 +29,18 @@ export class PasswordPage implements OnInit {
   public numberOfLoginAttempts = 0;
   public email;
   constructor(
-      public router: Router,
-      public fb: FormBuilder,
-      public alertCtrl: AlertController,
-      public authService: AuthService,
-      public navCtrl: NavController,
-      public modalCtrl: ModalController,
-      public translateService: TranslateLabelService,
-      // @Optional() public nav: IonNav // for testing perpose
+    public router: Router,
+    public fb: FormBuilder,
+    public alertCtrl: AlertController,
+    public authService: AuthService,
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    public translateService: TranslateLabelService,
+    // @Optional() public nav: IonNav // for testing perpose
   ) {
-    if (window.history.state.email)  {
+    if (window.history.state.email) {
       this.email = window.history.state.email;
-    } else  {
+    } else {
       this.back();
     }
     // Initialize the Login Form
@@ -83,7 +85,7 @@ export class PasswordPage implements OnInit {
 
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
-        this.authService.setAccessToken(res.token, res.candidateId, res.name, res.email);
+        this.authService.setAccessToken(res);
         // this.dismiss();
 
       } else if (res.operation == 'error') {
@@ -105,7 +107,7 @@ export class PasswordPage implements OnInit {
         if (this.numberOfLoginAttempts > 2) {
           this.alertCtrl.create({
             header: this.translateService.transform('Trouble Logging In?'),
-            message: this.translateService.transform('If you\'ve forgotten your password, contact us to have it reset.'),
+            message: this.translateService.transform("If you've forgotten your password, contact us to have it reset."),
             buttons: [this.translateService.transform('Okay')],
           }).then(alert => alert.present());
         } else {

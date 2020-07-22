@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Optional, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, Optional, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
@@ -26,27 +26,15 @@ export class RegisterPage implements OnInit {
   public email;
 
   constructor(
-      public router: Router,
-      public fb: FormBuilder,
-      public alertCtrl: AlertController,
-      public authService: AuthService,
-      public translateService: TranslateLabelService,
-      // @Optional() public nav: IonNav, // for testing perpose
-      public navCtrl: NavController,
-      public modalCtrl: ModalController,
+    public router: Router,
+    public fb: FormBuilder,
+    public alertCtrl: AlertController,
+    public authService: AuthService,
+    public translateService: TranslateLabelService,
+    // @Optional() public nav: IonNav, // for testing perpose
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
   ) {
-    if (window.history.state.email)  {
-      this.email = window.history.state.email;
-    } else  {
-      this.dismiss();
-    }
-    // Initialize the Login Form
-    this.registerForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.maxLength(30)]]
-    });
   }
 
   ionViewDidEnter() {
@@ -57,7 +45,19 @@ export class RegisterPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.registerForm.setValue({email: this.email, phone: null, name: null, password: null});
+
+    if (window.history.state.email) {
+      this.email = window.history.state.email;
+    } else {
+      this.dismiss();
+    }
+    // Initialize the Login Form
+    this.registerForm = this.fb.group({
+      name: [null, [Validators.required]],
+      email: [this.email, [Validators.required]],
+      phone: [null, [Validators.required]],
+      password: [null, [Validators.required, Validators.maxLength(30)]]
+    });
   }
 
   /**
@@ -65,27 +65,28 @@ export class RegisterPage implements OnInit {
    * Then process his previous request
    */
   onSubmit() {
-    if (this.registerForm.valid) {
-      this.isLoading = true;
-      this.authService.createAccount(this.registerForm.value).subscribe(res => {
-            if (res.operation === 'success' && res.token) {
-
-            } else if (res.operation === 'error') {
-              this.alertCtrl.create({
-                message: this.authService.errorMessage(res.message),
-                buttons: [this.translateService.transform('Okay')]
-              }).then(alert => {
-                alert.present();
-              });
-            }
-          }, error => {
-            this.isLoading = false;
-          },
-          () => {
-            this.isLoading = false;
-          }
-      );
+    if (!this.registerForm.valid) {
+      return false;
     }
+
+    this.isLoading = true;
+
+    this.authService.createAccount(this.registerForm.value).subscribe(res => {
+      this.isLoading = false;
+
+      if (res.operation === 'success' && res.token) {
+
+      } else if (res.operation === 'error') {
+        this.alertCtrl.create({
+          message: this.authService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
+      }
+    }, error => {
+      this.isLoading = false;
+    });
   }
 
   dismiss() {
@@ -93,6 +94,6 @@ export class RegisterPage implements OnInit {
   }
 
   loginPage() {
-  //   this.nav.pop();
+    //   this.nav.pop();
   }
 }

@@ -9,7 +9,7 @@
       </ion-menu-toggle>
     </ion-buttons>
 
-    <ion-title>SH Internship Program</ion-title>
+    <ion-title>{{ "SH Internship Program" | translate }}</ion-title>
 
     <ion-buttons slot="end">
       <ion-button (click)="openPopover($event)">
@@ -39,11 +39,11 @@
               <h2>{{statistics.candidate.candidate_name}}</h2>
             </ion-col>
             <ion-col size="12" size-sm="12"  size-lg="4" *ngIf="statistics.candidate.store_id > 0">
-              <h4>Work Location</h4>
+              <h4>{{ "Work Location" | translate }}</h4>
               {{statistics.candidate.store.store_name}} @ {{ statistics.candidate.company.company_name }}
             </ion-col>
             <ion-col size="12" size-sm="6"  size-lg="4" *ngIf="statistics.candidate.candidate_hourly_rate > 0">
-              <h4>Hourly Rate</h4>
+              <h4>{{ "Hourly Rate" | translate }}</h4>
               KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}
             </ion-col>
           </ion-row>
@@ -56,8 +56,9 @@
   <ion-card *ngIf="salaries && (pageCount == 0)">
     <ion-card-content class="ion-text-center ion-padding">
       <ion-icon name="alert-circle-outline" style='font-size:2em'></ion-icon>
-      <h1>When will I get paid?</h1>
-      <h2>Your payment for hours worked will be listed here as soon as the company you work for starts distributing.
+      <h1>{{ "When will I get paid?" | translate }}</h1>
+      <h2>
+        {{ "Your payment for hours worked will be listed here as soon as the company you work for starts distributing." | translate }}
       </h2>
     </ion-card-content>
   </ion-card>
@@ -69,7 +70,7 @@
       <ion-label>
         {{ history.store.store_name }}: {{ history.start_date | date }} to
         <span *ngIf="history.end_date">{{ history.end_date | date }}</span>
-        <span *ngIf="!history.end_date">now</span>
+        <span *ngIf="!history.end_date">{{ "now" | translate }}</span>
       </ion-label>
     </ion-item>
   </ion-list>
@@ -78,16 +79,18 @@
   <ion-list *ngIf="salaries && (pageCount > 0)">
     <ion-item-divider color="light">
       <ion-label>
-        Transfers
+        {{ "Transfers" | translate }}
       </ion-label>
     </ion-item-divider>
     <ion-item *ngFor="let salary of salaries">
       <ion-label>
         {{ salary.tc_created_at }}
         <p>KWD {{salary.total | number:'1.3-3' }}</p>
-        <p *ngIf="salary.bonus > 0">Bonus:<b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b></p>
+        <p *ngIf="salary.bonus > 0">{{ "Bonus" | translate }}:<b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b></p>
         <ion-badge slot="end" color="secondary" *ngIf="salary.status =='Paid'">{{salary.status}}</ion-badge>
-        <ion-badge slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
+        <ion-badge slot="end" *ngIf="salary.status =='Unpaid'">
+          {{ "In Progress" | translate }}
+        </ion-badge>
       </ion-label>
     </ion-item>
 

@@ -67,6 +67,10 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'not-found'
   },
+  {
+    path: 'verify-email',
+    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+  },
 ];
 
 @NgModule({

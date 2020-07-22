@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { CustomValidator } from 'src/app/validators/custom.validator';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class LoginPage  {
   constructor(
     private _fb: FormBuilder,
     private _auth: AuthService,
+    public translateService: TranslateLabelService,
     private _alertCtrl: AlertController
   ) {
     // Initialize the Login Form
@@ -51,12 +53,12 @@ export class LoginPage  {
 
       if (res.operation == "success") {
         // Successfully logged in, set the access token within AuthService
-        this._auth.setAccessToken(res.token, res.candidateId, res.name, res.email);
+        this._auth.setAccessToken(res);
       } else if (res.operation == "error") {
         let alert = await this._alertCtrl.create({
-          header: 'Unable to Log In',
+          header: this.translateService.transform('Unable to Log In'),
           message: res.message,
-          buttons: ['Ok'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
       }
@@ -71,17 +73,17 @@ export class LoginPage  {
         // Check how many login attempts this user made, offer to reset password
         if (this._numberOfLoginAttempts > 2) {
           let alert = await this._alertCtrl.create({
-            header: 'Trouble Logging In?',
-            message: "If you've forgotten your password, contact us to have it reset.",
-            buttons: ['Ok'],
+            header: this.translateService.transform('Trouble Logging In?'),
+            message: this.translateService.transform("If you've forgotten your password, contact us to have it reset."),
+            buttons: [this.translateService.transform('Okay')],
           });
           alert.present();
         }
         else {
           let alert = await this._alertCtrl.create({
-            header: 'Invalid email or password',
-            message: 'The information entered is incorrect. Please try again.',
-            buttons: ['Try Again'],
+            header: this.translateService.transform('Invalid email or password'),
+            message: this.translateService.transform('The information entered is incorrect. Please try again.'),
+            buttons: [this.translateService.transform('Try Again')],
           });
           alert.present();
         }
@@ -90,9 +92,9 @@ export class LoginPage  {
          * Error not accounted for. Show Message
          */
         let alert = await this._alertCtrl.create({
-          header: 'Unable to Log In',
-          message: "There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.",
-          buttons: ['Ok'],
+          header: this.translateService.transform('Unable to Log In'),
+          message: this.translateService.transform("There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists."),
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
       }

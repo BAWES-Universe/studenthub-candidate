@@ -35,4 +35,15 @@ export class AccountService {
     };
     return this._authhttp.post(postUrl, params);
   }
+
+  /**
+   * set user language preference 
+   * @param code language code 
+   */
+  setLanguagePref(code): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/language-pref';
+    return this._authhttp.post(url, {
+        language_pref: code
+    });
+  }
 }
