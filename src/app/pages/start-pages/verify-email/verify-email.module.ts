@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
-import { OptionPageRoutingModule } from './option-routing.module';
+import { VerifyEmailPageRoutingModule } from './verify-email-routing.module';
 
-import { OptionPage } from './option.page';
+import { VerifyEmailPage } from './verify-email.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { OptionPage } from './option.page';
     FormsModule,
     IonicModule,
     TranslateModule.forChild(),
-    OptionPageRoutingModule
+    VerifyEmailPageRoutingModule
   ],
-  declarations: [OptionPage]
+  declarations: [VerifyEmailPage]
 })
-export class OptionPageModule {}
+export class VerifyEmailPageModule {}

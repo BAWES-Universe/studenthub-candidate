@@ -7,7 +7,10 @@ import { environment } from 'src/environments/environment';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
 // services
 import { EventService } from './event.service';
+import { TranslateLabelService } from './translate-label.service';
 
+
+declare var navigator;
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +26,20 @@ export class AuthService {
   public email: string;
   public language_pref: string;
 
-  private _urlBasicAuth = '/auth/login';
+  public language = {
+    code: 'en',
+    name: 'English'
+  };
+
+  public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
   public _urlRegistration = '/auth/register';
+
   constructor(
     public _http: HttpClient,
     private _storage: Storage,
     public router: Router,
+    public translate: TranslateLabelService,
     private _eventService: EventService
   ) { }
 
@@ -48,56 +58,114 @@ export class AuthService {
      */
     return new Promise(resolve => {
 
-      const promises = [
-        this._storage.get('bearer'),
-        this._storage.get('id'),
-        this._storage.get('name'),
-        this._storage.get('email')
-      ];
-
-      return Promise.all(promises)
-        .then(results => {
-
-          if (results[0] && results[1] && results[2] && results[3]) {
-
-            this.isLogin = true;
-            this._accessToken = results[0];
-            this.id = results[1];
-            this.name = results[2];
-            this.email = results[3];
-
-            resolve(true);
-          } else {
-            resolve(false);
-            this.router.navigate(['landing']);
-          }
-        });
+      return this._storage.get('loggedInUser').then(data => { 
+        if (data) {
+          this.setAccessToken(data);
+          resolve(true);
+        } else {
+          resolve(false);
+          this.router.navigate(['landing']);
+        }
+      });
     });
   }
 
-  // This is the method you want to call at bootstrap
-  load(): Promise<any> {
+  /**
+   * Set initial config
+   */
+  async load() {
 
     const promises = [
-      this._storage.get('bearer'),
-      this._storage.get('id'),
-      this._storage.get('name'),
-      this._storage.get('email')
+      this._storage.get('loggedInUser'),
+      this._storage.get('language')
     ];
 
     return Promise.all(promises)
-      .then(results => {
+      .then(data => {
 
-        if (results[0] && results[1] && results[2] && results[3]) {
-          this.setAccessToken(results[0], results[1], results[2], results[3]);
-          return this.getAccessToken();
+        if (data[1]) {
+          this.language = data[1];
         } else {
-          this.logout();
+          
+          const browserLanguage = navigator.languages
+            ? navigator.languages[0]
+            : (navigator.language || navigator.userLanguage);
+
+          if (browserLanguage && browserLanguage.indexOf('en') > -1) {
+            this.language = {
+              code: 'en',
+              name: 'English'
+            };
+          } else {
+            this.language = {
+              name: 'عربى',
+              code: 'ar'
+            };
+          }
         }
+
+        // for guest use language value in storage, for login user loggedInAgent.language_pref
+
+        const loggedInUser = data[0];
+
+        if (loggedInUser && loggedInUser.language_pref) {
+          this.language = loggedInUser.language_pref == 'ar' ? {
+              name: 'عربى',
+              code: 'ar'
+            }: {
+              code: 'en',
+              name: 'English'
+            };
+        }
+
+        this.translate.setDefaultLang('en');
+        
+        this.translate.use(this.language.code);
+
+        document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
+        
+        if (loggedInUser) {
+          this.setAccessToken(loggedInUser);
+        }
+
+        /*else if (this.cookieService.get('otp')) {
+          this._platform.ready().then(_ => {
+            setTimeout(() => {
+              this.loginByOtp(this.cookieService.get('otp'));
+            }, 800);//to fix: https://www.pivotaltracker.com/story/show/168368025
+          });
+        }*/
+ 
+        // set direction based on language
+        // this._platform.setDir('rtl', true);
+        document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
+
       })
       .then(data => {
         // return this.logout('promise fail');
       });
+  }
+
+  /**
+   * Set language pref for current user
+   */
+  setLanguagePref(language) {
+
+    this._storage.set('language', language);
+
+    this.language = language;
+    this.language_pref = language.code;
+
+    if (this._accessToken) {
+
+      this._storage.set('loggedInUser', {
+        userId: this.id,
+        name: this.name,
+        email: this.email,
+        token: this._accessToken,
+        language_pref: this.language_pref
+      });
+    }
   }
 
   /**
@@ -121,19 +189,27 @@ export class AuthService {
   /**
    * Set the access token
    */
-  setAccessToken(token: string, id: number, name: string, email: string) {
+  setAccessToken(data) {
     this.isLogin = true;
 
-    this._accessToken = token;
-    this.id = id;
-    this.name = name;
-    this.email = email;
-
+    this._accessToken = data.token;
+    this.id = data.id;
+    this.name = data.name;
+    this.email = data.email;
+    this.language_pref = data.language_pref;
+    
     // Save to Storage
-    this._storage.set('bearer', token);
-    this._storage.set('id', id);
-    this._storage.set('name', name);
-    this._storage.set('email', email);
+    this._storage.set('loggedInUser', {
+      userId: this.id,
+      name: this.name,
+      email: this.email,
+      token: this._accessToken,
+      language_pref: this.language_pref
+    });
+
+    if (data.language_pref) {
+      this._eventService.setLanguagePref$.next(data.language_pref);
+    }
 
     // Log User In by Triggering Event that Access Token has been Set
     this._eventService.userLogin$.next();
@@ -150,25 +226,17 @@ export class AuthService {
     }
 
     // Check Storage and Try Again
-    const p1 = this._storage.get('bearer');
-    const p2 = this._storage.get('id');
-    const p3 = this._storage.get('name');
-    const p4 = this._storage.get('email');
 
-    Promise.all([p1, p2, p3, p4]).then(results => {
-      if (results[0] && results[1] && results[2] && results[3]) {
-        this.setAccessToken(results[0], results[1], results[2], results[3]);
-        return this.getAccessToken();
+    this._storage.get('loggedInUser').then(data => {
+      
+      if(data && data.token) {
+        this.setAccessToken(data);
       } else {
         this.logout();
       }
-    }, () => {
-      // On Promise Failure
-      this.logout();
     });
-
-    // No Access Token Available
-    return false;
+ 
+    return this._accessToken;;
   }
 
   /**

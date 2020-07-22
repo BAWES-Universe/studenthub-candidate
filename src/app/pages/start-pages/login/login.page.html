@@ -13,12 +13,12 @@
   
           <ion-input type="email" inputmode="email" #emailInput
             formControlName="email"
-            placeholder="Your Email Address">
+            placeholder="{{ 'Your Email Address' | translate }}">
           </ion-input>
   
           <ion-input type="password" #passwordInput
             formControlName="password"
-            placeholder="Your Password">
+            placeholder="{{ 'Your Password' | translate }}">
           </ion-input>
   
           <div class="ion-text-center">
@@ -27,7 +27,7 @@
                           (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
   
               <ion-spinner *ngIf="isLoading"></ion-spinner>
-              <span *ngIf="!isLoading">Sign in</span>
+              <span *ngIf="!isLoading">{{ "Sign in" | translate }}</span>
             </ion-button>
           </div>
   

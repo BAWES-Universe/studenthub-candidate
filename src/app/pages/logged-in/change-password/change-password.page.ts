@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, AlertController } from '@ionic/angular';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 @Component({
   selector: 'app-change-password',
@@ -21,6 +22,7 @@ export class ChangePasswordPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     private _fb: FormBuilder,
+    public translateService: TranslateLabelService,
     public accountService: AccountService,
     private _alertCtrl: AlertController
   ) {
@@ -33,7 +35,6 @@ export class ChangePasswordPage implements OnInit {
       newPassword: ["", Validators.required]
     });
   }
-
 
   /**
    * Attempts to login with the provided email and password
@@ -56,9 +57,9 @@ export class ChangePasswordPage implements OnInit {
       if (res.operation == "success") {
         
         let alert = await this._alertCtrl.create({
-          header: 'Success',
+          header: this.translateService.transform('Success'),
           message: res.message,
-          buttons: ['Ok'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
 
@@ -72,9 +73,9 @@ export class ChangePasswordPage implements OnInit {
       } else if (res.operation == "error") {
 
         let alert = await this._alertCtrl.create({
-          header: 'Error',
+          header: this.translateService.transform('Error'),
           message: res.message,
-          buttons: ['Ok'],
+          buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
       }

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {NavController} from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+//services
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { EventService } from 'src/app/providers/event.service';
+import { AuthService } from 'src/app/providers/auth.service';
+import { AccountService } from 'src/app/providers/logged-in/account.service';
+
 
 @Component({
   selector: 'app-landing',
@@ -9,14 +15,29 @@ import {NavController} from '@ionic/angular';
 export class LandingPage implements OnInit {
 
   constructor(
-      public navCtrl: NavController
+    public accountService: AccountService,
+    public authService: AuthService,
+    public eventService: EventService,
+    public translateService: TranslateLabelService,
+    public navCtrl: NavController
   ) { }
 
   ngOnInit() {
   }
 
-  visitWebsite() {
+  translate() {
 
+    const code = this.translateService.currentLang != 'ar' ? 'ar' : 'en';
+ 
+    this.eventService.setLanguagePref$.next(code);
+
+    if (this.authService.isLogin) {
+      this.accountService.setLanguagePref(code).subscribe();
+    }
+  }
+
+  visitWebsite() {
+    window.location.href = 'https://studenthub.co';
   }
 
   loginPage() {
