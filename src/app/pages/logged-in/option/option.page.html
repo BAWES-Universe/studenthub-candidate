@@ -1,0 +1,12 @@
+<ion-content [attr.dir]="translateService.direction()">
+  <ion-list>
+    <ion-item routerLink="change-password" (click)="dismiss()">
+      <ion-icon slot="start" name="key-outline"></ion-icon>
+      {{ "Change Password" | translate }}
+    </ion-item>
+    <ion-item lines="none" tappable class="ion-activatable ion-focusable" (click)="logout()">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon> 
+      {{ "Logout" | translate }}
+    </ion-item>
+  </ion-list>
+</ion-content>

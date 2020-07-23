@@ -1,0 +1,23 @@
+<ion-content [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class='brand'>
+      <img src="assets/logo.png" />
+  </div>
+
+  <div class="error-msg">
+      
+      <h2>
+        {{ "Server error" | translate }}
+      </h2>
+  
+      <p>
+        {{ "Sorry we had some technical problems during your last operation." | translate }}
+      </p>
+  
+      <br />
+  
+      <ion-button (click)="dashboard()" class="btn-dashboard">
+         {{ "Dashboard" | translate }}
+      </ion-button>
+  </div>
+</ion-content>
