@@ -1,7 +1,7 @@
-<ion-content>
+<ion-content [attr.dir]="translateService.direction()">
   <div class="max-width">
     <ion-button fill="clear" (click)="dismiss()" class="btn-close">
-      <ion-icon class="cancel-btn" src="assets/images/ic_cancel.svg"></ion-icon>
+      <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
     <h3>{{ "Let’s make you an account" | translate }}</h3>

@@ -1,9 +1,11 @@
-<ion-content>
+<ion-content [attr.dir]="translateService.direction()">
+
+  <a class="translate-link" (click)="translate()">
+    <span *ngIf="translateService.currentLang != 'en'">English</span> 
+    <span *ngIf="translateService.currentLang == 'en'">ةيبرعلا</span>
+  </a>
+
   <div class="max-width">
-    <a class="translate-link" (click)="translate()">
-      <span *ngIf="translateService.currentLang != 'en'">English</span> 
-      <span *ngIf="translateService.currentLang == 'en'">ةيبرعلا</span>
-    </a>
 
     <div class="logo">
       <img src="assets/logo.svg">

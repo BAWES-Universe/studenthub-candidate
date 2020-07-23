@@ -1,7 +1,8 @@
-<ion-content>
+<ion-content [attr.dir]="translate.direction()">
   <div class="max-width">
+
     <ion-button fill="clear" (click)="dismiss()" class="btn-close">
-      <ion-icon class="cancel-btn" src="assets/images/ic_cancel.svg"></ion-icon>
+      <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
     <h3>{{ "What’s your email?" | translate }}</h3>

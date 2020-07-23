@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 import { IonContent } from '@ionic/angular';
+//services
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -17,6 +19,7 @@ export class NoInternetPage implements OnInit {
   handler;
 
   constructor( 
+    public translateService: TranslateLabelService,
     public router: Router
   ) { }
 

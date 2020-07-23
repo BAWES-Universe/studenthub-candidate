@@ -51,5 +51,10 @@
     "Let’s make you an account": "دعنا نجعل لك حساب",
     "Your name": "اسمك",
     "Your Phone Number": "رقم تليفونك",
-    "Create Account": "إنشاء حساب"
+    "Create Account": "إنشاء حساب",
+    "Please verify your email": "",
+    "Change my email address": "",
+    "Check your email inbox on": "",
+    "Didn’t receive the email?": "",
+    "txt_resend_email": "Resend email in {{ value }} seconds"
 }

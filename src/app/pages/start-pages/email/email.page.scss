@@ -1,7 +1,7 @@
 ion-content {
   --padding-start: 30px;
   --padding-end: 30px;
-  --padding-top: 48px;
+  --padding-top: 25px;
   --padding-bottom: 26px;
 }
 
@@ -10,7 +10,8 @@ ion-content {
   --padding-start: 0;
   --padding-end: 0;
   --padding-top: 0;
-  height: auto;
+  margin: 0;
+  height: auto; 
 }
 
 h3 {
@@ -21,12 +22,12 @@ h3 {
   line-height: normal;
   letter-spacing: normal;
   color: #000000;
-  margin-top: 24px;
+  margin-top: 45px;
   margin-bottom: 55px;
 }
 
 ion-input {
-  height: 65px;
+  height: 73px;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -105,6 +106,7 @@ ion-input {
 .cancel-btn.dark {
   display: none;
 }
+/*
 @media (prefers-color-scheme: dark) {
   .cancel-btn {
     display: none;
@@ -130,3 +132,4 @@ ion-input {
     --background: #000000;
   }
 }
+*/

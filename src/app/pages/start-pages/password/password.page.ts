@@ -28,6 +28,7 @@ export class PasswordPage implements OnInit {
   // Store number of invalid password attempts to suggest reset password
   public numberOfLoginAttempts = 0;
   public email;
+  
   constructor(
     public router: Router,
     public fb: FormBuilder,
