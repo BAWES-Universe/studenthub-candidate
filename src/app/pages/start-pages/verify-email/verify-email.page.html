@@ -1,9 +1,24 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>verify-email</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [attr.dir]="translateService.direction()">
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
 
-<ion-content>
+    <h3>{{ "Please verify your email" | translate }}</h3>
+
+    <h4>{{ "Check your email inbox on" | translate }}</h4>
+
+    <p class="txt-email">{{ email }}</p>
+    
+    <ion-button class="btn-change-email" (click)="updateEmail()" fill="clear">
+      {{ "Change my email address" | translate }}
+    </ion-button>
+
+    <ion-button (click)="resendVerificationEmail()" expand="block" class="btn-resend">
+      <b>{{ "Didn’t receive the email?" | translate }} </b>
+      <span>{{ "txt_resend_email" | translate }}</span>
+    </ion-button>
+
+  </div><!-- END .max-width -->
 
 </ion-content>

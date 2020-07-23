@@ -3,5 +3,5 @@ export const environment = {
   serviceWorker: true,
   envName: 'prod',
   permanentBucketUrl: "https://studenthub-uploads.s3.amazonaws.com/",
-  apiEndpoint: 'https://payroll-candidate.studenthub.co/v1'
+  apiEndpoint: 'https://student.api.studenthub.co/v1'
 };

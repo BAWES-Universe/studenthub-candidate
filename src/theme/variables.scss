@@ -1,6 +1,68 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+@font-face {
+  font-family: EffraLight;
+  src: url("../assets/fonts/effra-light/cb125877edce66887e4e20644cd84bd7.eot"); /* IE9*/
+  src: url("../assets/fonts/effra-light/cb125877edce66887e4e20644cd84bd7.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("../assets/fonts/effra-light/cb125877edce66887e4e20644cd84bd7.woff2") format("woff2"), /* chrome、firefox */
+  url("../assets/fonts/effra-light/cb125877edce66887e4e20644cd84bd7.woff") format("woff"), /* chrome、firefox */
+  url("../assets/fonts/effra-light/cb125877edce66887e4e20644cd84bd7.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("../assets/fonts/effra-light/cb125877edce66887e4e20644cd84bd7.svg#Effra Light") format("svg"); /* iOS 4.1- */
+}
+
+@font-face {
+  font-family: 'effra';
+  src: url('../assets/fonts/effra/effra_std_bd-webfont.woff2') format('woff2'),
+       url('../assets/fonts/effra/effra_std_bd-webfont.woff') format('woff'),
+       url('../assets/fonts/effra/effra_std_bd-webfont.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'effra';
+  src: url('../assets/fonts/effra/effra_std_rg-webfont.woff2') format('woff2'),
+       url('../assets/fonts/effra/effra_std_rg-webfont.woff') format('woff'),
+       url('../assets/fonts/effra/effra_std_rg-webfont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'effra';
+  src: url('../assets/fonts/effra/l') format('woff2'),
+       url('../assets/fonts/effra/d.woff') format('woff'),
+       url('../assets/fonts/effra/a') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/*
+ * Droid Arabic Kufi (Arabic) http://www.google.com/fonts/earlyaccess
+ */
+ @font-face {
+  font-family: 'Droid Arabic Kufi';
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Regular.eot);
+  src: url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Regular.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Regular.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Regular.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Droid Arabic Kufi';
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Bold.eot);
+  src: url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Bold.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Bold.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Bold.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/droidarabickufi/v6/DroidKufi-Bold.ttf) format('truetype');
+}
+
 /** Ionic CSS Variables **/
 :root {
   /** primary **/

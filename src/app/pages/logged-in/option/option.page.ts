@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 export class OptionPage implements OnInit {
 
   constructor(
+    public translateService: TranslateLabelService,
     public authService: AuthService,
     public popoverCtrl: PopoverController
   ) { }

@@ -9,6 +9,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 // pages
 import { OptionPage } from '../option/option.page';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class DashboardPage implements OnInit {
   public loading = false;
 
   constructor(
+    public translateService: TranslateLabelService,
     public statisticService: StatisticService,
     public candidateService: CandidateService,
     public popoverCtrl: PopoverController,
