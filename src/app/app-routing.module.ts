@@ -61,21 +61,17 @@ const routes: Routes = [
   },
   {
     path: 'verify-email',
-    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule)
   },
   {
     path: '**',
     redirectTo: 'not-found'
-  },
-  {
-    path: 'verify-email',
-    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
-  },
+  }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { enableTracing: true, preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })

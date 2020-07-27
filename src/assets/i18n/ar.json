@@ -56,5 +56,12 @@
     "Change my email address": "",
     "Check your email inbox on": "",
     "Didn’t receive the email?": "",
-    "txt_resend_email": "Resend email in {{ value }} seconds"
+    "txt_resend_email": "Resend email in {{ value }} seconds",
+    "Cancel": "",
+    "Submit": "",
+    "Change Email": "",
+    "Enter New Email": "",
+    "Session expired, please log back in.": "",
+    "Bad request, please log back in.": "",
+    "Click here to send it again": ""
 }

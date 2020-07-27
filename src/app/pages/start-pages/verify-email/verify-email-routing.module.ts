@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: VerifyEmailPage
+  },
+  {
+    path: ':email',
+    component: VerifyEmailPage
+  },
+  {
+    path: ':email/:code',
+    component: VerifyEmailPage
   }
 ];
 

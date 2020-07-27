@@ -14,9 +14,12 @@
       {{ "Change my email address" | translate }}
     </ion-button>
 
-    <ion-button (click)="resendVerificationEmail()" expand="block" class="btn-resend">
+    <div class="clearfix"></div>
+
+    <ion-button (click)="resendVerificationEmail()" expand="block" [disabled]="timer" class="btn-resend">
       <b>{{ "Didn’t receive the email?" | translate }} </b>
-      <span>{{ "txt_resend_email" | translate }}</span>
+      <span *ngIf="!timer">{{ "Click here to send it again" | translate }}</span>
+      <span *ngIf="timer">{{ "txt_resend_email" | translate : { value : timer } }}</span>
     </ion-button>
 
   </div><!-- END .max-width -->

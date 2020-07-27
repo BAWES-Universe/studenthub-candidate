@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { catchError, first, take, map, retryWhen } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
 // services
 import { EventService } from './event.service';
@@ -34,13 +35,17 @@ export class AuthService {
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
   public _urlRegistration = '/auth/register';
-
+  public _urlresendVerificationEmail = '/auth/resend-verification-email';
+  public _urlUpdateCandidateEmail = '/auth/update-email';
+  public _urlIsEmailVerified = '/auth/is-email-verified';
+  public _urlVerifyEmail = '/auth/verify-email';
+  
   constructor(
     public _http: HttpClient,
     private _storage: Storage,
     public router: Router,
     public translate: TranslateLabelService,
-    private _eventService: EventService
+    private eventService: EventService
   ) { }
 
   canActivate(
@@ -183,13 +188,15 @@ export class AuthService {
 
     this._storage.clear();
 
-    this._eventService.userLogout$.next(reason ? reason : false);
+    this.eventService.userLogout$.next(reason ? reason : false);
   }
 
   /**
    * Set the access token
    */
   setAccessToken(data) {
+    console.log('set token', data);
+
     this.isLogin = true;
 
     this._accessToken = data.token;
@@ -208,11 +215,11 @@ export class AuthService {
     });
 
     if (data.language_pref) {
-      this._eventService.setLanguagePref$.next(data.language_pref);
+      this.eventService.setLanguagePref$.next(data.language_pref);
     }
 
     // Log User In by Triggering Event that Access Token has been Set
-    this._eventService.userLogin$.next();
+    this.eventService.userLogin$.next();
   }
 
   /**
@@ -232,11 +239,84 @@ export class AuthService {
       if(data && data.token) {
         this.setAccessToken(data);
       } else {
-        this.logout();
+      //  this.logout();
       }
     });
  
     return this._accessToken;;
+  }
+  
+  /**
+   * Build the Auth Headers for All Verb Requests
+   * @returns {HttpHeaders}
+   */
+  public _buildAuthHeaders() {
+    // Get Bearer Token from Auth Service
+
+    // Build Headers with Bearer Token
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Language': this.translate.currentLang
+    });
+  }
+
+  /**
+   * Verify email
+   * @param email
+   * @param code
+   */
+  verifyEmail(email: string, code: string) {
+    const url = environment.apiEndpoint + this._urlVerifyEmail;
+    const headers = this._buildAuthHeaders();
+    return this._http.post(url, { email: email, 'code': code }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Check if email already verified
+   * @param res
+   */
+  isAlreadyVerified(res): Observable<any> {
+    const url = environment.apiEndpoint + this._urlIsEmailVerified;
+    return this._http.post(url, res, { headers: this._buildAuthHeaders() }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Resend verification email
+   * @param email
+   */
+  resendVerificationEmail(email: string) {
+    const url = environment.apiEndpoint + this._urlresendVerificationEmail;
+    const headers = this._buildAuthHeaders();
+    return this._http.post(url, { 'email': email }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+  
+  /**
+   * Update email address
+   * @param params params
+   */
+  updateEmail(params: any): Observable<any> {
+    const url = environment.apiEndpoint + this._urlUpdateCandidateEmail;
+    return this._http.post(url, params, { headers: this._buildAuthHeaders() }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
   }
 
   /**
@@ -324,5 +404,57 @@ export class AuthService {
     }
 
     return a.join('<br />');
+  }
+
+  /**
+   * Handles Caught Errors from All Authorized Requests Made to Server
+   * @returns {Observable}
+   */
+  public _handleError(error: any): Observable<any> {
+    const errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+
+    // Handle Bad Requests
+    // This error usually appears when agent attempts to handle an
+    // account that he's been removed from assigning
+    if (error.status === 400) {
+      this.logout(this.translate.transform('Bad request, please log back in.'));
+      return empty();
+    }
+
+    // Handle No Internet Connection Error
+
+    if (error.status == 0 || error.status == 504) {
+      this.eventService.internetOffline$.next();
+      // this._auth.logout("Unable to connect to Pogi servers. Please check your internet connection.");
+      return empty();
+    }
+
+    if (!navigator.onLine || error.status === 504) {
+      this.eventService.internetOffline$.next();
+      return empty();
+    }
+
+    // Handle Expired Session Error
+    if (error.status === 401) {
+      this.logout(this.translate.transform('Session expired, please log back in.'));
+      return empty();
+    }
+
+    // Handle internal server error - 500
+    if (error.status === 500) {
+      this.eventService.error500$.next();
+      return empty();
+    }
+
+    // Handle page not found - 404 error
+    if (error.status === 404) {
+      this.eventService.error404$.next();
+      return empty();
+    }
+
+    console.error(JSON.stringify(error));
+
+    return throwError(errMsg);
   }
 }

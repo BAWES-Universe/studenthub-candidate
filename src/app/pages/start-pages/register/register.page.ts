@@ -5,6 +5,7 @@ import { AlertController, ModalController, NavController } from '@ionic/angular'
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class RegisterPage implements OnInit {
   public email;
 
   constructor(
+    public storage: Storage,
     public router: Router,
     public fb: FormBuilder,
     public alertCtrl: AlertController,
@@ -60,6 +62,12 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  log() {
+    // .navigateForward
+    this.router.navigate(['verify-email', 'demo@asdasd.com']);
+    //this.registerForm.controls.email.value
+  }
+
   /**
    * Attempts to register an account for the user
    * Then process his previous request
@@ -74,7 +82,23 @@ export class RegisterPage implements OnInit {
     this.authService.createAccount(this.registerForm.value).subscribe(res => {
       this.isLoading = false;
 
-      if (res.operation === 'success' && res.token) {
+      console.log(res);
+
+      if (res.operation == 'success') {
+
+        this.storage.set("unVerifiedToken", res.unVerifiedToken); 
+
+        this.storage.set('candidate_uuid', res.candidate_id);
+
+        this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value]);
+
+        /*
+        this.modalCtrl.getTop().then(overlap => {
+          if(overlap)
+            this.modalCtrl.dismiss({ 
+              from: 'native-back-btn'
+            }); 
+        }); */
 
       } else if (res.operation === 'error') {
         this.alertCtrl.create({

@@ -30,6 +30,12 @@
   margin: 0 auto;
 }
 
+.clearfix {
+  display: table;
+  clear: both;
+  width: 100%;
+}
+
 [dir="ltr"] {
   font-family: 'effra', sans-serif !important;
   --ion-font-family: 'effra', sans-serif !important;

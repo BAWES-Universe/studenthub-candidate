@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Storage } from '@ionic/storage';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AuthService } from 'src/app/providers/auth.service';
+import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { EventService } from 'src/app/providers/event.service';
+//models 
+import { Candidate } from 'src/app/models/candidate';
 
 
 @Component({
@@ -11,12 +19,137 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 })
 export class VerifyEmailPage implements OnInit {
 
+  public email: string; 
+
+  public code: string;
+
+  public timer: number; 
+  
+  public timerInterval; 
+
+  public unVerifiedToken: string; 
+
+  public isVerified: boolean = false;
+  
+  public loader: boolean = false;
+
+  public emailVerifiedSubscription;
+
+  public isAlreadyVerifiedSubscription: Subscription;
+  public updateEmailSubscription: Subscription;
+  public verifyEmailSubscription: Subscription;
+  public resendEmailSubscription: Subscription;
+
   constructor(
+    public storage: Storage,
     public navCtrl: NavController,
+    public route: ActivatedRoute,
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    public authService: AuthService,
+    public eventService: EventService,
+    public accountService: AccountService,
     public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if(!!this.isAlreadyVerifiedSubscription) {
+      this.isAlreadyVerifiedSubscription.unsubscribe();
+    }
+
+    if(!!this.updateEmailSubscription) {
+      this.updateEmailSubscription.unsubscribe();
+    }
+
+    if(!!this.verifyEmailSubscription) {
+      this.verifyEmailSubscription.unsubscribe();
+    }
+
+    if(!!this.resendEmailSubscription) {
+      this.resendEmailSubscription.unsubscribe();
+    }
+
+    if(!!this.timerInterval) {
+      this.clearTimer();
+    }
+  }
+
+  setTimer() {
+
+    if(!this.timer) {
+      this.timer = 60;
+    }
+
+    this.timerInterval = setInterval(() => {
+      this.timer--;
+
+      if(!this.timer) {
+        this.clearTimer();
+      }
+    }, 1000);
+  }
+
+  clearTimer() {
+    clearInterval(this.timerInterval);
+    this.timer = null;
+    this.timerInterval = null;
+  }
+
+  ionViewDidEnter() { 
+  
+    this.setTimer();
+    
+    this.email = this.route.snapshot.paramMap.get('email');
+    this.code = this.route.snapshot.paramMap.get('code');
+
+    if(this.code)
+      this.verify();
+
+    this.storage.get('unVerifiedToken').then(res => {
+
+      if (!res) {
+        return null;
+      }
+
+      this.unVerifiedToken = res.token;
+
+      this.emailVerifiedSubscription = setInterval(_ => {
+        this.isAlreadyVerified(res);
+      }, 5 * 1000);
+    });
+  }
+
+  /**
+   * Verify verification code
+   */
+  verify() { 
+
+    this.loader = true;
+
+    this.verifyEmailSubscription = this.authService.verifyEmail(this.email, this.code).subscribe(async res => {
+       
+      this.loader = false;
+      
+      if (this.isVerified) { 
+        return true;
+      }
+
+      if (res.operation == 'success') {
+        this.onSuccess(res);
+      } else {
+        const alert = await this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        });
+        await alert.present();
+      }
+    }, err => { 
+      this.loader = false;
+    });
   }
 
   /**
@@ -29,7 +162,7 @@ export class VerifyEmailPage implements OnInit {
     const ChangeEmail = this.translateService.transform('Change Email');
     const NewEmail = this.translateService.transform('Enter New Email');
 
-   const alert = await this._alertCtrl.create({
+   const alert = await this.alertCtrl.create({
       header: ChangeEmail,
       inputs: [
         {
@@ -58,27 +191,78 @@ export class VerifyEmailPage implements OnInit {
   }
 
   /**
+   * Check if email already verified
+   * @param res
+   */
+  isAlreadyVerified(res) {
+
+    this.isAlreadyVerifiedSubscription = this.authService.isAlreadyVerified(res).subscribe(response => {
+
+      if (response.status == 1 && !this.isVerified) {
+        this.onSuccess(res);
+      }
+    });
+  }
+
+  /**
+   * on successfull verification
+   * @param res
+   */
+  async onSuccess(res) {
+
+    // don't call twise
+
+    if (this.isVerified) {
+      return null;
+    }
+
+    this.isVerified = true;
+
+    clearInterval(this.emailVerifiedSubscription);
+
+    this.emailVerifiedSubscription = null; 
+
+    this.clearTimer();
+    
+    this.storage.remove('unVerifiedToken');
+
+    // on email update from profile page
+
+    if (this.authService.isLogin) {
+
+      this.eventService.userUpdated$.next();//email updated
+
+      this.navCtrl.navigateRoot(['/']);
+
+      // on sign up
+
+    } else {
+      this.authService.setAccessToken(res);
+    }
+  }
+
+  /**
    * On update email submit event
    * @param data
    */
   async onUpdateEmailSubmit(data) {
 
-    const loader = await this._loadingCtrl.create();
+    const loader = await this.loadingCtrl.create();
     await loader.present();
 
     let action;
 
-    if (this._authService.isLogin) {
+    if (this.authService.isLogin) {
       const candidate = new Candidate;
-      candidate.email = data.newEmail;
-      action = this.cvBuilder.updateEmail(candidate);
+      candidate.candidate_email = data.newEmail;
+      action = this.accountService.updateEmail(candidate);
       
     } else {
       const params = {
         'unVerifiedToken': this.unVerifiedToken,
         'newEmail': data.newEmail
       };
-      action = this._authService.updateEmail(params);
+      action = this.authService.updateEmail(params);
     }
 
     this.updateEmailSubscription = action.subscribe(async result => {
@@ -89,28 +273,31 @@ export class VerifyEmailPage implements OnInit {
 
           this.email = data.newEmail;
 
-          const toast = await this._toastCtrl.create({
+          const toast = await this.toastCtrl.create({
             message: this.translateService.transform(result.message),
             duration: 3000,
           });
           await toast.present();   
 
+          //reset timer 
+          this.setTimer(); 
+
           return true;
 
         } else if (result.operation == 'error-session-expired') {
-          const toast = await this._toastCtrl.create({
+          const toast = await this.toastCtrl.create({
             message: this.translateService.transform('Session expired, please log back in.'),
             duration: 3000
           });
           await toast.present();
 
-          this.logout();
+          this.authService.logout();
 
           return false;
 
         } else {
 
-          const toast = await this._toastCtrl.create({
+          const toast = await this.toastCtrl.create({
             message: this.translateService.errorMessage(result.message),
             duration: 3000
           });
@@ -130,11 +317,14 @@ export class VerifyEmailPage implements OnInit {
    * Request to resend verification mail
    */
   resendVerificationEmail() {
-    const ok = this.translateService.transform('ok');
+    const ok = this.translateService.transform('Okay');
 
-    this.resendEmailSubscription = this._authService.resendVerificationEmail(this.email).subscribe(async res => {
+    this.resendEmailSubscription = this.authService.resendVerificationEmail(this.email).subscribe(async res => {
 
-      const alert = await this._alertCtrl.create({
+      //reset timer 
+      this.setTimer(); 
+      
+      const alert = await this.alertCtrl.create({
         message: this.translateService.errorMessage(res.message),
         buttons: [ok]
       });
@@ -147,7 +337,7 @@ export class VerifyEmailPage implements OnInit {
           res.errorCode == 3 // account not founnd 
         ) 
       ) {
-        this.router.navigate(['view/home']);
+        this.navCtrl.navigateRoot(['/']);
       }
     });
   }
