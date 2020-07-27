@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AuthHttpService } from './authhttp.service';
 import { Observable } from 'rxjs';
+//services
+import { AuthHttpService } from './authhttp.service';
+//models
+import { Candidate } from 'src/app/models/candidate';
 
 
 @Injectable({
@@ -34,6 +37,15 @@ export class AccountService {
       new_password: newPassword,
     };
     return this._authhttp.post(postUrl, params);
+  }
+
+  /**
+   * Update email address 
+   * @param candidate Candidate 
+   */
+  updateEmail(candidate: Candidate): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-email';
+    return this._authhttp.post(url, { email: candidate.candidate_email });
   }
 
   /**
