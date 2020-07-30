@@ -7,16 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class CandidateService {
 
-  private _candidateEndpoint: string = "/candidates";
+  private _candidateEndpoint = '/candidates';
 
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * return work history
-   * @param candidate 
+   * @param candidate
    */
   workHistory(): Observable<any> {
-    let url = this._candidateEndpoint +'/work-history';
+    const url = this._candidateEndpoint + '/work-history?expand=store';
     return this._authhttp.get(url);
   }
 }
