@@ -1,0 +1,33 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Work Experience" | translate }}</h3>
+
+    <ion-list class="candidateExperiences" *ngIf="experienceList">
+
+      <ion-item *ngFor="let s of tmpExperience;let i=index;">
+
+        <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a experience' | translate }}"
+          [(ngModel)]="experienceList[i]" (ionFocus)="validateExperiences()" (ionChange)="change($event, i, s)"
+          inputmode="text" enterkeyhint="{{ 'Next' | translate }}" (keyup)="nextOnEnter($event, i)"></ion-input>
+
+        <ion-button fill="clear" tabindex="-1" item-right *ngIf="experienceList[i]" fill="clear"
+          (click)="removeExperience(i,s)" class="skip-hover">
+          <img src="assets/images/ic_circledCancel.svg">
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      [disabled]="(this.candidate && this.candidate.candidateExperiences.length == this.experienceList.length)  || this.experienceList.length < 1 || loading"
+      type="submit">
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <span *ngIf="!loading">{{ "Submit" | translate }}</span>
+    </ion-button>
+
+  </div>
+</ion-content>

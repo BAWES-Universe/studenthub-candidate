@@ -15,8 +15,7 @@ import { EmailPage } from './email.page';
     ReactiveFormsModule,
     IonicModule,
     TranslateModule.forChild(),
-    EmailPageRoutingModule,
-    TranslateModule.forChild()
+    EmailPageRoutingModule
   ],
   declarations: [EmailPage]
 })

@@ -16,6 +16,41 @@ export class AccountService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
+   * load profile details
+   */
+  profile(): Observable<any> {
+    const url = this._accountEndpoint + '/profile?expand=country,university,candidateSkills,candidateExperiences';
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * update experiences
+   * @param params 
+   */
+  updateExperiences(params): Observable<any>{
+    const url = `${this._accountEndpoint}` + '/update-experiences';
+    return this._authhttp.post(url, params);
+  }
+  
+  /**
+   * update skills
+   * @param params 
+   */
+  updateSkills(params): Observable<any>{
+    const url = `${this._accountEndpoint}` + '/update-skills';
+    return this._authhttp.post(url, params);
+  }
+
+  /**
+   * Remove candidate's profile photo 
+   */
+  removePhoto(): Observable<any> {
+    let url = this._accountEndpoint + '/remove-photo';
+    return this._authhttp.delete(url);
+  }
+
+   
+  /**
    * List of all stores
    * @returns {Observable<any>}
    */
@@ -41,11 +76,11 @@ export class AccountService {
 
   /**
    * Update email address 
-   * @param candidate Candidate 
+   * @param email string 
    */
-  updateEmail(candidate: Candidate): Observable<any> {
+  updateEmail(email: string): Observable<any> {
     let url = `${this._accountEndpoint}` + '/update-email';
-    return this._authhttp.post(url, { email: candidate.candidate_email });
+    return this._authhttp.post(url, { email: email });
   }
 
   /**
@@ -58,4 +93,125 @@ export class AccountService {
         language_pref: code
     });
   }
+
+  /**
+   * update nationality
+   * @param country_id number
+   */
+  updateNationality(country_id: number): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-nationality';
+    return this._authhttp.post(url, {
+      country_id: country_id
+    });
+  }
+
+  /**
+   * update university
+   * @param university_id number
+   */
+  updateUniversity(university_id: number): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-university';
+    return this._authhttp.post(url, {
+      university_id: university_id
+    });
+  }
+
+  /**
+   * update objective
+   * @param objective string
+   */
+  updateObjective(objective: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-objective';
+    return this._authhttp.post(url, {
+      objective: objective
+    });
+  }
+
+  /**
+   * update gender
+   * @param gender number
+   */
+  updateGender(gender: number): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-gender';
+    return this._authhttp.post(url, {
+      gender: gender
+    });
+  }
+
+  /**
+   * update name
+   * @param name string
+   */
+  updateName(name: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-name';
+    return this._authhttp.post(url, {
+      name: name
+    });
+  }
+
+  /**
+   * update arabic name
+   * @param name_ar string
+   */
+  updateNameAr(name_ar: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-name-ar';
+    return this._authhttp.post(url, {
+      name_ar: name_ar
+    });
+  }
+
+  /**
+   * update civil id number
+   * @param civil_id 
+   */
+  updateCivilId(civil_id: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-civil-id';
+    return this._authhttp.post(url, {
+      civil_id: civil_id
+    });
+  }
+
+  /**
+   * update resume
+   * @param resume string
+   */
+  updateResume(resume: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-resume';
+    return this._authhttp.post(url, {
+      resume: resume
+    });
+  }
+
+  /**
+   * update profile photo
+   * @param personal_photo string
+   */
+  updateProfilePhoto(personal_photo: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/profile-photo';
+    return this._authhttp.post(url, {
+      personal_photo: personal_photo
+    });
+  }
+
+  /**
+   * update birth-date
+   * @param birth_date string
+   */
+  updateBirthDate(birth_date: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-birth-date';
+    return this._authhttp.post(url, {
+      birth_date: birth_date
+    });
+  }
+ 
+  /**
+   * update driving license
+   * @param driving_license number
+   */
+  updateDrivingLicense(driving_license: number): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-driving-license';
+    return this._authhttp.post(url, {
+      driving_license: driving_license
+    });
+  }            
 }

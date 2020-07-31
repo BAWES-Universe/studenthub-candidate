@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
-//models 
-import { Candidate } from 'src/app/models/candidate';
 
+
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-verify-email',
@@ -41,7 +41,6 @@ export class VerifyEmailPage implements OnInit {
   public resendEmailSubscription: Subscription;
 
   constructor(
-    public storage: Storage,
     public navCtrl: NavController,
     public route: ActivatedRoute,
     public loadingCtrl: LoadingController,
@@ -99,7 +98,7 @@ export class VerifyEmailPage implements OnInit {
     this.timerInterval = null;
   }
 
-  ionViewDidEnter() { 
+  async ionViewDidEnter() { 
   
     this.setTimer();
     
@@ -109,18 +108,17 @@ export class VerifyEmailPage implements OnInit {
     if(this.code)
       this.verify();
 
-    this.storage.get('unVerifiedToken').then(res => {
+    const { value } = await Storage.get({ key: 'unVerifiedToken' });
+    
+    const unVerifiedTokenData = JSON.parse(value);
 
-      if (!res) {
-        return null;
-      }
-
-      this.unVerifiedToken = res.token;
+    if(unVerifiedTokenData) {
+      this.unVerifiedToken = unVerifiedTokenData.token;
 
       this.emailVerifiedSubscription = setInterval(_ => {
-        this.isAlreadyVerified(res);
+        this.isAlreadyVerified(unVerifiedTokenData);
       }, 5 * 1000);
-    });
+    }
   }
 
   /**
@@ -224,7 +222,7 @@ export class VerifyEmailPage implements OnInit {
 
     this.clearTimer();
     
-    this.storage.remove('unVerifiedToken');
+    Storage.remove({ key: 'unVerifiedToken' });
 
     // on email update from profile page
 
@@ -232,7 +230,11 @@ export class VerifyEmailPage implements OnInit {
 
       this.eventService.userUpdated$.next();//email updated
 
-      this.navCtrl.navigateRoot(['/']);
+      if(res['approved']) {
+        this.navCtrl.navigateRoot(['/']);
+      } else {
+        this.navCtrl.navigateRoot(['complete-profile']);
+      }
 
       // on sign up
 
@@ -253,10 +255,7 @@ export class VerifyEmailPage implements OnInit {
     let action;
 
     if (this.authService.isLogin) {
-      const candidate = new Candidate;
-      candidate.candidate_email = data.newEmail;
-      action = this.accountService.updateEmail(candidate);
-      
+      action = this.accountService.updateEmail(data.newEmail);
     } else {
       const params = {
         'unVerifiedToken': this.unVerifiedToken,

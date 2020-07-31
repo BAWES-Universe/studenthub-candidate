@@ -46,6 +46,7 @@ export class EmailPage implements OnInit {
     });
   }
 
+
   dismiss() {
     this.navCtrl.back();
   }
