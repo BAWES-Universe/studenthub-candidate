@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
 import { catchError, first, take, map, retryWhen } from 'rxjs/operators';
 import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -9,9 +9,12 @@ import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@a
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
+import { NavController } from '@ionic/angular';
 
 
 declare var navigator;
+
+const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +28,7 @@ export class AuthService {
   public id: number;
   public name: string;
   public email: string;
+  public approved: any;
   public language_pref: string;
 
   public language = {
@@ -42,8 +46,8 @@ export class AuthService {
   
   constructor(
     public _http: HttpClient,
-    private _storage: Storage,
     public router: Router,
+    public navCtrl: NavController,
     public translate: TranslateLabelService,
     private eventService: EventService
   ) { }
@@ -61,17 +65,18 @@ export class AuthService {
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
      */
-    return new Promise(resolve => {
+    return new Promise(async resolve =>  {
 
-      return this._storage.get('loggedInUser').then(data => { 
-        if (data) {
-          this.setAccessToken(data);
-          resolve(true);
-        } else {
-          resolve(false);
-          this.router.navigate(['landing']);
-        }
-      });
+      const ret = await Storage.get({ key: 'loggedInUser' });
+      const user = JSON.parse(ret.value);
+
+      if (user) {
+        //this.setAccessToken(user);
+        resolve(true);
+      } else {
+        resolve(false);
+        this.router.navigate(['landing']);
+      }
     });
   }
 
@@ -80,97 +85,132 @@ export class AuthService {
    */
   async load() {
 
-    const promises = [
-      this._storage.get('loggedInUser'),
-      this._storage.get('language')
-    ];
+    const ret = await Storage.get({ key: 'loggedInUser' });
+    
+    const loggedInUser = JSON.parse(ret.value);
 
-    return Promise.all(promises)
-      .then(data => {
+    //guest user who visited previously and saved preference
 
-        if (data[1]) {
-          this.language = data[1];
-        } else {
-          
-          const browserLanguage = navigator.languages
-            ? navigator.languages[0]
-            : (navigator.language || navigator.userLanguage);
+    const { value } = await Storage.get({ key: 'language' });
 
-          if (browserLanguage && browserLanguage.indexOf('en') > -1) {
-            this.language = {
-              code: 'en',
-              name: 'English'
-            };
-          } else {
-            this.language = {
-              name: 'عربى',
-              code: 'ar'
-            };
-          }
-        }
+    if (value) {
+      this.language_pref = value;
 
-        // for guest use language value in storage, for login user loggedInAgent.language_pref
+      this.language = this.language_pref == 'ar' ? {
+        name: 'عربى',
+        code: 'ar'
+      }: {
+        code: 'en',
+        name: 'English'
+      };
 
-        const loggedInUser = data[0];
+    //new user 
 
-        if (loggedInUser && loggedInUser.language_pref) {
-          this.language = loggedInUser.language_pref == 'ar' ? {
-              name: 'عربى',
-              code: 'ar'
-            }: {
-              code: 'en',
-              name: 'English'
-            };
-        }
+    } else {
+    
+      const browserLanguage = navigator.languages
+        ? navigator.languages[0]
+        : (navigator.language || navigator.userLanguage);
 
-        this.translate.setDefaultLang('en');
-        
-        this.translate.use(this.language.code);
+      if (browserLanguage && browserLanguage.indexOf('en') > -1) {
+        this.language = {
+          code: 'en',
+          name: 'English'
+        };
+      } else {
+        this.language = {
+          name: 'عربى',
+          code: 'ar'
+        };
+      }
+    }
 
-        document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
-        
-        if (loggedInUser) {
-          this.setAccessToken(loggedInUser);
-        }
+    // for guest use language value in storage, for login user loggedInAgent.language_pref
 
-        /*else if (this.cookieService.get('otp')) {
-          this._platform.ready().then(_ => {
-            setTimeout(() => {
-              this.loginByOtp(this.cookieService.get('otp'));
-            }, 800);//to fix: https://www.pivotaltracker.com/story/show/168368025
-          });
-        }*/
- 
-        // set direction based on language
-        // this._platform.setDir('rtl', true);
-        document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
+    if (loggedInUser && loggedInUser.language_pref) {
+      this.language = loggedInUser.language_pref == 'ar' ? {
+          name: 'عربى',
+          code: 'ar'
+        }: {
+          code: 'en',
+          name: 'English'
+        };
+    }
 
-      })
-      .then(data => {
-        // return this.logout('promise fail');
+    this.translate.setDefaultLang('en');
+    
+    this.translate.use(this.language.code);
+
+    document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
+    
+    if (loggedInUser) {
+
+      console.log('loggedInUser');
+
+      this.isLogin = true;
+
+      this._accessToken = loggedInUser.token;
+      this.id = loggedInUser.id;
+      this.name = loggedInUser.name;
+      this.email = loggedInUser.email;
+      this.approved = loggedInUser.approved;
+      this.language_pref = loggedInUser.language_pref;
+
+      if(!this.approved) {
+        this.navCtrl.navigateRoot(['complete-profile']);
+      }
+    }
+
+    /*else if (this.cookieService.get('otp')) {
+      this._platform.ready().then(_ => {
+        setTimeout(() => {
+          this.loginByOtp(this.cookieService.get('otp'));
+        }, 800);//to fix: https://www.pivotaltracker.com/story/show/168368025
       });
+    }*/
+
+    // set direction based on language
+    // this._platform.setDir('rtl', true);
+    document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
   }
 
   /**
    * Set language pref for current user
    */
-  setLanguagePref(language) {
+  setLanguagePref(language_pref) {
 
-    this._storage.set('language', language);
+    Storage.set({ 'key':'language_pref', value: language_pref });
 
-    this.language = language;
-    this.language_pref = language.code;
+    this.language_pref = language_pref;
+
+    this.language =  this.language_pref == 'ar' ? {
+      name: 'عربى',
+      code: 'ar'
+    }: {
+      code: 'en',
+      name: 'English'
+    };
 
     if (this._accessToken) {
+      this.saveLoggedInUser();
+    }
+  }
 
-      this._storage.set('loggedInUser', {
-        userId: this.id,
+  /**
+   * save user details for future reference in storage
+   */
+  saveLoggedInUser() {
+    Storage.set({
+      key: 'loggedInUser', 
+      value: JSON.stringify({
+        id: this.id,
         name: this.name,
         email: this.email,
         token: this._accessToken,
+        approved: this.approved,
         language_pref: this.language_pref
-      });
-    }
+      })
+    });
   }
 
   /**
@@ -178,15 +218,19 @@ export class AuthService {
    * @param {string} [reason]
    */
   logout(reason?: string) {
+
+    console.log('logout', reason);
+
     // Remove from Storage then process logout
     this._accessToken = null;
     this.id = null;
     this.name = null;
     this.email = null;
+    this.approved = null; 
 
     this.isLogin = false;
 
-    this._storage.clear();
+    Storage.clear();
 
     this.eventService.userLogout$.next(reason ? reason : false);
   }
@@ -194,7 +238,7 @@ export class AuthService {
   /**
    * Set the access token
    */
-  setAccessToken(data) {
+  async setAccessToken(data) {
     console.log('set token', data);
 
     this.isLogin = true;
@@ -203,23 +247,18 @@ export class AuthService {
     this.id = data.id;
     this.name = data.name;
     this.email = data.email;
+    this.approved = data.approved;
     this.language_pref = data.language_pref;
     
     // Save to Storage
-    this._storage.set('loggedInUser', {
-      userId: this.id,
-      name: this.name,
-      email: this.email,
-      token: this._accessToken,
-      language_pref: this.language_pref
-    });
+    this.saveLoggedInUser();
 
     if (data.language_pref) {
       this.eventService.setLanguagePref$.next(data.language_pref);
     }
 
     // Log User In by Triggering Event that Access Token has been Set
-    this.eventService.userLogin$.next();
+    this.eventService.userLogin$.next(data);
   }
 
   /**
@@ -234,12 +273,11 @@ export class AuthService {
 
     // Check Storage and Try Again
 
-    this._storage.get('loggedInUser').then(data => {
-      
-      if(data && data.token) {
-        this.setAccessToken(data);
-      } else {
-      //  this.logout();
+    Storage.get({ key: 'loggedInUser' }).then(ret => {
+      const user = JSON.parse(ret.value);
+
+      if (user) {
+        this.setAccessToken(user); 
       }
     });
  

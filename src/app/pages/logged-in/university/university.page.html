@@ -1,0 +1,30 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Where do you study?" | translate }}</h3>
+
+    <ion-searchbar mode="md" searchIcon="../assets/images/ic_searchbar.svg" class="no-shadow search-bar"
+      (ionChange)="onSearchInput($event)" [value]="query" [debounce]="1000"
+      placeholder="{{ 'Type to search' | translate }}">
+    </ion-searchbar>
+
+    <ion-list *ngIf="candidate">
+      
+      <ion-item *ngFor="let university of universities" tappable (click)="rowSelected(university)">
+        {{ translateService.langContent(university.university_name_en, university.university_name_ar) }}
+        <ion-icon slot="end" name="checkmark" *ngIf="candidate.university_id == university.university_id">
+        </ion-icon>
+      </ion-item>
+
+      <loading-modal [loading]="loading" type="text"></loading-modal>
+
+      <h2 class="no-result-found" *ngIf="universities && universities.length == 0 && !loading && query">
+        {{ 'no_result_found' | translate : {'query' : query } }}
+      </h2>
+    </ion-list>
+  </div>
+</ion-content>

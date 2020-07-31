@@ -1,0 +1,35 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "What is your gender?" | translate }}</h3>
+
+    <ion-buttons *ngIf="candidate" class="btn-wrapper">
+
+      <ion-button class="btn-male" 
+        [disabled]="isLoading"
+        [class.active]="candidate.candidate_gender == 1" (click)="submit(1)">          
+        <ion-spinner *ngIf="isLoading == 1"></ion-spinner>
+        <span *ngIf="isLoading != 1">{{ "Male" | translate }}</span>
+      </ion-button>
+
+      <ion-button class="btn-female" 
+        [disabled]="isLoading"
+        [class.active]="candidate.candidate_gender == 2" (click)="submit(2)">
+        <ion-spinner *ngIf="isLoading == 2"></ion-spinner>
+        <span *ngIf="isLoading != 2">{{ "Female" | translate }}</span>
+      </ion-button>
+
+      <ion-button class="other" 
+        [disabled]="isLoading"
+        [class.active]="candidate.candidate_gender == 3" (click)="submit(3)"> 
+        <ion-spinner *ngIf="isLoading == 3"></ion-spinner>
+        <span *ngIf="isLoading != 3">{{ "Other" | translate }}</span>
+      </ion-button>
+    </ion-buttons>
+    
+  </div>
+</ion-content>

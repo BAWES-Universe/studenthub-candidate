@@ -2,11 +2,13 @@ import { Component, Input, OnInit, Optional, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import { Storage } from '@ionic/storage';
 
+
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-register',
@@ -27,7 +29,6 @@ export class RegisterPage implements OnInit {
   public email;
 
   constructor(
-    public storage: Storage,
     public router: Router,
     public fb: FormBuilder,
     public alertCtrl: AlertController,
@@ -62,12 +63,6 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  log() {
-    // .navigateForward
-    this.router.navigate(['verify-email', 'demo@asdasd.com']);
-    //this.registerForm.controls.email.value
-  }
-
   /**
    * Attempts to register an account for the user
    * Then process his previous request
@@ -82,13 +77,12 @@ export class RegisterPage implements OnInit {
     this.authService.createAccount(this.registerForm.value).subscribe(res => {
       this.isLoading = false;
 
-      console.log(res);
-
       if (res.operation == 'success') {
 
-        this.storage.set("unVerifiedToken", res.unVerifiedToken); 
-
-        this.storage.set('candidate_uuid', res.candidate_id);
+        Storage.set({
+          key: "unVerifiedToken", 
+          value: JSON.stringify(res.unVerifiedToken)
+        }); 
 
         this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value]);
 

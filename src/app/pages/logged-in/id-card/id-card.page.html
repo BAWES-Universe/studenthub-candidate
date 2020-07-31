@@ -1,0 +1,23 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Civil ID Number" | translate }}</h3>
+
+    <form [formGroup]="form" *ngIf="form">
+
+      <ion-list>
+        <ion-input formControlName="civil_id"
+          placeholder="{{ 'The number of on your civil id card.' | translate }}"></ion-input>
+      </ion-list>
+
+      <ion-button (click)="submit()" class="btn-submit" [disabled]="!form.valid || isLoading" type="submit">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">{{ "Submit" | translate }}</span>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

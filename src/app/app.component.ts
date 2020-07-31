@@ -104,8 +104,13 @@ export class AppComponent implements OnInit {
     });
 
     // On Login Event, set root to Internal app page
-    this.eventService.userLogin$.subscribe(userEventData => {
-      this.navCtrl.navigateRoot(['/']);
+    this.eventService.userLogin$.subscribe(data => {
+      if(data['approved']) {
+        this.navCtrl.navigateRoot(['/']);
+      } else {
+        this.navCtrl.navigateRoot(['complete-profile']);
+      }
+      
     });
 
     // On Logout Event, set root to Login Page

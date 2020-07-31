@@ -17,7 +17,9 @@ Sentry.init({
 	})],
 });
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class SentryErrorhandlerService implements ErrorHandler {
 	constructor() {}
 
@@ -60,6 +62,12 @@ export class SentryErrorhandlerService implements ErrorHandler {
 
 	handleError(error) {
 		const extractedError = this.extractError(error) || 'Handled unknown error';
+
+		const chunkFailedMessage = /Loading chunk [\d]+ failed/;
+
+		if (chunkFailedMessage.test(error.message)) {
+		  window.location.reload();
+		}
 
 		if (environment.envName == 'prod' || environment.envName == 'dev') {
 			// Capture handled exception and send it to Sentry.

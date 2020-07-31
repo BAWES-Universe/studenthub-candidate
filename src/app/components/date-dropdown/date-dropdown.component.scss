@@ -1,0 +1,74 @@
+
+ion-select {
+    border: 2px solid rgba(130, 130, 130, 0.3) !important;
+    border-radius: 5px !important;
+    margin: 5px;
+    background-color: #fff;
+    width: calc(33% - 7px);
+    float: var(--start);
+    --padding-end: 15px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+}
+
+ion-datetime {
+    border: solid 4px #bdbdbd;
+    border-radius: 10px !important;
+    --border-radius: 10px;
+    margin: 0;
+    width: 100%;
+    --padding-bottom: 11px;
+    --padding-top: 21px;
+    --padding-start: 65px;
+    --padding-end: 24px;
+    background: url('../../../assets/images/ic-calender.svg') no-repeat;
+    height: 73px;
+    /* border-radius: 10px; */
+    line-height: 1.65;
+    font-size: 14px;
+}
+
+[dir="ltr"] {
+    ion-datetime {
+        background-position: 16px 22px;
+    } 
+    
+    ion-select:first-child {
+        margin-left: 0;
+    }
+}
+
+[dir="rtl"] {
+    ion-datetime {
+        background-position: calc(100% - 16px) 22px;
+    } 
+    
+    ion-select:first-child {
+        margin-right: 0;
+    }
+}
+
+.inside-form ion-select,
+.inside-form .native-select {
+    width: calc(50% - 15px);
+}
+
+.inside-form ion-select,
+.inside-form .native-select,
+.inside-form ion-datetime {
+    //padding: 7px 25px 7px 10px;
+    //background-position: right 12px top 16px, right 7px top 16px;
+    border: 1px solid rgba(130, 130, 130, 0.3) !important;
+}
+
+
+.native-select {
+    border-radius: 10px !important;
+    margin: 5px;
+    background-color: #fff;
+    width: calc(33% - 9px);
+    float: var(--start);
+    padding: 0 22px;
+    height: 73px;
+    border: 4px solid #bdbdbd !important;
+}
