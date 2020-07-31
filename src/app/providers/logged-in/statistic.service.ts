@@ -7,16 +7,15 @@ import { AuthHttpService } from './authhttp.service';
 })
 export class StatisticService {
 
-  private _endpoint: string = "/statistics";
+  private endpoint = '/statistics';
 
-  constructor(private _authhttp: AuthHttpService) { }
+  constructor(private authhttp: AuthHttpService) { }
 
   /**
    * Return statistics
    * @returns {Observable<any>}
    */
   get(): Observable<any>{
-    let url = this._endpoint;
-    return this._authhttp.get(url);
+    return this.authhttp.get(this.endpoint);
   }
 }

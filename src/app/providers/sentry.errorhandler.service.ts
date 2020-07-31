@@ -61,6 +61,7 @@ export class SentryErrorhandlerService implements ErrorHandler {
 	}
 
 	handleError(error) {
+
 		const extractedError = this.extractError(error) || 'Handled unknown error';
 
 		const chunkFailedMessage = /Loading chunk [\d]+ failed/;
@@ -70,6 +71,8 @@ export class SentryErrorhandlerService implements ErrorHandler {
 		}
 
 		if (environment.envName == 'prod' || environment.envName == 'dev') {
+
+			const extractedError = this.extractError(error) || 'Handled unknown error';
 			// Capture handled exception and send it to Sentry.
 			const eventId = Sentry.captureException(extractedError);
 			// When in development mode, log the error to console for immediate feedback.
