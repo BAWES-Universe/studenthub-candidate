@@ -32,6 +32,7 @@ export class SkillFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
   }
 
   // add skill in temp
@@ -215,6 +216,8 @@ export class SkillFormPage implements OnInit {
 
         // On Success
         if (jsonResponse.operation == 'success') {
+
+          this.candidate.candidateSkills = jsonResponse.skills;
           this.dismiss();
         }
 
