@@ -22,7 +22,7 @@ import { GenderPage } from '../gender/gender.page';
 import { DrivingLicensePage } from '../driving-license/driving-license.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
-
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-complete-profile',
@@ -36,14 +36,17 @@ export class CompleteProfilePage implements OnInit {
   public loading: boolean = false; 
 
   public candidate: Candidate;
-
+  public candidatePicUrl;
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public authService: AuthService,
     public accountService: AccountService,
-    public translateService: TranslateLabelService
-  ) { }
+    public translateService: TranslateLabelService,
+
+  ) {
+    this.candidatePicUrl = environment.cloudinaryUrl;
+  }
 
   ngOnInit() {
     this.loadData();

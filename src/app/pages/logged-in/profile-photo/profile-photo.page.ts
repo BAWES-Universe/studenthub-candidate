@@ -14,7 +14,6 @@ import { CameraService } from 'src/app/providers/logged-in/camera.service';
 //components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
 
-
 @Component({
   selector: 'app-profile-photo',
   templateUrl: './profile-photo.page.html',
@@ -35,7 +34,7 @@ export class ProfilePhotoPage implements OnInit {
   public form: FormGroup;
  
   public candidate: Candidate;
-
+  public cloudinaryUrl;
   constructor(
     private _fb: FormBuilder,
     private platform: Platform,
@@ -48,7 +47,9 @@ export class ProfilePhotoPage implements OnInit {
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     private _cameraService: CameraService
-  ) { }
+  ) {
+    this.cloudinaryUrl = environment.cloudinaryUrl;
+  }
 
   ngOnInit() {
     this._initForm();
@@ -59,7 +60,7 @@ export class ProfilePhotoPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.permanentBucketUrl + this.candidate.candidate_personal_photo : '', Validators.required],
+      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + this.candidate.candidate_personal_photo : '', Validators.required],
       personal_photo: [this.candidate.candidate_personal_photo, Validators.required]
     });
   }
@@ -330,8 +331,21 @@ export class ProfilePhotoPage implements OnInit {
         this.form.controls.personal_photo.markAsDirty();
         this.form.updateValueAndValidity();
 
-        this.uploadingPhoto = false;
-      }
+        this.uploadingPhoto = true;
+        this.accountService.updateProfilePhoto(event.Key).subscribe(async response => {
+          this.uploadingPhoto = false;
+          if (response.operation != 'success') {
+            const alert = await this.alertCtrl.create({
+              message: response.message,
+              buttons: [this.translateService.transform('Okay')],
+            });
+            alert.present();
+          } else  {
+            this.candidate.candidate_personal_photo = response.candidate_personal_photo;
+            this.dismiss();
+          }
+        });
+      };
     }
   }
 
