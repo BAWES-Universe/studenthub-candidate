@@ -16,6 +16,8 @@
         <span *ngIf="isLoading != 1">{{ "Male" | translate }}</span>
       </ion-button>
 
+      <div class="clearfix"></div>
+
       <ion-button class="btn-female" 
         [disabled]="isLoading"
         [class.active]="candidate.candidate_gender == 2" (click)="submit(2)">
@@ -23,6 +25,8 @@
         <span *ngIf="isLoading != 2">{{ "Female" | translate }}</span>
       </ion-button>
 
+      <div class="clearfix"></div>
+      
       <ion-button class="other" 
         [disabled]="isLoading"
         [class.active]="candidate.candidate_gender == 3" (click)="submit(3)"> 
