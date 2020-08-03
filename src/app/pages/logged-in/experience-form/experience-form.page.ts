@@ -32,6 +32,7 @@ export class ExperienceFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.addToExperienceList(JSON.parse(JSON.stringify(this.candidate.candidateExperiences)));
   }
 
   // add experience in temp
@@ -215,6 +216,9 @@ export class ExperienceFormPage implements OnInit {
 
         // On Success
         if (jsonResponse.operation == 'success') {
+
+          this.candidate.candidateExperiences = jsonResponse.experiences;
+
           this.dismiss();
         }
 
