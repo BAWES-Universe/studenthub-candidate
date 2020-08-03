@@ -16,6 +16,14 @@
 
     <ion-list *ngIf="candidate">
 
+      <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
+        <ion-label>
+          <small>{{ "Personal Photo" | translate }}</small>
+          <span *ngIf="candidate.candidate_personal_photo">{{ candidate.candidate_personal_photo }}</span>
+          <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
       <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">
         <ion-label>
           <small>{{ "Name (English)" | translate }}</small>
@@ -45,36 +53,32 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
-        <ion-label>
-          <small>{{ "Personal Photo" | translate }}</small>
-          <span *ngIf="candidate.candidate_personal_photo">{{ candidate.candidate_personal_photo }}</span>
-          <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
-        </ion-label>
-      </ion-item>
-
       <ion-item tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
         <ion-label>
           <small>{{ "Brief Intro" | translate }}</small>
           <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
-          <span *ngIf="!candidate.candidate_objective">{{ "Tell us more about yourself. What makes you special?" | translate }}
+          <span
+            *ngIf="!candidate.candidate_objective">{{ "Tell us more about yourself. What makes you special?" | translate }}
           </span>
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
+      <ion-item tappable class="skill-wrapper" (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
         <ion-label>
           <small>{{ "Your Skills" | translate }}</small>
-          <ion-chip *ngFor="let candidateSkill of candidate.candidateSkills">{{ candidateSkill.skill }}</ion-chip>
-          <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
+          <span class="skill" *ngFor="let candidateSkill of candidate.candidateSkills">{{ candidateSkill.skill }}</span>
+          <span
+            *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
           </span>
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
+      <ion-item tappable class="experience-wrapper" (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
         <ion-label>
           <small>{{ "Work Experience" | translate }}</small>
-          <ion-chip *ngFor="let candidateExperience of candidate.candidateExperiences">{{ candidateExperience.experience }}</ion-chip>
+          <span class="experience" *ngFor="let candidateExperience of candidate.candidateExperiences">
+            {{ candidateExperience.experience }}
+          </span>
           <span *ngIf="candidate.candidateExperiences.length == 0">{{ "Do you have any work experience?" | translate }}
           </span>
         </ion-label>
