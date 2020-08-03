@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ModalController } from '@ionic/angular';
-//services
+import {AlertController, ModalController} from '@ionic/angular';
+// services
 import { UniversityService } from 'src/app/providers/university.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-//models
+import { AccountService } from 'src/app/providers/logged-in/account.service';
+// models
 import { Candidate } from 'src/app/models/candidate';
 import { University } from 'src/app/models/university';
 
@@ -22,13 +23,13 @@ export class UniversityPage implements OnInit {
 
   public totalPage = 0;
 
-  public query: string = '';
+  public query = '';
 
   public universities: University[];
 
   public universityList: University[];
 
-  public loading: boolean = false;
+  public loading = false;
 
   public updatingUniversity = false;
 
@@ -38,14 +39,19 @@ export class UniversityPage implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public universityService: UniversityService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public accountService: AccountService
   ) { }
 
   ngOnInit() {
     this.loadData(this.currentPage);
   }
 
+  /**
+   * @param ev
+   */
   onSearchInput(ev: any) {
     this.query = ev.target.value;
     if (this.universityList) {
@@ -101,12 +107,13 @@ export class UniversityPage implements OnInit {
 
   /**
    * close modal
-   * @param data 
+   * @param data
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {
-      if (overlay)
+      if (overlay) {
         this.modalCtrl.dismiss(data);
+      }
     });
   }
 
@@ -117,5 +124,17 @@ export class UniversityPage implements OnInit {
   async rowSelected(university: University) {
     this.candidate.university_id = university.university_id;
     this.candidate.university = university;
+
+    this.accountService.updateUniversity(university.university_id).subscribe(async response => {
+      if (response.operation != 'success') {
+        const alert = await this.alertCtrl.create({
+          message: response.message,
+          buttons: [this.translateService.transform('Okay')],
+        });
+        alert.present();
+      } else  {
+        this.dismiss();
+      }
+    });
   }
 }

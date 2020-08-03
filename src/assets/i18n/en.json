@@ -9,5 +9,6 @@
     "txt_char_left": "{{ count }} characters left",
     "txt_invalid_file_format": "Only {{ value }} file(s) allowed", 
     "max_skills_allowed": "Maximum {{value}} skills allowed",
-    "max_experiences_allowed": "Maximum {{value}} experiences allowed"
+    "max_experiences_allowed": "Maximum {{value}} experiences allowed",
+    "no_result_found": "No Result Found"
 }

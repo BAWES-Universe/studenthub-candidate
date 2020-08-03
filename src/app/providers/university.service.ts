@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 // Services
-import { CacheService } from "ionic-cache";
+import { CacheService } from 'ionic-cache';
 
 
 /**
@@ -22,17 +22,12 @@ export class UniversityService {
   ) { }
 
   /**
-   * Filter university 
+   * Filter university
    * @returns {Observable<any>}
    */
   filter(keyword: string, page: number): Observable<any> {
-    const url = environment.apiEndpoint + '/universities/filter?page=' + page;
-
-    let params = {
-      'keyword': keyword
-    };
-
-    let request = this._http.post(url, params);//, {observe: 'response'}
+    const url = environment.apiEndpoint + '/universities?q=' + keyword;
+    const request = this._http.get(url);
 
     return this.cache.loadFromObservable('filter-university', request, 'university', this.ttl);
   }

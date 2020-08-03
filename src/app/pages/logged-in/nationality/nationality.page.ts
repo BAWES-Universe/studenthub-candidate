@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ModalController } from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 //services
 import { CountryService } from 'src/app/providers/country.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 //models
 import { Candidate } from 'src/app/models/candidate';
 import { Country } from 'src/app/models/country';
+import {AccountService} from "../../../providers/logged-in/account.service";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class NationalityPage implements OnInit {
   public countryList: Country[];
 
   public loading: boolean = false;
+  public saving = false;
 
   public updatingNationality = false;
 
@@ -38,7 +40,9 @@ export class NationalityPage implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public countryService: CountryService,
+    public accountService: AccountService,
     public translateService: TranslateLabelService
   ) { }
 
@@ -64,7 +68,7 @@ export class NationalityPage implements OnInit {
 
     this.loading = true;
 
-    this.countrySubscription = this.countryService.filter(this.query, page).subscribe(response => {
+    this.countrySubscription = this.countryService.filter(this.query).subscribe(response => {
 
       this.countries = response;
       this.countryList = response;
@@ -89,7 +93,7 @@ export class NationalityPage implements OnInit {
 
     this.currentPage++;
 
-    this.doInfiniteSubscription = this.countryService.filter(this.query, this.currentPage).subscribe(response => {
+    this.doInfiniteSubscription = this.countryService.filter(this.query).subscribe(response => {
       for (const country of response) {
         this.countries.push(country);
       }
@@ -115,7 +119,20 @@ export class NationalityPage implements OnInit {
      * @param country
      */
   async rowSelected(country: Country) {
+    this.saving = true;
     this.candidate.country_id = country.country_id;
     this.candidate.country = country;
+    this.accountService.updateNationality(country.country_id).subscribe(async response => {
+      this.saving = false;
+      if (response.operation != 'success') {
+        let alert = await this.alertCtrl.create({
+          message: response.message,
+          buttons: [this.translateService.transform('Okay')],
+        });
+        alert.present();
+      } else  {
+        this.dismiss();
+      }
+    });
   }
 }
