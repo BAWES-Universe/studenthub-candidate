@@ -56,6 +56,14 @@
         </ion-label>
       </ion-item>
 
+      <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
+        <ion-label>
+          <small>{{ "Personal Photo" | translate }}</small>
+          <span *ngIf="candidate.candidate_personal_photo">{{ candidate.candidate_personal_photo }}</span>
+          <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
       <ion-item tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
         <ion-label>
           <small>{{ "Brief Intro" | translate }}</small>

@@ -18,7 +18,7 @@ export class UploadCvPage implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
-  public candidate; 
+  public candidate;
 
   public progress;
 
@@ -218,6 +218,8 @@ export class UploadCvPage implements OnInit {
         this.progress = false;
 
         if (res.operation == 'success') {
+
+          this.candidate.candidate_resume = res.candidate_resume;
           this.dismiss();
         }
 
@@ -254,5 +256,15 @@ export class UploadCvPage implements OnInit {
     this.loading = false;
 
     this.currentTarget.abort();
+  }
+
+  /**
+   * return extension of uploaded file 
+   */
+  get uploadedFileExtension() {
+    let a = this.candidate.candidate_resume.split('.');
+
+    if (a)
+      return a[a.length - 1];
   }
 }

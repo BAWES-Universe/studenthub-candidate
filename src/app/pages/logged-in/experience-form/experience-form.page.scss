@@ -1,3 +1,4 @@
+
 ion-content {
     --padding-start: 30px;
     --padding-end: 30px;
@@ -23,30 +24,39 @@ h3 {
     letter-spacing: normal;
     color: #000000;
     margin-top: 45px;
-    margin-bottom: 55px;
+    margin-bottom: 45px;
 }
 
-ion-input {
-    height: 73px;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.65;
-    letter-spacing: normal;
-    color: #000;
-    border: 4px solid #BDBDBD;
-    border-radius: 10px;
-    --padding-top: 24px;
-    --padding-start: 18px;
-    --padding-end: 18px;
-    --placeholder-color: #828282;
-    --background: #fff;
-    background: #fff;
-    --padding-bottom: 24px;
-    margin-bottom: 17px;
+.skill-rapper {
+    padding: 10px;
+    max-width: 400px;
+    margin: auto;
 }
 
+.list ion-item-sliding,
+ion-item {
+    background: transparent;
+}
+
+ion-item {
+    --padding-end: 0;
+    --padding-start: 0;
+    --border-color: rgba(189, 189, 189, 0.3);
+    --border-width: 0 0 2.5px 0;
+    --inner-padding-end: 10px; 
+    
+    ion-button {
+        width: 24px;
+        height: 24px;
+        --border-radius: 100%;
+        --padding-bottom: 0;
+        --padding-top: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        margin: 0;
+    }
+}
+ 
 .btn-submit {
     width: 100%;
     height: 53px;
@@ -59,7 +69,7 @@ ion-input {
     letter-spacing: normal;
     --background: #000000;
     color: #fff;
-    margin-top: 5px;
+    margin-top: 25px;
     margin-bottom: 24px;
     border-radius: 22px;
     --border-radius: 22px;
@@ -71,39 +81,3 @@ ion-input {
     color: #B4B4B4
 }
 
-.btn-signin {
-    height: 84px;
-    --border-width: 1px;
-    --border-style: solid;
-    --border-color: #BDBDBD;
-    box-sizing: border-box;
-    --border-radius: 22px;
-    font-style: normal;
-    font-size: 16px;
-    line-height: 164.69%;
-    text-align: center;
-    color: #000000;
-    --background: #fff;
-    text-transform: none;
-    --box-shadow: none;
-
-    b {
-        position: absolute;
-        top: 20px;
-        font-weight: bold;
-    }
-
-    span {
-        position: absolute;
-        top: 46px;
-        font-weight: normal;
-    }
-}
-
-.cancel-btn {
-    display: block;
-}
-
-.cancel-btn.dark {
-    display: none;
-}
