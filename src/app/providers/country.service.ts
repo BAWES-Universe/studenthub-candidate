@@ -25,14 +25,10 @@ export class CountryService {
    * Filter cities 
    * @returns {Observable<any>}
    */
-  filter(keyword: string, page: number): Observable<any> {
-    const url = environment.apiEndpoint + '/countries/filter?page=' + page;
+  filter(keyword: string): Observable<any> {
+    const url = environment.apiEndpoint + '/countries?q= ' + keyword;
 
-    let params = {
-      'keyword': keyword
-    };
-
-    let request = this._http.post(url, params);//, {observe: 'response'}
+    let request = this._http.get(url);
 
     return this.cache.loadFromObservable('filter-country', request, 'country', this.ttl);
   }

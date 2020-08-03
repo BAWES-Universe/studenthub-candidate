@@ -119,7 +119,8 @@
     "Duplicate experience not allowed!": "تجربة مكررة غير مسموح بها!",
     "Minimum One Experience is required": "مطلوب خبرة واحدة كحد أدنى",
     "max_experiences_allowed": "مسموح بتجارب {{value}} القصوى",
-    "We’ll be using the information you provide to possibly match you with a work opportunity": "سنستخدم المعلومات التي تقدمها لتطابقك مع فرصة عمل"
+    "We’ll be using the information you provide to possibly match you with a work opportunity": "سنستخدم المعلومات التي تقدمها لتطابقك مع فرصة عمل",
+    "no_result_found": "لم يتم العثور على نتائج"
 }
 
 
