@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   serviceWorker: false,
   envName: 'krushn',
+  cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,g_face/v1596453482/candidate-photo/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'https://student.api.dev.studenthub.co/v1'
 };

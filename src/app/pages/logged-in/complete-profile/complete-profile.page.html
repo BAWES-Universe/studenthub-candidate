@@ -1,0 +1,172 @@
+<ion-content>
+
+  <ion-button class="btn-logout" fill="clear" (click)="authService.logout()">
+    {{ "Logout" | translate }}
+  </ion-button>
+
+  <div class="max-width">
+
+    <h3>
+      {{ "Complete your Profile" | translate }}
+    </h3>
+
+    <p>
+      {{ "We’ll be using the information you provide to possibly match you with a work opportunity" | translate }}
+    </p>
+
+    <ion-list *ngIf="candidate">
+
+      <ion-item tappable (click)="updatePhoto()" *ngIf="!candidate.candidate_personal_photo" [class.required]="!candidate.candidate_personal_photo">
+        <ion-label>
+          <small>{{ "Personal Photo" | translate }}</small>
+          <span *ngIf="candidate.candidate_personal_photo">{{ candidate.candidate_personal_photo }}</span>
+          <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
+        </ion-label>
+      </ion-item>
+      <div (click)="updatePhoto()" *ngIf="candidate.candidate_personal_photo">
+        <img src="{{candidatePicUrl}}{{candidate.candidate_personal_photo}}">
+      </div>
+
+      <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">
+        <ion-label>
+          <small>{{ "Name (English)" | translate }}</small>
+          <span *ngIf="candidate.candidate_name">{{ candidate.candidate_name }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateNameArabic()" [class.required]="!candidate.candidate_name_ar">
+        <ion-label>
+          <small>{{ "Name (Arabic)" | translate }}</small>
+          <span *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</span>
+          <span *ngIf="!candidate.candidate_name_ar">{{ "It should match what’s on your civil id" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateEmail()" [class.required]="!candidate.candidate_email">
+        <ion-label>
+          <small>{{ "Email Address" | translate }}</small>
+          <span *ngIf="candidate.candidate_email">{{ candidate.candidate_email }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
+        <ion-label>
+          <small>{{ "Phone number" | translate }}</small>
+          <span *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
+        <ion-label>
+          <small>{{ "Personal Photo" | translate }}</small>
+          <span *ngIf="candidate.candidate_personal_photo">{{ candidate.candidate_personal_photo }}</span>
+          <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
+        <ion-label>
+          <small>{{ "Brief Intro" | translate }}</small>
+          <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
+          <span *ngIf="!candidate.candidate_objective">{{ "Tell us more about yourself. What makes you special?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
+        <ion-label>
+          <small>{{ "Your Skills" | translate }}</small>
+          <span *ngFor="let candidateSkill of candidate.candidateSkills">{{ candidateSkill.skill }}</span>
+          <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
+        <ion-label>
+          <small>{{ "Work Experience" | translate }}</small>
+          <span *ngFor="let candidateExperience of candidate.candidateExperiences">{{ candidateExperience.experience }}</span>
+          <span *ngIf="candidate.candidateExperiences.length == 0">{{ "Do you have any work experience?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">
+        <ion-label>
+          <small>{{ "Civil ID Number" | translate }}</small>
+          <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
+          <span *ngIf="!candidate.candidate_civil_id">{{ "You know. The number of on your civil id card." | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateUniversity()" [class.required]="!candidate.university">
+        <ion-label>
+          <small>{{ "University" | translate }}</small>
+          <span
+            *ngIf="candidate.university">{{ translateService.langContent(candidate.university.university_name_en, candidate.university.university_name_ar) }}</span>
+          <span *ngIf="!candidate.university">{{ "Where do you study?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateNationality()" [class.required]="!candidate.country">
+        <ion-label>
+          <small>{{ "Nationality" | translate }}</small>
+          <span
+            *ngIf="candidate.country">{{ translateService.langContent(candidate.country.country_name_en, candidate.country.country_name_ar) }}</span>
+          <span *ngIf="!candidate.country">{{ "Where are you from?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateDateOfBirth()" [class.required]="!candidate.candidate_birth_date">
+        <ion-label>
+          <small>{{ "Date of Birth" | translate }}</small>
+          <span
+            *ngIf="candidate.candidate_birth_date">{{ toDate(candidate.candidate_birth_date) | date :'dd/MM/yyyy': undefined: translateService.currentLang }}</span>
+          <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateGender()" [class.required]="!candidate.candidate_gender">
+        <ion-label>
+          <small>{{ "Gender" | translate }}</small>
+          <span *ngIf="candidate.candidate_gender == 1">{{ "Male" | translate }}</span>
+          <span *ngIf="candidate.candidate_gender == 2">{{ "Female" | translate }}</span>
+          <span *ngIf="candidate.candidate_gender == 3">{{ "Other" | translate }}</span>
+          <span *ngIf="!candidate.candidate_gender">{{ "Male? Female? Other?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateDrivingLicense()" [class.required]="!candidate.candidate_driving_license">
+        <ion-label>
+          <small>{{ "Driving License" | translate }}</small>
+          <span *ngIf="candidate.candidate_driving_license == 1">{{ "Yes" | translate }}</span>
+          <span *ngIf="candidate.candidate_driving_license == 2">{{ "No" | translate }}</span>
+          <span *ngIf="!candidate.candidate_driving_license">{{ "Do you have one?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateResume()">
+        <ion-label>
+          <small>{{ "Upload CV or Portfolio" | translate }}</small>
+          <span *ngIf="candidate.candidate_resume">{{ candidate.candidate_resume }}</span>
+          <span *ngIf="!candidate.candidate_resume">{{ "Have a cool file to showcase?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+</ion-content>
+<ion-footer>
+  <div class="max-width">
+    <ion-button class="btn-submit " (click)="submit()" [disabled]="!candidate || !candidate.candidate_driving_license || !candidate.candidate_gender ||
+    !candidate.candidate_birth_date || !candidate.country_id || !candidate.university_id || !candidate.candidate_civil_id ||
+    candidate.candidateExperiences.length == 0 || candidate.candidateSkills.length == 0 || !candidate.candidate_objective ||
+    !candidate.candidate_personal_photo || !candidate.candidate_phone || !candidate.candidate_email ||
+    !candidate.candidate_name || !candidate.candidate_name_ar || submitting">
+      <span *ngIf="!submitting">{{ "I have completed my profile" | translate }}</span>
+      <ion-spinner *ngIf="submitting"></ion-spinner>
+    </ion-button>
+  </div>
+</ion-footer>

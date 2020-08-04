@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
 import { catchError, first, take, map, retryWhen } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
+import { NavController } from '@ionic/angular';
 
 
 declare var navigator;
+
+const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +28,7 @@ export class AuthService {
   public id: number;
   public name: string;
   public email: string;
+  public approved: any;
   public language_pref: string;
 
   public language = {
@@ -34,13 +39,17 @@ export class AuthService {
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
   public _urlRegistration = '/auth/register';
-
+  public _urlresendVerificationEmail = '/auth/resend-verification-email';
+  public _urlUpdateCandidateEmail = '/auth/update-email';
+  public _urlIsEmailVerified = '/auth/is-email-verified';
+  public _urlVerifyEmail = '/auth/verify-email';
+  
   constructor(
     public _http: HttpClient,
-    private _storage: Storage,
     public router: Router,
+    public navCtrl: NavController,
     public translate: TranslateLabelService,
-    private _eventService: EventService
+    private eventService: EventService
   ) { }
 
   canActivate(
@@ -56,17 +65,18 @@ export class AuthService {
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
      */
-    return new Promise(resolve => {
+    return new Promise(async resolve =>  {
 
-      return this._storage.get('loggedInUser').then(data => { 
-        if (data) {
-          this.setAccessToken(data);
-          resolve(true);
-        } else {
-          resolve(false);
-          this.router.navigate(['landing']);
-        }
-      });
+      const ret = await Storage.get({ key: 'loggedInUser' });
+      const user = JSON.parse(ret.value);
+
+      if (user) {
+        //this.setAccessToken(user);
+        resolve(true);
+      } else {
+        resolve(false);
+        this.router.navigate(['landing']);
+      }
     });
   }
 
@@ -75,97 +85,132 @@ export class AuthService {
    */
   async load() {
 
-    const promises = [
-      this._storage.get('loggedInUser'),
-      this._storage.get('language')
-    ];
+    const ret = await Storage.get({ key: 'loggedInUser' });
+    
+    const loggedInUser = JSON.parse(ret.value);
 
-    return Promise.all(promises)
-      .then(data => {
+    //guest user who visited previously and saved preference
 
-        if (data[1]) {
-          this.language = data[1];
-        } else {
-          
-          const browserLanguage = navigator.languages
-            ? navigator.languages[0]
-            : (navigator.language || navigator.userLanguage);
+    const { value } = await Storage.get({ key: 'language' });
 
-          if (browserLanguage && browserLanguage.indexOf('en') > -1) {
-            this.language = {
-              code: 'en',
-              name: 'English'
-            };
-          } else {
-            this.language = {
-              name: 'عربى',
-              code: 'ar'
-            };
-          }
-        }
+    if (value) {
+      this.language_pref = value;
 
-        // for guest use language value in storage, for login user loggedInAgent.language_pref
+      this.language = this.language_pref == 'ar' ? {
+        name: 'عربى',
+        code: 'ar'
+      }: {
+        code: 'en',
+        name: 'English'
+      };
 
-        const loggedInUser = data[0];
+    //new user 
 
-        if (loggedInUser && loggedInUser.language_pref) {
-          this.language = loggedInUser.language_pref == 'ar' ? {
-              name: 'عربى',
-              code: 'ar'
-            }: {
-              code: 'en',
-              name: 'English'
-            };
-        }
+    } else {
+    
+      const browserLanguage = navigator.languages
+        ? navigator.languages[0]
+        : (navigator.language || navigator.userLanguage);
 
-        this.translate.setDefaultLang('en');
-        
-        this.translate.use(this.language.code);
+      if (browserLanguage && browserLanguage.indexOf('en') > -1) {
+        this.language = {
+          code: 'en',
+          name: 'English'
+        };
+      } else {
+        this.language = {
+          name: 'عربى',
+          code: 'ar'
+        };
+      }
+    }
 
-        document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
-        
-        if (loggedInUser) {
-          this.setAccessToken(loggedInUser);
-        }
+    // for guest use language value in storage, for login user loggedInAgent.language_pref
 
-        /*else if (this.cookieService.get('otp')) {
-          this._platform.ready().then(_ => {
-            setTimeout(() => {
-              this.loginByOtp(this.cookieService.get('otp'));
-            }, 800);//to fix: https://www.pivotaltracker.com/story/show/168368025
-          });
-        }*/
- 
-        // set direction based on language
-        // this._platform.setDir('rtl', true);
-        document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
+    if (loggedInUser && loggedInUser.language_pref) {
+      this.language = loggedInUser.language_pref == 'ar' ? {
+          name: 'عربى',
+          code: 'ar'
+        }: {
+          code: 'en',
+          name: 'English'
+        };
+    }
 
-      })
-      .then(data => {
-        // return this.logout('promise fail');
+    this.translate.setDefaultLang('en');
+    
+    this.translate.use(this.language.code);
+
+    document.getElementsByTagName('html')[0].setAttribute('dir', (this.language.code == 'ar') ? 'rtl' : 'ltr');
+    
+    if (loggedInUser) {
+
+      console.log('loggedInUser');
+
+      this.isLogin = true;
+
+      this._accessToken = loggedInUser.token;
+      this.id = loggedInUser.id;
+      this.name = loggedInUser.name;
+      this.email = loggedInUser.email;
+      this.approved = loggedInUser.approved;
+      this.language_pref = loggedInUser.language_pref;
+
+      if(!this.approved) {
+        this.navCtrl.navigateRoot(['complete-profile']);
+      }
+    }
+
+    /*else if (this.cookieService.get('otp')) {
+      this._platform.ready().then(_ => {
+        setTimeout(() => {
+          this.loginByOtp(this.cookieService.get('otp'));
+        }, 800);//to fix: https://www.pivotaltracker.com/story/show/168368025
       });
+    }*/
+
+    // set direction based on language
+    // this._platform.setDir('rtl', true);
+    document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
   }
 
   /**
    * Set language pref for current user
    */
-  setLanguagePref(language) {
+  setLanguagePref(language_pref) {
 
-    this._storage.set('language', language);
+    Storage.set({ 'key':'language_pref', value: language_pref });
 
-    this.language = language;
-    this.language_pref = language.code;
+    this.language_pref = language_pref;
+
+    this.language =  this.language_pref == 'ar' ? {
+      name: 'عربى',
+      code: 'ar'
+    }: {
+      code: 'en',
+      name: 'English'
+    };
 
     if (this._accessToken) {
+      this.saveLoggedInUser();
+    }
+  }
 
-      this._storage.set('loggedInUser', {
-        userId: this.id,
+  /**
+   * save user details for future reference in storage
+   */
+  saveLoggedInUser() {
+    Storage.set({
+      key: 'loggedInUser', 
+      value: JSON.stringify({
+        id: this.id,
         name: this.name,
         email: this.email,
         token: this._accessToken,
+        approved: this.approved,
         language_pref: this.language_pref
-      });
-    }
+      })
+    });
   }
 
   /**
@@ -173,46 +218,47 @@ export class AuthService {
    * @param {string} [reason]
    */
   logout(reason?: string) {
+
+    console.log('logout', reason);
+
     // Remove from Storage then process logout
     this._accessToken = null;
     this.id = null;
     this.name = null;
     this.email = null;
+    this.approved = null; 
 
     this.isLogin = false;
 
-    this._storage.clear();
+    Storage.clear();
 
-    this._eventService.userLogout$.next(reason ? reason : false);
+    this.eventService.userLogout$.next(reason ? reason : false);
   }
 
   /**
    * Set the access token
    */
-  setAccessToken(data) {
+  async setAccessToken(data) {
+    console.log('set token', data);
+
     this.isLogin = true;
 
     this._accessToken = data.token;
     this.id = data.id;
     this.name = data.name;
     this.email = data.email;
+    this.approved = data.approved;
     this.language_pref = data.language_pref;
     
     // Save to Storage
-    this._storage.set('loggedInUser', {
-      userId: this.id,
-      name: this.name,
-      email: this.email,
-      token: this._accessToken,
-      language_pref: this.language_pref
-    });
+    this.saveLoggedInUser();
 
     if (data.language_pref) {
-      this._eventService.setLanguagePref$.next(data.language_pref);
+      this.eventService.setLanguagePref$.next(data.language_pref);
     }
 
     // Log User In by Triggering Event that Access Token has been Set
-    this._eventService.userLogin$.next();
+    this.eventService.userLogin$.next(data);
   }
 
   /**
@@ -227,16 +273,88 @@ export class AuthService {
 
     // Check Storage and Try Again
 
-    this._storage.get('loggedInUser').then(data => {
-      
-      if(data && data.token) {
-        this.setAccessToken(data);
-      } else {
-        this.logout();
+    Storage.get({ key: 'loggedInUser' }).then(ret => {
+      const user = JSON.parse(ret.value);
+
+      if (user) {
+        this.setAccessToken(user); 
       }
     });
  
     return this._accessToken;;
+  }
+  
+  /**
+   * Build the Auth Headers for All Verb Requests
+   * @returns {HttpHeaders}
+   */
+  public _buildAuthHeaders() {
+    // Get Bearer Token from Auth Service
+
+    // Build Headers with Bearer Token
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Language': this.translate.currentLang
+    });
+  }
+
+  /**
+   * Verify email
+   * @param email
+   * @param code
+   */
+  verifyEmail(email: string, code: string) {
+    const url = environment.apiEndpoint + this._urlVerifyEmail;
+    const headers = this._buildAuthHeaders();
+    return this._http.post(url, { email: email, 'code': code }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Check if email already verified
+   * @param res
+   */
+  isAlreadyVerified(res): Observable<any> {
+    const url = environment.apiEndpoint + this._urlIsEmailVerified;
+    return this._http.post(url, res, { headers: this._buildAuthHeaders() }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
+   * Resend verification email
+   * @param email
+   */
+  resendVerificationEmail(email: string) {
+    const url = environment.apiEndpoint + this._urlresendVerificationEmail;
+    const headers = this._buildAuthHeaders();
+    return this._http.post(url, { 'email': email }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+  
+  /**
+   * Update email address
+   * @param params params
+   */
+  updateEmail(params: any): Observable<any> {
+    const url = environment.apiEndpoint + this._urlUpdateCandidateEmail;
+    return this._http.post(url, params, { headers: this._buildAuthHeaders() }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
   }
 
   /**
@@ -324,5 +442,57 @@ export class AuthService {
     }
 
     return a.join('<br />');
+  }
+
+  /**
+   * Handles Caught Errors from All Authorized Requests Made to Server
+   * @returns {Observable}
+   */
+  public _handleError(error: any): Observable<any> {
+    const errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+
+    // Handle Bad Requests
+    // This error usually appears when agent attempts to handle an
+    // account that he's been removed from assigning
+    if (error.status === 400) {
+      this.logout(this.translate.transform('Bad request, please log back in.'));
+      return empty();
+    }
+
+    // Handle No Internet Connection Error
+
+    if (error.status == 0 || error.status == 504) {
+      this.eventService.internetOffline$.next();
+      // this._auth.logout("Unable to connect to Pogi servers. Please check your internet connection.");
+      return empty();
+    }
+
+    if (!navigator.onLine || error.status === 504) {
+      this.eventService.internetOffline$.next();
+      return empty();
+    }
+
+    // Handle Expired Session Error
+    if (error.status === 401) {
+      this.logout(this.translate.transform('Session expired, please log back in.'));
+      return empty();
+    }
+
+    // Handle internal server error - 500
+    if (error.status === 500) {
+      this.eventService.error500$.next();
+      return empty();
+    }
+
+    // Handle page not found - 404 error
+    if (error.status === 404) {
+      this.eventService.error404$.next();
+      return empty();
+    }
+
+    console.error(JSON.stringify(error));
+
+    return throwError(errMsg);
   }
 }

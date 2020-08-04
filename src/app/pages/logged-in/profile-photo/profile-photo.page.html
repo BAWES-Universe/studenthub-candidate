@@ -1,0 +1,41 @@
+<ion-content [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Personal Photo" | translate }}</h3>
+
+    <div class="profile-photo-wrapper" *ngIf="form">
+
+      <div *ngIf="!uploadingPhoto">
+        <img tappable (click)="triggerUpdatePhoto()" *ngIf="form.controls.personal_photo.value && form.controls.personal_photo.value.length > 0" src="{{cloudinaryUrl}}{{ form.controls.personal_photo.value }}" class="circle" width="250"><br/>
+
+        <div tappable (click)="triggerUpdatePhoto()" class="no-logo" *ngIf="!form.controls.personal_photo.value || form.controls.personal_photo.value.length == 0">
+          <ion-icon src="assets/svg/ic_no_logo.svg" ></ion-icon>
+        </div>
+
+        <ion-button color="dark" class="change-logo ion-text-center"  #btnChangePhoto (click)="updatePhoto($event);">
+          <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>&nbsp;
+          {{ "Change Photo" | translate }}
+        </ion-button>
+
+<!--        <div tappable class="change-logo ion-text-center" #btnChangePhoto (click)="updatePhoto($event);">-->
+<!--          {{ "Change Photo" | translate }}-->
+<!--        </div>-->
+      </div>
+
+      <ion-skeleton-text *ngIf="uploadingPhoto" class="uploadingPhoto" animated></ion-skeleton-text>
+      <ion-skeleton-text *ngIf="uploadingPhoto" class="uploadingPhotoTxt" animated></ion-skeleton-text>
+
+      <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
+    </div>
+
+    <ion-button class="btn-submit" *ngIf="form && form.valid && form.dirty" (click)="submit()" [disabled]="saving || uploadingPhoto">
+      <span *ngIf="!saving">{{ "Submit" | translate }}</span> 
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+
+  </div>
+</ion-content>

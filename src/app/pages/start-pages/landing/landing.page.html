@@ -1,32 +1,33 @@
 <ion-content [attr.dir]="translateService.direction()">
+  <div class="desktop-view">
+      <a class="translate-link" (click)="translate()">
+        <span *ngIf="translateService.currentLang != 'en'">English</span>
+        <span *ngIf="translateService.currentLang == 'en'">عربى</span>
+      </a>
 
-  <a class="translate-link" (click)="translate()">
-    <span *ngIf="translateService.currentLang != 'en'">English</span> 
-    <span *ngIf="translateService.currentLang == 'en'">ةيبرعلا</span>
-  </a>
+      <div class="max-width">
 
-  <div class="max-width">
+        <div class="logo">
+          <img src="assets/logo.svg">
+        </div>
 
-    <div class="logo">
-      <img src="assets/logo.svg">
-    </div>
+        <h3>
+          {{ "Part-time jobs for students and fresh graduates" | translate }}
+        </h3>
 
-    <h3>
-      {{ "Part-time jobs for students and fresh graduates" | translate }}
-    </h3>
+        <ion-button class="start-btn" expand="block" (click)="loginPage()" color="dark">
+          {{ "Get Started" | translate }}
+        </ion-button>
 
-    <ion-button class="start-btn" expand="block" (click)="loginPage()" color="dark">
-      {{ "Get Started" | translate }}
-    </ion-button>
-
-    <div class="footer">
-      <div class="float-logo">
-        <img src="assets/floatDoodle.svg">
+        <div class="footer">
+          <div class="float-logo">
+            <img src="assets/floatDoodle.svg">
+          </div>
+          <ion-card class="visit-site" tappable (click)="visitWebsite()">
+            <strong>{{ "Learn more about StudentHub" | translate }}</strong>
+            <span>{{ "Visit our website" | translate }}</span>
+          </ion-card>
+        </div>
       </div>
-      <ion-card class="visit-site" tappable (click)="visitWebsite()">
-        <strong>{{ "Learn more about StudentHub" | translate }}</strong>
-        <span>{{ "Visit our website" | translate }}</span>
-      </ion-card>
-    </div>
   </div>
 </ion-content>
