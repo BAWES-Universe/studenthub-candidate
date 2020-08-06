@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
-      if(data['approved']) {
+      if(data['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
       } else {
         this.navCtrl.navigateRoot(['complete-profile']);
