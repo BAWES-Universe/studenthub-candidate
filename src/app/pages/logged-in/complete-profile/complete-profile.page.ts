@@ -58,10 +58,10 @@ export class CompleteProfilePage implements OnInit {
     this.accountService.profile().subscribe(res => {
       this.candidate = res; 
 
-      //if got approved
+      //if having complete profile
 
-      if(res.approved) {
-        this.authService.approved = true;
+      if(res.isProfileCompleted) {
+        this.authService.isProfileCompleted = true;
         this.authService.saveLoggedInUser();
 
         this.navCtrl.navigateRoot(['/']);
