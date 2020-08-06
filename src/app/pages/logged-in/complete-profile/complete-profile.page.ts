@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -22,7 +23,7 @@ import { GenderPage } from '../gender/gender.page';
 import { DrivingLicensePage } from '../driving-license/driving-license.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
-import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-complete-profile',
@@ -36,7 +37,9 @@ export class CompleteProfilePage implements OnInit {
   public loading: boolean = false; 
 
   public candidate: Candidate;
+  
   public candidatePicUrl;
+
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,

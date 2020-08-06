@@ -7,9 +7,10 @@ import { Salary } from 'src/app/models/salary';
 import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AwsService } from 'src/app/providers/logged-in/aws.service';
 // pages
 import { OptionPage } from '../option/option.page';
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -18,8 +19,6 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-
-  public permanentBucketUrl = environment.permanentBucketUrl;
 
   public pageCount = 0;
   public currentPage = 1;
@@ -34,6 +33,7 @@ export class DashboardPage implements OnInit {
   constructor(
     public translateService: TranslateLabelService,
     public statisticService: StatisticService,
+    public awsService: AwsService,
     public candidateService: CandidateService,
     public popoverCtrl: PopoverController,
     public accountService: AccountService
@@ -141,6 +141,7 @@ export class DashboardPage implements OnInit {
    * @param candidate
    */
   loadLogo($event, candidate) {
+    candidate.candidate_personal_photo = null;
     return candidate.candidate_personal_photo_thumb = null;
   }
 }
