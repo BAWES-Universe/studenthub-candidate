@@ -10,13 +10,13 @@
     <div class="profile-photo-wrapper" *ngIf="form">
 
       <div *ngIf="!uploadingPhoto">
-        <img tappable (click)="triggerUpdatePhoto()" *ngIf="form.controls.personal_photo.value && form.controls.personal_photo.value.length > 0" src="{{cloudinaryUrl}}{{ form.controls.personal_photo.value }}" class="circle" width="250"><br/>
+        <img tappable (click)="triggerUpdatePhoto($event)" *ngIf="form.controls.personal_photo.value && form.controls.personal_photo.value.length > 0" src="{{cloudinaryUrl}}{{ form.controls.personal_photo.value }}" class="circle" width="250"><br/>
 
-        <div tappable (click)="triggerUpdatePhoto()" class="no-logo" *ngIf="!form.controls.personal_photo.value || form.controls.personal_photo.value.length == 0">
+        <div tappable (click)="triggerUpdatePhoto($event)" class="no-logo" *ngIf="!form.controls.personal_photo.value || form.controls.personal_photo.value.length == 0">
           <ion-icon src="assets/svg/ic_no_logo.svg" ></ion-icon>
         </div>
 
-        <ion-button color="dark" class="change-logo ion-text-center"  #btnChangePhoto (click)="updatePhoto($event);">
+        <ion-button color="dark" id="upload-pic" class="change-logo ion-text-center" #btnChangePhoto (click)="updatePhoto($event);">
           <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>&nbsp;
           {{ "Change Photo" | translate }}
         </ion-button>
@@ -32,7 +32,7 @@
       <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
     </div>
 
-    <ion-button class="btn-submit" *ngIf="form && form.valid && form.dirty" (click)="submit()" [disabled]="saving || uploadingPhoto">
+    <ion-button class="btn-submit ion-hide" *ngIf="form && form.valid && form.dirty" (click)="submit()" [disabled]="saving || uploadingPhoto">
       <span *ngIf="!saving">{{ "Submit" | translate }}</span> 
       <ion-spinner *ngIf="saving"></ion-spinner>
     </ion-button>

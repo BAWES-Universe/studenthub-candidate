@@ -24,7 +24,7 @@
         </ion-label>
       </ion-item>
       <div (click)="updatePhoto()" *ngIf="candidate.candidate_personal_photo">
-        <img src="{{candidatePicUrl}}{{candidate.candidate_personal_photo}}">
+        <img src="{{candidatePicUrl}}{{candidate.candidate_personal_photo}}" tappable>
       </div>
 
       <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">

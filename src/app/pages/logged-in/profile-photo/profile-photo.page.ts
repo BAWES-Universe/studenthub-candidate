@@ -1,5 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Platform, PopoverController, AlertController, ActionSheetController, ModalController } from '@ionic/angular';
+import {
+  Platform,
+  PopoverController,
+  AlertController,
+  ActionSheetController,
+  ModalController,
+  IonButton
+} from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -23,7 +30,7 @@ export class ProfilePhotoPage implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
-  @ViewChild('btnChangePhoto', { static: false }) btnChangePhoto: ElementRef;
+  @ViewChild('btnChangePhoto', { static: false }) btnChangePhoto: IonButton;
 
   public uploadFileSubscription: Subscription;
 
@@ -352,9 +359,13 @@ export class ProfilePhotoPage implements OnInit {
   /**
    * trigger click event on change logo button 
    */
-  triggerUpdatePhoto() {
-    this.btnChangePhoto.nativeElement.click();
+  triggerUpdatePhoto($event) {
+    $event.stopPropagation();
+    document.getElementById('upload-pic').click();
+    // this.fileInput.nativeElement.click();
   }
+
+
 
   /**
    * close popup modal
