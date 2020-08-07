@@ -52,10 +52,13 @@ export class CompleteProfilePage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loadData();
   }
 
-  loadData() {
+  async loadData() {
     this.loading = true; 
 
     this.accountService.profile().subscribe(res => {
@@ -63,12 +66,13 @@ export class CompleteProfilePage implements OnInit {
 
       //if having complete profile
 
-      if(res.isProfileCompleted) {
+      /*if(res.isProfileCompleted) {
+
         this.authService.isProfileCompleted = true;
         this.authService.saveLoggedInUser();
 
         this.navCtrl.navigateRoot(['/']);
-      }
+      }*/
 
       this.loading = false;
     }, () => {
@@ -249,6 +253,9 @@ export class CompleteProfilePage implements OnInit {
   }
 
   async submit() {
+    this.authService.isProfileCompleted = true;
+    this.authService.saveLoggedInUser();
+
     this.navCtrl.navigateRoot(['/']);
   }
 }

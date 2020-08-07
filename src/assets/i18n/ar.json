@@ -120,7 +120,19 @@
     "Minimum One Experience is required": "مطلوب خبرة واحدة كحد أدنى",
     "max_experiences_allowed": "مسموح بتجارب {{value}} القصوى",
     "We’ll be using the information you provide to possibly match you with a work opportunity": "سنستخدم المعلومات التي تقدمها لتطابقك مع فرصة عمل",
-    "no_result_found": "لم يتم العثور على نتائج"
+    "no_result_found": "لم يتم العثور على نتائج",
+    "We’re currently looking for a job for you. We’ll notify you when we find an open position.": "نحن نبحث حاليًا عن وظيفة لك. سنقوم بإعلامك عندما نجد مركزًا مفتوحًا.",
+    "You’re not looking for a job, and we’re not gonna bother you about it": "أنت لا تبحث عن وظيفة ولن نضايقك حيال ذلك",
+    "txt_greeting": "مرحبًا {{customer}} ،",
+    "Enable notifications": "تمكين الإخطارات",
+    "What now?": "ماذا الان؟",
+    "Find me a job": "جد لي وظيفة",
+    "I don’t want a job anymore": "لا أريد وظيفة بعد الآن",
+    "Improve your profile": "تحسين ملف التعريف الخاص بك",
+    "The more attractive your profile, the easier it is for us to find you a job": "كلما كان ملفك الشخصي أكثر جاذبية ، أصبح من السهل علينا العثور على وظيفة لك",
+    "Enter your banking details": "أدخل التفاصيل المصرفية الخاصة بك",
+    "Enter your banking details for faster bank transfers once we match you": "أدخل التفاصيل المصرفية الخاصة بك لإجراء تحويلات بنكية أسرع بمجرد مطابقتك",
+    "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account": "ستمنحك الإشعارات تحديثات حول عروض العمل والمقابلات القادمة والمدفوعات التي يتم تحويلها إلى حسابك"
 }
 
 

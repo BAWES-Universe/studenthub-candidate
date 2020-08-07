@@ -6,10 +6,11 @@ import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
-import { NavController } from '@ionic/angular';
+
 
 
 declare var navigator;
@@ -153,7 +154,7 @@ export class AuthService {
       this.id = loggedInUser.id;
       this.name = loggedInUser.name;
       this.email = loggedInUser.email;
-      this.isProfileCompleted = loggedInUser.approisProfileCompletedved;
+      this.isProfileCompleted = loggedInUser.isProfileCompleted;
       this.language_pref = loggedInUser.language_pref;
 
       if(!this.isProfileCompleted) {

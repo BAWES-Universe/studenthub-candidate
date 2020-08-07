@@ -2,16 +2,19 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthService } from './providers/auth.service';
 
-const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
+/**
+ * 
+    redirectTo: 'view',
     pathMatch: 'full'
   },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./pages/logged-in/dashboard/dashboard.module').then( m => m.DashboardPageModule),
-    canActivate: [AuthService],
+    path: 'view',
+ */
+const routes: Routes = [
+  {
+    path: '',
+    loadChildren: () => import('./pages/logged-in/tabs/tabs.module').then( m => m.TabsPageModule),
+    canActivate: [AuthService]
   },
   {
     path: 'no-internet',
@@ -139,13 +142,13 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
+    path: 'update-email',
+    loadChildren: () => import('./pages/logged-in/update-email/update-email.module').then( m => m.UpdateEmailPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
-  {
-    path: 'update-email',
-    loadChildren: () => import('./pages/logged-in/update-email/update-email.module').then( m => m.UpdateEmailPageModule)
-  }
 ];
 
 @NgModule({
