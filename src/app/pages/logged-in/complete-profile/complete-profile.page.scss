@@ -1,6 +1,4 @@
 h3 {
-    width: 314px;
-    height: 102px;
     font-size: 42px;
     font-weight: bold;
     font-stretch: normal;
@@ -11,8 +9,6 @@ h3 {
 }
 
 p {
-    width: 277px;
-    height: 89px;
     font-family: EffraLight;
     font-size: 22px;
     font-weight: normal;
@@ -75,7 +71,7 @@ p {
 }
 
 @media only screen and (max-width: 750px) {
-    .max-width {
+    ion-content .max-width {
         padding: 30px;
     }
 }

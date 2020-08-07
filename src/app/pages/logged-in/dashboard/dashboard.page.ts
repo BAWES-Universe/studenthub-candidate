@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
-import { environment } from 'src/environments/environment';
-// models
-import { Salary } from 'src/app/models/salary';
-// services
-import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
-import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
-import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { NavController } from '@ionic/angular';
+//services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import { AwsService } from 'src/app/providers/logged-in/aws.service';
-// pages
-import { OptionPage } from '../option/option.page';
+import { AuthService } from 'src/app/providers/auth.service';
+import { AccountService } from 'src/app/providers/logged-in/account.service';
 
 
 @Component({
@@ -20,128 +13,68 @@ import { OptionPage } from '../option/option.page';
 })
 export class DashboardPage implements OnInit {
 
-  public pageCount = 0;
-  public currentPage = 1;
+  public candidate_job_search_status: any;
 
-  public workHistory: any[] = [];
+  public updating: boolean = false;
 
-  public statistics: any;
-  public salaries: Salary[];
-
-  public loading = false;
-
+  public loading: boolean = false;
+  
   constructor(
+    public navCtrl: NavController,
+    public authService: AuthService,
+    public accountService: AccountService,
     public translateService: TranslateLabelService,
-    public statisticService: StatisticService,
-    public awsService: AwsService,
-    public candidateService: CandidateService,
-    public popoverCtrl: PopoverController,
-    public accountService: AccountService
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-  }
-
-  ionViewWillEnter() {
     this.loadData();
   }
 
   /**
-   * load page data
+   * load job search status 
    */
-  loadData(refresh = false) {
-    this.statisticService.get().subscribe(response => {
-      this.statistics = response;
-    });
+  async loadData() {
+    this.loading = true; 
 
-    this.loadWorkHistoryData();
+    this.accountService.getJobSearchStatus().subscribe(res => {
+      
+      this.candidate_job_search_status = res.candidate_job_search_status;
 
-    this.currentPage = 1;
-    this.listSalary(this.currentPage, refresh);
+      /*if(!res.isProfileCompleted) {
+
+        this.authService.isProfileCompleted = false;
+        this.authService.saveLoggedInUser();
+
+        this.navCtrl.navigateRoot(['/complete-profile']);
+      }*/
+
+      this.loading = false;
+    }, () => {
+      this.loading = false;
+    })
   }
 
   /**
-   * Load candidate work history data
+   * update job search status
    */
-  loadWorkHistoryData() {
-    this.candidateService.workHistory().subscribe(response => {
-      this.workHistory = response;
-    });
-  }
+  updateJobSearchStatus() {
 
-  /**
-   * Display Popover with Additional Actions (Change Password and Logout)
-   * @param e
-   */
-  async openPopover(e) {
-    const popover = await this.popoverCtrl.create({
-      component: OptionPage,
-      event: e
-    });
-    popover.present();
-  }
+    let params = {
+      job_search_status: this.candidate_job_search_status == 1? 0: 1
+    };
 
-  /**
-   * Load list of transfers
-   * @param page
-   * @param refresher
-   */
-  async listSalary(page: number, refresher: any = null) {
+    this.updating= true; 
 
-    if (!refresher) {
-      this.loading = true;
-    }
+    this.accountService.updateJobSearchStatus(params).subscribe(data => {
 
-    this.accountService.listSalary(page).subscribe(response => {
+      this.updating= false; 
 
-      this.salaries = response.body;
-
-      // Dismiss the refresher if available
-      if (refresher) {
-        refresher.target.complete();
+      if(data.operation == 'success') {
+        this.candidate_job_search_status = params.job_search_status;
       }
-
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
-
-    },
-    error => { },
-    () => {
-      this.loading = false;
+    }, () => {
+      this.updating= false;
     });
-  }
-
-  /**
-   * load more data on scroll to bottom
-   * @param event
-   */
-  doInfinite(event) {
-
-    this.loading = true;
-
-    this.currentPage++;
-
-    this.accountService.listSalary(this.currentPage).subscribe(response => {
-
-      response.body.forEach(element => {
-        this.salaries.push(element);
-      });
-
-      event.target.complete();
-    },
-    error => { },
-    () => {
-      this.loading = false;
-    });
-  }
-
-  /**
-   * @param $event
-   * @param candidate
-   */
-  loadLogo($event, candidate) {
-    candidate.candidate_personal_photo = null;
-    return candidate.candidate_personal_photo_thumb = null;
   }
 }
+
