@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController, ModalController } from '@ionic/angular';
 import { CustomValidator } from 'src/app/validators/custom.validator';
+import { Plugins } from '@capacitor/core';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
+
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-login',
@@ -28,6 +31,8 @@ export class LoginPage  {
 
   constructor(
     private _fb: FormBuilder,
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
     private _auth: AuthService,
     public translateService: TranslateLabelService,
     private _alertCtrl: AlertController
@@ -54,7 +59,18 @@ export class LoginPage  {
       if (res.operation == "success") {
         // Successfully logged in, set the access token within AuthService
         this._auth.setAccessToken(res);
-      } else if (res.operation == "error") {
+        
+      } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
+
+        Storage.set({
+          key: "unVerifiedToken", 
+          value: JSON.stringify(res.unVerifiedToken)
+        }); 
+
+        this.navCtrl.navigateForward(['verify-email', email]);
+
+        this.modalCtrl.dismiss();
+      } else {
         let alert = await this._alertCtrl.create({
           header: this.translateService.transform('Unable to Log In'),
           message: res.message,
