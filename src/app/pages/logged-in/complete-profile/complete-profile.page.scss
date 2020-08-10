@@ -153,3 +153,18 @@ ion-list {
 ion-footer.inTabs { 
     display: none; 
 }
+
+ion-label ion-item {
+    box-shadow: inherit;
+    margin: 0;
+    background: inherit;
+    border-radius: inherit;
+    min-height: inherit;
+    --ion-background-color: #fff;
+    --inner-border-width: inherit;
+    --padding-bottom: 0;
+    --padding-top: 0;
+    --padding-end: 0;
+    --padding-start: 9px;
+    border-bottom: solid 1px #bdbdbd;
+}

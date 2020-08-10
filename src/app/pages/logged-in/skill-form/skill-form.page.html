@@ -22,7 +22,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="save()" class="btn-submit" [disabled]="(this.candidate && this.candidate.candidateSkills.length == this.skillList.length)  || this.skillList.length < 1 || loading" type="submit">
+      <ion-button (click)="save()" class="btn-submit" [disabled]="!skillDirty || this.skillList.length < 1 || loading" type="submit">
         <ion-spinner *ngIf="loading"></ion-spinner>
         <span *ngIf="!loading">{{ "Submit" | translate }}</span>
       </ion-button>
