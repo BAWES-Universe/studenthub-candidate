@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -20,6 +20,7 @@ export class DrivingLicensePage implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public translateService: TranslateLabelService,
     public accountService: AccountService
   ) { }
@@ -41,7 +42,15 @@ export class DrivingLicensePage implements OnInit {
 
         this.candidate.candidate_driving_license = answer;
 
-        this.dismiss();
+        this.dismiss(); 
+
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
       }
     }, () => {
       this.isLoading = false;

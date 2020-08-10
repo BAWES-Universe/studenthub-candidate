@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController, IonInput } from '@ionic/angular';
+import { ModalController, IonInput, AlertController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -26,6 +26,7 @@ export class NamePage implements OnInit {
   constructor(
     public _fb: FormBuilder,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public accountService: AccountService,
     public translateService: TranslateLabelService
   ) { }
@@ -61,6 +62,13 @@ export class NamePage implements OnInit {
       if(res.operation == 'success') {
         this.candidate.candidate_name = this.form.value.name;
         this.dismiss();
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
       }
     }, () => {
       this.isLoading = false;
