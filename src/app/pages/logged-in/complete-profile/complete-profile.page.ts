@@ -23,6 +23,7 @@ import { GenderPage } from '../gender/gender.page';
 import { DrivingLicensePage } from '../driving-license/driving-license.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -36,19 +37,23 @@ export class CompleteProfilePage implements OnInit {
 
   public loading: boolean = false; 
 
+  public update; 
+  
   public candidate: Candidate;
   
   public candidatePicUrl;
 
   constructor(
+    public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public authService: AuthService,
     public accountService: AccountService,
     public translateService: TranslateLabelService,
-
   ) {
     this.candidatePicUrl = environment.cloudinaryUrl;
+
+    this.update = location.href.indexOf('view/profile') > -1;
   }
 
   ngOnInit() {

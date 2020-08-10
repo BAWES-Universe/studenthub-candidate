@@ -3,31 +3,18 @@ ion-tab-bar {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
-// #tab-button-employers ion-icon {
-//   content: url('../../../../assets/img/ic-suitcase.svg');
-// }
-
-// #tab-button-jobs ion-icon {
-//   content: url('../../../../assets/img/ic-password.svg');
-// }
-
-.tab-selected {
-    color: #4354a4 !important;
+.dummy-btn-wrapper {
+    visibility: hidden;
 }
-
-// #tab-button-employers.tab-selected ion-icon {
-//   content: url('../../../../assets/img/ic-suitcase-active.svg');
-// }
-
-// #tab-button-jobs.tab-selected ion-icon {
-//   content: url('../../../../assets/img/ic-password-active.svg');
-// }
-
 
 .brand {
     text-align: center;
     margin-top: 28px;
     margin-bottom: 28px;
+
+    img {
+        max-width: 167.8px;
+    }
 }
 
 .browser-tab .brand img {
@@ -43,21 +30,34 @@ ion-tab-bar[slot="top"] {
     margin-top: 10px;
 }
 
+ion-tab-button ion-label {
+    color: #292f38;
+}
+
 ion-tab-button:hover {
     ion-icon {
-        filter: invert(46%) sepia(57%) saturate(5695%) hue-rotate(330deg) brightness(99%) contrast(92%);
+        filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
+    }
+
+    ion-label {
+        color: var(--ion-color-primary);
     }
 }
 
 .tab-selected {
+
     ion-icon {
-        filter: invert(46%) sepia(57%) saturate(5695%) hue-rotate(330deg) brightness(99%) contrast(92%);
+        filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
+    }
+
+    ion-label {
+        color: var(--ion-color-primary);
     }
 }
 
 .mobile ion-tab-button ion-label {
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 8px;
 }
 
 ion-toolbar.main-toolbar {

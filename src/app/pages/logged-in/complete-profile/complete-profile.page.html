@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [class.inTabs]="update">
 
   <ion-button class="btn-logout" fill="clear" (click)="authService.logout()">
     {{ "Logout" | translate }}
@@ -158,7 +158,7 @@
   </div>
 
 </ion-content>
-<ion-footer>
+<ion-footer [class.inTabs]="update">
   <div class="max-width">
     <ion-button class="btn-submit" (click)="submit()" [disabled]="!candidate || !candidate.candidate_driving_license || !candidate.candidate_gender ||
     !candidate.candidate_birth_date || !candidate.country_id || !candidate.university_id || !candidate.candidate_civil_id ||

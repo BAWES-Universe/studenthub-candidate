@@ -142,3 +142,14 @@ ion-list {
         margin-bottom: 6px;
     }
 }
+
+.inTabs {
+    h3, 
+    .btn-logout {
+        display: none;
+    }
+}
+
+ion-footer.inTabs { 
+    display: none; 
+}

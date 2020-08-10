@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: CompleteProfilePage
+  },
+  {
+    path: ':update',
+    component: CompleteProfilePage
   }
 ];
 
