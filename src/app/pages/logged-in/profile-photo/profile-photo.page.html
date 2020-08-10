@@ -5,9 +5,9 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3>{{ "Personal Photo" | translate }}</h3>
+    <h3 class="ion-text-center">{{ "Personal Photo" | translate }}</h3>
 
-    <div class="profile-photo-wrapper" *ngIf="form">
+    <div class="profile-photo-wrapper ion-text-center" *ngIf="form">
 
       <div *ngIf="!uploadingPhoto">
         <img tappable (click)="triggerUpdatePhoto($event)" *ngIf="form.controls.personal_photo.value && form.controls.personal_photo.value.length > 0" src="{{cloudinaryUrl}}{{ form.controls.personal_photo.value }}" class="circle" width="250"><br/>
