@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -14,6 +14,8 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
   styleUrls: ['./phone.page.scss'],
 })
 export class PhonePage implements OnInit {
+
+  @ViewChild('inptPhone', { static: false }) inptPhone: IonInput;
 
   public isLoading: boolean = false;
 
@@ -30,6 +32,10 @@ export class PhonePage implements OnInit {
 
   ngOnInit() {
     this._initForm();
+
+    setTimeout(() => {
+      this.inptPhone.setFocus();
+    }, 500);
   }
 
   /**

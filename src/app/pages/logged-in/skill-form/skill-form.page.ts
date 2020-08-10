@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController, AlertController } from '@ionic/angular';
+import { ModalController, ToastController, AlertController, IonInput } from '@ionic/angular';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -33,6 +33,20 @@ export class SkillFormPage implements OnInit {
 
   ngOnInit() {
     this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
+  }
+
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+
+      const lastElementIndex = this.candidate.candidateSkills.length;
+
+      const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
+ 
+      if(lastElement) {
+        lastElement.setFocus();
+      }
+    }, 200);
   }
 
   // add skill in temp

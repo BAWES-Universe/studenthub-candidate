@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -14,6 +14,8 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
   styleUrls: ['./objective.page.scss'],
 })
 export class ObjectivePage implements OnInit {
+
+  @ViewChild('inputToFocus', { static: false }) inputToFocus: IonInput;
 
   public isLoading: boolean = false;
 
@@ -40,6 +42,10 @@ export class ObjectivePage implements OnInit {
     this.form = this._fb.group({
       objective: [this.candidate.candidate_objective, Validators.required],
     });
+
+    setTimeout(() => {
+      this.inputToFocus.setFocus();
+    }, 500);
   }
 
   /**

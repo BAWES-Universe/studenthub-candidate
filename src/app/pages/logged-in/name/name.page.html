@@ -10,7 +10,7 @@
     <form [formGroup]="form" *ngIf="form">
 
       <ion-list>
-        <ion-input formControlName="name"
+        <ion-input formControlName="name" #inptName 
           placeholder="{{ 'Enter name - English' | translate }}"></ion-input>
       </ion-list>
 

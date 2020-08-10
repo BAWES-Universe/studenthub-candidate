@@ -35,6 +35,20 @@ export class ExperienceFormPage implements OnInit {
     this.addToExperienceList(JSON.parse(JSON.stringify(this.candidate.candidateExperiences)));
   }
 
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+
+      const lastElementIndex = this.candidate.candidateSkills.length;
+
+      const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
+ 
+      if(lastElement) {
+        lastElement.setFocus();
+      }
+    }, 200);
+  }
+
   // add experience in temp
   addToExperienceList(experiences) {
     if (experiences.length > 0) {

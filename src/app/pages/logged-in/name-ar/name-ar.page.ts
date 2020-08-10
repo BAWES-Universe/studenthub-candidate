@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -21,6 +21,8 @@ export class NameArPage implements OnInit {
 
   public form: FormGroup;
 
+  @ViewChild('inptName', { static: false }) inptName: IonInput;
+
   constructor(
     public _fb: FormBuilder,
     public modalCtrl: ModalController,
@@ -30,6 +32,10 @@ export class NameArPage implements OnInit {
 
   ngOnInit() {
     this._initForm();
+
+    setTimeout(() => {
+      this.inptName.setFocus();
+    }, 500);
   }
 
   /**
