@@ -221,8 +221,15 @@ export class UploadCvPage implements OnInit {
 
           this.candidate.candidate_resume = res.candidate_resume;
           this.dismiss();
+          
+        } else {
+          this.alertCtrl.create({
+            message: this.translateService.errorMessage(res.message),
+            buttons: [this.translateService.transform('Okay')]
+          }).then(alert => {
+            alert.present();
+          });
         }
-
       }, () => {
         this.progress = false;
       });
