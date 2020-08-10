@@ -10,15 +10,15 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-//models
+// models
 import { Candidate } from 'src/app/models/candidate';
-//services
+// services
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { CameraService } from 'src/app/providers/logged-in/camera.service';
-//components
+// components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
 
 @Component({
@@ -32,16 +32,21 @@ export class ProfilePhotoPage implements OnInit {
 
   @ViewChild('btnChangePhoto', { static: false }) btnChangePhoto: IonButton;
 
+  public progress;
+
   public uploadFileSubscription: Subscription;
 
-  public saving: boolean = false; 
+  public saving = false;
+  public loading = false;
 
-  public uploadingPhoto: boolean = false; 
+  public uploadingPhoto = false;
 
   public form: FormGroup;
- 
+  public currentTarget;
+
   public candidate: Candidate;
   public cloudinaryUrl;
+
   constructor(
     private _fb: FormBuilder,
     private platform: Platform,
@@ -114,7 +119,7 @@ export class ProfilePhotoPage implements OnInit {
 
     this.candidate.candidate_personal_photo = null;
 
-    let removePhotoSubscription = this.accountService.removePhoto().subscribe(() => {
+    const removePhotoSubscription = this.accountService.removePhoto().subscribe(() => {
       removePhotoSubscription.unsubscribe();
     });
   }
@@ -123,6 +128,7 @@ export class ProfilePhotoPage implements OnInit {
    * Upload logo from mobile
    */
   mobileUpload() {
+
     const SelectSourceLbl = this.translateService.transform('Select image source');
     const LoadLibLbl = this.translateService.transform('Load from Library');
     const ErrorLibLbl = this.translateService.transform('Error getting picture from Library: ');
@@ -133,52 +139,58 @@ export class ProfilePhotoPage implements OnInit {
       {
         text: LoadLibLbl,
         handler: () => {
+          this.progress = 1;//show loader
           this._cameraService.getImageFromLibrary().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
           }, async (err) => {
-              
-            let ignoreErrors = [
+
+            const ignoreErrors = [
               'No image picked',
               'User cancelled photos app'
-            ];           
+            ];
 
-            if(err && ignoreErrors.indexOf(err.message) > -1) 
+            if (err && ignoreErrors.indexOf(err.message) > -1) {
                 return null;
+            }
 
             const alert = await this.alertCtrl.create({
-              header: this.translateService.transform('Error getting picture from Library'), 
+              header: this.translateService.transform('Error getting picture from Library'),
               message: err.message,
               buttons: [this.translateService.transform('Okay')]
             });
-        
+
             await alert.present();
+            this.progress = null;
           });
         }
       },
       {
         text: UseCamLbl,
         handler: () => {
+          this.progress = 1;//show loader
           this._cameraService.getImageFromCamera().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
           }, async (err) => {
 
-            let ignoreErrors = [
+            const ignoreErrors = [
               'No image picked',
               'User cancelled photos app'
-            ];           
+            ];
 
-            if(err && ignoreErrors.indexOf(err.message) > -1) 
+            if (err && ignoreErrors.indexOf(err.message) > -1) {
                 return null;
+            }
 
             const alert = await this.alertCtrl.create({
-              header: this.translateService.transform('Error getting picture from Library'), 
+              header: this.translateService.transform('Error getting picture from Library'),
               message: err.message,
               buttons: [this.translateService.transform('Okay')]
             });
-        
+
             await alert.present();
+            this.progress = null;
           });
         }
       }
@@ -205,8 +217,6 @@ export class ProfilePhotoPage implements OnInit {
    */
   async uploadFileViaNativeFilePath(uri) {
 
-    this.uploadingPhoto = true;
-
     this.awsService.uploadNativePath(uri).then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
@@ -220,13 +230,13 @@ export class ProfilePhotoPage implements OnInit {
         if (err && ignoreErrors.indexOf(err.message) > -1) {
           return null;
         }
-        
-        //log to slack/sentry to know how many user getting file upload error 
+
+        // log to slack/sentry to know how many user getting file upload error
 
         this.sentryService.handleError(err);
-        
-        //always show abstract error message 
-        
+
+        // always show abstract error message
+
         let message;
 
         const networkErrors = [
@@ -234,29 +244,29 @@ export class ProfilePhotoPage implements OnInit {
           'NetworkingError: Network Failure'
         ];
 
-        //networking errors
+        // networking errors
         if (err && networkErrors.indexOf(err.message) > -1) {
           message = this.translateService.transform('Error uploading file');
-        //system errors 
-        } else if(err.message && err.message.indexOf(':') > -1) {
+        // system errors
+        } else if (err.message && err.message.indexOf(':') > -1) {
           message = this.translateService.transform('Error getting file from Library');
-        //plugin errors
-        } else if(err.message) {
+        // plugin errors
+        } else if (err.message) {
           message = err.message;
-        //custom file validation errors   
+        // custom file validation errors
         } else {
           message = err;
         }
 
         const alert = await this.alertCtrl.create({
-          header: this.translateService.transform('Error'), 
-          message: message,
+          header: this.translateService.transform('Error'),
+          message,
           buttons: [this.translateService.transform('Okay')]
         });
-    
+
         await alert.present();
 
-        this.uploadingPhoto = false;
+        this.progress = false;
       });
     });
   }
@@ -283,30 +293,31 @@ export class ProfilePhotoPage implements OnInit {
         buttons: [this.translateService.transform('Ok')]
       }).then(alert => { alert.present(); });
     }
-    else 
+    else
     {
-      this.uploadingPhoto = true;
+      this.progress = 1;
 
       this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 
-        //log to sentry 
-        
+        // log to sentry
+
         this.sentryService.handleError(err);
 
-        if (this.fileInput && this.fileInput.nativeElement)
+        if (this.fileInput && this.fileInput.nativeElement) {
           this.fileInput.nativeElement.value = null;
+        }
 
         const alert = await this.alertCtrl.create({
-          header: this.translateService.transform('Error'), 
+          header: this.translateService.transform('Error'),
           message: this.translateService.transform('Error while uploading file!'),
           buttons: [this.translateService.transform('Okay')]
         });
-    
+
         await alert.present();
 
-        this.uploadingPhoto = false;
+        this.progress = false;
       }, () => {
         this.uploadFileSubscription.unsubscribe();
       });
@@ -322,14 +333,14 @@ export class ProfilePhotoPage implements OnInit {
     // Look for upload progress events.
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      // this.progress = Math.round(100 * event.loaded / event.total);
+      this.progress = Math.round(100 * event.loaded / event.total);
     } else if (event.Key && event.Key.length > 0) {
 
       if (this.fileInput && this.fileInput.nativeElement) {
         this.fileInput.nativeElement.value = null;
       }
 
-      var imgLarge = new Image();
+      const imgLarge = new Image();
       imgLarge.src = event.Location;
       imgLarge.onload = () => {
 
@@ -338,9 +349,7 @@ export class ProfilePhotoPage implements OnInit {
         this.form.controls.personal_photo.markAsDirty();
         this.form.updateValueAndValidity();
 
-        this.uploadingPhoto = true;
         this.accountService.updateProfilePhoto(event.Key).subscribe(async response => {
-          this.uploadingPhoto = false;
           if (response.operation != 'success') {
             const alert = await this.alertCtrl.create({
               message: response.message,
@@ -353,11 +362,13 @@ export class ProfilePhotoPage implements OnInit {
           }
         });
       };
+    } else {
+      this.currentTarget = event;
     }
   }
 
   /**
-   * trigger click event on change logo button 
+   * trigger click event on change logo button
    */
   triggerUpdatePhoto($event) {
     $event.stopPropagation();
@@ -372,25 +383,41 @@ export class ProfilePhotoPage implements OnInit {
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {
-      if (overlay)
+      if (overlay) {
         this.modalCtrl.dismiss(data);
+      }
     });
   }
 
   /**
-   * save profile photo 
+   * save profile photo
    */
   submit() {
-    this.saving = true; 
+    this.saving = true;
 
     this.accountService.updateProfilePhoto(this.form.value.profile_photo).subscribe(res => {
       this.saving = false;
-      
-      if(res.operation == 'success') {
+
+      if (res.operation == 'success') {
         this.dismiss();
       }
     }, () => {
       this.saving = false;
     });
+  }
+
+  /**
+   * cancel file upload
+   */
+  cancelUpload() {
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = null;
+    }
+
+    this.progress = null;
+
+    this.loading = false;
+
+    this.currentTarget.abort();
   }
 }
