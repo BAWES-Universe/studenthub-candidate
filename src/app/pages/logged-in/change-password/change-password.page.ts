@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, IonInput } from '@ionic/angular';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
@@ -19,6 +19,8 @@ export class ChangePasswordPage implements OnInit {
   // Disable submit button if loading response
   public isLoading = false;
 
+  @ViewChild('inptPassword', { static: false }) inptPassword: IonInput;
+
   constructor(
     public navCtrl: NavController,
     private _fb: FormBuilder,
@@ -34,6 +36,10 @@ export class ChangePasswordPage implements OnInit {
       oldPassword: ["", Validators.required],
       newPassword: ["", Validators.required]
     });
+
+    setTimeout(() => {
+      this.inptPassword.setFocus();
+    }, 800);
   }
 
   /**
