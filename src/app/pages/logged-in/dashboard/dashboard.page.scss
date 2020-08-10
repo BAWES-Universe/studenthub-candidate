@@ -57,6 +57,8 @@ ion-card {
     margin-right: 0;
     padding-inline-start: 46px;
     padding-bottom: 5px;
+    background-position: 15px 14px;
+    background-repeat: no-repeat;
 
     ion-card-title {
         font-size: 16px;
@@ -78,7 +80,23 @@ ion-card {
     }
 }
 
-@media only screen and (max-width: 750px) {
+[dir="rtl"] ion-card {
+    background-position: calc(100% - 15px) 14px;
+}
+
+.card-notification {
+    background-image: url(src/assets/images/ic_alerts.svg);
+}
+
+.card-profile {
+    background-image: url(src/assets/images/ic_profile.svg);
+}
+
+.card-bank-details {
+    background-image: url(src/assets/images/ic_payment.svg);
+}
+
+@media only screen and (max-width: 860px) {
     ion-content .max-width {
         padding: 30px;
     }

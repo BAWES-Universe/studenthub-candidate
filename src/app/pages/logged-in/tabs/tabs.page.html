@@ -2,18 +2,23 @@
   
   <ion-toolbar class="main-toolbar">
 
+    <!-- to fix: https://www.pivotaltracker.com/story/show/170232399 -->
+
+    <ion-buttons slot="start" class="dummy-btn-wrapper">
+      <ion-button>
+        <ion-icon name="options-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
     <div class="brand">
       <img src="assets/logo.svg">
     </div>
 
-    <!--
     <ion-buttons slot="end">
       <ion-button (click)="openPopover($event)">
         <ion-icon name="options-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-
-    -->
 
   </ion-toolbar>
 </ion-header>
@@ -24,17 +29,17 @@
     <ion-tab-bar slot="top" *ngIf="!platform.is('mobile')" [attr.dir]="this._translateService.direction()">
 
       <ion-tab-button tab="dashboard" layout="icon-start">
-        <ion-icon src="assets/img/ic_home_tab.svg"></ion-icon>
+        <ion-icon src="assets/images/ic_home.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="payments" layout="icon-start">
-        <ion-icon src="assets/img/ic_payment_tab.svg"></ion-icon>
+        <ion-icon src="assets/images/ic_payment.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="profile" layout="icon-start">
-        <ion-icon src="assets/img/ic_profile_tab.svg"></ion-icon>
+        <ion-icon src="assets/images/ic_profile.svg"></ion-icon>
         <ion-label>{{ 'Profile' | translate }}</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
@@ -43,17 +48,17 @@
       [attr.dir]="this._translateService.direction()">
 
       <ion-tab-button tab="dashboard">
-        <ion-icon src="assets/img/ic_home_tab.svg"></ion-icon>
+        <ion-icon src="assets/images/ic_home.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="payments">
-        <ion-icon src="assets/img/ic_payment_tab.svg"></ion-icon>
+        <ion-icon src="assets/images/ic_payment.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="profile">
-        <ion-icon src="assets/img/ic_profile_tab.svg"></ion-icon>
+        <ion-icon src="assets/images/ic_profile.svg"></ion-icon>
         <ion-label>{{ 'Profile' | translate }}</ion-label>
       </ion-tab-button>
 
