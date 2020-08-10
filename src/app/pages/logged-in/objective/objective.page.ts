@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput, AlertController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -15,6 +15,8 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 })
 export class ObjectivePage implements OnInit {
 
+  @ViewChild('inputToFocus', { static: false }) inputToFocus: IonInput;
+
   public isLoading: boolean = false;
 
   public candidate: Candidate;
@@ -24,6 +26,7 @@ export class ObjectivePage implements OnInit {
   constructor(
     public _fb: FormBuilder,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public accountService: AccountService,
     public translateService: TranslateLabelService
   ) { }
@@ -40,6 +43,10 @@ export class ObjectivePage implements OnInit {
     this.form = this._fb.group({
       objective: [this.candidate.candidate_objective, Validators.required],
     });
+
+    setTimeout(() => {
+      this.inputToFocus.setFocus();
+    }, 500);
   }
 
   /**
@@ -57,6 +64,13 @@ export class ObjectivePage implements OnInit {
         this.candidate.candidate_objective = this.form.value.objective;
 
         this.dismiss();
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
       }
     }, () => {
       this.isLoading = false;

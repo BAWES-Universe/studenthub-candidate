@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController, AlertController } from '@ionic/angular';
+import { ModalController, ToastController, AlertController, IonInput } from '@ionic/angular';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -17,7 +17,7 @@ export class SkillFormPage implements OnInit {
   public txtSkill = '';
   public loading = false;
   public tmpSkill: any = [0]; // assignment initial value
-  public dirty = false;
+  public skillDirty = false;
   public count = 1;
   public candidate;
   public query;
@@ -33,6 +33,20 @@ export class SkillFormPage implements OnInit {
 
   ngOnInit() {
     this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
+  }
+
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+
+      const lastElementIndex = this.candidate.candidateSkills.length;
+
+      const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
+ 
+      if(lastElement) {
+        lastElement.setFocus();
+      }
+    }, 200);
   }
 
   // add skill in temp
@@ -101,7 +115,7 @@ export class SkillFormPage implements OnInit {
       this.count++;
     }
 
-    this.dirty = true;
+    this.skillDirty = true;
   }
 
   /**
@@ -147,7 +161,7 @@ export class SkillFormPage implements OnInit {
     this.count--; // decrease one value to compare new field
     this.tmpSkill = new Array(this.tmpSkill.length).fill(1); // resetting loop to avoid duplicate key
 
-    this.dirty = !!(this.skillList.length); // to check if change or if its length is greater then zero
+    this.skillDirty = !!(this.skillList.length); // to check if change or if its length is greater then zero
   }
 
   /**
@@ -156,7 +170,7 @@ export class SkillFormPage implements OnInit {
    * @param tempIndex
    */
   removeSkill(skillIndex, tempIndex) {
-    this.dirty = true;
+    this.skillDirty = true;
 
     if (tempIndex == 0) {
       if (this.skillList.length > 0) {

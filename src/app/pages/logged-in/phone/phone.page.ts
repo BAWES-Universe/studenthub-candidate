@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput, AlertController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -15,6 +15,8 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 })
 export class PhonePage implements OnInit {
 
+  @ViewChild('inptPhone', { static: false }) inptPhone: IonInput;
+
   public isLoading: boolean = false;
 
   public candidate: Candidate;
@@ -24,12 +26,17 @@ export class PhonePage implements OnInit {
   constructor(
     public _fb: FormBuilder,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public accountService: AccountService,
     public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
     this._initForm();
+
+    setTimeout(() => {
+      this.inptPhone.setFocus();
+    }, 500);
   }
 
   /**
@@ -57,6 +64,13 @@ export class PhonePage implements OnInit {
         this.candidate.candidate_phone = this.form.value.candidate_phone;
         
         this.dismiss();
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
       }
     }, () => {
       this.isLoading = false;

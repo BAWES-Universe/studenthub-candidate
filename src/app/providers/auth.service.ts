@@ -6,10 +6,11 @@ import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
-import { NavController } from '@ionic/angular';
+
 
 
 declare var navigator;
@@ -28,7 +29,7 @@ export class AuthService {
   public id: number;
   public name: string;
   public email: string;
-  public approved: any;
+  public isProfileCompleted: any;
   public language_pref: string;
 
   public language = {
@@ -153,10 +154,10 @@ export class AuthService {
       this.id = loggedInUser.id;
       this.name = loggedInUser.name;
       this.email = loggedInUser.email;
-      this.approved = loggedInUser.approved;
+      this.isProfileCompleted = loggedInUser.isProfileCompleted;
       this.language_pref = loggedInUser.language_pref;
 
-      if(!this.approved) {
+      if(!this.isProfileCompleted) {
         this.navCtrl.navigateRoot(['complete-profile']);
       }
     }
@@ -207,7 +208,7 @@ export class AuthService {
         name: this.name,
         email: this.email,
         token: this._accessToken,
-        approved: this.approved,
+        isProfileCompleted: this.isProfileCompleted,
         language_pref: this.language_pref
       })
     });
@@ -226,7 +227,7 @@ export class AuthService {
     this.id = null;
     this.name = null;
     this.email = null;
-    this.approved = null; 
+    this.isProfileCompleted = null; 
 
     this.isLogin = false;
 
@@ -247,7 +248,7 @@ export class AuthService {
     this.id = data.id;
     this.name = data.name;
     this.email = data.email;
-    this.approved = data.approved;
+    this.isProfileCompleted = data.isProfileCompleted;
     this.language_pref = data.language_pref;
     
     // Save to Storage

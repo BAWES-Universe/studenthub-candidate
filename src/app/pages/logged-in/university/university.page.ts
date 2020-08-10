@@ -128,7 +128,7 @@ export class UniversityPage implements OnInit {
     this.accountService.updateUniversity(university.university_id).subscribe(async response => {
       if (response.operation != 'success') {
         const alert = await this.alertCtrl.create({
-          message: response.message,
+          message: this.translateService.errorMessage(response.message),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();

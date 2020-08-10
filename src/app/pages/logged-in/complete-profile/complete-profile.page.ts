@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -22,7 +23,8 @@ import { GenderPage } from '../gender/gender.page';
 import { DrivingLicensePage } from '../driving-license/driving-license.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
-import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-complete-profile',
@@ -35,37 +37,47 @@ export class CompleteProfilePage implements OnInit {
 
   public loading: boolean = false; 
 
+  public update; 
+  
   public candidate: Candidate;
+  
   public candidatePicUrl;
+
   constructor(
+    public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public authService: AuthService,
     public accountService: AccountService,
     public translateService: TranslateLabelService,
-
   ) {
     this.candidatePicUrl = environment.cloudinaryUrl;
+
+    this.update = location.href.indexOf('view/profile') > -1;
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loadData();
   }
 
-  loadData() {
+  async loadData() {
     this.loading = true; 
 
     this.accountService.profile().subscribe(res => {
       this.candidate = res; 
 
-      //if got approved
+      //if having complete profile
 
-      if(res.approved) {
-        this.authService.approved = true;
+      /*if(res.isProfileCompleted) {
+
+        this.authService.isProfileCompleted = true;
         this.authService.saveLoggedInUser();
 
         this.navCtrl.navigateRoot(['/']);
-      }
+      }*/
 
       this.loading = false;
     }, () => {
@@ -246,6 +258,9 @@ export class CompleteProfilePage implements OnInit {
   }
 
   async submit() {
+    this.authService.isProfileCompleted = true;
+    this.authService.saveLoggedInUser();
+
     this.navCtrl.navigateRoot(['/']);
   }
 }

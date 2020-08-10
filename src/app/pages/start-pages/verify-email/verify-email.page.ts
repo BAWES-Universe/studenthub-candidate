@@ -230,7 +230,7 @@ export class VerifyEmailPage implements OnInit {
 
       this.eventService.userUpdated$.next();//email updated
 
-      if(res['approved']) {
+      if(res['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
       } else {
         this.navCtrl.navigateRoot(['complete-profile']);

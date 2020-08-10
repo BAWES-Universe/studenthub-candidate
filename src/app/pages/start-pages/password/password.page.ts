@@ -1,11 +1,14 @@
 import { Component, Input, OnInit, Optional, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
 //services
 import { AuthService } from "../../../providers/auth.service";
 import { TranslateLabelService } from "../../../providers/translate-label.service";
 
+
+const { Storage } = Plugins;
 
 @Component({
   selector: 'app-password',
@@ -88,8 +91,16 @@ export class PasswordPage implements OnInit {
         // Successfully logged in, set the access token within AuthService
         this.authService.setAccessToken(res);
         // this.dismiss();
+      } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 
-      } else if (res.operation == 'error') {
+        Storage.set({
+          key: "unVerifiedToken", 
+          value: JSON.stringify(res.unVerifiedToken)
+        }); 
+
+        this.navCtrl.navigateRoot(['verify-email', email]);
+
+      } else {
         this.alertCtrl.create({
           header: this.translateService.transform('Unable to Log In'),
           message: res.message,

@@ -77,6 +77,7 @@ export class DateOfBirthPage implements OnInit {
         this.candidate.candidate_birth_date = res.candidate_birth_date;
 
         this.dismiss();
+        
       } else {
         this.alertCtrl.create({
           message: this.authService.errorMessage(res.message),

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput, AlertController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -21,15 +21,22 @@ export class NameArPage implements OnInit {
 
   public form: FormGroup;
 
+  @ViewChild('inptName', { static: false }) inptName: IonInput;
+
   constructor(
     public _fb: FormBuilder,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public accountService: AccountService,
     public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
     this._initForm();
+
+    setTimeout(() => {
+      this.inptName.setFocus();
+    }, 500);
   }
 
   /**
@@ -55,6 +62,13 @@ export class NameArPage implements OnInit {
       if(res.operation == 'success') {
         this.candidate.candidate_name_ar = this.form.value.name_ar;
         this.dismiss();
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
       }
     }, () => {
       this.isLoading = false;

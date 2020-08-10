@@ -19,8 +19,25 @@ export class AccountService {
    * load profile details
    */
   profile(): Observable<any> {
-    const url = this._accountEndpoint + '/profile?expand=country,university,candidateSkills,candidateExperiences';
+    const url = this._accountEndpoint + '/profile?expand=isProfileCompleted,country,university,candidateSkills,candidateExperiences';
     return this._authhttp.get(url);
+  }
+
+  /**
+   * get job search status
+   */
+  getJobSearchStatus(): Observable<any> {
+    const url = this._accountEndpoint + '/job-search-status';
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * update job-search-status
+   * @param params 
+   */
+  updateJobSearchStatus(params): Observable<any>{
+    const url = `${this._accountEndpoint}` + '/job-search-status';
+    return this._authhttp.post(url, params);
   }
 
   /**
@@ -49,7 +66,6 @@ export class AccountService {
     return this._authhttp.delete(url);
   }
 
-   
   /**
    * List of all stores
    * @returns {Observable<any>}

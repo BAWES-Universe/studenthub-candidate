@@ -1,0 +1,167 @@
+ion-tab-bar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.dummy-btn-wrapper {
+    visibility: hidden;
+}
+
+.brand {
+    text-align: center;
+    margin-top: 28px;
+    margin-bottom: 28px;
+
+    img {
+        max-width: 167.8px;
+    }
+}
+
+.browser-tab .brand img {
+    top: 5px;
+    position: relative;
+}
+
+.browser-tab::after {
+    content: none;
+}
+
+ion-tab-bar[slot="top"] {
+    margin-top: 10px;
+}
+
+ion-tab-button ion-label {
+    color: #292f38;
+}
+
+ion-tab-button:hover {
+    ion-icon {
+        filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
+    }
+
+    ion-label {
+        color: var(--ion-color-primary);
+    }
+}
+
+.tab-selected {
+
+    ion-icon {
+        filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
+    }
+
+    ion-label {
+        color: var(--ion-color-primary);
+    }
+}
+
+.mobile ion-tab-button ion-label {
+    text-transform: uppercase;
+    font-size: 8px;
+}
+
+ion-toolbar.main-toolbar {
+    max-width: 765px;
+    margin: auto;
+}
+
+.browser-tab {
+    .setting-btn {
+        top: 5px;
+    }
+}
+
+[dir="ltr"] {
+    .tab-button[aria-selected="false"] {
+        .tab-badge {
+            right: -10px !important;
+        }
+    }
+
+    .tab-button[aria-selected="true"] {
+        .tab-badge {
+            right: -10px !important;
+        }
+    }
+
+    ion-toolbar ion-buttons.lang-btn {
+        right: 1px;
+    }
+}
+
+.brand.desktop {
+    display: block;
+}
+
+.brand.mobile {
+    display: none;
+}
+
+.mobile-tab {
+    //height: 166px;
+
+    ion-toolbar.main-toolbar {
+        --min-height: 116px !important;
+        min-height: 116px !important;
+        --padding: 0;
+        --margin: 0;
+    }
+
+    .brand.desktop {
+        display: none;
+    }
+
+    .brand.mobile {
+        display: block;
+        position: absolute;
+        left: 13px;
+        top: 43px;
+
+        img {
+            width: 31px;
+        }
+    }
+
+    h2.title {
+        display: block;
+        position: absolute;
+        left: 42px;
+        top: 49px;
+        font-size: 36px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000000;
+        margin: 0;
+    }
+}
+
+
+[dir="rtl"] {
+
+    .tab-button[aria-selected="false"] {
+        .tab-badge {
+            left: -10px !important;
+        }
+    }
+
+    .tab-button[aria-selected="true"] {
+        .tab-badge {
+            left: -10px !important;
+        }
+    }
+
+    .mobile-tab {
+        .brand.mobile {
+            right: 13px;
+            left: auto;
+        }
+
+        h2.title {
+            right: 42px;
+            left: auto;
+        }
+    }
+}

@@ -1,6 +1,4 @@
 h3 {
-    width: 314px;
-    height: 102px;
     font-size: 42px;
     font-weight: bold;
     font-stretch: normal;
@@ -11,8 +9,6 @@ h3 {
 }
 
 p {
-    width: 277px;
-    height: 89px;
     font-family: EffraLight;
     font-size: 22px;
     font-weight: normal;
@@ -75,7 +71,7 @@ p {
 }
 
 @media only screen and (max-width: 750px) {
-    .max-width {
+    ion-content .max-width {
         padding: 30px;
     }
 }
@@ -145,4 +141,30 @@ ion-list {
     ion-label .experience:last-child {
         margin-bottom: 6px;
     }
+}
+
+.inTabs {
+    h3, 
+    .btn-logout {
+        display: none;
+    }
+}
+
+ion-footer.inTabs { 
+    display: none; 
+}
+
+ion-label ion-item {
+    box-shadow: inherit;
+    margin: 0;
+    background: inherit;
+    border-radius: inherit;
+    min-height: inherit;
+    --ion-background-color: #fff;
+    --inner-border-width: inherit;
+    --padding-bottom: 0;
+    --padding-top: 0;
+    --padding-end: 0;
+    --padding-start: 9px;
+    border-bottom: solid 1px #bdbdbd;
 }

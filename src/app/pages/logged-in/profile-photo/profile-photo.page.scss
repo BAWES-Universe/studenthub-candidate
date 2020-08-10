@@ -19,3 +19,55 @@ h3 {
   border-radius: 4px;
   background-color: #333333;
 }
+
+.progress-wrapper {
+  h4 {
+    font-size: 14px;
+    line-height: 1.41;
+    color: #292f38;
+    font-weight: normal;
+    margin: 0;
+    width: calc(100% - 50px);
+
+    span {
+      float: var(--end);
+    }
+  }
+
+  .progress-box {
+    width: 313px;
+    height: 60px;
+    border-radius: 4px;
+    border: solid 1px #bdbdbd;
+    padding: 10px 13px;
+    position: relative;
+
+    .progress-bar {
+      width: 233px;
+      height: 5px;
+      border-radius: 15px;
+      background-color: rgba(242, 68, 89, 0.2);
+      margin-top: 10px;
+    }
+
+    .progress {
+      width: 0%;
+      height: 5px;
+      border-radius: 15px;
+      background-color: #f24459;
+    }
+
+    ion-icon {
+      position: absolute;
+      top: 20px;
+    }
+  }
+}
+
+[dir="ltr"] .progress-wrapper ion-icon {
+  right: 20px;
+}
+
+[dir="rtl"] .progress-wrapper ion-icon {
+  left: 20px;
+}

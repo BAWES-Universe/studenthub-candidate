@@ -34,8 +34,10 @@ export class Candidate {
     candidate_hourly_rate: string;
     candidate_status: string;
     approved: number;
+    isProfileCompleted: number;
     age: string;
     candidate_personal_photo_thumb: string;
+    candidate_job_search_status: any;
     
     tempLocation: any; //temp profile photo location while photo upload 
 
