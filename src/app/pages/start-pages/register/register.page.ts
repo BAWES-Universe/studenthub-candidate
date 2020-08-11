@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+//validators 
+import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -57,7 +59,7 @@ export class RegisterPage implements OnInit {
     // Initialize the Login Form
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],
-      email: [this.email, [Validators.required]],
+      email: [this.email, [Validators.required, CustomValidator.emailValidator]],
       phone: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.maxLength(30)]]
     });
