@@ -17,15 +17,14 @@ const { Storage } = Plugins;
 })
 export class RegisterPage implements OnInit {
 
-  // @Input() email;
-
   @ViewChild('nameInput') nameInput;
   // @ViewChild('nameInput') nameInput;
-
   public registerForm: FormGroup;
 
   // Disable submit button if loading response
   public isLoading = false;
+
+  // @Input() email;
   public email;
 
   constructor(
@@ -54,6 +53,8 @@ export class RegisterPage implements OnInit {
     } else {
       this.dismiss();
     }
+
+
     // Initialize the Login Form
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],
@@ -84,7 +85,13 @@ export class RegisterPage implements OnInit {
           value: JSON.stringify(res.unVerifiedToken)
         }); 
 
-        this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value]);
+        this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
+            {
+              state : {
+                newUser : 1
+              }
+            }
+        );
 
         /*
         this.modalCtrl.getTop().then(overlap => {

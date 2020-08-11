@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { NavController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ const { Storage } = Plugins;
   templateUrl: './verify-email.page.html',
   styleUrls: ['./verify-email.page.scss'],
 })
-export class VerifyEmailPage implements OnInit {
+export class VerifyEmailPage implements OnInit, OnDestroy {
 
   public email: string; 
 
@@ -39,6 +39,7 @@ export class VerifyEmailPage implements OnInit {
   public updateEmailSubscription: Subscription;
   public verifyEmailSubscription: Subscription;
   public resendEmailSubscription: Subscription;
+  public runTimer = false;
 
   constructor(
     public navCtrl: NavController,
@@ -53,10 +54,13 @@ export class VerifyEmailPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (window.history.state.newUser) {
+      this.runTimer = true ;
+    }
   }
 
   ngOnDestroy() {
-    if(!!this.isAlreadyVerifiedSubscription) {
+    if (!!this.isAlreadyVerifiedSubscription) {
       this.isAlreadyVerifiedSubscription.unsubscribe();
     }
 
@@ -78,6 +82,10 @@ export class VerifyEmailPage implements OnInit {
   }
 
   setTimer() {
+
+    if (!this.runTimer) {
+      return false;
+    }
 
     if(!this.timer) {
       this.timer = 60;
@@ -320,7 +328,8 @@ export class VerifyEmailPage implements OnInit {
 
     this.resendEmailSubscription = this.authService.resendVerificationEmail(this.email).subscribe(async res => {
 
-      //reset timer 
+      //reset timer
+      this.runTimer = true;
       this.setTimer(); 
       
       const alert = await this.alertCtrl.create({
