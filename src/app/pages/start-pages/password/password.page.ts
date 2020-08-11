@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
-//services
-import { AuthService } from "../../../providers/auth.service";
-import { TranslateLabelService } from "../../../providers/translate-label.service";
+// services
+import { AuthService } from '../../../providers/auth.service';
+import { TranslateLabelService } from '../../../providers/translate-label.service';
 
 
 const { Storage } = Plugins;
@@ -31,7 +31,7 @@ export class PasswordPage implements OnInit {
   // Store number of invalid password attempts to suggest reset password
   public numberOfLoginAttempts = 0;
   public email;
-  
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
@@ -62,7 +62,7 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.loginForm.setValue({ email: this.email, password: null });
+    this.loginForm.setValue({ email: this.email || null, password: null });
   }
 
   dismiss() {
@@ -94,11 +94,17 @@ export class PasswordPage implements OnInit {
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 
         Storage.set({
-          key: "unVerifiedToken", 
+          key: 'unVerifiedToken',
           value: JSON.stringify(res.unVerifiedToken)
-        }); 
+        });
 
-        this.navCtrl.navigateRoot(['verify-email', email]);
+        this.navCtrl.navigateRoot(['verify-email', email],
+            {
+              state : {
+                newUser : 0
+              }
+            }
+        );
 
       } else {
         this.alertCtrl.create({
@@ -119,7 +125,7 @@ export class PasswordPage implements OnInit {
         if (this.numberOfLoginAttempts > 2) {
           this.alertCtrl.create({
             header: this.translateService.transform('Trouble Logging In?'),
-            message: this.translateService.transform("If you've forgotten your password, contact us to have it reset."),
+            message: this.translateService.transform('If you\'ve forgotten your password, contact us to have it reset.'),
             buttons: [this.translateService.transform('Okay')],
           }).then(alert => alert.present());
         } else {
