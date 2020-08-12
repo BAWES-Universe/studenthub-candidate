@@ -20,7 +20,7 @@
 
     <h4>{{ "What now?" | translate }}</h4>
 
-    <ion-card class="card-notification">
+    <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()">
       <ion-card-header>
         <ion-card-title>
           {{ "Enable notifications" | translate }}

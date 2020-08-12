@@ -24,6 +24,8 @@ export class AuthService {
 
   public isLogin = false;
 
+  public showOneSignalPrompt: boolean = true; 
+  
   // Logged in agent details
   private _accessToken;
   public id: number;
