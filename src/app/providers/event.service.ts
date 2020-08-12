@@ -15,6 +15,9 @@ export class EventService {
   public userLogin$ = new Subject();
   public userUpdated$ = new Subject();
 
+  public setOneSignalSubscription$ = new Subject();
+  public setOneSignal$ = new Subject();
+  
   public setLanguagePref$ = new Subject();
 
   constructor() { }

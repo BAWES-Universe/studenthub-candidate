@@ -16,7 +16,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 	public sentryLoggingEnabled = false;
 
 	// Array of environments to log
-	public environmentsLogged: string[] = ["krushn", "dev", "prod", "dev-mobile", "prod-mobile"];
+	public environmentsLogged: string[] = ["dev", "prod", "dev-mobile", "prod-mobile"];
 
 	constructor() {
 		super();
