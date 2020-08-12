@@ -103,6 +103,15 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateForward(['/no-internet']);
     });
 
+
+    this.eventService.error500$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/server-error']);
+    });
+
+    this.eventService.error404$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/not-found']);
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
       if(data['isProfileCompleted']) {
