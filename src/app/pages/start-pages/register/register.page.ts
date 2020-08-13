@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 //validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
@@ -37,7 +37,6 @@ export class RegisterPage implements OnInit {
     public translateService: TranslateLabelService,
     // @Optional() public nav: IonNav, // for testing perpose
     public navCtrl: NavController,
-    public modalCtrl: ModalController,
   ) {
   }
 
@@ -94,14 +93,6 @@ export class RegisterPage implements OnInit {
               }
             }
         );
-
-        /*
-        this.modalCtrl.getTop().then(overlap => {
-          if(overlap)
-            this.modalCtrl.dismiss({ 
-              from: 'native-back-btn'
-            }); 
-        }); */
 
       } else if (res.operation === 'error') {
         this.alertCtrl.create({
