@@ -11,8 +11,6 @@ import { NavController } from '@ionic/angular';
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
 
-
-
 declare var navigator;
 
 const { Storage } = Plugins;
@@ -24,7 +22,7 @@ export class AuthService {
 
   public isLogin = false;
 
-  public showOneSignalPrompt: boolean = true; 
+  public showOneSignalPrompt = true;
   
   // Logged in agent details
   private _accessToken;
@@ -48,7 +46,7 @@ export class AuthService {
   public _urlVerifyEmail = '/auth/verify-email';
   
   constructor(
-    public _http: HttpClient,
+    public http: HttpClient,
     public router: Router,
     public navCtrl: NavController,
     public translate: TranslateLabelService,
@@ -74,7 +72,7 @@ export class AuthService {
       const user = JSON.parse(ret.value);
 
       if (user) {
-        //this.setAccessToken(user);
+        // this.setAccessToken(user);
         resolve(true);
       } else {
         resolve(false);
@@ -92,7 +90,7 @@ export class AuthService {
     
     const loggedInUser = JSON.parse(ret.value);
 
-    //guest user who visited previously and saved preference
+    // guest user who visited previously and saved preference
 
     const { value } = await Storage.get({ key: 'language' });
 
@@ -102,12 +100,12 @@ export class AuthService {
       this.language = this.language_pref == 'ar' ? {
         name: 'عربى',
         code: 'ar'
-      }: {
+      } : {
         code: 'en',
         name: 'English'
       };
 
-    //new user 
+    // new user
 
     } else {
     
@@ -134,7 +132,7 @@ export class AuthService {
       this.language = loggedInUser.language_pref == 'ar' ? {
           name: 'عربى',
           code: 'ar'
-        }: {
+        } : {
           code: 'en',
           name: 'English'
         };
@@ -189,7 +187,7 @@ export class AuthService {
     this.language =  this.language_pref == 'ar' ? {
       name: 'عربى',
       code: 'ar'
-    }: {
+    } : {
       code: 'en',
       name: 'English'
     };
@@ -204,7 +202,7 @@ export class AuthService {
    */
   saveLoggedInUser() {
     Storage.set({
-      key: 'loggedInUser', 
+      key: 'loggedInUser',
       value: JSON.stringify({
         id: this.id,
         name: this.name,
@@ -229,7 +227,7 @@ export class AuthService {
     this.id = null;
     this.name = null;
     this.email = null;
-    this.isProfileCompleted = null; 
+    this.isProfileCompleted = null;
 
     this.isLogin = false;
 
@@ -280,11 +278,11 @@ export class AuthService {
       const user = JSON.parse(ret.value);
 
       if (user) {
-        this.setAccessToken(user); 
+        this.setAccessToken(user);
       }
     });
  
-    return this._accessToken;;
+    return this._accessToken;
   }
   
   /**
@@ -297,7 +295,7 @@ export class AuthService {
     // Build Headers with Bearer Token
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Language': this.translate.currentLang
+      Language: this.translate.currentLang
     });
   }
 
@@ -309,7 +307,7 @@ export class AuthService {
   verifyEmail(email: string, code: string) {
     const url = environment.apiEndpoint + this._urlVerifyEmail;
     const headers = this._buildAuthHeaders();
-    return this._http.post(url, { email: email, 'code': code }, { headers: headers }).pipe(
+    return this.http.post(url, { email: email, 'code': code }, { headers: headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -323,7 +321,7 @@ export class AuthService {
    */
   isAlreadyVerified(res): Observable<any> {
     const url = environment.apiEndpoint + this._urlIsEmailVerified;
-    return this._http.post(url, res, { headers: this._buildAuthHeaders() }).pipe(
+    return this.http.post(url, res, { headers: this._buildAuthHeaders() }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -338,7 +336,7 @@ export class AuthService {
   resendVerificationEmail(email: string) {
     const url = environment.apiEndpoint + this._urlresendVerificationEmail;
     const headers = this._buildAuthHeaders();
-    return this._http.post(url, { 'email': email }, { headers: headers }).pipe(
+    return this.http.post(url, { 'email': email }, { headers: headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -352,7 +350,7 @@ export class AuthService {
    */
   updateEmail(params: any): Observable<any> {
     const url = environment.apiEndpoint + this._urlUpdateCandidateEmail;
-    return this._http.post(url, params, { headers: this._buildAuthHeaders() }).pipe(
+    return this.http.post(url, params, { headers: this._buildAuthHeaders() }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -376,7 +374,7 @@ export class AuthService {
 
     const url = environment.apiEndpoint + this._urlBasicAuth;
 
-    return this._http.get(url, {
+    return this.http.get(url, {
       headers: authHeader
     })
       .pipe(
@@ -391,7 +389,7 @@ export class AuthService {
    */
   mobileCheck(form): Observable<any> {
     const url = environment.apiEndpoint + this._urlEmailCheck;
-    return this._http.post(url, JSON.stringify(form), this.setHeaders())
+    return this.http.post(url, JSON.stringify(form), this.setHeaders())
         .pipe(
             first(),
             map((res: HttpResponse<any>) => res)
@@ -413,7 +411,7 @@ export class AuthService {
    */
   createAccount(form): Observable<any> {
     const url = environment.apiEndpoint + this._urlRegistration;
-    return this._http.post(url, JSON.stringify(form), this.setHeaders())
+    return this.http.post(url, JSON.stringify(form), this.setHeaders())
         .pipe(
             first(),
             map((res: HttpResponse<any>) => res)

@@ -2,7 +2,7 @@
 
   <div class="max-width" *ngIf="!loading">
 
-    <h3>{{ "txt_greeting" | translate : { customer: authService.name } }}</h3>
+    <h3>{{ "txt_greeting" | translate : { customer: this.getFirstName() } }}</h3>
 
     <p class="txt-job-status" *ngIf="candidate_job_search_status">
       {{ "We’re currently looking for a job for you. We’ll notify you when we find an open position." | translate }}
@@ -21,8 +21,7 @@
     <h4>{{ "What now?" | translate }}
         <ion-icon src="assets/images/dude.svg"></ion-icon>
     </h4>
-<!--    <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()" tappable>-->
-    <ion-card class="card-notification" (click)="setSubscription()" tappable>
+    <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()" tappable>
       <ion-card-header>
         <ion-card-title>
           {{ "Enable notifications" | translate }}

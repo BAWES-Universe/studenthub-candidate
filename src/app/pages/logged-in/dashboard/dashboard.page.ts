@@ -85,5 +85,10 @@ export class DashboardPage implements OnInit {
       this.updating= false;
     });
   }
+
+  getFirstName() {
+    const FullName = this.authService.name.split(' ');
+    return (FullName[0]) ? FullName[0] : this.authService.name;
+  }
 }
 
