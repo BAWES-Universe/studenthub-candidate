@@ -1,4 +1,4 @@
-package co.studenthub.payroll-candidate;
+package co.studenthub.candidate;
 
 import android.os.Bundle;
 

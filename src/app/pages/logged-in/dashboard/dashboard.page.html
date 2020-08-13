@@ -7,7 +7,6 @@
     <h3>{{ "txt_greeting" | translate : { customer: this.getFirstName() } }}</h3>
 
     <p class="txt-job-status" *ngIf="store" [innerHtml]="'txt_assigned' | translate : { company: company.company_name, store: store.store_name }">
-      
     </p> 
 
     <p class="txt-job-status" *ngIf="!store && candidate_job_search_status">
