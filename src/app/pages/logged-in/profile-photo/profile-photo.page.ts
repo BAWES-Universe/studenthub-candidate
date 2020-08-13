@@ -139,7 +139,7 @@ export class ProfilePhotoPage implements OnInit {
       {
         text: LoadLibLbl,
         handler: () => {
-          this.progress = 1;//show loader
+       
           this._cameraService.getImageFromLibrary().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
@@ -168,7 +168,7 @@ export class ProfilePhotoPage implements OnInit {
       {
         text: UseCamLbl,
         handler: () => {
-          this.progress = 1;//show loader
+         
           this._cameraService.getImageFromCamera().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
@@ -216,11 +216,14 @@ export class ProfilePhotoPage implements OnInit {
    * Upload logo by native path
    */
   async uploadFileViaNativeFilePath(uri) {
+    this.progress = 1;//show loader
 
     this.awsService.uploadNativePath(uri).then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
+
+        this.progress = false;
 
         const ignoreErrors = [
           'No image picked',
@@ -265,8 +268,6 @@ export class ProfilePhotoPage implements OnInit {
         });
 
         await alert.present();
-
-        this.progress = false;
       });
     });
   }
@@ -356,6 +357,9 @@ export class ProfilePhotoPage implements OnInit {
               buttons: [this.translateService.transform('Okay')],
             });
             alert.present();
+
+            this.progress = null;
+            
           } else  {
             this.candidate.candidate_personal_photo = response.candidate_personal_photo;
             this.dismiss();
