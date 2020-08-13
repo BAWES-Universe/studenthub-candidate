@@ -41,6 +41,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -102,9 +103,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     FileChooser,
     FilePath,  
     IOSFilePicker,
+    OneSignal,
     SwUpdate,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    //{ provide: ErrorHandler, useClass: SentryErrorhandlerService }
+    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 //services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
+import { CustomValidator } from 'src/app/validators/custom.validator';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class EmailPage implements OnInit {
   ngOnInit() {
     // Initialize the Login Form
     this.registerMobileForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, , CustomValidator.emailValidator]],
     });
   }
 

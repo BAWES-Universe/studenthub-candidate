@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   serviceWorker: false,
   envName: 'khalid',
+  oneSignalAppId: 'c62352ca-2f6c-44a2-896c-84c2f17db9ac',
+  oneSignalSafariAppId: '',
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face/v1596453482/candidate-photo/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'http://localhost/~BAWES/payroll/payroll/candidate/web/v1',

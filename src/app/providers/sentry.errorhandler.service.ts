@@ -4,24 +4,44 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 
-
 import * as Sentry from '@sentry/browser';
 
-Sentry.init({
-	dsn: 'https://1c996b75b785482aae7c345ce717b5dd@o70039.ingest.sentry.io/5339282',
-	// TryCatch has to be configured to disable XMLHttpRequest wrapping, as we are going to handle
-	// http module exceptions manually in Angular's ErrorHandler and we don't want it to capture the same error twice.
-	// Please note that TryCatch configuration requires at least @sentry/browser v5.16.0.
-	integrations: [new Sentry.Integrations.TryCatch({
-		XMLHttpRequest: false,
-	})],
-});
 
 @Injectable({
 	providedIn: 'root'
 })
-export class SentryErrorhandlerService implements ErrorHandler {
-	constructor() {}
+export class SentryErrorhandlerService extends ErrorHandler {
+
+	// Should we log to sentry or not?
+	public sentryLoggingEnabled = false;
+
+	// Array of environments to log
+	public environmentsLogged: string[] = ["dev", "prod", "dev-mobile", "prod-mobile"];
+
+	constructor() {
+		super();
+
+		console.log(environment.envName);
+
+		// Enable sentry logging if current environment is in list of environments to log
+		if (this.environmentsLogged.indexOf(environment.envName) > -1) {
+
+			// Enable sentry logging
+			this.sentryLoggingEnabled = true;
+			console.log('sentryLoggingEnabled');
+
+			Sentry.init({
+				dsn: 'https://1c996b75b785482aae7c345ce717b5dd@o70039.ingest.sentry.io/5339282',
+				// TryCatch has to be configured to disable XMLHttpRequest wrapping, as we are going to handle
+				// http module exceptions manually in Angular's ErrorHandler and we don't want it to capture the same error twice.
+				// Please note that TryCatch configuration requires at least @sentry/browser v5.16.0.
+				integrations: [new Sentry.Integrations.TryCatch({
+					XMLHttpRequest: false,
+				})],
+			});
+
+		}
+	}
 
 	extractError(error) {
 		// Try to unwrap zone.js error.
@@ -61,24 +81,23 @@ export class SentryErrorhandlerService implements ErrorHandler {
 	}
 
 	handleError(error) {
-
-		const extractedError = this.extractError(error) || 'Handled unknown error';
-
+		
 		const chunkFailedMessage = /Loading chunk [\d]+ failed/;
 
 		if (chunkFailedMessage.test(error.message)) {
-		  window.location.reload();
+			return window.location.reload();
 		}
 
-		if (environment.envName == 'prod' || environment.envName == 'dev') {
-
-			const extractedError = this.extractError(error) || 'Handled unknown error';
-			// Capture handled exception and send it to Sentry.
-			const eventId = Sentry.captureException(extractedError);
-			// When in development mode, log the error to console for immediate feedback.
-			console.error(extractedError);
+		// Exit function if sentry logging is not enabled
+		if (!this.sentryLoggingEnabled) {
+			return super.handleError(error);
 		}
 
+		const extractedError = this.extractError(error) || 'Handled unknown error';
+		// Capture handled exception and send it to Sentry.
+		const eventId = Sentry.captureException(extractedError);
+		// When in development mode, log the error to console for immediate feedback.
+		
 		// Optionally show user dialog to provide details on what happened.
 		// Sentry.showReportDialog({ eventId });
 	}

@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class DashboardPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
+    public eventService: EventService,
     public accountService: AccountService,
     public translateService: TranslateLabelService,
   ) { }
@@ -55,6 +57,13 @@ export class DashboardPage implements OnInit {
   }
 
   /**
+   * set oneSignal subscription
+   */
+  setSubscription() {
+    this.eventService.setOneSignal$.next();
+  }
+
+  /**
    * update job search status
    */
   updateJobSearchStatus() {
@@ -75,6 +84,11 @@ export class DashboardPage implements OnInit {
     }, () => {
       this.updating= false;
     });
+  }
+
+  getFirstName() {
+    const FullName = this.authService.name.split(' ');
+    return (FullName[0]) ? FullName[0] : this.authService.name;
   }
 }
 

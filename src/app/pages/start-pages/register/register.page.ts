@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+//validators
+import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -17,15 +19,14 @@ const { Storage } = Plugins;
 })
 export class RegisterPage implements OnInit {
 
-  // @Input() email;
-
   @ViewChild('nameInput') nameInput;
   // @ViewChild('nameInput') nameInput;
-
   public registerForm: FormGroup;
 
   // Disable submit button if loading response
   public isLoading = false;
+
+  // @Input() email;
   public email;
 
   constructor(
@@ -54,11 +55,13 @@ export class RegisterPage implements OnInit {
     } else {
       this.dismiss();
     }
+
+
     // Initialize the Login Form
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],
-      email: [this.email, [Validators.required]],
-      phone: [null, [Validators.required]],
+      email: [this.email, [Validators.required, CustomValidator.emailValidator]],
+      phone: [null, [Validators.required, Validators.maxLength(10)]],
       password: [null, [Validators.required, Validators.maxLength(30)]]
     });
   }
@@ -84,7 +87,13 @@ export class RegisterPage implements OnInit {
           value: JSON.stringify(res.unVerifiedToken)
         }); 
 
-        this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value]);
+        this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
+            {
+              state : {
+                newUser : 1
+              }
+            }
+        );
 
         /*
         this.modalCtrl.getTop().then(overlap => {

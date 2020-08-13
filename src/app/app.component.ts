@@ -5,14 +5,17 @@ import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Plugins } from '@capacitor/core';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 //services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
 import { TranslateLabelService } from './providers/translate-label.service';
 import { LanguageService } from './providers/language.service';
 
-const { App, StatusBar, SplashScreen } = Plugins;
 
+const { App, StatusBar, SplashScreen, Storage } = Plugins;
+
+declare var window;
 
 @Component({
   selector: 'app-root',
@@ -23,8 +26,11 @@ export class AppComponent implements OnInit {
 
   public updatesAvailable: boolean = false;
 
+  public notificationScriptLoaded: boolean = false;
+
   constructor(
     public updates: SwUpdate,
+    public oneSignal: OneSignal,
     public appRef: ApplicationRef,
     public navCtrl: NavController,
     private platform: Platform,
@@ -38,6 +44,12 @@ export class AppComponent implements OnInit {
   }
 
   initializeApp() {
+    //to fix : https://www.pivotaltracker.com/story/show/172176267 
+
+    if(this.platform.is('ios')) {
+      this.oneSignal.provideUserConsent(false);
+    }
+
     this.platform.ready().then(() => {
 
       if (this.platform.is('hybrid')) {
@@ -45,12 +57,18 @@ export class AppComponent implements OnInit {
       }
 
       this.setServiceWorker();
+
+      if (this.platform.is('capacitor') && this.platform.is('mobile')) {
+        this._initOneSignal();
+      } else {
+        this._includeOneSignalJs();
+      }
     });
   }
 
   /**
- * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
- */
+   * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
+   */
   async ngOnInit() {
 
     /**
@@ -103,20 +121,85 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateForward(['/no-internet']);
     });
 
+
+    this.eventService.error500$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/server-error']);
+    });
+
+    this.eventService.error404$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/not-found']);
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
+
       if(data['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
       } else {
         this.navCtrl.navigateRoot(['complete-profile']);
       }
       
+      this.oneSignalActionBasedOnStatus();
     });
+
+    /**
+     * Update one signal setting to manage subscription for mobile
+     * notification
+     */
+    this.eventService.setOneSignalSubscription$.subscribe(userEventData => {
+
+      this.oneSignal.setSubscription(userEventData['setSubscription']);
+
+      Storage.set({
+        key: 'oneSignal',
+        value: JSON.stringify(userEventData)
+      });
+    });
+
+    this.eventService.setOneSignal$.subscribe(() => {
+      this.setOneSignalSubscription();
+    }); 
 
     // On Logout Event, set root to Login Page
     this.eventService.userLogout$.subscribe((logoutReason) => {
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/landing']);
+
+      // unsubscribe from oneSignal
+
+      if (this.platform.is('capacitor') && this.platform.is('mobile')) {
+
+        this.oneSignal.getPermissionSubscriptionState().then(data => {
+          if (data.subscriptionStatus.subscribed) {
+            this.oneSignal.deleteTags(['name', 'email', 'candidate_id']);
+          }
+        });
+
+      } else if (window.OneSignal) {
+        const OneSignal = window.OneSignal;
+
+        OneSignal.isPushNotificationsEnabled(isEnabled => {
+
+          if (isEnabled) {
+
+            // Delete user tags if subscribed
+
+            OneSignal.getUserId().then(userId => {
+
+              if (userId) {
+
+                const tags = [
+                  'candidate_id',
+                  'name',
+                  'email'
+                ];
+
+                OneSignal.deleteTags(tags);
+              }
+            });
+          }
+        });
+      }
 
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {
@@ -126,6 +209,272 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * set oneSignal subscription for browser
+   */
+  async setOneSignalSubscription() {
+
+    if (this.platform.is('capacitor') && this.platform.is('mobile')) {
+
+      const { value } = await Storage.get({ key: 'oneSignal' });
+
+      let data = JSON.parse(value);
+      
+      // set default value if not set
+      if (!data) {
+        data = {
+          setSubscription: true,
+          enableVibrate: true,
+          enableSound: true
+        };
+      }
+
+      this.oneSignal.setSubscription(data.setSubscription);
+      //this.oneSignal.enableVibrate(data.enableVibrate);
+      //this.oneSignal.enableSound(data.enableSound);
+
+      this.oneSignal.sendTags({
+        'candidate_id': this.authService.id + '',
+        'name': this.authService.name,
+        'email': this.authService.email
+      }); 
+    } else {
+      const OneSignal = window.OneSignal || [];
+
+      OneSignal.setSubscription(true);
+      OneSignal.registerForPushNotifications();
+
+      // send user tag, to target based on tags
+
+      const tags = {
+        'candidate_id': this.authService.id + '',
+        'name': this.authService.name,
+        'email': this.authService.email
+      };
+
+      OneSignal.sendTags(tags);
+    }
+
+    this.authService.showOneSignalPrompt = false;
+
+    Storage.set({ 
+      'key': 'oneSignalStatus', 
+      'value': '1' 
+    });
+  }
+
+  /**
+   * check oneSignal subscription status to show prompt in conversation list page
+   */
+  async oneSignalActionBasedOnStatus() {
+
+    const { value } = await Storage.get({ 'key': 'oneSignalStatus' });
+    
+    if (value === '1') { // already accepted
+      this.setOneSignalSubscription();
+    } else { // not sure
+      this.checkOneSignalStatus();
+    }
+    // if status == 2, ignore - user not want notifications 
+  }
+
+  /**
+   * check oneSignal subscription status for browser
+   */
+  async checkOneSignalStatus() {
+
+    if (this.platform.is('capacitor') && this.platform.is('mobile')) {
+
+      this.oneSignal.getPermissionSubscriptionState().then(state => {
+        this.authService.showOneSignalPrompt = !state.subscriptionStatus.subscribed;
+      });
+
+      this.oneSignal.addSubscriptionObserver().subscribe(state => {
+        if (state) {
+          // !state.from.subscribed &&
+          if (state.to.subscribed) {
+            this.authService.showOneSignalPrompt = false;
+            // Subscribed for OneSignal push notifications!
+            // get player ID
+            // state.to.userId
+          } else {
+            this.authService.showOneSignalPrompt = true;
+          }
+
+         // console.log('Push Subscription state changed: ' + JSON.stringify(state));
+        }
+      });
+    } else if (window.OneSignal) {
+
+      const OneSignal = window.OneSignal || [];
+
+      OneSignal.isPushNotificationsEnabled(isEnabled => {
+
+        if (isEnabled) {
+
+          // Automatically subscribe user if deleted cookies and browser shows "Allow"
+
+          OneSignal.getUserId().then(userId => {
+
+            // remove old user tag if any
+
+            if (userId) {
+
+              const tags = [
+                'candidate_uuid',
+                'name',
+                'email'
+              ];
+
+              OneSignal.deleteTags(tags);
+            }
+
+            // if (!userId) {
+
+            OneSignal.setSubscription(true);
+            OneSignal.registerForPushNotifications();
+
+            // send user tag, to target based on tags
+
+            const tags = {
+              'candidate_id': this.authService.id + '',
+              'name': this.authService.name,
+              'email': this.authService.email
+            }; 
+
+            OneSignal.sendTags(tags);
+             
+            // }
+          });
+        } else {
+          this.authService.showOneSignalPrompt = true;
+        }
+      });
+
+      // Occurs when the user's subscription changes to a new value.
+
+      OneSignal.on('subscriptionChange', isSubscribed => {
+        this.authService.showOneSignalPrompt = !isSubscribed;
+      });
+    }
+  }
+
+  /**
+   * Include One signal to use stripe element in browser
+   */
+  async _includeOneSignalJs() {
+    
+    //if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
+    //  return null; // only for browser
+    //}
+
+    // if already loaded, just update tags
+
+    if (window.OneSignal) {
+      return this.oneSignalActionBasedOnStatus();
+    }
+
+    // if already initialized
+
+    if (this.notificationScriptLoaded) {
+      return null;
+    }
+
+    this.notificationScriptLoaded = true;
+
+    // load script and call callback to initialize
+
+    const callback = _ => {
+
+      const wOneSignal = window.OneSignal || [];
+
+      wOneSignal.push(_ => {
+
+        // initialize only on first time script load
+
+        wOneSignal.init({
+          appId: environment.oneSignalAppId,
+          safari_web_id: environment.oneSignalSafariAppId,
+          autoRegister: false,
+          httpPermissionRequest: {
+            enable: false
+          },
+          promptOptions: {
+            customlink: {
+              enabled: true
+            }
+          }
+        });
+
+        this.oneSignalActionBasedOnStatus();
+      });
+    };
+
+    this.loadScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js', callback);
+  }
+
+  /**
+   * Subscribe to oneSignal notification api for capacitor app
+   */
+  async _initOneSignal() {
+
+    // to get notification when app not running in background
+    // this.autostart.enable();
+
+    this.oneSignal.startInit(environment.oneSignalAppId, '32997776097');
+
+    //  this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+    // this.oneSignal.setSubscription(true);
+
+    // oneSignal.handleNotificationReceived().subscribe(() => {
+    // // do something when notification is received
+    // });
+
+    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+      // When a Notification is Opened
+      if (data.notification.groupedNotifications) {
+        // Notification Grouped [on Android]
+        const firstNotificationData = data.notification.groupedNotifications[0].additionalData;
+        //this.eventService.notificationGrouped$.next(firstNotificationData);
+      } else if (data.notification.payload) {
+        // A single notification clicked
+        const notificationData = data.notification.payload.additionalData;
+        //this.eventService.notificationSingle$.next(notificationData);
+      }
+    });
+
+    //this.setOneSignalSubscription();
+    this.oneSignalActionBasedOnStatus();
+
+    this.oneSignal.provideUserConsent(true);
+    
+    this.oneSignal.endInit();
+
+    // OneSignal.getIds().then(data => {
+    //   // this gives you back the new userId and pushToken associated with the device. Helpful.
+    // });
+  }
+  
+  /**
+   * Load javascripts dynamically
+   * @param url
+   * @param callback
+   */
+  async loadScript(url: string, callback = null) {
+    const body = <HTMLDivElement>document.body;
+    const script = document.createElement('script');
+    script.innerHTML = '';
+    script.src = url;
+    script.async = false;
+    script.defer = true;
+
+    if (callback) {
+      script.addEventListener('load', callback);
+    }
+
+    body.appendChild(script);
+  }
+  
   /**
    * Change app language
    * @param language
@@ -203,3 +552,4 @@ export class AppComponent implements OnInit {
     this.updatesAvailable = false;
   }
 }
+
