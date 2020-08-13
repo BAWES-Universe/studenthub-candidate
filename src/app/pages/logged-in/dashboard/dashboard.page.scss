@@ -96,6 +96,18 @@ ion-card {
     background-image: url(src/assets/images/ic_payment.svg);
 }
 
+.card-job-status {
+    cursor: pointer;
+    background-color: #eb5757;
+    background-image: url(src/assets/images/ic_delete.svg);
+
+    ion-card-title,
+    ion-card-content {
+        color: #fff;
+        --color: #fff;
+    }
+}
+
 @media only screen and (max-width: 860px) {
     ion-content .max-width {
         padding: 30px;

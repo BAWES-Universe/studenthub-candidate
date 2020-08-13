@@ -74,12 +74,14 @@ export class DashboardPage implements OnInit {
 
     this.updating= true; 
 
+    this.candidate_job_search_status = params.job_search_status;
+
     this.accountService.updateJobSearchStatus(params).subscribe(data => {
 
       this.updating= false; 
 
-      if(data.operation == 'success') {
-        this.candidate_job_search_status = params.job_search_status;
+      if(data.operation != 'success') {
+        this.candidate_job_search_status = !params.job_search_status;//back to old status
       }
     }, () => {
       this.updating= false;
