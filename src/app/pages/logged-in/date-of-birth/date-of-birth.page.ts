@@ -39,7 +39,7 @@ export class DateOfBirthPage implements OnInit {
     this.min = '1930/01/01';
 
     let d = new Date();
-    d.setMonth(d.getMonth() - 12 * 16);//atleast 16 years old 
+    //d.setMonth(d.getMonth() - 12 * 16);//atleast 16 years old 
 
     //to fix: https://www.pivotaltracker.com/story/show/170663720
 
