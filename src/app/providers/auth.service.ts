@@ -240,7 +240,6 @@ export class AuthService {
    * Set the access token
    */
   async setAccessToken(data) {
-    console.log('set token', data);
 
     this.isLogin = true;
 
