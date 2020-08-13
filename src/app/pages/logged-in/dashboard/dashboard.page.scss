@@ -19,6 +19,7 @@ h4 {
     color: #000000;
     margin-bottom: 25px;
     margin-top: 55px;
+    position: relative;
 }
 
 .txt-job-status {
@@ -112,4 +113,10 @@ ion-card {
     ion-content .max-width {
         padding: 30px;
     }
+}
+ion-icon {
+    font-size: 100px;
+    position: absolute;
+    right: 7px;
+    bottom: -47px;
 }

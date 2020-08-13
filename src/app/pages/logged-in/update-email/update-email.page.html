@@ -5,7 +5,7 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3>{{ "What’s your email?" | translate }}</h3>
+    <h3>{{ "Update email" | translate }}</h3>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
@@ -14,7 +14,7 @@
 
       <ion-button class="btn-signup" [disabled]="!form.valid || isLoading" type="submit">
         <ion-spinner *ngIf="isLoading"></ion-spinner>
-        <span *ngIf="!isLoading">{{ "Continue" | translate }}</span>
+        <span *ngIf="!isLoading">{{ "Save" | translate }}</span>
       </ion-button>
     </form>
   </div>

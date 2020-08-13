@@ -4,7 +4,7 @@
   
   <div class="max-width" *ngIf="!loading">
 
-    <h3>{{ "txt_greeting" | translate : { customer: authService.name } }}</h3>
+    <h3>{{ "txt_greeting" | translate : { customer: this.getFirstName() } }}</h3>
 
     <p class="txt-job-status" *ngIf="candidate_job_search_status">
       {{ "We’re currently looking for a job for you. We’ll notify you when we find an open position." | translate }}
@@ -17,11 +17,13 @@
     <ion-button *ngIf="!candidate_job_search_status" fill="outline" class="btn-toggle-job" [disabled]="updating" (click)="updateJobSearchStatus()">
       {{ "Find me a job" | translate }}
     </ion-button>
-
+ 
     <div *ngIf="candidate_job_search_status">
-      <h4>{{ "What now?" | translate }}</h4>
-
-      <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()">
+      
+      <h4>{{ "What now?" | translate }}
+        <ion-icon src="assets/images/dude.svg"></ion-icon>
+      </h4>
+      <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()" tappable>
         <ion-card-header>
           <ion-card-title>
             {{ "Enable notifications" | translate }}
@@ -32,7 +34,7 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card class="card-profile">
+      <ion-card class="card-profile" tappable>
         <ion-card-header>
           <ion-card-title>
             {{ "Improve your profile" | translate }}
@@ -43,7 +45,7 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card class="card-bank-details">
+      <ion-card class="card-bank-details" tappable>
         <ion-card-header>
           <ion-card-title>
             {{ "Enter your banking details" | translate }}
