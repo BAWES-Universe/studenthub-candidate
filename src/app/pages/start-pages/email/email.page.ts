@@ -1,5 +1,5 @@
-import { Component, OnInit, Optional, ViewChild } from '@angular/core';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 //services
@@ -29,7 +29,6 @@ export class EmailPage implements OnInit {
     public authService: AuthService,
     // @Optional() public nav: IonNav, // for testing perpose
     public navCtrl: NavController,
-    public modalCtrl: ModalController,
     public translate: TranslateLabelService,
   ) {
   }

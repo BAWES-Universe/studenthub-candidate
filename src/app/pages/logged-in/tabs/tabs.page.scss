@@ -9,12 +9,15 @@ ion-tab-bar {
 
 .brand {
     text-align: center;
-    margin-top: 28px;
-    margin-bottom: 28px;
 
     img {
         max-width: 167.8px;
     }
+}
+
+.mobile-tab .brand {
+    margin-top: 28px;
+    margin-bottom: 28px;
 }
 
 .browser-tab .brand img {

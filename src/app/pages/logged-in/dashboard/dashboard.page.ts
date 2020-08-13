@@ -20,6 +20,10 @@ export class DashboardPage implements OnInit {
 
   public loading: boolean = false;
   
+  public store;
+
+  public company; 
+  
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
@@ -41,6 +45,9 @@ export class DashboardPage implements OnInit {
     this.accountService.getJobSearchStatus().subscribe(res => {
       
       this.candidate_job_search_status = res.candidate_job_search_status;
+
+      this.store = res.store;
+      this.company = res.company;
 
       /*if(!res.isProfileCompleted) {
 
@@ -74,12 +81,14 @@ export class DashboardPage implements OnInit {
 
     this.updating= true; 
 
+    this.candidate_job_search_status = params.job_search_status;
+
     this.accountService.updateJobSearchStatus(params).subscribe(data => {
 
       this.updating= false; 
 
-      if(data.operation == 'success') {
-        this.candidate_job_search_status = params.job_search_status;
+      if(data.operation != 'success') {
+        this.candidate_job_search_status = !params.job_search_status;//back to old status
       }
     }, () => {
       this.updating= false;

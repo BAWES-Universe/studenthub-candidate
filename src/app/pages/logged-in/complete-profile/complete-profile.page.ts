@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -23,7 +24,6 @@ import { GenderPage } from '../gender/gender.page';
 import { DrivingLicensePage } from '../driving-license/driving-license.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
-import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -86,6 +86,7 @@ export class CompleteProfilePage implements OnInit {
   }
 
   async updateName () {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: NamePage,
@@ -93,26 +94,50 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
     modal.present();
   }
 
   async updateNameArabic() {
-    
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: NameArPage,
       componentProps: {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateEmail() {
-    
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: UpdateEmailPage,
       componentProps: {
         candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
       }
     });
     modal.present();
@@ -121,6 +146,7 @@ export class CompleteProfilePage implements OnInit {
   }
 
   async updatePhone() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: PhonePage,
@@ -128,10 +154,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updatePhoto() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ProfilePhotoPage,
@@ -139,10 +173,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateObjective() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ObjectivePage,
@@ -150,10 +192,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateSkills() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: SkillFormPage,
@@ -161,10 +211,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateExperiences() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ExperienceFormPage,
@@ -172,10 +230,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateCandidateIdNumber() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: IdCardPage,
@@ -183,10 +249,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateUniversity() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: UniversityPage,
@@ -194,10 +268,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateNationality() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: NationalityPage,
@@ -205,10 +287,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateDateOfBirth() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: DateOfBirthPage,
@@ -216,10 +306,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateGender() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: GenderPage,
@@ -227,10 +325,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateDrivingLicense() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: DrivingLicensePage,
@@ -238,10 +344,18 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
   async updateResume() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: UploadCvPage,
@@ -249,14 +363,28 @@ export class CompleteProfilePage implements OnInit {
         candidate: this.candidate,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
     modal.present();
   }
 
+  /**
+   * convert mysql date to browser readable date format
+   * @param date 
+   */
   toDate(date) {
     if (date)
       return new Date(date.replace(/-/g, '/') + ' UTC');
   }
 
+  /**
+   * open dashboard
+   */
   async submit() {
     this.authService.isProfileCompleted = true;
     this.authService.saveLoggedInUser();

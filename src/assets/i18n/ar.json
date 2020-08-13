@@ -132,7 +132,10 @@
     "The more attractive your profile, the easier it is for us to find you a job": "كلما كان ملفك الشخصي أكثر جاذبية ، أصبح من السهل علينا العثور على وظيفة لك",
     "Enter your banking details": "أدخل التفاصيل المصرفية الخاصة بك",
     "Enter your banking details for faster bank transfers once we match you": "أدخل التفاصيل المصرفية الخاصة بك لإجراء تحويلات بنكية أسرع بمجرد مطابقتك",
-    "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account": "ستمنحك الإشعارات تحديثات حول عروض العمل والمقابلات القادمة والمدفوعات التي يتم تحويلها إلى حسابك"
+    "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account": "ستمنحك الإشعارات تحديثات حول عروض العمل والمقابلات القادمة والمدفوعات التي يتم تحويلها إلى حسابك",
+    "Click this button if you no longer want us to look for jobs for you": "انقر فوق هذا الزر إذا لم تعد تريدنا أن نبحث عن وظائف لك",
+    "txt_assigned": "أنت مُكلف حاليًا بالعمل لدى <b> {{company}} </b> في <b> {{store}} </b>.",
+    "txt_learn_more": "تعرف على المزيد حول {{company}}"
 }
 
 

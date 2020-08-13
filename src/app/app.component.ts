@@ -1,5 +1,5 @@
 import { Component, OnInit, ApplicationRef } from '@angular/core';
-import { Platform, NavController, AlertController } from '@ionic/angular';
+import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
     public appRef: ApplicationRef,
     public navCtrl: NavController,
     private platform: Platform,
+    public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public _alertCtrl: AlertController,
     public languageService: LanguageService,
     public translateService: TranslateLabelService,
@@ -49,6 +51,32 @@ export class AppComponent implements OnInit {
     if(this.platform.is('ios')) {
       this.oneSignal.provideUserConsent(false);
     }
+
+    window.onpopstate = e => {
+
+      if (window['history-back-from'] == 'onDidDismiss') {
+        window['history-back-from'] = null;
+        return false;
+      }
+
+      this.popoverCtrl.getTop().then(overlay => {
+        
+        if (overlay) {
+          this.popoverCtrl.dismiss({
+            'from': 'native-back-btn'
+          });
+        }
+
+        this.modalCtrl.getTop().then(overlay => {
+
+          if (overlay) {
+            this.modalCtrl.dismiss({
+              'from': 'native-back-btn'
+            });
+          }
+        });
+      });
+    };
 
     this.platform.ready().then(() => {
 
@@ -364,9 +392,9 @@ export class AppComponent implements OnInit {
    */
   async _includeOneSignalJs() {
     
-    //if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
-    //  return null; // only for browser
-    //}
+    if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
+     return null; // only for browser
+    }
 
     // if already loaded, just update tags
 

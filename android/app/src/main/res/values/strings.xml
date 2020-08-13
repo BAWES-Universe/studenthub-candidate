@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">payroll-candidate</string>
-    <string name="title_activity_main">payroll-candidate</string>
-    <string name="package_name">co.studenthub.payroll-candidate</string>
-    <string name="custom_url_scheme">co.studenthub.payroll-candidate</string>
+    <string name="app_name">Studenthub</string>
+    <string name="title_activity_main">Studenthub</string>
+    <string name="package_name">co.studenthub.candidate</string>
+    <string name="custom_url_scheme">co.studenthub.candidate</string>
 </resources>

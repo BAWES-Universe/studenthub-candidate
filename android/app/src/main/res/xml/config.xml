@@ -17,7 +17,7 @@
   </feature>
 
   <feature name="SQLitePlugin">
-    <param name="android-package" value="io.sqlc.SQLitePlugin"/>
+    <param name="android-package" value="co.sqlc.SQLitePlugin"/>
   </feature>
 
   <feature name="OneSignalPush">
