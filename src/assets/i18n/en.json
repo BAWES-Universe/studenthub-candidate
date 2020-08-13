@@ -11,5 +11,7 @@
     "max_skills_allowed": "Maximum {{value}} skills allowed",
     "max_experiences_allowed": "Maximum {{value}} experiences allowed",
     "no_result_found": "No Result Found",
-    "txt_greeting": "Hey {{ customer }},"
+    "txt_greeting": "Hey {{ customer }},",
+    "txt_assigned": "You’re currently assigned to work for <b>{{ company }}</b> at <b>{{ store }}</b>.",
+    "txt_learn_more": "Learn more about {{ company }}"
 }

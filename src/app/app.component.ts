@@ -364,9 +364,9 @@ export class AppComponent implements OnInit {
    */
   async _includeOneSignalJs() {
     
-    //if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
-    //  return null; // only for browser
-    //}
+    if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
+     return null; // only for browser
+    }
 
     // if already loaded, just update tags
 
