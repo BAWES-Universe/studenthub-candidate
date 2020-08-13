@@ -1,5 +1,7 @@
 <ion-content [attr.dir]="translateService.direction()">
 
+  <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
+  
   <div class="max-width" *ngIf="!loading">
 
     <h3>{{ "txt_greeting" | translate : { customer: authService.name } }}</h3>
@@ -12,45 +14,58 @@
       {{ "You’re not looking for a job, and we’re not gonna bother you about it" | translate }}
     </p>
 
-    <ion-button fill="outline" class="btn-toggle-job" [disabled]="updating" (click)="updateJobSearchStatus()">
-      <ion-spinner *ngIf="updating"></ion-spinner>
-      <span *ngIf="!updating && !candidate_job_search_status">{{ "Find me a job" | translate }}</span>
-      <span *ngIf="!updating && candidate_job_search_status">{{ "I don’t want a job anymore" | translate }}</span>
+    <ion-button *ngIf="!candidate_job_search_status" fill="outline" class="btn-toggle-job" [disabled]="updating" (click)="updateJobSearchStatus()">
+      {{ "Find me a job" | translate }}
     </ion-button>
 
-    <h4>{{ "What now?" | translate }}</h4>
+    <div *ngIf="candidate_job_search_status">
+      <h4>{{ "What now?" | translate }}</h4>
 
-    <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()">
-      <ion-card-header>
-        <ion-card-title>
-          {{ "Enable notifications" | translate }}
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{ "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account" | translate }}
-      </ion-card-content>
-    </ion-card>
+      <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()">
+        <ion-card-header>
+          <ion-card-title>
+            {{ "Enable notifications" | translate }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account" | translate }}
+        </ion-card-content>
+      </ion-card>
 
-    <ion-card class="card-profile">
-      <ion-card-header>
-        <ion-card-title>
-          {{ "Improve your profile" | translate }}
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{ "The more attractive your profile, the easier it is for us to find you a job" | translate }}
-      </ion-card-content>
-    </ion-card>
+      <ion-card class="card-profile">
+        <ion-card-header>
+          <ion-card-title>
+            {{ "Improve your profile" | translate }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ "The more attractive your profile, the easier it is for us to find you a job" | translate }}
+        </ion-card-content>
+      </ion-card>
 
-    <ion-card class="card-bank-details">
-      <ion-card-header>
-        <ion-card-title>
-          {{ "Enter your banking details" | translate }}
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        {{ "Enter your banking details for faster bank transfers once we match you" | translate }}
-      </ion-card-content>
-    </ion-card>
+      <ion-card class="card-bank-details">
+        <ion-card-header>
+          <ion-card-title>
+            {{ "Enter your banking details" | translate }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ "Enter your banking details for faster bank transfers once we match you" | translate }}
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="card-job-status" (click)="updateJobSearchStatus()">
+        <ion-card-header>
+          <ion-card-title>
+            {{ "I don’t want a job anymore" | translate }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ "Click this button if you no longer want us to look for jobs for you" | translate }}
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+    
   </div>
 </ion-content>
