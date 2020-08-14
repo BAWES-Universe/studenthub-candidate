@@ -13,5 +13,6 @@
     "no_result_found": "No Result Found",
     "txt_greeting": "Hey {{ customer }},",
     "txt_assigned": "You’re currently assigned to work for <b>{{ company }}</b> at <b>{{ store }}</b>.",
-    "txt_learn_more": "Learn more about {{ company }}"
+    "txt_learn_more": "Learn more about {{ company }}",
+    "pending_field": "Please complete your profile with pending fields like {{ value }}"
 }

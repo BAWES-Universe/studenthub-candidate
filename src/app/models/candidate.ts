@@ -38,7 +38,8 @@ export class Candidate {
     age: string;
     candidate_personal_photo_thumb: string;
     candidate_job_search_status: any;
-    
+    pendingField: any[];
+
     tempLocation: any; //temp profile photo location while photo upload 
 
     store: Store;
