@@ -136,7 +136,8 @@
     "Click this button if you no longer want us to look for jobs for you": "انقر فوق هذا الزر إذا لم تعد تريدنا أن نبحث عن وظائف لك",
     "txt_assigned": "أنت مُكلف حاليًا بالعمل لدى <b> {{company}} </b> في <b> {{store}} </b>.",
     "txt_learn_more": "تعرف على المزيد حول {{company}}",
-    "pending_field": "يرجى استكمال ملفك الشخصي مع الحقول المعلقة مثل {{value}}"
+    "pending_field": "يرجى استكمال ملفك الشخصي مع الحقول المعلقة مثل {{value}}",
+    "Reset Password": ""
 }
 
 
