@@ -146,6 +146,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/update-email/update-email.module').then( m => m.UpdateEmailPageModule)
   },
   {
+    path: 'update-password',
+    loadChildren: () => import('./pages/start-pages/update-password/update-password.module').then( m => m.UpdatePasswordPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

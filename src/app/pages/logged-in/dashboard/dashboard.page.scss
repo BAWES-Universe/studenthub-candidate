@@ -111,7 +111,7 @@ ion-card {
 
 @media only screen and (max-width: 860px) {
     ion-content .max-width {
-        padding: 30px;
+        padding: 0 30px;
     }
 }
 
@@ -119,5 +119,6 @@ ion-icon {
     font-size: 100px;
     position: absolute;
     right: 7px;
-    bottom: -47px;
+    bottom: -49px;
+    z-index: 999;
 }
