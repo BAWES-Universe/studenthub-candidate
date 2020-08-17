@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, AlertController, IonInput } from '@ionic/angular';
+import { NavController, AlertController, IonInput, ModalController } from '@ionic/angular';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -27,6 +27,7 @@ export class UpdatePasswordPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     private _fb: FormBuilder,
     public translateService: TranslateLabelService,
@@ -45,6 +46,13 @@ export class UpdatePasswordPage implements OnInit {
     setTimeout(() => {
       this.inptPassword.setFocus();
     }, 800);
+  }
+
+  /**
+   * close page 
+   */
+  dismiss() {
+    this.modalCtrl.dismiss();
   }
 
   /**
