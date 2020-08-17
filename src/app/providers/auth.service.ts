@@ -147,8 +147,6 @@ export class AuthService {
     
     if (loggedInUser) {
 
-      console.log('loggedInUser');
-
       this.isLogin = true;
 
       this._accessToken = loggedInUser.token;
@@ -220,8 +218,6 @@ export class AuthService {
    * @param {string} [reason]
    */
   logout(reason?: string) {
-
-    console.log('logout', reason);
 
     // Remove from Storage then process logout
     this._accessToken = null;

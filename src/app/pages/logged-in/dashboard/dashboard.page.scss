@@ -81,6 +81,26 @@ ion-card {
     }
 }
 
+.disabled-feature {
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #eb5757;
+    margin: 0;
+    padding: 0;
+}
+
+.pushNotificationAvailable {
+    cursor: pointer;
+
+    .disabled-feature {
+        display: none;
+    }
+}
+
 [dir="rtl"] ion-card {
     background-position: calc(100% - 15px) 14px;
 }

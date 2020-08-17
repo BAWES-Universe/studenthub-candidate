@@ -21,14 +21,11 @@ export class SentryErrorhandlerService extends ErrorHandler {
 	constructor() {
 		super();
 
-		console.log(environment.envName);
-
 		// Enable sentry logging if current environment is in list of environments to log
 		if (this.environmentsLogged.indexOf(environment.envName) > -1) {
 
 			// Enable sentry logging
 			this.sentryLoggingEnabled = true;
-			console.log('sentryLoggingEnabled');
 
 			Sentry.init({
 				dsn: 'https://1c996b75b785482aae7c345ce717b5dd@o70039.ingest.sentry.io/5339282',

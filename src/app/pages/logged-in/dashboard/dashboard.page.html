@@ -31,10 +31,12 @@
         <ion-icon src="assets/images/dude.svg"></ion-icon>
       </h4>
 
-      <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()" tappable>
+      <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable" 
+        *ngIf="authService.showOneSignalPrompt" (click)="pushNotificationAvailable && setSubscription()">
         <ion-card-header>
           <ion-card-title>
             {{ "Enable notifications" | translate }}
+            <p class="disabled-feature">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
