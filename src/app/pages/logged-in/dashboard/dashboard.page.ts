@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController, Platform } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, NavController, Platform, IonContent } from '@ionic/angular';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -19,6 +19,8 @@ declare var window;
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+
+  @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public candidate_job_search_status: any;
   public candidate: Candidate;
@@ -59,6 +61,18 @@ export class DashboardPage implements OnInit {
     this.loadData();
     this.loadProfile();
   }
+
+  ionViewWillLeave() {
+    this.content.scrollToPoint(0, 0);
+  }
+
+  /**
+   * broadcast scroll event
+   * @param e 
+   */
+  logScrolling(e) {
+    this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
+  } 
 
   /**
    * load job search status ,.

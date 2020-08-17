@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform, PopoverController } from '@ionic/angular';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { EventService } from 'src/app/providers/event.service';
 //pages
 import { OptionPage } from '../option/option.page';
 
@@ -13,13 +14,19 @@ import { OptionPage } from '../option/option.page';
 })
 export class TabsPage implements OnInit {
 
+  public showHeader: boolean = false;
+
   constructor(
     public platform: Platform,
     public popoverCtrl: PopoverController,
-    public _translateService: TranslateLabelService
+    public eventService: EventService,
+    public translateService: TranslateLabelService
   ) { }
 
   ngOnInit() {
+    this.eventService.tabScrolled$.subscribe(data => {
+      this.showHeader = data['scrollTop'] > 0 ? true: false;
+    });
   }
 
   /**

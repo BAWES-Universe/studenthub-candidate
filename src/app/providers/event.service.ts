@@ -20,5 +20,7 @@ export class EventService {
   
   public setLanguagePref$ = new Subject();
 
+  public tabScrolled$ = new Subject();
+  
   constructor() { }
 }
