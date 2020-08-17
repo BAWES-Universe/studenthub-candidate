@@ -70,16 +70,16 @@ export class CompleteProfilePage implements OnInit {
 
     this.accountService.profile().subscribe(async res => {
       this.candidate = res;
-      if (this.candidate.pendingField) {
-        this.pendingFields = this.candidate.pendingField.join();
-
-        const toast = await this.toastCtrl.create({
-          message: this.translateService.transform('pending_field', { value: this.pendingFields }),
-          duration: 4000
-        });
-        toast.present();
-
-      }
+      // if (this.candidate.pendingField) {
+      //   this.pendingFields = this.candidate.pendingField.join();
+      //
+      //   const toast = await this.toastCtrl.create({
+      //     message: this.translateService.transform('pending_field', { value: this.pendingFields }),
+      //     duration: 4000
+      //   });
+      //   toast.present();
+      //
+      // }
 
       //if having complete profile
 
