@@ -137,7 +137,8 @@
     "txt_assigned": "أنت مُكلف حاليًا بالعمل لدى <b> {{company}} </b> في <b> {{store}} </b>.",
     "txt_learn_more": "تعرف على المزيد حول {{company}}",
     "pending_field": "يرجى استكمال ملفك الشخصي مع الحقول المعلقة مثل {{value}}",
-    "Reset Password": ""
+    "Reset Password": "",
+    "Beneficiary Name is required": ""
 }
 
 

@@ -53,7 +53,7 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card class="card-bank-details" tappable>
+      <ion-card class="card-bank-details" tappable (click)="updateBank($event)">
         <ion-card-header>
           <ion-card-title>
             {{ "Enter your banking details" | translate }}
