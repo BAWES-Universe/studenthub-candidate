@@ -138,7 +138,8 @@
     "txt_learn_more": "تعرف على المزيد حول {{company}}",
     "pending_field": "يرجى استكمال ملفك الشخصي مع الحقول المعلقة مثل {{value}}",
     "Reset Password": "",
-    "Beneficiary Name is required": ""
+    "Beneficiary Name is required": "",
+    "Not supported on Safari, please change to Chrome": ""
 }
 
 
