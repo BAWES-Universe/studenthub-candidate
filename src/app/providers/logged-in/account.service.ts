@@ -234,4 +234,8 @@ export class AccountService {
   updateBankDetail(params: number): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-bank-detail', params);
   }
+
+  updatePhoneDetail(params: number): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/update-phone', params);
+  }
 }
