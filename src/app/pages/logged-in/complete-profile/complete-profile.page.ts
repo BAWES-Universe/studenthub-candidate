@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import {ModalController, NavController, ToastController} from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 //services
@@ -42,6 +42,7 @@ export class CompleteProfilePage implements OnInit {
   public candidate: Candidate;
   
   public candidatePicUrl;
+  public pendingFields = '';
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -50,6 +51,7 @@ export class CompleteProfilePage implements OnInit {
     public authService: AuthService,
     public accountService: AccountService,
     public translateService: TranslateLabelService,
+    public toastCtrl: ToastController,
   ) {
     this.candidatePicUrl = environment.cloudinaryUrl;
 
@@ -64,10 +66,20 @@ export class CompleteProfilePage implements OnInit {
   }
 
   async loadData() {
-    this.loading = true; 
+    this.loading = true;
 
-    this.accountService.profile().subscribe(res => {
-      this.candidate = res; 
+    this.accountService.profile().subscribe(async res => {
+      this.candidate = res;
+      // if (this.candidate.pendingField) {
+      //   this.pendingFields = this.candidate.pendingField.join();
+      //
+      //   const toast = await this.toastCtrl.create({
+      //     message: this.translateService.transform('pending_field', { value: this.pendingFields }),
+      //     duration: 4000
+      //   });
+      //   toast.present();
+      //
+      // }
 
       //if having complete profile
 
@@ -82,7 +94,7 @@ export class CompleteProfilePage implements OnInit {
       this.loading = false;
     }, () => {
       this.loading = false;
-    })
+    });
   }
 
   async updateName () {

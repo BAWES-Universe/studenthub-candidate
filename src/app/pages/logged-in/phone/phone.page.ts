@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, IonInput, AlertController } from '@ionic/angular';
-//models
+// models
 import { Candidate } from 'src/app/models/candidate';
-//services
+// services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 
@@ -17,14 +17,14 @@ export class PhonePage implements OnInit {
 
   @ViewChild('inptPhone', { static: false }) inptPhone: IonInput;
 
-  public isLoading: boolean = false;
+  public isLoading = false;
 
   public candidate: Candidate;
 
   public form: FormGroup;
 
   constructor(
-    public _fb: FormBuilder,
+    public fb: FormBuilder,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public accountService: AccountService,
@@ -44,8 +44,9 @@ export class PhonePage implements OnInit {
    */
   async _initForm() {
 
-    this.form = this._fb.group({
-      phone: [this.candidate.candidate_phone, Validators.required],
+    this.form = this.fb.group({
+
+      phone: [this.candidate.candidate_phone, [Validators.required, Validators.pattern('^[0-9]{8}$')]],
     });
   }
 
@@ -53,16 +54,16 @@ export class PhonePage implements OnInit {
    * save arabic name
    */
   submit() {
-    this.isLoading = true; 
+    this.isLoading = true;
 
-    this.accountService.updateNameAr(this.form.value.phone).subscribe(res => {
+    this.accountService.updatePhoneDetail(this.form.value).subscribe(res => {
 
       this.isLoading = false;
 
-      if(res.operation == 'success') {
+      if (res.operation == 'success') {
 
-        this.candidate.candidate_phone = this.form.value.candidate_phone;
-        
+        this.candidate.candidate_phone = this.form.value.phone;
+
         this.dismiss();
       } else {
         this.alertCtrl.create({
@@ -79,12 +80,13 @@ export class PhonePage implements OnInit {
 
   /**
    * close modal
-   * @param data 
+   * @param data
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {
-      if (overlay)
+      if (overlay) {
         this.modalCtrl.dismiss(data);
+      }
     });
   }
 }

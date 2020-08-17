@@ -44,7 +44,8 @@ export class AuthService {
   public _urlUpdateCandidateEmail = '/auth/update-email';
   public _urlIsEmailVerified = '/auth/is-email-verified';
   public _urlVerifyEmail = '/auth/verify-email';
-  
+  public _urlUpdatePassword = '/auth/update-password';
+
   constructor(
     public http: HttpClient,
     public router: Router,
@@ -296,6 +297,22 @@ export class AuthService {
       'Content-Type': 'application/json',
       Language: this.translate.currentLang
     });
+  }
+
+  /**
+   * Update password by token got in email 
+   * @param password
+   * @param token
+   */
+  updatePassword(password: string, token: string) {
+    const url = environment.apiEndpoint + this._urlUpdatePassword;
+    const headers = this._buildAuthHeaders();
+    return this.http.patch(url, { newPassword: password, 'token': token }, { headers: headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
   }
 
   /**

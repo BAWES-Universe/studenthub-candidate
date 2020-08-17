@@ -229,5 +229,13 @@ export class AccountService {
     return this._authhttp.post(url, {
       driving_license: driving_license
     });
-  }            
+  }
+
+  updateBankDetail(params: number): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/update-bank-detail', params);
+  }
+
+  updatePhoneDetail(params: number): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/update-phone', params);
+  }
 }

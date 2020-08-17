@@ -11,8 +11,8 @@ import { environment } from '../environments/environment';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
-//import { CookieService } from 'ngx-cookie-service';
-import { CacheModule } from 'ionic-cache'; 
+// import { CookieService } from 'ngx-cookie-service';
+import { CacheModule } from 'ionic-cache';
 
 import { AuthService } from './providers/auth.service';
 import { OptionPageModule } from './pages/logged-in/option/option.module';
@@ -42,6 +42,7 @@ import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import {UpdateBankPageModule} from "./pages/logged-in/update-bank/update-bank.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -85,11 +86,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     UniversityPageModule,
     NationalityPageModule,
     DateOfBirthPageModule,
-    GenderPageModule, 
+    GenderPageModule,
     DrivingLicensePageModule,
     UploadCvPageModule,
     PhotoActionModule,
-    UpdateEmailPageModule
+    UpdateEmailPageModule,
+    UpdateBankPageModule
   ],
   providers: [
     {
@@ -101,7 +103,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     },
     File,
     FileChooser,
-    FilePath,  
+    FilePath,
     IOSFilePicker,
     OneSignal,
     SwUpdate,
@@ -111,4 +113,3 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
- 
