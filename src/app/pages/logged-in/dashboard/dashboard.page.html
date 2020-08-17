@@ -1,4 +1,4 @@
-<ion-content [attr.dir]="translateService.direction()">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
   
