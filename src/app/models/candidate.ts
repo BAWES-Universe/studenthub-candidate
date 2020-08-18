@@ -36,7 +36,6 @@ export class Candidate {
     approved: number;
     isProfileCompleted: number;
     age: string;
-    candidate_personal_photo_thumb: string;
     candidate_job_search_status: any;
     pendingField: any[];
 

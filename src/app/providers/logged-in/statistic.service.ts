@@ -16,6 +16,8 @@ export class StatisticService {
    * @returns {Observable<any>}
    */
   get(): Observable<any>{
-    return this.authhttp.get(this.endpoint);
+    const url = this.endpoint + '?expand=store,company';
+    return this.authhttp.get(url);
   }
 }
+ 
