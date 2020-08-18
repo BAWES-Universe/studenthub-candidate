@@ -23,6 +23,7 @@ export class PasswordPage implements OnInit {
 
   // Disable submit button if loading response
   public isLoading = false;
+  public resettingPassword = false;
 
   // Store old phone number and password to make sure user won't make same mistake twice
   public oldPhoneInput = '';
@@ -146,6 +147,20 @@ export class PasswordPage implements OnInit {
           buttons: [this.translateService.transform('Okay')],
         }).then(alert => alert.present());
       }
+    });
+  }
+
+  /**
+   * reset password
+   */
+  resetPasswordRequest() {
+    this.resettingPassword = true;
+    this.authService.resetPasswordRequest(this.email).subscribe( res => {
+      this.resettingPassword = false;
+      this.alertCtrl.create({
+        message: res.message,
+        buttons: [this.translateService.transform('Okay')]
+      }).then(alert => alert.present());
     });
   }
 }

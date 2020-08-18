@@ -85,13 +85,13 @@ export class AppComponent implements OnInit {
       }
 
       this.setServiceWorker();
-
-      if (this.platform.is('capacitor') && this.platform.is('mobile')) {
-        this._initOneSignal();
-      } else {
-        this._includeOneSignalJs();
-      }
     });
+
+    if (this.platform.is('capacitor') && this.platform.is('mobile')) {
+      this._initOneSignal();
+    } else {
+      this._includeOneSignalJs();
+    }
   }
 
   /**
@@ -232,7 +232,6 @@ export class AppComponent implements OnInit {
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {
         console.log(logoutReason);
-        console.log('Invalid Access');
       }
     });
   }
@@ -394,6 +393,17 @@ export class AppComponent implements OnInit {
     
     if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
      return null; // only for browser
+    }
+
+    /**
+     * https://sentry.io/organizations/pogi/issues/1843000885/?project=5339282&referrer=slack
+     * Cannot read property 'pushNotification' of undefined
+     */
+    
+    const agent = window.navigator.userAgent.toLowerCase();
+
+    if(this.platform.is('ios') && agent.indexOf('safari') > -1 && (!window.safari || !window.safari.pushNotification)) {
+      return null; // ios browser not supporting push notification
     }
 
     // if already loaded, just update tags

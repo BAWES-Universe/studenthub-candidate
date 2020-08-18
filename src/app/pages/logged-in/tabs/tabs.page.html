@@ -1,8 +1,8 @@
-<ion-header [class.mobile-tab]="platform.is('mobile')" class="ion-no-border" [class.browser-tab]="!platform.is('mobile')">
+<ion-header mode="md" [class.mobile-tab]="platform.is('mobile')" class="clear-header" [class.add-border]="showHeader" [class.browser-tab]="!platform.is('mobile')">
   
   <ion-toolbar class="main-toolbar">
 
-    <!-- to fix: https://www.pivotaltracker.com/story/show/170232399 -->
+    <!--class="ion-no-border" to fix: https://www.pivotaltracker.com/story/show/170232399 -->
 
     <ion-buttons slot="start" class="dummy-btn-wrapper">
       <ion-button>
@@ -24,9 +24,9 @@
 </ion-header>
 <ion-content>
 
-  <ion-tabs #tabRef [attr.dir]="this._translateService.direction()">
+  <ion-tabs #tabRef [attr.dir]="this.translateService.direction()">
 
-    <ion-tab-bar slot="top" *ngIf="!platform.is('mobile')" [attr.dir]="this._translateService.direction()">
+    <ion-tab-bar slot="top" *ngIf="!platform.is('mobile')" [attr.dir]="this.translateService.direction()">
 
       <ion-tab-button tab="dashboard" layout="icon-start">
         <ion-icon src="assets/images/ic_home.svg"></ion-icon>
@@ -45,7 +45,7 @@
     </ion-tab-bar>
 
     <ion-tab-bar slot="bottom" class="mobile" *ngIf="platform.is('mobile')"
-      [attr.dir]="this._translateService.direction()">
+      [attr.dir]="this.translateService.direction()">
 
       <ion-tab-button tab="dashboard">
         <ion-icon src="assets/images/ic_home.svg"></ion-icon>

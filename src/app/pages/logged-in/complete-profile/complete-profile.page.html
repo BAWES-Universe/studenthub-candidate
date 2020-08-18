@@ -1,4 +1,4 @@
-<ion-content [class.inTabs]="update">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [class.inTabs]="update">
 
   <ion-button class="btn-logout" fill="clear" (click)="authService.logout()">
     {{ "Logout" | translate }}

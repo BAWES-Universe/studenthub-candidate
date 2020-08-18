@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
 
   <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
     <ion-refresher-content>

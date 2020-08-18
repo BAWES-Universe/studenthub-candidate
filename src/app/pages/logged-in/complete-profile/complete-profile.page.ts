@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {ModalController, NavController, ToastController} from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {ModalController, NavController, ToastController, IonContent} from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 //models
 import { Candidate } from 'src/app/models/candidate';
@@ -33,6 +34,8 @@ import { UpdateEmailPage } from '../update-email/update-email.page';
 })
 export class CompleteProfilePage implements OnInit {
 
+  @ViewChild(IonContent, { static: true }) content: IonContent;
+
   public submitting: boolean = false; 
 
   public loading: boolean = false; 
@@ -50,6 +53,7 @@ export class CompleteProfilePage implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public accountService: AccountService,
+    public eventService: EventService,
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
   ) {
@@ -116,6 +120,18 @@ export class CompleteProfilePage implements OnInit {
 
     modal.present();
   }
+
+  ionViewWillLeave() {
+    this.content.scrollToPoint(0, 0);
+  }
+
+  /**
+   * broadcast scroll event
+   * @param e 
+   */
+  logScrolling(e) {
+    this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
+  } 
 
   async updateNameArabic() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);

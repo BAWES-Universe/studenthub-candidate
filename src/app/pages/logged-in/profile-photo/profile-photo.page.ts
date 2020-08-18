@@ -366,8 +366,8 @@ export class ProfilePhotoPage implements OnInit {
           }
         });
       };
-    } else {
-      this.currentTarget = event;
+    } else if (this.currentTarget) {
+        this.currentTarget = event;
     }
   }
 
@@ -421,7 +421,8 @@ export class ProfilePhotoPage implements OnInit {
     this.progress = null;
 
     this.loading = false;
-
-    this.currentTarget.abort();
+    if (this.currentTarget) {
+      this.currentTarget.abort();
+    }
   }
 }

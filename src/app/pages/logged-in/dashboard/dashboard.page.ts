@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import {ModalController, NavController} from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, NavController, Platform, IonContent } from '@ionic/angular';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
-import {UpdateEmailPage} from '../update-email/update-email.page';
-import {Observable} from 'rxjs';
-import {Candidate} from '../../../models/candidate';
-import {UpdateBankPage} from "../update-bank/update-bank.page";
+//models
+import { Candidate } from '../../../models/candidate';
+//pages
+import { UpdateBankPage } from "../update-bank/update-bank.page";
 
+
+declare var window;
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +19,8 @@ import {UpdateBankPage} from "../update-bank/update-bank.page";
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+
+  @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public candidate_job_search_status: any;
   public candidate: Candidate;
@@ -29,7 +33,10 @@ export class DashboardPage implements OnInit {
 
   public company;
 
+  public pushNotificationAvailable: boolean = true;
+
   constructor(
+    public platform: Platform,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public authService: AuthService,
@@ -39,9 +46,33 @@ export class DashboardPage implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    /**
+     * https://sentry.io/organizations/pogi/issues/1843000885/?project=5339282&referrer=slack
+     * Cannot read property 'pushNotification' of undefined
+     */
+    
+    const agent = window.navigator.userAgent.toLowerCase();
+
+    if(this.platform.is('ios') && agent.indexOf('safari') > -1 && (!window.safari || !window.safari.pushNotification)) {
+      this.pushNotificationAvailable = false; // ios browser not supporting push notification
+    }
+
     this.loadData();
     this.loadProfile();
   }
+
+  ionViewWillLeave() {
+    this.content.scrollToPoint(0, 0);
+  }
+
+  /**
+   * broadcast scroll event
+   * @param e 
+   */
+  logScrolling(e) {
+    this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
+  } 
 
   /**
    * load job search status ,.

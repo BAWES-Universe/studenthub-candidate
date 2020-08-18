@@ -63,3 +63,19 @@ ion-progress-bar {
   position: absolute;
   z-index: 9999;
 }
+
+ion-header.add-border:after {
+  display: inline!important;
+}
+
+.clear-header:after {
+  display: none;
+}
+
+ion-header.add-border:after {
+  display: inline;
+}
+
+.clear-header ion-toolbar {
+  --border-width: 0 !important;
+}

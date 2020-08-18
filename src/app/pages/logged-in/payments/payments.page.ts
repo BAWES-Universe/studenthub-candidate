@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { PopoverController, IonContent } from '@ionic/angular';
 // models
 import { Salary } from 'src/app/models/salary';
 // services
+import { EventService } from 'src/app/providers/event.service';
 import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -18,6 +19,8 @@ import { OptionPage } from '../option/option.page';
   styleUrls: ['./payments.page.scss'],
 })
 export class PaymentsPage implements OnInit {
+
+  @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public pageCount = 0;
   public currentPage = 1;
@@ -35,6 +38,7 @@ export class PaymentsPage implements OnInit {
     public awsService: AwsService,
     public candidateService: CandidateService,
     public popoverCtrl: PopoverController,
+    public eventService: EventService,
     public accountService: AccountService
   ) {
   }
@@ -59,6 +63,18 @@ export class PaymentsPage implements OnInit {
     this.currentPage = 1;
     this.listSalary(this.currentPage, refresh);
   }
+
+  ionViewWillLeave() {
+    this.content.scrollToPoint(0, 0);
+  }
+
+  /**
+   * broadcast scroll event
+   * @param e 
+   */
+  logScrolling(e) {
+    this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
+  } 
 
   /**
    * Load candidate work history data

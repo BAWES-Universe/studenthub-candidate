@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { NavController, AlertController, IonInput } from '@ionic/angular';
-//services
+import { NavController, AlertController, IonInput, ModalController } from '@ionic/angular';
+// services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,10 +13,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./update-password.page.scss'],
 })
 export class UpdatePasswordPage implements OnInit {
- 
-  public token; 
 
-  public newPassword: string = '';
+  public token;
+
+  public newPassword = '';
 
   public passwordForm: FormGroup;
 
@@ -27,6 +27,7 @@ export class UpdatePasswordPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     private _fb: FormBuilder,
     public translateService: TranslateLabelService,
@@ -39,7 +40,7 @@ export class UpdatePasswordPage implements OnInit {
   ngOnInit() {
     // Initialize the Login Form
     this.passwordForm = this._fb.group({
-      newPassword: ["", Validators.required]
+      newPassword: ['', Validators.required]
     });
 
     setTimeout(() => {
@@ -48,10 +49,18 @@ export class UpdatePasswordPage implements OnInit {
   }
 
   /**
+   * close page
+   */
+  dismiss() {
+    // this.modalCtrl.dismiss();
+    this.navCtrl.navigateRoot('/landing');
+  }
+
+  /**
    * Attempts to login with the provided email and password
    */
   async save() {
- 
+
     if (!this.passwordForm.valid) {
       return false;
     }
@@ -61,10 +70,10 @@ export class UpdatePasswordPage implements OnInit {
     this.authService.updatePassword(this.passwordForm.value.newPassword, this.token).subscribe(async res => {
 
       this.isLoading = false;
-      
-      if (res.operation == "success") {
-        
-        let alert = await this._alertCtrl.create({
+
+      if (res.operation == 'success') {
+
+        const alert = await this._alertCtrl.create({
           header: this.translateService.transform('Success'),
           message: res.message,
           buttons: [this.translateService.transform('Okay')],
@@ -73,14 +82,14 @@ export class UpdatePasswordPage implements OnInit {
 
         this.passwordForm.reset();
 
-        this.navCtrl.navigateRoot(['email'], { 
+        this.navCtrl.navigateRoot(['email'], {
           animated: true,
           animationDirection: 'forward',
         });
 
-      } else if (res.operation == "error") {
+      } else if (res.operation == 'error') {
 
-        let alert = await this._alertCtrl.create({
+        const alert = await this._alertCtrl.create({
           header: this.translateService.transform('Error'),
           message: res.message,
           buttons: [this.translateService.transform('Okay')],
@@ -90,5 +99,5 @@ export class UpdatePasswordPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
-  } 
+  }
 }

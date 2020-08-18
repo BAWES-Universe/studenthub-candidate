@@ -1,4 +1,4 @@
-<ion-content [attr.dir]="translateService.direction()">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
   
@@ -31,10 +31,12 @@
         <ion-icon src="assets/images/dude.svg"></ion-icon>
       </h4>
 
-      <ion-card class="card-notification" *ngIf="authService.showOneSignalPrompt" (click)="setSubscription()" tappable>
-        <ion-card-header>
+      <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
+        *ngIf="authService.showOneSignalPrompt" (click)="pushNotificationAvailable && setSubscription()">
+        <ion-card-header class="white-bg">
           <ion-card-title>
             {{ "Enable notifications" | translate }}
+            <p class="disabled-feature">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
@@ -42,8 +44,8 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card class="card-profile" *ngIf="!store" tappable [routerLink]="['/view/profile']">
-        <ion-card-header>
+      <ion-card class="profile-card" *ngIf="!store" tappable [routerLink]="['/view/profile']">
+        <ion-card-header class="white-bg">
           <ion-card-title>
             {{ "Improve your profile" | translate }}
           </ion-card-title>
@@ -54,7 +56,7 @@
       </ion-card>
 
       <ion-card class="card-bank-details" tappable (click)="updateBank($event)">
-        <ion-card-header>
+        <ion-card-header class="white-bg">
           <ion-card-title>
             {{ "Enter your banking details" | translate }}
           </ion-card-title>
