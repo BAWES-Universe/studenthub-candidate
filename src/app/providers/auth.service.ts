@@ -45,6 +45,7 @@ export class AuthService {
   public _urlIsEmailVerified = '/auth/is-email-verified';
   public _urlVerifyEmail = '/auth/verify-email';
   public _urlUpdatePassword = '/auth/update-password';
+  public resetPassRequest = '/auth/request-reset-password';
 
   constructor(
     public http: HttpClient,
@@ -428,6 +429,21 @@ export class AuthService {
             first(),
             map((res: HttpResponse<any>) => res)
         );
+  }
+
+  /**
+   * reset password request
+   * @param email
+   */
+  resetPasswordRequest(email: string) {
+    const url = environment.apiEndpoint + this.resetPassRequest;
+    const headers = this._buildAuthHeaders();
+    return this.http.post(url, { email }, { headers }).pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+    );
   }
 
   /**
