@@ -109,7 +109,7 @@ ion-card {
     background-image: url(src/assets/images/ic_alerts.svg);
 }
 
-.card-profile {
+.profile-card {
     background-image: url(src/assets/images/ic_profile.svg);
 }
 
@@ -141,4 +141,7 @@ ion-icon {
     right: 7px;
     bottom: -49px;
     z-index: 999;
+}
+.white-bg {
+    background: #fff;
 }
