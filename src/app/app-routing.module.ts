@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthService } from './providers/auth.service';
+import {LoginGuard} from "./providers/guards/login-guard.service";
 
 /**
  * 
@@ -44,27 +45,33 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'landing',
-    loadChildren: () => import('./pages/start-pages/landing/landing.module').then( m => m.LandingPageModule)
+    loadChildren: () => import('./pages/start-pages/landing/landing.module').then( m => m.LandingPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'email',
-    loadChildren: () => import('./pages/start-pages/email/email.module').then( m => m.EmailPageModule)
+    loadChildren: () => import('./pages/start-pages/email/email.module').then( m => m.EmailPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'password',
-    loadChildren: () => import('./pages/start-pages/password/password.module').then( m => m.PasswordPageModule)
+    loadChildren: () => import('./pages/start-pages/password/password.module').then( m => m.PasswordPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/start-pages/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./pages/start-pages/register/register.module').then( m => m.RegisterPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'verify-email',
-    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule)
+    loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
+    canActivate: [LoginGuard],
   },
   {
     path: 'complete-profile',
