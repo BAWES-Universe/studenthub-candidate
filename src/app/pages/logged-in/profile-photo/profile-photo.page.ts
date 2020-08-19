@@ -35,11 +35,11 @@ export class ProfilePhotoPage implements OnInit {
   public progress;
 
   public uploadFileSubscription: Subscription;
+  
+  public uploadingPhoto = false;
 
   public saving = false;
   public loading = false;
-
-  public uploadingPhoto = false;
 
   public form: FormGroup;
   public currentTarget;
@@ -379,8 +379,6 @@ export class ProfilePhotoPage implements OnInit {
     document.getElementById('upload-pic').click();
     // this.fileInput.nativeElement.click();
   }
-
-
 
   /**
    * close popup modal
