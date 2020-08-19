@@ -12,7 +12,7 @@
       <ion-row class="ion-align-items-center">
         <ion-col size="4" size-sm="2" size-lg="2">
           <img width="100" *ngIf="statistics.candidate.candidate_personal_photo"
-            src="{{ awsService.cloudinaryUrl + statistics.candidate.candidate_personal_photo }}"
+            src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + statistics.candidate.candidate_personal_photo }}"
             (error)="loadLogo($event,statistics.candidate)">
           <img width="100" *ngIf="!statistics.candidate.candidate_personal_photo" src="/assets/icon.png">
         </ion-col>

@@ -27,7 +27,7 @@ export class AccountService {
    * get job search status
    */
   getJobSearchStatus(): Observable<any> {
-    const url = this._accountEndpoint + '/job-search-status';
+    const url = this._accountEndpoint + '/job-search-status?expand=brands';
     return this._authhttp.get(url);
   }
 

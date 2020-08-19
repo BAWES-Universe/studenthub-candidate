@@ -17,7 +17,7 @@
       {{ "You’re not looking for a job, and we’re not gonna bother you about it" | translate }}
     </p>
 
-    <ion-button *ngIf="store" fill="outline" class="btn-learn-more">
+    <ion-button *ngIf="store" fill="outline" (click)="viewCompanyDetails()" class="btn-learn-more">
       {{ "txt_learn_more" | translate : { company: company.company_name } }}
     </ion-button>
 
