@@ -139,7 +139,9 @@
     "pending_field": "يرجى استكمال ملفك الشخصي مع الحقول المعلقة مثل {{value}}",
     "Reset Password": "",
     "Beneficiary Name is required": "",
-    "Not supported on Safari, please change to Chrome": ""
+    "Not supported on Safari, please change to Chrome": "",
+    "Description": "",
+    "Website": ""
 }
 
 

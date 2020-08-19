@@ -57,7 +57,7 @@ export class CompleteProfilePage implements OnInit {
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
   ) {
-    this.candidatePicUrl = environment.cloudinaryUrl;
+    this.candidatePicUrl = environment.cloudinaryUrl + 'candidate-photo/';
 
     this.update = location.href.indexOf('view/profile') > -1;
   }

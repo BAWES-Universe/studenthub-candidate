@@ -8,7 +8,7 @@ export const environment = {
   envName: 'dev',
   oneSignalAppId: 'fe766231-6156-4537-8037-84e3fe1be5da',
   oneSignalSafariAppId: 'web.onesignal.auto.4b99c5db-a7c9-461a-8333-facb0838095d',
-  cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face/v1596453482/candidate-photo/",
+  cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face/v1596453482/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'https://student.api.dev.studenthub.co/v1'
 };

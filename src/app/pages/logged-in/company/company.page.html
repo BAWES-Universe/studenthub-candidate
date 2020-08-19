@@ -1,0 +1,46 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width" *ngIf="company">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <ion-item lines="none">
+      <ion-thumbnail slot="start" *ngIf="company.company_logo">
+        <ion-img [src]="awsService.cloudinaryUrl + company.company_logo"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ translateService.langContent(company.company_common_name_en, company.company_common_name_ar) }}</h3>
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" *ngIf="company.company_website">
+      <ion-label>
+        <h5>
+          {{ "Website" | translate }}
+        </h5>
+        <a target="_blank" href="{{ company.company_website }}">
+          {{ company.company_website }}
+        </a>
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" *ngIf="company.company_description_en">
+      <ion-label>
+        <h5>
+          {{ "Description" | translate }}
+        </h5>
+        <p>
+          {{ translateService.langContent(company.company_description_en, company.company_description_ar) }}
+        </p>
+      </ion-label>
+    </ion-item>
+   
+    <ion-slides *ngIf="company.brands" [options]="slideOpts" pager="false">
+      <ion-slide *ngFor="let brand of company.brands">
+        <img src="{{ awsService.cloudinaryUrl + 'company-brand/' +brand.brand_logo }}" />
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+</ion-content>

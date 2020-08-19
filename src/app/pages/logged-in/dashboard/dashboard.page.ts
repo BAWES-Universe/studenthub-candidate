@@ -9,6 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { Candidate } from '../../../models/candidate';
 //pages
 import { UpdateBankPage } from "../update-bank/update-bank.page";
+import { CompanyPage } from '../company/company.page';
 
 
 declare var window;
@@ -145,6 +146,28 @@ export class DashboardPage implements OnInit {
     }, () => {
       this.updating = false;
     });
+  }
+
+  /**
+   * show popup for company details
+   */
+  async viewCompanyDetails() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async updateBank($e) {

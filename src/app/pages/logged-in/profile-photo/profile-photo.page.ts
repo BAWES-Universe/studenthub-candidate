@@ -60,7 +60,7 @@ export class ProfilePhotoPage implements OnInit {
     public translateService: TranslateLabelService,
     private _cameraService: CameraService
   ) {
-    this.cloudinaryUrl = environment.cloudinaryUrl;
+    this.cloudinaryUrl = environment.cloudinaryUrl + 'candidate-photo/';
   }
 
   ngOnInit() {
@@ -72,7 +72,7 @@ export class ProfilePhotoPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + this.candidate.candidate_personal_photo : '', Validators.required],
+      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_personal_photo : '', Validators.required],
       personal_photo: [this.candidate.candidate_personal_photo, Validators.required]
     });
   }
