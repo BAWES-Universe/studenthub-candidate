@@ -15,7 +15,7 @@
     </p>
 
     <ion-list *ngIf="candidate">
- 
+
       <ion-item tappable (click)="updatePhoto()" *ngIf="!candidate.candidate_personal_photo" [class.required]="!candidate.candidate_personal_photo">
         <ion-label>
           <small>{{ "Personal Photo" | translate }}</small>
