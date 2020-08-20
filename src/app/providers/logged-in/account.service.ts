@@ -23,6 +23,11 @@ export class AccountService {
     return this._authhttp.get(url);
   }
 
+  profileWithBank(): Observable<any> {
+    const url = this._accountEndpoint + '/profile?expand=bank';
+    return this._authhttp.get(url);
+  }
+
   /**
    * get job search status
    */
@@ -71,7 +76,7 @@ export class AccountService {
    * @returns {Observable<any>}
    */
   listSalary(page: number): Observable<any> {
-    const url = this._accountEndpoint + '/salary?page=' + page;
+    const url = this._accountEndpoint + '/salary?page=' + page + '&expand=bank';
     return this._authhttp.get(url, true);
   }
 

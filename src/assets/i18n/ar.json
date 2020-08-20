@@ -141,7 +141,14 @@
     "Beneficiary Name is required": "",
     "Not supported on Safari, please change to Chrome": "",
     "Description": "",
-    "Website": ""
+    "Website": "",
+    "Enter Bank Information": "أدخل المعلومات المصرفية",
+    "Bank Information": "المعلومات المصرفية",
+    "We'll need your bank information to pay you for work done": "سنحتاج إلى معلوماتك المصرفية لندفع لك مقابل العمل المنجز",
+    "We'll be making payments to the following bank account": "سنقوم بتسديد الدفعات إلى الحساب المصرفي التالي",
+    "Payments": "المدفوعات",
+    "Change bank information": "تغيير المعلومات المصرفية",
+    "txt_transfer_pending": "من {company} للعمل في {store}"
 }
 
 
