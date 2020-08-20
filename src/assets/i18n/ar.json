@@ -151,7 +151,11 @@
     "Website": "",
     "Civil ID Photo (Front)": "",
     "Civil ID Photo (Back)": "",
-    "Civil ID Expiry Date": ""
+    "Civil ID Expiry Date": "",
+    "Where would you like your money transferred?": "",
+    "Bank IBAN": "",
+    "Beneficiary Name": "",
+    "Save Bank Info": ""
 }
 
 
