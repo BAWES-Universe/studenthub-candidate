@@ -13,3 +13,123 @@
         font-weight: bold;
     }
 }
+ion-card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    border-radius: 1px;
+    margin: 16px 0;
+}
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-top: 8px;
+    margin-bottom: 25px;
+}
+h3 {
+    font-size: 28px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.name,
+.bank,
+.iban {
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    display: block;
+}
+.name {
+    font-weight: bold;
+}
+
+.change-bank {
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4354a4;
+    margin-top: 7px;
+    display: block;
+}
+
+.salaries {
+    .date {
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000;
+    }
+    .sal {
+        font-size: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000;
+    }
+    .from {
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        margin-bottom: 14px;
+        color: #000;
+    }
+    .pending-status {
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000;
+    }
+    .name,
+    .bank,
+    .iban {
+        font-size: 12px;
+    }
+}
+ion-card.pending {
+    border-left: 6px solid #f2c94c;
+}
+
+ion-card.success {
+    border-left: 6px solid #6fcf97;
+}
+.max-width {
+    margin: 0 29px;
+}
+.bank-detail-btn {
+    width: 212px;
+    height: 43px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 38px;
+    margin-top: 20px;
+}

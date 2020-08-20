@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PopoverController, IonContent } from '@ionic/angular';
+import {PopoverController, IonContent, ModalController} from '@ionic/angular';
 // models
 import { Salary } from 'src/app/models/salary';
 // services
@@ -11,6 +11,8 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 // pages
 import { OptionPage } from '../option/option.page';
+import {Candidate} from '../../../models/candidate';
+import {UpdateBankPage} from '../update-bank/update-bank.page';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class PaymentsPage implements OnInit {
 
   public statistics: any;
   public salaries: Salary[];
+  public candidate: Candidate;
 
   public loading = false;
 
@@ -39,7 +42,8 @@ export class PaymentsPage implements OnInit {
     public candidateService: CandidateService,
     public popoverCtrl: PopoverController,
     public eventService: EventService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public modalCtrl: ModalController
   ) {
   }
 
@@ -48,6 +52,7 @@ export class PaymentsPage implements OnInit {
 
   ionViewWillEnter() {
     this.loadData();
+    this.profile();
   }
 
   /**
@@ -58,7 +63,7 @@ export class PaymentsPage implements OnInit {
       this.statistics = response;
     });
 
-    this.loadWorkHistoryData();
+    // this.loadWorkHistoryData();
 
     this.currentPage = 1;
     this.listSalary(this.currentPage, refresh);
@@ -70,11 +75,11 @@ export class PaymentsPage implements OnInit {
 
   /**
    * broadcast scroll event
-   * @param e 
+   * @param e
    */
   logScrolling(e) {
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
-  } 
+  }
 
   /**
    * Load candidate work history data
@@ -128,6 +133,21 @@ export class PaymentsPage implements OnInit {
   }
 
   /**
+   * Load list of transfers
+   */
+  async profile() {
+
+    this.accountService.profileWithBank().subscribe(response => {
+
+      this.candidate = response;
+    },
+    error => { },
+    () => {
+      this.loading = false;
+    });
+  }
+
+  /**
    * load more data on scroll to bottom
    * @param event
    */
@@ -157,5 +177,25 @@ export class PaymentsPage implements OnInit {
    */
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
+  }
+
+  async updateBank($e) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: UpdateBankPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      this.profile();
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 }
