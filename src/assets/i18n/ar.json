@@ -141,7 +141,10 @@
     "Beneficiary Name is required": "",
     "Not supported on Safari, please change to Chrome": "",
     "Description": "",
-    "Website": ""
+    "Website": "",
+    "Civil ID Photo (Front)": "",
+    "Civil ID Photo (Back)": "",
+    "Civil ID Expiry Date": ""
 }
 
 

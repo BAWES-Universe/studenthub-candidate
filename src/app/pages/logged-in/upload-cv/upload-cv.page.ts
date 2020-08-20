@@ -236,7 +236,7 @@ export class UploadCvPage implements OnInit {
 
       //tempLocation = event.Location;
 
-    } else if (this.currentTarget) {
+    } else if (!this.currentTarget) {
       this.currentTarget = event;
     }
   }
@@ -261,6 +261,7 @@ export class UploadCvPage implements OnInit {
     this.progress = null;
 
     this.loading = false;
+
     if (this.currentTarget) {
       this.currentTarget.abort();
     }
