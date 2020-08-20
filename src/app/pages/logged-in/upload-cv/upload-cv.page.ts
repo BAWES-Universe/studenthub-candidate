@@ -107,12 +107,19 @@ export class UploadCvPage implements OnInit {
           this._handleFileSuccess(event);
         }, async err => {
 
+          this.progress = null;
+
           const ignoreErrors = [
             'No image picked',
             'User cancelled photos app',
           ];
 
-          if (err && ignoreErrors.indexOf(err.message) > -1) {
+          if (
+            err && (
+              ignoreErrors.indexOf(err.message) > -1 ||
+              err.message.includes('aborted')
+            ) 
+          ) {
             return null;
           }
 
@@ -150,8 +157,6 @@ export class UploadCvPage implements OnInit {
           });
 
           await alert.present();
-
-          this.progress = null;
         });
       });
     });
@@ -175,20 +180,23 @@ export class UploadCvPage implements OnInit {
       this._handleFileSuccess(event);
     },
       async err => {
-        //log to slack/sentry to know how many user getting file upload error 
 
-        this.sentryService.handleError(err);
+        if (!err.message || !err.message.includes('aborted')) {
+          //log to slack/sentry to know how many user getting file upload error 
 
+          this.sentryService.handleError(err);
+
+          const alert = await this.alertCtrl.create({
+            header: this.translateService.transform('Error'),
+            message: this.translateService.transform('Error while uploading file!'),
+            buttons: [this.translateService.transform('Okay')]
+          });
+
+          await alert.present();
+        }
+        
         if (this.fileInput && this.fileInput.nativeElement)
           this.fileInput.nativeElement.value = null;
-
-        const alert = await this.alertCtrl.create({
-          header: this.translateService.transform('Error'),
-          message: this.translateService.transform('Error while uploading file!'),
-          buttons: [this.translateService.transform('Okay')]
-        });
-
-        await alert.present();
 
         this.progress = null;
       });
