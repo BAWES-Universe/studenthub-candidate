@@ -141,7 +141,6 @@
     "Beneficiary Name is required": "",
     "Not supported on Safari, please change to Chrome": "",
     "Description": "",
-    "Website": "",
     "Enter Bank Information": "أدخل المعلومات المصرفية",
     "Bank Information": "المعلومات المصرفية",
     "We'll need your bank information to pay you for work done": "سنحتاج إلى معلوماتك المصرفية لندفع لك مقابل العمل المنجز",
@@ -149,6 +148,10 @@
     "Payments": "المدفوعات",
     "Change bank information": "تغيير المعلومات المصرفية",
     "txt_transfer_pending": "من {company} للعمل في {store}"
+    "Website": "",
+    "Civil ID Photo (Front)": "",
+    "Civil ID Photo (Back)": "",
+    "Civil ID Expiry Date": ""
 }
 
 

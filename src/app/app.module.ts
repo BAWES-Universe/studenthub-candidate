@@ -44,6 +44,9 @@ import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-ema
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import {UpdateBankPageModule} from "./pages/logged-in/update-bank/update-bank.module";
 import { CompanyPageModule } from './pages/logged-in/company/company.module';
+import { CivilIdFrontPageModule } from './pages/logged-in/civil-id-front/civil-id-front.module';
+import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-back.module';
+import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -93,7 +96,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     PhotoActionModule,
     UpdateEmailPageModule,
     UpdateBankPageModule,
-    CompanyPageModule
+    CompanyPageModule,
+    CivilIdFrontPageModule,
+    CivilIdBackPageModule,
+    CivilExpiryPageModule,
   ],
   providers: [
     {

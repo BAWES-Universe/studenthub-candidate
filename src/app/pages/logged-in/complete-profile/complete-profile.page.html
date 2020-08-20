@@ -16,20 +16,13 @@
 
     <ion-list *ngIf="candidate">
 
-      <ion-item tappable (click)="updatePhoto()" *ngIf="!candidate.candidate_personal_photo" [class.required]="!candidate.candidate_personal_photo">
+      <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
         <ion-label>
           <small>{{ "Personal Photo" | translate }}</small>
-          <span *ngIf="candidate.candidate_personal_photo">{{ candidate.candidate_personal_photo }}</span>
           <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
+          <img width="126" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
         </ion-label>
       </ion-item>
-      <ion-item tappable (click)="updatePhoto()" *ngIf="candidate.candidate_personal_photo">
-        <ion-label>
-          <small>{{ "Personal Photo" | translate }}</small>
-          <img width="126" src="{{candidatePicUrl}}{{candidate.candidate_personal_photo}}" tappable>
-        </ion-label>
-      </ion-item>
-
 
       <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">
         <ion-label>
@@ -69,15 +62,6 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
-        <ion-label>
-          <small>{{ "Your Skills" | translate }}</small>
-          <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">{{ candidateSkill.skill }}</ion-item>
-          <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
-          </span>
-        </ion-label>
-      </ion-item>
-
       <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
         <ion-label>
           <small>{{ "Work Experience" | translate }}</small>
@@ -87,11 +71,11 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">
+      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
         <ion-label>
-          <small>{{ "Civil ID Number" | translate }}</small>
-          <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
-          <span *ngIf="!candidate.candidate_civil_id">{{ "You know. The number of on your civil id card." | translate }}
+          <small>{{ "Your Skills" | translate }}</small>
+          <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">{{ candidateSkill.skill }}</ion-item>
+          <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
           </span>
         </ion-label>
       </ion-item>
@@ -122,7 +106,7 @@
           <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
         </ion-label>
       </ion-item>
-
+  
       <ion-item tappable (click)="updateGender()" [class.required]="!candidate.candidate_gender">
         <ion-label>
           <small>{{ "Gender" | translate }}</small>
@@ -147,6 +131,42 @@
           <small>{{ "Upload CV or Portfolio" | translate }}</small>
           <span *ngIf="candidate.candidate_resume">{{ candidate.candidate_resume }}</span>
           <span *ngIf="!candidate.candidate_resume">{{ "Have a cool file to showcase?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">
+        <ion-label>
+          <small>{{ "Civil ID Number" | translate }}</small>
+          <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
+          <span *ngIf="!candidate.candidate_civil_id">{{ "The number of on your civil id card." | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateCandidateIdExpiryDate()" [class.required]="!candidate.candidate_civil_expiry_date">
+        <ion-label>
+          <small>{{ "Civil ID Expiry Date" | translate }}</small>
+          <span *ngIf="candidate.candidate_civil_expiry_date">{{ candidate.candidate_civil_expiry_date | translate }}</span>
+          <span *ngIf="!candidate.candidate_civil_expiry_date">{{ "When does it expire?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateCivilIdFront()" [class.required]="!candidate.candidate_civil_photo_front">
+        <ion-label>
+          <small>{{ "Civil ID Photo (Front)" | translate }}</small>
+          <img width="126" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+          <span *ngIf="!candidate.candidate_civil_photo_front">{{ "A photo of your civil id from the front" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateCivilIdBack()" [class.required]="!candidate.candidate_civil_photo_back">
+        <ion-label>
+          <small>{{ "Civil ID Photo (Back)" | translate }}</small>
+          <img width="126" *ngIf="candidate.candidate_civil_photo_back" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+          <span *ngIf="!candidate.candidate_civil_photo_back">{{ "A photo of your civil id from the back" | translate }}
+          </span>
         </ion-label>
       </ion-item>
 
