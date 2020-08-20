@@ -10,8 +10,6 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 
 
-const { Storage } = Plugins;
-
 @Component({
   selector: 'app-update-bank',
   templateUrl: './update-bank.page.html',
@@ -81,10 +79,7 @@ export class UpdateBankPage implements OnInit {
       this.isLoading = false;
 
       if (res.operation == 'success') {
-
-
         this.dismiss();
-
       }
       else if (res.operation == 'error') {
         this._handleError(res);
