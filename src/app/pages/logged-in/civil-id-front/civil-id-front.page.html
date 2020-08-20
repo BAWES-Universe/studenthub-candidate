@@ -1,0 +1,49 @@
+<ion-content [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3 class="ion-text-center">{{ "Civil ID Photo (Front)" | translate }}</h3>
+
+    <div class="profile-photo-wrapper ion-text-center" *ngIf="form">
+
+      <div *ngIf="!progress">
+        <img tappable (click)="triggerUpdatePhoto($event)" *ngIf="form.controls.civil_photo_front.value && form.controls.civil_photo_front.value.length > 0" src="{{ cloudinaryUrl + 'candidate-photo/' + form.controls.civil_photo_front.value }}" class="circle" width="250"><br/>
+
+        <div tappable (click)="triggerUpdatePhoto($event)" class="no-logo" *ngIf="!form.controls.civil_photo_front.value || form.controls.civil_photo_front.value.length == 0">
+          <ion-icon src="assets/svg/ic_no_logo.svg" ></ion-icon>
+        </div>
+
+        <ion-button color="dark" id="upload-pic" class="change-logo ion-text-center" #btnChangePhoto (click)="updatePhoto($event);">
+          <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>&nbsp;
+          <span *ngIf="candidate.candidate_civil_photo_front">{{ "Replace Photo" | translate }}</span>
+          <span *ngIf="!candidate.candidate_civil_photo_front">{{ "Select Photo" | translate }}</span>
+        </ion-button>
+      </div>
+
+      <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
+    </div>
+
+    <div class="progress-wrapper" *ngIf="uploadingPhoto || progress">
+      <div class="progress-box">
+
+        <h4>{{ "Uploading…" | translate }} <span>{{ progress + '%' }}</span></h4>
+
+        <div class="progress-bar">
+          <div class="progress" [style.width]="progress + '%'"></div>
+        </div>
+
+        <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
+        </ion-icon>
+      </div>
+    </div>
+
+    <ion-button class="btn-submit ion-hide" *ngIf="form && form.valid && form.dirty" (click)="submit()" [disabled]="saving || uploadingPhoto">
+      <span *ngIf="!saving">{{ "Submit" | translate }}</span> 
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+
+  </div>
+</ion-content>

@@ -4,9 +4,9 @@ import { Observable, Observer } from 'rxjs';
 import * as AWS from 'aws-sdk';
 import { Plugins } from '@capacitor/core';
 import { Platform, AlertController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 // services
 import { TranslateLabelService } from '../translate-label.service';
-import { environment } from 'src/environments/environment';
 
 
 const { Filesystem, FilesystemEncoding } = Plugins;
@@ -172,11 +172,17 @@ export class AwsService {
                 return observer.error(this.translateService.transform('txt_max_upload_limit_exceed', { 'maxUploadSize': this.txtMaxUploadSize }));
             }
 
-            s3.upload(params).on('httpUploadProgress', (progress: ProgressEvent) => {
-                observer.next(progress);
-            }).send((err, data) => {
+            const currUpload = s3.upload(params);
+            
+            observer.next(currUpload);
 
+            currUpload.on('httpUploadProgress', (progress: ProgressEvent) => {
+                observer.next(progress);
+            });
+
+            currUpload.send((err, data) => {
                 if(err) {
+                    console.log(err);
                     observer.error(err);
                 } else {
                     observer.next(data);

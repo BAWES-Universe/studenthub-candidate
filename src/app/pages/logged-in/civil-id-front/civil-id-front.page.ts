@@ -23,11 +23,11 @@ import { PhotoActionComponent } from 'src/app/components/photo-action/photo-acti
 
 
 @Component({
-  selector: 'app-profile-photo',
-  templateUrl: './profile-photo.page.html',
-  styleUrls: ['./profile-photo.page.scss'],
+  selector: 'app-civil-id-front',
+  templateUrl: './civil-id-front.page.html',
+  styleUrls: ['./civil-id-front.page.scss'],
 })
-export class ProfilePhotoPage implements OnInit {
+export class CivilIdFrontPage implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
@@ -73,8 +73,8 @@ export class ProfilePhotoPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_personal_photo : '', Validators.required],
-      personal_photo: [this.candidate.candidate_personal_photo, Validators.required]
+      civil_photo_front_path: [this.candidate.candidate_civil_photo_front ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_civil_photo_front : '', Validators.required],
+      civil_photo_front: [this.candidate.candidate_civil_photo_front, Validators.required]
     });
   }
 
@@ -84,7 +84,7 @@ export class ProfilePhotoPage implements OnInit {
   async updatePhoto(ev) {
     if (this.platform.is('capacitor')) {
       this.mobileUpload();
-    } else if (this.form.controls.personal_photo.value) {
+    } else if (this.form.controls.civil_photo_front.value) {
       const popover = await this.popoverCtrl.create(
         {
           component: PhotoActionComponent,
@@ -111,16 +111,16 @@ export class ProfilePhotoPage implements OnInit {
   }
 
   /**
-   * Remove profile photo
+   * Remove photo
    */
   removePhoto() {
-    this.form.controls.personal_photo_path.setValue(null);
-    this.form.controls.personal_photo.setValue(null);
+    this.form.controls.civil_photo_front_path.setValue(null);
+    this.form.controls.civil_photo_front.setValue(null);
     this.form.updateValueAndValidity();
 
-    this.candidate.candidate_personal_photo = null;
+    this.candidate.candidate_civil_photo_front = null;
 
-    const removePhotoSubscription = this.accountService.removePhoto().subscribe(() => {
+    const removePhotoSubscription = this.accountService.removeCivilPhotoFront().subscribe(() => {
       removePhotoSubscription.unsubscribe();
     });
   }
@@ -197,7 +197,7 @@ export class ProfilePhotoPage implements OnInit {
       }
     ];
 
-    if (this.form.controls.personal_photo.value) {
+    if (this.form.controls.civil_photo_front.value) {
       arrButtons.push({
         text: this.translateService.transform('Remove Photo'),
         handler: () => {
@@ -346,12 +346,12 @@ export class ProfilePhotoPage implements OnInit {
       imgLarge.src = event.Location;
       imgLarge.onload = () => {
 
-        this.form.controls.personal_photo_path.setValue(event.Location);
-        this.form.controls.personal_photo.setValue(event.Key);
-        this.form.controls.personal_photo.markAsDirty();
+        this.form.controls.civil_photo_front_path.setValue(event.Location);
+        this.form.controls.civil_photo_front.setValue(event.Key);
+        this.form.controls.civil_photo_front.markAsDirty();
         this.form.updateValueAndValidity();
 
-        this.accountService.updateProfilePhoto(event.Key).subscribe(async response => {
+        this.accountService.updateCivilPhotoFront(event.Key).subscribe(async response => {
           if (response.operation != 'success') {
             const alert = await this.alertCtrl.create({
               message: response.message,
@@ -362,7 +362,7 @@ export class ProfilePhotoPage implements OnInit {
             this.progress = null;
             
           } else  {
-            this.candidate.candidate_personal_photo = response.candidate_personal_photo;
+            this.candidate.candidate_civil_photo_front = response.candidate_civil_photo_front;
             this.dismiss();
           }
         });
@@ -398,7 +398,7 @@ export class ProfilePhotoPage implements OnInit {
   submit() {
     this.saving = true;
 
-    this.accountService.updateProfilePhoto(this.form.value.profile_photo).subscribe(res => {
+    this.accountService.updateCivilPhotoFront(this.form.value.civil_photo_front).subscribe(res => {
       this.saving = false;
 
       if (res.operation == 'success') {
