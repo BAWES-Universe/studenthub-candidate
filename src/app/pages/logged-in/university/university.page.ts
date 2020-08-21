@@ -30,6 +30,7 @@ export class UniversityPage implements OnInit {
   public universityList: University[];
 
   public loading = false;
+  public saving = false;
 
   public updatingUniversity = false;
 
@@ -122,16 +123,19 @@ export class UniversityPage implements OnInit {
    * @param university
    */
   async rowSelected(university: University) {
+    this.saving = true;
     this.candidate.university_id = university.university_id;
     this.candidate.university = university;
 
     this.accountService.updateUniversity(university.university_id).subscribe(async response => {
+      this.saving = false;
       if (response.operation != 'success') {
-        const alert = await this.alertCtrl.create({
+        this.alertCtrl.create({
           message: this.translateService.errorMessage(response.message),
           buttons: [this.translateService.transform('Okay')],
+        }).then( alert => {
+          alert.present();
         });
-        alert.present();
       } else  {
         this.dismiss();
       }

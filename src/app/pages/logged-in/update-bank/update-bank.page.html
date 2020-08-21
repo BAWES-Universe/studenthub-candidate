@@ -9,7 +9,7 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-      <ion-input type="text" enterkeyhint='{{ "Continue" | translate }}'
+      <ion-input type="text" #benefName enterkeyhint='{{ "Continue" | translate }}'
                formControlName="benef_name" placeholder="{{ 'Beneficiary Name' | translate }}"></ion-input>
 
       <ion-input type="text" enterkeyhint='{{ "Continue" | translate }}'
