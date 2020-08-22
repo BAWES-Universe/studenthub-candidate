@@ -1,4 +1,4 @@
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
     <ion-refresher-content>
@@ -13,14 +13,14 @@
     </ion-button>
 
   <h1 *ngIf="salaries && salaries.length > 0">{{ "Payments" | translate }}</h1>
-  <ion-card *ngIf="candidate && candidate.bank_id">
+  <ion-card *ngIf="candidate && candidate.bank_id" class="bank-card">
     <ion-card-content>
       <div class="card-bank-details">
         <span class="name">{{candidate.bank_account_name}}</span>
         <span class="bank" *ngIf="candidate.bank">{{candidate.bank.bank_name}}</span>
         <span class="iban">{{candidate.candidate_iban}}</span>
       </div>
-      <a class="change-bank" (click)="updateBank($event)">{{ "Change bank information" | translate }}</a>
+      <a class="change-bank" tappable (click)="updateBank($event)">{{ "Change bank information" | translate }}</a>
     </ion-card-content>
   </ion-card>
 

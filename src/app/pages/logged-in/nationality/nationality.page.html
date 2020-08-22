@@ -16,8 +16,9 @@
       
       <ion-item *ngFor="let country of countries" tappable (click)="rowSelected(country)">
         {{ translateService.langContent(country.country_name_en, country.country_name_ar) }}
-        <ion-icon slot="end" name="checkmark" *ngIf="candidate.country_id == country.country_id">
+        <ion-icon slot="end" name="checkmark" *ngIf="!saving && candidate.country_id == country.country_id">
         </ion-icon>
+        <ion-spinner slot="end" *ngIf="saving && candidate.country_id == country.country_id"></ion-spinner>
       </ion-item>
 
       <loading-modal [loading]="loading" type="text"></loading-modal>

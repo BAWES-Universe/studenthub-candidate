@@ -17,7 +17,7 @@ ion-card {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #ffffff;
     border-radius: 1px;
-    margin: 16px 0;
+    //margin: 16px 0;
 }
 h1 {
     font-size: 36px;
@@ -28,6 +28,7 @@ h1 {
     letter-spacing: normal;
     margin-top: 8px;
     margin-bottom: 25px;
+    padding-left: 11px;
 }
 h3 {
     font-size: 28px;
@@ -62,8 +63,9 @@ h3 {
     line-height: normal;
     letter-spacing: normal;
     color: #4354a4;
-    margin-top: 7px;
+    margin-top: 9px;
     display: block;
+    margin-bottom: 6px;
 }
 
 .salaries {
@@ -118,7 +120,7 @@ ion-card.success {
     border-left: 6px solid #6fcf97;
 }
 .max-width {
-    margin: 0 29px;
+    margin: 0 auto;
 }
 .bank-detail-btn {
     width: 212px;
@@ -132,4 +134,12 @@ ion-card.success {
     color: #000000;
     margin-bottom: 38px;
     margin-top: 20px;
+}
+.bank-card ion-card-content{
+    padding-left: 24px;
+}
+@media only screen and (max-width: 860px) {
+    ion-content .max-width {
+        padding: 24px;
+    }
 }

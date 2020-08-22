@@ -17,7 +17,7 @@ import { EventService } from 'src/app/providers/event.service';
 })
 export class UpdateBankPage implements OnInit {
 
-  @ViewChild('emailInput') emailInput;
+  @ViewChild('benefName') benefName;
 
   public candidate;
 
@@ -41,7 +41,7 @@ export class UpdateBankPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.emailInput.setFocus();
+      this.benefName.setFocus();
     }, 300);
   }
 
