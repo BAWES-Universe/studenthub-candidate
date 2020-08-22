@@ -164,15 +164,16 @@ export class CompleteProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
+      
+      if(e && e.data && e.data.email) {
+        this.navCtrl.navigateRoot(['verify-email', e.data.email]);
+      } 
+      else if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      } 
     });
     modal.present();
-    //redirect email verification page
-
   }
 
   async updatePhone() {

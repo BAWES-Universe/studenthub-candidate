@@ -71,7 +71,6 @@ const routes: Routes = [
   {
     path: 'verify-email',
     loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
-    canActivate: [LoginGuard],
   },
   {
     path: 'complete-profile',
