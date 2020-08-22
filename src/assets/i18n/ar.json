@@ -139,7 +139,23 @@
     "pending_field": "يرجى استكمال ملفك الشخصي مع الحقول المعلقة مثل {{value}}",
     "Reset Password": "",
     "Beneficiary Name is required": "",
-    "Not supported on Safari, please change to Chrome": ""
+    "Not supported on Safari, please change to Chrome": "",
+    "Description": "",
+    "Enter Bank Information": "أدخل المعلومات المصرفية",
+    "Bank Information": "المعلومات المصرفية",
+    "We'll need your bank information to pay you for work done": "سنحتاج إلى معلوماتك المصرفية لندفع لك مقابل العمل المنجز",
+    "We'll be making payments to the following bank account": "سنقوم بتسديد الدفعات إلى الحساب المصرفي التالي",
+    "Payments": "المدفوعات",
+    "Change bank information": "تغيير المعلومات المصرفية",
+    "txt_transfer_pending": "من {company} للعمل في {store}",
+    "Website": "",
+    "Civil ID Photo (Front)": "",
+    "Civil ID Photo (Back)": "",
+    "Civil ID Expiry Date": "",
+    "Where would you like your money transferred?": "",
+    "Bank IBAN": "",
+    "Beneficiary Name": "",
+    "Save Bank Info": ""
 }
 
 

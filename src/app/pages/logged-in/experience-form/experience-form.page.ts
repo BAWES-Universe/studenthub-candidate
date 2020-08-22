@@ -39,7 +39,7 @@ export class ExperienceFormPage implements OnInit {
 
     setTimeout(() => {
 
-      const lastElementIndex = this.candidate.candidateSkills.length;
+      const lastElementIndex = this.candidate.candidateExperiences.length;
 
       const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
  

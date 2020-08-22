@@ -1,0 +1,40 @@
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 25px;
+    --padding-bottom: 26px;
+}
+
+.btn-close {
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    margin: 0;
+    height: auto;
+}
+
+h3 {
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+
+ion-slides {
+    padding: 15px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+        box-shadow: 0px 0.175em 0.5em rgba(2, 8, 20, 0.1), 0px 0.085em 0.175em rgba(2, 8, 20, 0.08);
+    }
+}
+
+

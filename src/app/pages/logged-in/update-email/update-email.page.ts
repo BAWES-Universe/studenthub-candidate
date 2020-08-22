@@ -87,14 +87,12 @@ export class UpdateEmailPage implements OnInit {
           value: value
         }); 
         
-        this.navCtrl.navigateRoot(['verify-email', this.form.controls.email.value]);
-
         /*this.eventService.verifyEmail$.next({   
           email: this.form.controls.email.value,
           candidate_uuid: res.candidate_uuid
         });*/
 
-        this.dismiss(); 
+        this.dismiss({ email: this.form.controls.email.value }); 
         
       }
       else if (res.operation == "error") {

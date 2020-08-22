@@ -23,11 +23,16 @@ export class AccountService {
     return this._authhttp.get(url);
   }
 
+  profileWithBank(): Observable<any> {
+    const url = this._accountEndpoint + '/profile?expand=bank';
+    return this._authhttp.get(url);
+  }
+
   /**
    * get job search status
    */
   getJobSearchStatus(): Observable<any> {
-    const url = this._accountEndpoint + '/job-search-status';
+    const url = this._accountEndpoint + '/job-search-status?expand=brands';
     return this._authhttp.get(url);
   }
 
@@ -59,6 +64,22 @@ export class AccountService {
   }
 
   /**
+   * remove civol id front photo
+   */
+  removeCivilPhotoFront(): Observable<any> {
+    let url = this._accountEndpoint + '/remove-civil-photo-front';
+    return this._authhttp.delete(url);
+  }
+
+  /**
+   * remove civol id back photo
+   */
+  removeCivilPhotoBack(): Observable<any> {
+    let url = this._accountEndpoint + '/remove-civil-photo-back';
+    return this._authhttp.delete(url);
+  }
+
+  /**
    * Remove candidate's profile photo 
    */
   removePhoto(): Observable<any> {
@@ -71,7 +92,7 @@ export class AccountService {
    * @returns {Observable<any>}
    */
   listSalary(page: number): Observable<any> {
-    const url = this._accountEndpoint + '/salary?page=' + page;
+    const url = this._accountEndpoint + '/salary?page=' + page + '&expand=bank';
     return this._authhttp.get(url, true);
   }
 
@@ -219,7 +240,40 @@ export class AccountService {
       birth_date: birth_date
     });
   }
- 
+
+  /**
+   * update back image of civil id
+   * @param civil_photo_back 
+   */
+  updateCivilPhotoBack(civil_photo_back: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-civil-photo-back';
+    return this._authhttp.post(url, {
+      civil_photo_back: civil_photo_back
+    });
+  }
+
+  /**
+   * update front image of civil id
+   * @param civil_photo_front 
+   */
+  updateCivilPhotoFront(civil_photo_front: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-civil-photo-front';
+    return this._authhttp.post(url, {
+      civil_photo_front: civil_photo_front
+    });
+  }
+
+  /**
+   * update civil expiry date
+   * @param civil_expiry_date 
+   */
+  updateCivilExpiryDate(civil_expiry_date: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-civil-expiry-date';
+    return this._authhttp.post(url, {
+      civil_expiry_date: civil_expiry_date
+    });
+  }
+
   /**
    * update driving license
    * @param driving_license number
@@ -231,11 +285,11 @@ export class AccountService {
     });
   }
 
-  updateBankDetail(params: number): Observable<any> {
+  updateBankDetail(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-bank-detail', params);
   }
 
-  updatePhoneDetail(params: number): Observable<any> {
+  updatePhoneDetail(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-phone', params);
   }
 }

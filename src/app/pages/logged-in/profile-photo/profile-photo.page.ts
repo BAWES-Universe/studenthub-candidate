@@ -21,6 +21,7 @@ import { CameraService } from 'src/app/providers/logged-in/camera.service';
 // components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
 
+
 @Component({
   selector: 'app-profile-photo',
   templateUrl: './profile-photo.page.html',
@@ -35,11 +36,11 @@ export class ProfilePhotoPage implements OnInit {
   public progress;
 
   public uploadFileSubscription: Subscription;
+  
+  public uploadingPhoto = false;
 
   public saving = false;
   public loading = false;
-
-  public uploadingPhoto = false;
 
   public form: FormGroup;
   public currentTarget;
@@ -60,7 +61,7 @@ export class ProfilePhotoPage implements OnInit {
     public translateService: TranslateLabelService,
     private _cameraService: CameraService
   ) {
-    this.cloudinaryUrl = environment.cloudinaryUrl;
+    this.cloudinaryUrl = environment.cloudinaryUrl + 'candidate-photo/';
   }
 
   ngOnInit() {
@@ -72,7 +73,7 @@ export class ProfilePhotoPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + this.candidate.candidate_personal_photo : '', Validators.required],
+      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_personal_photo : '', Validators.required],
       personal_photo: [this.candidate.candidate_personal_photo, Validators.required]
     });
   }
@@ -230,7 +231,12 @@ export class ProfilePhotoPage implements OnInit {
           'User cancelled photos app',
         ];
 
-        if (err && ignoreErrors.indexOf(err.message) > -1) {
+        if (
+          err && (
+            ignoreErrors.indexOf(err.message) > -1 ||
+            err.message.includes('aborted')
+          ) 
+        ) {
           return null;
         }
 
@@ -302,21 +308,23 @@ export class ProfilePhotoPage implements OnInit {
         this._handleFileSuccess(event);
       }, async err => {
 
-        // log to sentry
+        if (!err.message || !err.message.includes('aborted')) {
+          // log to sentry
 
-        this.sentryService.handleError(err);
+          this.sentryService.handleError(err);
 
+          const alert = await this.alertCtrl.create({
+            header: this.translateService.transform('Error'),
+            message: this.translateService.transform('Error while uploading file!'),
+            buttons: [this.translateService.transform('Okay')]
+          });
+
+          await alert.present();
+        }
+        
         if (this.fileInput && this.fileInput.nativeElement) {
           this.fileInput.nativeElement.value = null;
         }
-
-        const alert = await this.alertCtrl.create({
-          header: this.translateService.transform('Error'),
-          message: this.translateService.transform('Error while uploading file!'),
-          buttons: [this.translateService.transform('Okay')]
-        });
-
-        await alert.present();
 
         this.progress = false;
       }, () => {
@@ -366,7 +374,7 @@ export class ProfilePhotoPage implements OnInit {
           }
         });
       };
-    } else if (this.currentTarget) {
+    } else if (!this.currentTarget) {
         this.currentTarget = event;
     }
   }
@@ -379,8 +387,6 @@ export class ProfilePhotoPage implements OnInit {
     document.getElementById('upload-pic').click();
     // this.fileInput.nativeElement.click();
   }
-
-
 
   /**
    * close popup modal

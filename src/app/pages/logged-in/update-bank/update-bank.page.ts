@@ -10,8 +10,6 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 
 
-const { Storage } = Plugins;
-
 @Component({
   selector: 'app-update-bank',
   templateUrl: './update-bank.page.html',
@@ -19,7 +17,7 @@ const { Storage } = Plugins;
 })
 export class UpdateBankPage implements OnInit {
 
-  @ViewChild('emailInput') emailInput;
+  @ViewChild('benefName') benefName;
 
   public candidate;
 
@@ -43,7 +41,7 @@ export class UpdateBankPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.emailInput.setFocus();
+      this.benefName.setFocus();
     }, 300);
   }
 
@@ -81,10 +79,7 @@ export class UpdateBankPage implements OnInit {
       this.isLoading = false;
 
       if (res.operation == 'success') {
-
-
         this.dismiss();
-
       }
       else if (res.operation == 'error') {
         this._handleError(res);

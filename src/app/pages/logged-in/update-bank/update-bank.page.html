@@ -5,19 +5,19 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3>{{ "Update Bank Detail" | translate }}</h3>
+    <h3>{{ "Where would you like your money transferred?" | translate }}</h3>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-      <ion-input type="text" enterkeyhint='{{ "Continue" | translate }}'
+      <ion-input type="text" #benefName enterkeyhint='{{ "Continue" | translate }}'
                formControlName="benef_name" placeholder="{{ 'Beneficiary Name' | translate }}"></ion-input>
 
       <ion-input type="text" enterkeyhint='{{ "Continue" | translate }}'
-               formControlName="iban" placeholder="{{ 'IBAN' | translate }}"></ion-input>
+               formControlName="iban" placeholder="{{ 'Bank IBAN' | translate }}"></ion-input>
 
       <ion-button class="btn-signup" [disabled]="!form.valid || isLoading" type="submit">
         <ion-spinner *ngIf="isLoading"></ion-spinner>
-        <span *ngIf="!isLoading">{{ "Save" | translate }}</span>
+        <span *ngIf="!isLoading">{{ "Save Bank Info" | translate }}</span>
       </ion-button>
     </form>
   </div>

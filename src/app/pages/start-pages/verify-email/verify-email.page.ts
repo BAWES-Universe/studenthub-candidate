@@ -79,6 +79,10 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     if(!!this.timerInterval) {
       this.clearTimer();
     }
+
+    clearInterval(this.emailVerifiedSubscription);
+
+    this.emailVerifiedSubscription = null; 
   }
 
   setTimer() {
@@ -106,6 +110,13 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     this.timerInterval = null;
   }
 
+  ionViewWillLeave() {
+
+    clearInterval(this.emailVerifiedSubscription);
+
+    this.emailVerifiedSubscription = null; 
+  }
+  
   async ionViewDidEnter() { 
   
     this.setTimer();

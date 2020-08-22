@@ -25,6 +25,10 @@ import { GenderPage } from '../gender/gender.page';
 import { DrivingLicensePage } from '../driving-license/driving-license.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
+import { CivilExpiryPage } from '../civil-expiry/civil-expiry.page';
+import { CivilIdFrontPage } from '../civil-id-front/civil-id-front.page';
+import { CivilIdBackPage } from '../civil-id-back/civil-id-back.page';
+import { AwsService } from 'src/app/providers/logged-in/aws.service';
 
 
 @Component({
@@ -44,7 +48,6 @@ export class CompleteProfilePage implements OnInit {
   
   public candidate: Candidate;
   
-  public candidatePicUrl;
   public pendingFields = '';
 
   constructor(
@@ -54,11 +57,10 @@ export class CompleteProfilePage implements OnInit {
     public authService: AuthService,
     public accountService: AccountService,
     public eventService: EventService,
+    public awsService: AwsService,
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
   ) {
-    this.candidatePicUrl = environment.cloudinaryUrl;
-
     this.update = location.href.indexOf('view/profile') > -1;
   }
 
@@ -162,15 +164,16 @@ export class CompleteProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
+      
+      if(e && e.data && e.data.email) {
+        this.navCtrl.navigateRoot(['verify-email', e.data.email]);
+      } 
+      else if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      } 
     });
     modal.present();
-    //redirect email verification page
-
   }
 
   async updatePhone() {
@@ -178,6 +181,63 @@ export class CompleteProfilePage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: PhonePage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async updateCandidateIdExpiryDate() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CivilExpiryPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+  
+  async updateCivilIdFront() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CivilIdFrontPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async updateCivilIdBack() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CivilIdBackPage,
       componentProps: {
         candidate: this.candidate,
       }

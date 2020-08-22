@@ -1,90 +1,47 @@
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-
-    <ion-grid class='profileArea' *ngIf="statistics">
-
   <div class="max-width">
+    <h1 *ngIf="candidate && !candidate.bank_id">{{ "Bank Information" | translate }}</h1>
+    <h3 *ngIf="candidate && !candidate.bank_id">{{ "We'll need your bank information to pay you for work done" | translate }}</h3>
+    <h3 *ngIf="candidate && candidate.bank_id && salaries && salaries.length == 0">{{ "We'll be making payments to the following bank account" | translate }}</h3>
+    <ion-button *ngIf="candidate && !candidate.bank_id" shape="round" fill="outline" class="bank-detail-btn" (click)="updateBank($event)">
+      {{ "Enter Bank Information" | translate }}
+    </ion-button>
 
-      <ion-row class="ion-align-items-center">
-        <ion-col size="4" size-sm="2" size-lg="2">
-          <img width="100" *ngIf="statistics.candidate.candidate_personal_photo"
-            src="{{ awsService.cloudinaryUrl + statistics.candidate.candidate_personal_photo }}"
-            (error)="loadLogo($event,statistics.candidate)">
-          <img width="100" *ngIf="!statistics.candidate.candidate_personal_photo" src="/assets/icon.png">
-        </ion-col>
-        <ion-col size="8" size-sm="10" size-lg="10">
-          <ion-grid>
-            <ion-row class="ion-align-items-center">
-              <ion-col size="12" size-sm="6" size-lg="4">
-                <h2>{{statistics.candidate.candidate_name}}</h2>
-              </ion-col>
-              <ion-col size="12" size-sm="12" size-lg="4" *ngIf="statistics.candidate.store_id > 0">
-                <h4>{{ "Work Location" | translate }}</h4>
-                {{statistics.candidate.store.store_name}} @ {{ statistics.candidate.company.company_name }}
-              </ion-col>
-              <ion-col size="12" size-sm="6" size-lg="4" *ngIf="statistics.candidate.candidate_hourly_rate > 0">
-                <h4>{{ "Hourly Rate" | translate }}</h4>
-                KWD {{statistics.candidate.candidate_hourly_rate | number:'1.3-3' }}
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
+  <h1 *ngIf="salaries && salaries.length > 0">{{ "Payments" | translate }}</h1>
+  <ion-card *ngIf="candidate && candidate.bank_id" class="bank-card">
+    <ion-card-content>
+      <div class="card-bank-details">
+        <span class="name">{{candidate.bank_account_name}}</span>
+        <span class="bank" *ngIf="candidate.bank">{{candidate.bank.bank_name}}</span>
+        <span class="iban">{{candidate.candidate_iban}}</span>
       </div>
-    </ion-grid>
-
-    <div class="max-width">
-
-    <!-- If no transfers available -->
-    <ion-card *ngIf="salaries && (pageCount == 0)">
-      <ion-card-content class="ion-text-center ion-padding">
-        <ion-icon name="alert-circle-outline" style='font-size:2em'></ion-icon>
-        <h1>{{ "When will I get paid?" | translate }}</h1>
-        <h2>
-          {{ "Your payment for hours worked will be listed here as soon as the company you work for starts distributing." | translate }}
-        </h2>
-      </ion-card-content>
-    </ion-card>
-
-    <!--Work History-->
-    <ion-list *ngIf="workHistory && workHistory.length > 0">
-      <ion-item-divider color="light">Work History</ion-item-divider>
-      <ion-item *ngFor="let history of workHistory">
-        <ion-label>
-          {{ history.store.store_name }}: {{ history.start_date | date }} to
-          <span *ngIf="history.end_date">{{ history.end_date | date }}</span>
-          <span *ngIf="!history.end_date">{{ "now" | translate }}</span>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+      <a class="change-bank" tappable (click)="updateBank($event)">{{ "Change bank information" | translate }}</a>
+    </ion-card-content>
+  </ion-card>
 
     <!-- If Transfers Exist -->
-    <ion-list *ngIf="salaries && (pageCount > 0)">
-      <ion-item-divider color="light">
-        <ion-label>
-          {{ "Transfers" | translate }}
-        </ion-label>
-      </ion-item-divider>
-      <ion-item *ngFor="let salary of salaries">
-        <ion-label>
-          {{ salary.tc_created_at }}
-          <p>KWD {{salary.total | number:'1.3-3' }}</p>
-          <p *ngIf="salary.bonus > 0">{{ "Bonus" | translate }}:<b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b>
-          </p>
-          <ion-badge slot="end" color="secondary" *ngIf="salary.status =='Paid'">{{salary.status}}</ion-badge>
-          <ion-badge slot="end" *ngIf="salary.status =='Unpaid'">
-            {{ "In Progress" | translate }}
-          </ion-badge>
-        </ion-label>
-      </ion-item>
+    <div *ngIf="salaries && (pageCount > 0)" class="salaries">
+      <ion-card *ngFor="let salary of salaries" [class.pending]="salary.status =='Unpaid'" [class.success]="salary.status =='Paid'">
+        <ion-card-content>
+          <span class="date">{{ salary.tc_created_at }}</span>
+          <p class="sal"> {{salary.total | number:'1.3-3' }} KD</p>
+          <p class="from">{{"txt_transfer_pending" | translate : { company : salary.company_name, store : salary.store_name } }}</p>
+          <p *ngIf="salary.status =='Unpaid'" class="pending-status">{{"Transfer pending, please contact us if you don’t receive it" | translate}}</p>
+          <div *ngIf="salary.status =='Paid'">
+            <span class="name" *ngIf="salary.bank">{{salary.bank.bank_name}}</span>
+            <span class="bank" >{{salary.transfer_benef_name}}</span>
+            <span class="iban">{{salary.transfer_benef_iban}}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
 
       <loading-modal type="salary-list" *ngIf="loading"></loading-modal>
-
-    </ion-list>
+    </div>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content>
