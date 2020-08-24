@@ -280,12 +280,6 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
           this.email = data.newEmail;
 
-          const toast = await this.toastCtrl.create({
-            message: this.translateService.transform(result.message),
-            duration: 3000,
-          });
-          await toast.present();   
-
           //reset timer 
           this.setTimer(); 
 
