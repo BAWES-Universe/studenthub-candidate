@@ -35,6 +35,12 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
   public emailVerifiedSubscription;
 
+  public timeIntervalToVerify = 5 * 1000;
+
+  public timeElapsedToVerify = 0;
+
+  public timeoutToVerify = 5 * 60 * 1000;//5 min in milliseconds 
+
   public isAlreadyVerifiedSubscription: Subscription;
   public updateEmailSubscription: Subscription;
   public verifyEmailSubscription: Subscription;
@@ -79,6 +85,8 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     if(!!this.timerInterval) {
       this.clearTimer();
     }
+
+    this.clearVerifySubscription(); 
   }
 
   setTimer() {
@@ -106,6 +114,18 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     this.timerInterval = null;
   }
 
+  ionViewWillLeave() {
+    this.clearVerifySubscription();
+  }
+  
+  clearVerifySubscription() {
+
+    if(this.emailVerifiedSubscription)
+      clearInterval(this.emailVerifiedSubscription);
+
+    this.emailVerifiedSubscription = null; 
+  }
+
   async ionViewDidEnter() { 
   
     this.setTimer();
@@ -124,8 +144,16 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
       this.unVerifiedToken = unVerifiedTokenData.token;
 
       this.emailVerifiedSubscription = setInterval(_ => {
+
+        this.timeElapsedToVerify += this.timeIntervalToVerify;
+
+        if(this.timeElapsedToVerify >= this.timeoutToVerify) {
+          this.clearVerifySubscription();
+          return this.navCtrl.navigateRoot(['/']);
+        }
+
         this.isAlreadyVerified(unVerifiedTokenData);
-      }, 5 * 1000);
+      }, this.timeIntervalToVerify);
     }
   }
 
@@ -224,9 +252,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
     this.isVerified = true;
 
-    clearInterval(this.emailVerifiedSubscription);
-
-    this.emailVerifiedSubscription = null; 
+    this.clearVerifySubscription();
 
     this.clearTimer();
     
