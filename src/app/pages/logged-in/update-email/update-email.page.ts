@@ -3,7 +3,7 @@ import { AlertController, NavController, ModalController } from '@ionic/angular'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-//services
+// services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -35,7 +35,7 @@ export class UpdateEmailPage implements OnInit {
     public authService: AuthService,
     public eventService: EventService,
     public accountService: AccountService,
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
   ) {
@@ -59,8 +59,9 @@ export class UpdateEmailPage implements OnInit {
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {
-      if (overlay)
+      if (overlay) {
         this.modalCtrl.dismiss(data);
+      }
     });
   }
 
@@ -74,42 +75,42 @@ export class UpdateEmailPage implements OnInit {
     }
 
     this.isLoading = true;
-    
+
     this.accountService.updateEmail(this.form.value.email).subscribe(async res => {
       this.isLoading = false;
 
-      if (res.operation == "success") {
-        
+      if (res.operation == 'success') {
+
         const { value } = await Storage.get({ key: 'loggedInUser' });
 
         Storage.set({
           key: "unVerifiedToken", 
           value: value
-        }); 
-        
-        /*this.eventService.verifyEmail$.next({   
+        });
+
+        /*this.eventService.verifyEmail$.next({
           email: this.form.controls.email.value,
           candidate_uuid: res.candidate_uuid
         });*/
 
-        this.dismiss({ email: this.form.controls.email.value }); 
+        this.dismiss({ email: this.form.controls.email.value });
         
       }
-      else if (res.operation == "error") {
+      else if (res.operation == 'error') {
         this._handleError(res);
       }
-      
+
     }, error => {
       this.isLoading = false;
     });
   }
 
   /**
-   * Handle error 
-   * @param res 
+   * Handle error
+   * @param res
    */
   async _handleError(res) {
-    let ok = this.translateService.transform('ok');
+    const ok = this.translateService.transform('ok');
 
     const prompt = await this.alertCtrl.create({
       message: this.translateService.errorMessage(res.message),
