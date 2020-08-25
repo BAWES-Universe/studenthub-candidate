@@ -78,7 +78,7 @@ export class AuthService {
         resolve(true);
       } else {
         resolve(false);
-        this.router.navigate(['landing']);
+        this.navCtrl.navigateRoot(['landing']);
       }
     });
   }
