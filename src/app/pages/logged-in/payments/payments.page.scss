@@ -17,7 +17,7 @@ ion-card {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #ffffff;
     border-radius: 1px;
-    //margin: 16px 0;
+    margin: 16px 0 0 0;
 }
 h1 {
     font-size: 36px;
@@ -28,10 +28,9 @@ h1 {
     letter-spacing: normal;
     margin-top: 8px;
     margin-bottom: 25px;
-    padding-left: 11px;
 }
 h3 {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
