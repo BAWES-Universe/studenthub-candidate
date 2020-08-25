@@ -5,9 +5,11 @@
     </ion-refresher-content>
   </ion-refresher>
   <div class="max-width">
-    <h1 *ngIf="candidate && !candidate.bank_id">{{ "Bank Information" | translate }}</h1>
-    <h3 *ngIf="candidate && !candidate.bank_id">{{ "We'll need your bank information to pay you for work done" | translate }}</h3>
-    <h3 *ngIf="candidate && candidate.bank_id && salaries && salaries.length == 0">{{ "We'll be making payments to the following bank account" | translate }}</h3>
+    <ng-container  *ngIf="candidate">
+      <h1 *ngIf="(!candidate.bank_id || salaries.length == 0)">{{ "Bank Information" | translate }}</h1>
+      <h3 *ngIf="!candidate.bank_id">{{ "We'll need your bank information to pay you for work done" | translate }}</h3>
+      <h3 *ngIf="candidate.bank_id && salaries && salaries.length == 0">{{ "We'll be making payments to the following bank account" | translate }}</h3>
+    </ng-container>
     <ion-button *ngIf="candidate && !candidate.bank_id" shape="round" fill="outline" class="bank-detail-btn" (click)="updateBank($event)">
       {{ "Enter Bank Information" | translate }}
     </ion-button>

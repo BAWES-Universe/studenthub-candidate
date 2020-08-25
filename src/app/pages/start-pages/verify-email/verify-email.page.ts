@@ -95,14 +95,17 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
       return false;
     }
 
-    if(!this.timer) {
-      this.timer = 60;
+    this.timer = 60;
+    
+    if(this.timerInterval) {
+      return null;
     }
 
     this.timerInterval = setInterval(() => {
+
       this.timer--;
 
-      if(!this.timer) {
+      if(!this.timer || this.timer < 1) {
         this.clearTimer();
       }
     }, 1000);
@@ -307,6 +310,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
           this.email = data.newEmail;
 
           //reset timer 
+          this.runTimer = true;
           this.setTimer(); 
 
           return true;
