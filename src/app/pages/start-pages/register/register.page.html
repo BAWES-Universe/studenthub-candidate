@@ -8,7 +8,7 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
 
-      <ion-input type="text" #nameInput formControlName="name" placeholder="{{ 'Your name' | translate }}"></ion-input>
+      <ion-input type="text" #nameInput formControlName="name" placeholder="{{ 'Your name as shown on your civil id' | translate }}"></ion-input>
 
       <ion-input type="text" #phoneInput formControlName="phone" maxlength="10" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
 
