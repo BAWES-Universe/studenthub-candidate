@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
-//validators
+// validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
@@ -61,7 +61,8 @@ export class RegisterPage implements OnInit {
       name: [null, [Validators.required]],
       email: [this.email, [Validators.required, CustomValidator.emailValidator]],
       phone: [null, [Validators.required, Validators.maxLength(10)]],
-      password: [null, [Validators.required, Validators.maxLength(30)]]
+      password: [null, [Validators.required, Validators.maxLength(30)]],
+      lang : [this.translateService.currentLang]
     });
   }
 
@@ -82,9 +83,9 @@ export class RegisterPage implements OnInit {
       if (res.operation == 'success') {
 
         Storage.set({
-          key: "unVerifiedToken", 
+          key: 'unVerifiedToken',
           value: JSON.stringify(res.unVerifiedToken)
-        }); 
+        });
 
         this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
             {
