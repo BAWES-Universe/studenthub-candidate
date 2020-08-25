@@ -64,21 +64,27 @@ export class EmailPage implements OnInit {
     
     this.authService.mobileCheck(this.registerMobileForm.value).subscribe(async res => {
       if (res) {
+
         if (res.operation === 'error') {
+
           const alert = await this.alertCtrl.create({
             header: this.translate.transform('Error!'),
             message: this.translate.errorMessage(res.message),
             buttons: [this.translate.transform('Okay')]
           });
           await alert.present();
+
         } else if (res.operation === 'success' && res.message != false) {
+
           this.navCtrl.navigateForward('password', {
             state: {
               email: this.registerMobileForm.value.email
             }
           });
+
         } else {
-          this.navCtrl.navigateForward('register', {
+          
+          this.navCtrl.navigateForward(['register'], { 
             state: {
               email: this.registerMobileForm.value.email
             }
