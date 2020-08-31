@@ -20,11 +20,11 @@ export class UploadCvPage implements OnInit {
 
   public candidate;
 
-  public progress;
+  public progress = 0;
 
   public loading: boolean = false;
 
-  public dirty: boolean = false;
+  public uploadingCv: boolean = false; 
 
   public currentTarget;
 
@@ -100,14 +100,16 @@ export class UploadCvPage implements OnInit {
           return alert.present();
       }*/
 
-      this.progress = 1;//show loader 
+      this.uploadingCv = true;
 
       this.awsService.uploadNativePath(uri).then(o => {
         o.subscribe(event => {
           this._handleFileSuccess(event);
         }, async err => {
 
-          this.progress = null;
+          this.uploadingCv = false;
+
+          this.progress = 0;
 
           const ignoreErrors = [
             'No image picked',
@@ -174,32 +176,33 @@ export class UploadCvPage implements OnInit {
       return false;
     }
 
-    this.progress = 1;//show loader 
+    this.uploadingCv = true;
 
     this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
       this._handleFileSuccess(event);
     },
-      async err => {
+    async err => {
 
-        if (!err.message || !err.message.includes('aborted')) {
-          //log to slack/sentry to know how many user getting file upload error 
+      if (!err.message || !err.message.includes('aborted')) {
+        //log to slack/sentry to know how many user getting file upload error 
 
-          this.sentryService.handleError(err);
+        this.sentryService.handleError(err);
 
-          const alert = await this.alertCtrl.create({
-            header: this.translateService.transform('Error'),
-            message: this.translateService.transform('Error while uploading file!'),
-            buttons: [this.translateService.transform('Okay')]
-          });
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: this.translateService.transform('Error while uploading file!'),
+          buttons: [this.translateService.transform('Okay')]
+        });
 
-          await alert.present();
-        }
-        
-        if (this.fileInput && this.fileInput.nativeElement)
-          this.fileInput.nativeElement.value = null;
+        await alert.present();
+      }
+      
+      if (this.fileInput && this.fileInput.nativeElement)
+        this.fileInput.nativeElement.value = null;
 
-        this.progress = null;
-      });
+      this.progress = 0;
+      this.uploadingCv = false;
+    });
   }
 
   /**
@@ -219,30 +222,11 @@ export class UploadCvPage implements OnInit {
       if (this.fileInput && this.fileInput.nativeElement)
         this.fileInput.nativeElement.value = null;
 
-      this.dirty = true;
+      this.candidate.tempLocation = event.Location;
+      this.candidate.candidate_resume = event.Key;
 
-      this.uploadSubscription = this.accountService.updateResume(event.Key).subscribe(res => {
-
-        this.progress = false;
-
-        if (res.operation == 'success') {
-
-          this.candidate.candidate_resume = res.candidate_resume;
-          this.dismiss();
-          
-        } else {
-          this.alertCtrl.create({
-            message: this.translateService.errorMessage(res.message),
-            buttons: [this.translateService.transform('Okay')]
-          }).then(alert => {
-            alert.present();
-          });
-        }
-      }, () => {
-        this.progress = false;
-      });
-
-      //tempLocation = event.Location;
+      this.progress = 0;
+      this.uploadingCv = false;
 
     } else if (!this.currentTarget) {
       this.currentTarget = event;
@@ -266,9 +250,8 @@ export class UploadCvPage implements OnInit {
     if (this.fileInput && this.fileInput.nativeElement)
       this.fileInput.nativeElement.value = null;
 
-    this.progress = null;
-
-    this.loading = false;
+    this.progress = 0;
+    this.uploadingCv = false; 
 
     if (this.currentTarget) {
       this.currentTarget.abort();
@@ -279,9 +262,45 @@ export class UploadCvPage implements OnInit {
    * return extension of uploaded file 
    */
   get uploadedFileExtension() {
-    let a = this.candidate.candidate_resume.split('.');
+    const resume = this.candidate.tempLocation ? this.candidate.tempLocation: this.candidate.candidate_resume;
+
+    let a = resume.split('.');
 
     if (a)
       return a[a.length - 1];
+  }
+
+  /**
+   * save uploaded cv
+   */
+  submit() {
+
+    this.loading = true;
+
+    this.uploadSubscription = this.accountService.updateResume(this.candidate.candidate_resume).subscribe(res => {
+
+      this.loading = false;
+
+      if (res.operation == 'success') {
+
+        this.candidate.tempLocation = null;
+        this.candidate.candidate_resume = res.candidate_resume;
+
+        this.dismiss({
+          candidate_resume: res.candidate_resume
+        });
+        
+      } else {
+
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
+      }
+    }, () => {
+      this.loading = false;
+    });
   }
 }

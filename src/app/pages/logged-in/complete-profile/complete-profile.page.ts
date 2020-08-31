@@ -448,7 +448,7 @@ export class CompleteProfilePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: UploadCvPage,
       componentProps: {
-        candidate: this.candidate,
+        candidate: Object.assign({}, this.candidate),
       }
     });
     modal.onDidDismiss().then(e => {
@@ -456,6 +456,10 @@ export class CompleteProfilePage implements OnInit {
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+
+      if(e.data && e.data.candidate_resume) {
+        this.candidate.candidate_resume = e.data.candidate_resume;
       }
     });
     modal.present();

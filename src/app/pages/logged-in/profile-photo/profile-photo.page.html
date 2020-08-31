@@ -9,8 +9,9 @@
 
     <div class="profile-photo-wrapper ion-text-center" *ngIf="form">
 
-      <div *ngIf="!progress">
-        <img tappable (click)="triggerUpdatePhoto($event)" *ngIf="form.controls.personal_photo.value && form.controls.personal_photo.value.length > 0" src="{{ cloudinaryUrl + 'candidate-photo/' + form.controls.personal_photo.value }}" class="circle" width="250"><br/>
+      <div *ngIf="!uploadingPhoto">
+        <img tappable (click)="triggerUpdatePhoto($event)" *ngIf="form.controls.personal_photo.value && form.controls.personal_photo.value.length > 0" 
+          src="{{ form.controls.personal_photo_path.value }}" class="circle" width="250"><br/>
 
         <div tappable (click)="triggerUpdatePhoto($event)" class="no-logo" *ngIf="!form.controls.personal_photo.value || form.controls.personal_photo.value.length == 0">
           <ion-icon src="assets/svg/ic_no_logo.svg" ></ion-icon>
@@ -26,7 +27,7 @@
       <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
     </div>
 
-    <div class="progress-wrapper" *ngIf="uploadingPhoto || progress">
+    <div class="progress-wrapper" *ngIf="uploadingPhoto">
       <div class="progress-box">
 
         <h4>{{ "Uploading…" | translate }} <span>{{ progress + '%' }}</span></h4>
@@ -40,8 +41,8 @@
       </div>
     </div>
 
-    <ion-button class="btn-submit ion-hide" *ngIf="form && form.valid && form.dirty" (click)="submit()" [disabled]="saving || uploadingPhoto">
-      <span *ngIf="!saving">{{ "Submit" | translate }}</span> 
+    <ion-button class="btn-submit" *ngIf="form && form.valid && form.dirty" (click)="submit()" [disabled]="saving || uploadingPhoto">
+      <span *ngIf="!saving">{{ "Save" | translate }}</span> 
       <ion-spinner *ngIf="saving"></ion-spinner>
     </ion-button>
 
