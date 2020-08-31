@@ -44,7 +44,7 @@ h3 {
     position: relative;
     margin: auto;
     text-align: center;
-    
+
     .progress-bar {
       width: 233px;
       height: 5px;
@@ -73,4 +73,26 @@ h3 {
 
 [dir="rtl"] .progress-wrapper ion-icon {
   left: 20px;
+}
+
+.btn-submit {
+  width: 100%;
+  height: 53px;
+  text-transform: none;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: normal;
+  color: #fff;
+  border-radius: 22px;
+  --background: #000000;
+  --border-radius: 22px;
+  --box-shadow: none;
+}
+
+.btn-submit[disabled] {
+  --background: #6B6B6B;
+  color: #B4B4B4
 }
