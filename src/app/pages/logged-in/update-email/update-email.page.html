@@ -7,7 +7,7 @@
 
     <h3>{{ "Update email" | translate }}</h3>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" novalidate>
 
       <ion-input type="text" #emailInput enterkeyhint='{{ "Continue" | translate }}'
                formControlName="email" placeholder="{{ 'Your Email' | translate }}"></ion-input>

@@ -55,9 +55,10 @@ export class PasswordPage implements OnInit {
 
     if (window.history.state.email) {
       this.email = window.history.state.email;
-    } else {
-      //https://www.pivotaltracker.com/story/show/174454456
-      //this.back();
+    } 
+    
+    if(!this.email) {
+      this.navCtrl.navigateRoot(['/']);
     }
 
     // Initialize the Login Form
@@ -84,6 +85,10 @@ export class PasswordPage implements OnInit {
 
     const email = this.oldPhoneInput = this.loginForm.value.email;
     const password = this.oldPasswordInput = this.loginForm.value.password;
+
+    if(!email || !password) {
+      return false;
+    }
 
     this.authService.basicAuth(email, password).subscribe(res => {
 

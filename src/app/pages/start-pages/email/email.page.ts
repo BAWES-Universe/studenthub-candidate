@@ -56,6 +56,7 @@ export class EmailPage implements OnInit {
    * Then process his previous request
    */
   async onSubmit() {
+    
     if (!this.registerMobileForm.valid) {
       return false;
     }
