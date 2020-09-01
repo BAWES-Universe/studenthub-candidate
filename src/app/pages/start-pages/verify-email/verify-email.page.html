@@ -10,7 +10,7 @@
 
     <p class="txt-email">{{ email }}</p>
     
-    <ion-button class="btn-change-email" (click)="updateEmail()" fill="clear">
+    <ion-button class="btn-change-email" *ngIf="unVerifiedToken" (click)="updateEmail()" fill="clear">
       {{ "Change my email address" | translate }}
     </ion-button>
 
