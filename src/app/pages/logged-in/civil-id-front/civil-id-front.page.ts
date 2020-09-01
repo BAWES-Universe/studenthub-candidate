@@ -132,9 +132,7 @@ export class CivilIdFrontPage implements OnInit {
 
     const SelectSourceLbl = this.translateService.transform('Select image source');
     const LoadLibLbl = this.translateService.transform('Load from Library');
-    const ErrorLibLbl = this.translateService.transform('Error getting picture from Library: ');
     const UseCamLbl = this.translateService.transform('Use Camera');
-    const ErrorCamLbl = this.translateService.transform('Error getting picture from Camera: ');
 
     const arrButtons = [
       {
@@ -297,7 +295,7 @@ export class CivilIdFrontPage implements OnInit {
     if (type != 'image') {
       this.alertCtrl.create({
         message: this.translateService.transform('Invalid File format'),
-        buttons: [this.translateService.transform('Ok')]
+        buttons: [this.translateService.transform('Okay')]
       }).then(alert => { alert.present(); });
     }
     else

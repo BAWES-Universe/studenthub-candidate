@@ -1,4 +1,4 @@
-import {NavParams, PopoverController} from '@ionic/angular';
+import { NavParams, PopoverController } from '@ionic/angular';
 import { Component } from '@angular/core';
 
 @Component({

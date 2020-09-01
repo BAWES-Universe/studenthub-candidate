@@ -131,9 +131,7 @@ export class ProfilePhotoPage implements OnInit {
 
     const SelectSourceLbl = this.translateService.transform('Select image source');
     const LoadLibLbl = this.translateService.transform('Load from Library');
-    const ErrorLibLbl = this.translateService.transform('Error getting picture from Library: ');
     const UseCamLbl = this.translateService.transform('Use Camera');
-    const ErrorCamLbl = this.translateService.transform('Error getting picture from Camera: ');
 
     const arrButtons = [
       {

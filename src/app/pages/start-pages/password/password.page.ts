@@ -130,7 +130,7 @@ export class PasswordPage implements OnInit {
         if (this.numberOfLoginAttempts > 2) {
           this.alertCtrl.create({
             header: this.translateService.transform('Trouble Logging In?'),
-            message: this.translateService.transform('If you\'ve forgotten your password, contact us to have it reset.'),
+            message: this.translateService.transform("If you've forgotten your password, contact us to have it reset."),
             buttons: [this.translateService.transform('Okay')],
           }).then(alert => alert.present());
         } else {
