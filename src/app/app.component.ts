@@ -521,7 +521,7 @@ export class AppComponent implements OnInit {
 
     this.translateService.use(language.code).subscribe();
 
-    this.authService.setLanguagePref(language);
+    this.authService.setLanguagePref(language.code);
 
     if (language.code == 'ar') {
       document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
