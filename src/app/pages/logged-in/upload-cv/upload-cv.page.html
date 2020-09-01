@@ -28,13 +28,13 @@
 
             <ion-button tabindex="2" class="fileUpload" full (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
                 <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>
-                <span *ngIf="candidate.candidate_resume || candidate.tempLocation">{{ "Replace File" | translate }}</span>
+                <span *ngIf="candidate.candidate_resume || candidate.tempLocation">{{ "Replace file" | translate }}</span>
                 <span *ngIf="!candidate.candidate_resume && !candidate.tempLocation">{{ "Select file" | translate }}</span>
             </ion-button>
 
             <ion-button tabindex="3" class="fileUpload" full *ngIf="!platform.is('hybrid')">
                 <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>
-                <span *ngIf="candidate.candidate_resume || candidate.tempLocation">{{ "Replace File" | translate }}</span>
+                <span *ngIf="candidate.candidate_resume || candidate.tempLocation">{{ "Replace file" | translate }}</span>
                 <span *ngIf="!candidate.candidate_resume && !candidate.tempLocation">{{ "Select file" | translate }}</span>
                 <input class="upload" type='file' #fileInput (change)="browserUpload($event)">
                 <!-- .png,.jpg,.jpeg,.pdf,.doc,.docx -->

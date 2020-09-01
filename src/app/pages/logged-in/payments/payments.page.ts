@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {PopoverController, IonContent, ModalController} from '@ionic/angular';
+import { PopoverController, IonContent, ModalController } from '@ionic/angular';
 // models
 import { Salary } from 'src/app/models/salary';
+import { Candidate } from '../../../models/candidate';
 // services
 import { EventService } from 'src/app/providers/event.service';
 import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
@@ -11,8 +12,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 // pages
 import { OptionPage } from '../option/option.page';
-import {Candidate} from '../../../models/candidate';
-import {UpdateBankPage} from '../update-bank/update-bank.page';
+import { UpdateBankPage } from '../update-bank/update-bank.page';
 
 
 @Component({
@@ -126,10 +126,10 @@ export class PaymentsPage implements OnInit {
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
     },
-    error => { },
-    () => {
-      this.loading = false;
-    });
+      error => { },
+      () => {
+        this.loading = false;
+      });
   }
 
   /**
@@ -141,10 +141,10 @@ export class PaymentsPage implements OnInit {
 
       this.candidate = response;
     },
-    error => { },
-    () => {
-      this.loading = false;
-    });
+      error => { },
+      () => {
+        this.loading = false;
+      });
   }
 
   /**
@@ -165,10 +165,10 @@ export class PaymentsPage implements OnInit {
 
       event.target.complete();
     },
-    error => { },
-    () => {
-      this.loading = false;
-    });
+      error => { },
+      () => {
+        this.loading = false;
+      });
   }
 
   /**

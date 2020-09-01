@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, AlertController, IonInput } from '@ionic/angular';
+//services
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+
 
 @Component({
   selector: 'app-change-password',

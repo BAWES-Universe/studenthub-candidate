@@ -109,7 +109,7 @@ export class LoginPage  {
          */
         let alert = await this._alertCtrl.create({
           header: this.translateService.transform('Unable to Log In'),
-          message: this.translateService.transform("There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists."),
+          message: this.translateService.transform("There seems to be an issue connecting to servers. Please contact us if the issue persists."),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();

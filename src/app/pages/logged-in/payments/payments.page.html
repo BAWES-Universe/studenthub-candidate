@@ -33,7 +33,8 @@
           <span class="date">{{ salary.tc_created_at }}</span>
           <p class="sal"> {{salary.total | number:'1.3-3' }} KD</p>
           <p class="from">{{"txt_transfer_pending" | translate : { company : salary.company_name, store : salary.store_name } }}</p>
-          <p *ngIf="salary.status =='Unpaid'" class="pending-status">{{"Transfer pending, please contact us if you don’t receive it" | translate}}</p>
+          <p *ngIf="salary.status =='Unpaid'" class="pending-status">
+            {{ "Transfer pending, please contact us if you don’t receive it" | translate}}</p>
           <div *ngIf="salary.status =='Paid'">
             <span class="name" *ngIf="salary.bank">{{salary.bank.bank_name}}</span>
             <span class="bank" >{{salary.transfer_benef_name}}</span>

@@ -11,6 +11,7 @@ import { NavController } from '@ionic/angular';
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
 
+
 declare var navigator;
 
 const { Storage } = Plugins;
