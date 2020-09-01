@@ -28,6 +28,7 @@
         <ion-label>
           <small>{{ "Name (English)" | translate }}</small>
           <span *ngIf="candidate.candidate_name">{{ candidate.candidate_name }}</span>
+          <span *ngIf="!candidate.candidate_name">{{ "It should match what’s on your civil id" | translate }}</span>
         </ion-label>
       </ion-item>
 
