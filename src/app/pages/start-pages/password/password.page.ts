@@ -42,18 +42,7 @@ export class PasswordPage implements OnInit {
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
     // @Optional() public nav: IonNav // for testing perpose
-  ) {
-    if (window.history.state.email) {
-      this.email = window.history.state.email;
-    } else {
-      this.back();
-    }
-    // Initialize the Login Form
-    // Initialize the Login Form
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
-      password: ['', Validators.required]
-    });
+  ) { 
   }
 
   ionViewDidEnter() {
@@ -63,7 +52,19 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.loginForm.setValue({ email: this.email || null, password: null });
+
+    if (window.history.state.email) {
+      this.email = window.history.state.email;
+    } else {
+      //https://www.pivotaltracker.com/story/show/174454456
+      //this.back();
+    }
+
+    // Initialize the Login Form
+    this.loginForm = this.fb.group({
+      email: [this.email, [Validators.required]],
+      password: ['', Validators.required]
+    });
   }
 
   dismiss() {
@@ -99,13 +100,16 @@ export class PasswordPage implements OnInit {
           value: JSON.stringify(res.unVerifiedToken)
         });
 
-        this.navCtrl.navigateRoot(['verify-email', email],
-            {
-              state : {
-                newUser : 0
+        this.navCtrl.navigateRoot(['landing']).then(() => {
+
+          this.navCtrl.navigateForward(['verify-email', email],
+              {
+                state : {
+                  newUser : 0
+                }
               }
-            }
-        );
+          );
+        });
 
       } else {
         this.alertCtrl.create({
