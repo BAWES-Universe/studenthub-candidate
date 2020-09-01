@@ -6,7 +6,7 @@
 
     <h3>{{ "Let’s make you an account" | translate }}</h3>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+    <form [formGroup]="registerForm" (keyup.enter)="onSubmit()" (submit)="onSubmit()">
 
       <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name" placeholder="{{ 'Your name as shown on your civil id' | translate }}"></ion-input>
 

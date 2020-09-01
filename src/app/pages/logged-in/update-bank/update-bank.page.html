@@ -7,7 +7,7 @@
 
     <h3>{{ "Where would you like your money transferred?" | translate }}</h3>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" novalidate>
 
       <ion-input type="text" #benefName enterkeyhint='{{ "Continue" | translate }}'
                formControlName="benef_name" placeholder="{{ 'Beneficiary Name' | translate }}"></ion-input>

@@ -68,6 +68,7 @@ export class UpdateBankPage implements OnInit {
    * Then process his previous request
    */
   async onSubmit() {
+    
     if (!this.form.valid) {
       return false;
     }

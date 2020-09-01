@@ -71,6 +71,7 @@ export class RegisterPage implements OnInit {
    * Then process his previous request
    */
   onSubmit() {
+    
     if (!this.registerForm.valid) {
       return false;
     }
