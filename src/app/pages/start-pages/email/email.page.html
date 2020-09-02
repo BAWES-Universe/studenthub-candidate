@@ -7,7 +7,7 @@
 
     <h3>{{ "What’s your email?" | translate }}</h3>
 
-    <form [formGroup]="registerMobileForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" novalidate>
+    <form [formGroup]="registerMobileForm" (ngSubmit)="onSubmit()" novalidate>
 
       <ion-input type="email" #emailInput enterkeyhint='{{ "Continue" | translate }}'
                formControlName="email" placeholder="{{ 'Your Email' | translate }}"></ion-input>
