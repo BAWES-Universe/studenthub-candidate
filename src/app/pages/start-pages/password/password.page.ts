@@ -42,18 +42,7 @@ export class PasswordPage implements OnInit {
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
     // @Optional() public nav: IonNav // for testing perpose
-  ) {
-    if (window.history.state.email) {
-      this.email = window.history.state.email;
-    } else {
-      this.back();
-    }
-    // Initialize the Login Form
-    // Initialize the Login Form
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
-      password: ['', Validators.required]
-    });
+  ) { 
   }
 
   ionViewDidEnter() {
@@ -63,7 +52,20 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.loginForm.setValue({ email: this.email || null, password: null });
+
+    if (window.history.state.email) {
+      this.email = window.history.state.email;
+    } 
+    
+    if(!this.email) {
+      this.navCtrl.navigateRoot(['/']);
+    }
+
+    // Initialize the Login Form
+    this.loginForm = this.fb.group({
+      email: [this.email, [Validators.required]],
+      password: ['', Validators.required]
+    });
   }
 
   dismiss() {
@@ -84,6 +86,10 @@ export class PasswordPage implements OnInit {
     const email = this.oldPhoneInput = this.loginForm.value.email;
     const password = this.oldPasswordInput = this.loginForm.value.password;
 
+    if(!email || !password) {
+      return false;
+    }
+
     this.authService.basicAuth(email, password).subscribe(res => {
 
       this.isLoading = false;
@@ -99,13 +105,16 @@ export class PasswordPage implements OnInit {
           value: JSON.stringify(res.unVerifiedToken)
         });
 
-        this.navCtrl.navigateRoot(['verify-email', email],
-            {
-              state : {
-                newUser : 0
+        this.navCtrl.navigateRoot(['landing']).then(() => {
+
+          this.navCtrl.navigateForward(['verify-email', email],
+              {
+                state : {
+                  newUser : 0
+                }
               }
-            }
-        );
+          );
+        });
 
       } else {
         this.alertCtrl.create({
@@ -126,7 +135,7 @@ export class PasswordPage implements OnInit {
         if (this.numberOfLoginAttempts > 2) {
           this.alertCtrl.create({
             header: this.translateService.transform('Trouble Logging In?'),
-            message: this.translateService.transform('If you\'ve forgotten your password, contact us to have it reset.'),
+            message: this.translateService.transform("If you've forgotten your password, contact us to have it reset."),
             buttons: [this.translateService.transform('Okay')],
           }).then(alert => alert.present());
         } else {

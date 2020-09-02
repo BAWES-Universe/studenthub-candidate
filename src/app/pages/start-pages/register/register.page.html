@@ -6,13 +6,13 @@
 
     <h3>{{ "Let’s make you an account" | translate }}</h3>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+    <form [formGroup]="registerForm" (keyup.enter)="onSubmit()" (submit)="onSubmit()">
 
-      <ion-input type="text" #nameInput formControlName="name" placeholder="{{ 'Your name as shown on your civil id' | translate }}"></ion-input>
+      <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name" placeholder="{{ 'Your name as shown on your civil id' | translate }}"></ion-input>
 
-      <ion-input type="text" #phoneInput formControlName="phone" maxlength="10" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
+      <ion-input type="telephone" autocomplete="tel" #phoneInput formControlName="phone" maxlength="8" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
 
-      <ion-input type="password" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>
+      <ion-input type="password" autocomplete="off" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>
 
       <ion-button class="btn-signup" [disabled]="!registerForm.valid || isLoading" type="submit">
         <ion-spinner *ngIf="isLoading"></ion-spinner>

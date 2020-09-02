@@ -1,7 +1,7 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 
-export class CustomValidator{
+export class CustomValidator {
 
     /**
      * Validates Email Input
@@ -12,7 +12,7 @@ export class CustomValidator{
     {
         const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
         
-        return emailReg.test(control.value) ? null : {'emailValidation':'email is invalid.'};
+        return emailReg.test(control.value) ? null : {'emailValidation': 'email is invalid.' };
     }
 
     /**

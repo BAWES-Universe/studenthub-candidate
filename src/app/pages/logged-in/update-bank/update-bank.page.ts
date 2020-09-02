@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, NavController, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Plugins } from '@capacitor/core';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
@@ -69,6 +68,7 @@ export class UpdateBankPage implements OnInit {
    * Then process his previous request
    */
   async onSubmit() {
+    
     if (!this.form.valid) {
       return false;
     }

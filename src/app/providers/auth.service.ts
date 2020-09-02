@@ -11,6 +11,7 @@ import { NavController } from '@ionic/angular';
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
 
+
 declare var navigator;
 
 const { Storage } = Plugins;
@@ -94,7 +95,7 @@ export class AuthService {
 
     // guest user who visited previously and saved preference
 
-    const { value } = await Storage.get({ key: 'language' });
+    const { value } = await Storage.get({ key: 'language_pref' });
 
     if (value) {
       this.language_pref = value;
@@ -184,7 +185,7 @@ export class AuthService {
 
     this.language_pref = language_pref;
 
-    this.language =  this.language_pref == 'ar' ? {
+    this.language = this.language_pref == 'ar' ? {
       name: 'عربى',
       code: 'ar'
     } : {

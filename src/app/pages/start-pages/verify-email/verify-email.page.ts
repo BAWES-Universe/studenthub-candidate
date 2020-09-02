@@ -378,6 +378,6 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
    * close page
    */
   dismiss() {
-    this.navCtrl.back();
+    this.navCtrl.navigateRoot(['landing']);
   }
 }

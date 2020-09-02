@@ -9,7 +9,6 @@ import {
 } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
 // models
 import { Candidate } from 'src/app/models/candidate';
 // services
@@ -33,10 +32,10 @@ export class ProfilePhotoPage implements OnInit {
 
   @ViewChild('btnChangePhoto', { static: false }) btnChangePhoto: IonButton;
 
-  public progress;
+  public progress = 0;
 
   public uploadFileSubscription: Subscription;
-  
+
   public uploadingPhoto = false;
 
   public saving = false;
@@ -46,7 +45,6 @@ export class ProfilePhotoPage implements OnInit {
   public currentTarget;
 
   public candidate: Candidate;
-  public cloudinaryUrl;
 
   constructor(
     private _fb: FormBuilder,
@@ -61,7 +59,6 @@ export class ProfilePhotoPage implements OnInit {
     public translateService: TranslateLabelService,
     private _cameraService: CameraService
   ) {
-    this.cloudinaryUrl = environment.cloudinaryUrl + 'candidate-photo/';
   }
 
   ngOnInit() {
@@ -72,8 +69,10 @@ export class ProfilePhotoPage implements OnInit {
    * initialize form
    */
   _initForm() {
+    const photo_path = this.candidate.candidate_personal_photo ? this.awsService.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_personal_photo : '';
+
     this.form = this._fb.group({
-      personal_photo_path: [this.candidate.candidate_personal_photo ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_personal_photo : '', Validators.required],
+      personal_photo_path: [photo_path, Validators.required],
       personal_photo: [this.candidate.candidate_personal_photo, Validators.required]
     });
   }
@@ -132,15 +131,13 @@ export class ProfilePhotoPage implements OnInit {
 
     const SelectSourceLbl = this.translateService.transform('Select image source');
     const LoadLibLbl = this.translateService.transform('Load from Library');
-    const ErrorLibLbl = this.translateService.transform('Error getting picture from Library: ');
     const UseCamLbl = this.translateService.transform('Use Camera');
-    const ErrorCamLbl = this.translateService.transform('Error getting picture from Camera: ');
 
     const arrButtons = [
       {
         text: LoadLibLbl,
         handler: () => {
-       
+
           this._cameraService.getImageFromLibrary().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
@@ -152,7 +149,7 @@ export class ProfilePhotoPage implements OnInit {
             ];
 
             if (err && ignoreErrors.indexOf(err.message) > -1) {
-                return null;
+              return null;
             }
 
             const alert = await this.alertCtrl.create({
@@ -162,14 +159,13 @@ export class ProfilePhotoPage implements OnInit {
             });
 
             await alert.present();
-            this.progress = null;
           });
         }
       },
       {
         text: UseCamLbl,
         handler: () => {
-         
+
           this._cameraService.getImageFromCamera().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
@@ -181,7 +177,7 @@ export class ProfilePhotoPage implements OnInit {
             ];
 
             if (err && ignoreErrors.indexOf(err.message) > -1) {
-                return null;
+              return null;
             }
 
             const alert = await this.alertCtrl.create({
@@ -191,7 +187,6 @@ export class ProfilePhotoPage implements OnInit {
             });
 
             await alert.present();
-            this.progress = null;
           });
         }
       }
@@ -217,14 +212,17 @@ export class ProfilePhotoPage implements OnInit {
    * Upload logo by native path
    */
   async uploadFileViaNativeFilePath(uri) {
-    this.progress = 1;//show loader
+
+    this.uploadingPhoto = true;
 
     this.awsService.uploadNativePath(uri).then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 
-        this.progress = false;
+        this.progress = 0;
+
+        this.uploadingPhoto = false;
 
         const ignoreErrors = [
           'No image picked',
@@ -235,7 +233,7 @@ export class ProfilePhotoPage implements OnInit {
           err && (
             ignoreErrors.indexOf(err.message) > -1 ||
             err.message.includes('aborted')
-          ) 
+          )
         ) {
           return null;
         }
@@ -256,13 +254,13 @@ export class ProfilePhotoPage implements OnInit {
         // networking errors
         if (err && networkErrors.indexOf(err.message) > -1) {
           message = this.translateService.transform('Error uploading file');
-        // system errors
+          // system errors
         } else if (err.message && err.message.indexOf(':') > -1) {
           message = this.translateService.transform('Error getting file from Library');
-        // plugin errors
+          // plugin errors
         } else if (err.message) {
           message = err.message;
-        // custom file validation errors
+          // custom file validation errors
         } else {
           message = err;
         }
@@ -300,9 +298,9 @@ export class ProfilePhotoPage implements OnInit {
         buttons: [this.translateService.transform('Ok')]
       }).then(alert => { alert.present(); });
     }
-    else
-    {
-      this.progress = 1;
+    else {
+
+      this.uploadingPhoto = true;
 
       this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
         this._handleFileSuccess(event);
@@ -321,12 +319,12 @@ export class ProfilePhotoPage implements OnInit {
 
           await alert.present();
         }
-        
+
         if (this.fileInput && this.fileInput.nativeElement) {
           this.fileInput.nativeElement.value = null;
         }
-
-        this.progress = false;
+        this.uploadingPhoto = false;
+        this.progress = 0;
       }, () => {
         this.uploadFileSubscription.unsubscribe();
       });
@@ -338,6 +336,7 @@ export class ProfilePhotoPage implements OnInit {
    * @param event
    */
   _handleFileSuccess(event) {
+
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === 'progress') {
@@ -349,33 +348,16 @@ export class ProfilePhotoPage implements OnInit {
         this.fileInput.nativeElement.value = null;
       }
 
-      const imgLarge = new Image();
-      imgLarge.src = event.Location;
-      imgLarge.onload = () => {
+      this.form.controls.personal_photo_path.setValue(event.Location);
+      this.form.controls.personal_photo.setValue(event.Key);
+      this.form.controls.personal_photo.markAsDirty();
+      this.form.updateValueAndValidity();
 
-        this.form.controls.personal_photo_path.setValue(event.Location);
-        this.form.controls.personal_photo.setValue(event.Key);
-        this.form.controls.personal_photo.markAsDirty();
-        this.form.updateValueAndValidity();
+      this.progress = 0;
+      this.uploadingPhoto = false;
 
-        this.accountService.updateProfilePhoto(event.Key).subscribe(async response => {
-          if (response.operation != 'success') {
-            const alert = await this.alertCtrl.create({
-              message: response.message,
-              buttons: [this.translateService.transform('Okay')],
-            });
-            alert.present();
-
-            this.progress = null;
-            
-          } else  {
-            this.candidate.candidate_personal_photo = response.candidate_personal_photo;
-            this.dismiss();
-          }
-        });
-      };
     } else if (!this.currentTarget) {
-        this.currentTarget = event;
+      this.currentTarget = event;
     }
   }
 
@@ -405,12 +387,23 @@ export class ProfilePhotoPage implements OnInit {
   submit() {
     this.saving = true;
 
-    this.accountService.updateProfilePhoto(this.form.value.profile_photo).subscribe(res => {
+    this.accountService.updateProfilePhoto(this.form.controls.personal_photo.value).subscribe(async response => {
+
       this.saving = false;
 
-      if (res.operation == 'success') {
+      if (response.operation != 'success') {
+
+        const alert = await this.alertCtrl.create({
+          message: response.message,
+          buttons: [this.translateService.transform('Okay')],
+        });
+        alert.present();
+
+      } else {
+        this.candidate.candidate_personal_photo = response.candidate_personal_photo;
         this.dismiss();
       }
+
     }, () => {
       this.saving = false;
     });
@@ -424,7 +417,7 @@ export class ProfilePhotoPage implements OnInit {
       this.fileInput.nativeElement.value = null;
     }
 
-    this.progress = null;
+    this.progress = 0;
 
     this.loading = false;
     if (this.currentTarget) {

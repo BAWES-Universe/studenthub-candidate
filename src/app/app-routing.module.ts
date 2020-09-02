@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthService } from './providers/auth.service';
 import {LoginGuard} from "./providers/guards/login-guard.service";
+import { CompleteProfileGuard } from './providers/guards/complete-profile-guard.service';
 
 /**
  * 
@@ -15,7 +16,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/logged-in/tabs/tabs.module').then( m => m.TabsPageModule),
-    canActivate: [AuthService]
+    canActivate: [AuthService, CompleteProfileGuard]
   },
   {
     path: 'no-internet',

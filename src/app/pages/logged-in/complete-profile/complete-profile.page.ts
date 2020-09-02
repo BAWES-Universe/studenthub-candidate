@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {ModalController, NavController, ToastController, IonContent} from '@ionic/angular';
-import { environment } from 'src/environments/environment';
+import { ModalController, NavController, ToastController, IonContent } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AwsService } from 'src/app/providers/logged-in/aws.service';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //pages
@@ -28,7 +28,6 @@ import { UpdateEmailPage } from '../update-email/update-email.page';
 import { CivilExpiryPage } from '../civil-expiry/civil-expiry.page';
 import { CivilIdFrontPage } from '../civil-id-front/civil-id-front.page';
 import { CivilIdBackPage } from '../civil-id-back/civil-id-back.page';
-import { AwsService } from 'src/app/providers/logged-in/aws.service';
 
 
 @Component({
@@ -40,14 +39,14 @@ export class CompleteProfilePage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
-  public submitting: boolean = false; 
+  public submitting: boolean = false;
 
-  public loading: boolean = false; 
+  public loading: boolean = false;
 
-  public update; 
-  
+  public update;
+
   public candidate: Candidate;
-  
+
   public pendingFields = '';
 
   constructor(
@@ -103,7 +102,7 @@ export class CompleteProfilePage implements OnInit {
     });
   }
 
-  async updateName () {
+  async updateName() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -133,7 +132,7 @@ export class CompleteProfilePage implements OnInit {
    */
   logScrolling(e) {
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
-  } 
+  }
 
   async updateNameArabic() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
@@ -164,14 +163,14 @@ export class CompleteProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      
-      if(e && e.data && e.data.email) {
+
+      if (e && e.data && e.data.email) {
         this.navCtrl.navigateRoot(['verify-email', e.data.email]);
-      } 
+      }
       else if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      } 
+      }
     });
     modal.present();
   }
@@ -213,7 +212,7 @@ export class CompleteProfilePage implements OnInit {
     });
     modal.present();
   }
-  
+
   async updateCivilIdFront() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -448,7 +447,7 @@ export class CompleteProfilePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: UploadCvPage,
       componentProps: {
-        candidate: this.candidate,
+        candidate: Object.assign({}, this.candidate),
       }
     });
     modal.onDidDismiss().then(e => {
@@ -456,6 +455,10 @@ export class CompleteProfilePage implements OnInit {
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+
+      if (e.data && e.data.candidate_resume) {
+        this.candidate.candidate_resume = e.data.candidate_resume;
       }
     });
     modal.present();
