@@ -82,10 +82,7 @@ export class UpdatePasswordPage implements OnInit {
 
         this.passwordForm.reset();
 
-        this.navCtrl.navigateRoot(['email'], {
-          animated: true,
-          animationDirection: 'forward',
-        });
+        this.authService.setAccessToken(res.accessToken);
 
       } else if (res.operation == 'error') {
 
