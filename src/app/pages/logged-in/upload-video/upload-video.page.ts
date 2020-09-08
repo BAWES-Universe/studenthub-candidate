@@ -43,6 +43,8 @@ export class UploadVideoPage implements OnInit {
 
   public interval;
 
+  public maxDuration = 30;
+
   public cameras = [];
 
   public browserUploadSubscription: Subscription;
@@ -81,8 +83,9 @@ export class UploadVideoPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    if(!this.shouldStop)
+    if(!this.shouldStop) {
       this.stopRecording();
+    }
   }
 
   /**
@@ -156,7 +159,7 @@ export class UploadVideoPage implements OnInit {
               player.play();
             };
   
-          }, 100);
+          });
           
           this.mediaRecorder.addEventListener('dataavailable', (e) => {
             if (e.data.size > 0) {
@@ -169,19 +172,25 @@ export class UploadVideoPage implements OnInit {
             //downloadLink.download = 'acetest.webm';
             let file = new File([new Blob(recordedChunks, { type : 'video/webm' })], this.authService.id + ".webm"); 
 
-            this.uploadFile(file);
+            this.uploadFile(file, {
+              'duration': (this.maxDuration - this.timer) + '',
+            });
           });
 
           this.mediaRecorder.start();
 
           //start timer 
 
-          this.timer = 31;
+          this.timer = this.maxDuration;
 
           this.interval = setInterval(() => {
             
-            if(this.timer == 0)  
-              this.stopRecording();
+            if(this.timer == 0)  {
+              //to fix: max recording duration less then max allowed duration by 1 second
+              setTimeout(() => {
+                this.stopRecording();
+              }, 1000);
+            }
 
             if(this.timer > 0)
               this.timer--;
@@ -207,15 +216,17 @@ export class UploadVideoPage implements OnInit {
    * stop recording in mobile browser
    */
   stopRecording() {
-            
+         
+    this.shouldStop = true;
+
     if(this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
 
-    this.shouldStop = true;
+    console.log(this.mediaRecorder);
 
-    if(this.mediaRecorder)
+    if(this.mediaRecorder && this.mediaRecorder.state != "inactive")
       this.mediaRecorder.stop();
 
     //stop camera 
@@ -329,7 +340,7 @@ export class UploadVideoPage implements OnInit {
   
           video.onloadedmetadata = () => {
 
-            if(video.duration > 30) {
+            if(video.duration > this.maxDuration) {
               reject(this.translateService.transform('Video duration can not exceed 30 second limit'));
             }
             
@@ -354,11 +365,11 @@ export class UploadVideoPage implements OnInit {
     });
   }
 
-  uploadFile(file) {
+  uploadFile(file, metadata = {}) {
 
     this.uploading = true;
 
-    this.browserUploadSubscription = this.awsService.uploadFile(file).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
       this._handleFileSuccess(event);
     }, async err => {
 
