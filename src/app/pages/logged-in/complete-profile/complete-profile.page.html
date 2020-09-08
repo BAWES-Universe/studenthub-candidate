@@ -24,6 +24,14 @@
         </ion-label>
       </ion-item>
 
+      <ion-item tappable (click)="updateVideo()" [class.required]="!candidate.candidate_video">
+        <ion-label>
+          <small>{{ "Introductory video" | translate }}</small>
+          <span *ngIf="!candidate.candidate_video">{{ "Make sure to look professional" | translate }}</span>
+          <img width="126" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+        </ion-label>
+      </ion-item>
+
       <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">
         <ion-label>
           <small>{{ "Name (English)" | translate }}</small>

@@ -9,6 +9,7 @@ export const environment = {
   oneSignalAppId: 'c62352ca-2f6c-44a2-896c-84c2f17db9ac',
   oneSignalSafariAppId: '',
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face/v1596453482/dev/",
+  cloudinaryVideoUrl: "https://res.cloudinary.com/studenthub/video/upload/w_250,h_250/v1596453482/dev/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'http://localhost/~BAWES/payroll/payroll/candidate/web/v1',
 };

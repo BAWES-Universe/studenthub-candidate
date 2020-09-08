@@ -47,6 +47,8 @@ import { CompanyPageModule } from './pages/logged-in/company/company.module';
 import { CivilIdFrontPageModule } from './pages/logged-in/civil-id-front/civil-id-front.module';
 import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-back.module';
 import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -83,6 +85,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EmailPageModule,
     PhonePageModule,
     ProfilePhotoPageModule,
+    UploadVideoPageModule,
     ObjectivePageModule,
     SkillFormPageModule,
     ExperienceFormPageModule,
@@ -113,6 +116,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FileChooser,
     FilePath,
     IOSFilePicker,
+    MediaCapture,
     OneSignal,
     SwUpdate,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
