@@ -220,6 +220,18 @@ export class AccountService {
   }
 
   /**
+   * update Video to introduct candidate
+   * @param candidate_video string
+   */
+  updateVideo(candidate_video: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/video';
+    return this._authhttp.post(url, {
+      video: candidate_video
+    });
+  }
+ 
+
+  /**
    * update profile photo
    * @param personal_photo string
    */
