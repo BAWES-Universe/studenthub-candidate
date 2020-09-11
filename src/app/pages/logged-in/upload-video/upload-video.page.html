@@ -21,7 +21,7 @@
                 <ion-icon src="assets/images/md-cloud-upload.svg" slot="start"></ion-icon>&nbsp;
                 <span *ngIf="candidate.candidate_video || candidate.tempLocation">{{ "Replace video" | translate }}</span>
                 <span *ngIf="cameras.length == 0 && !candidate.candidate_video && !candidate.tempLocation">{{ "Select video" | translate }}</span>
-                <span *ngIf="cameras.length >= 0 && !candidate.candidate_video && !candidate.tempLocation">{{ "Start recording" | translate }}</span>
+                <span *ngIf="cameras.length > 0 && !candidate.candidate_video && !candidate.tempLocation">{{ "Start recording" | translate }}</span>
 
             </ion-button>
 

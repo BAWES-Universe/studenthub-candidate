@@ -266,7 +266,7 @@ export class CompleteProfilePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: UploadVideoPage,
       componentProps: {
-        candidate: this.candidate,
+        candidate: Object.assign({}, this.candidate),
       }
     });
     modal.onDidDismiss().then(e => {
@@ -274,6 +274,10 @@ export class CompleteProfilePage implements OnInit {
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+
+      if(e.data && e.data.candidate_video) {
+        this.candidate.candidate_video = e.data.candidate_video;
       }
     });
     modal.present();
