@@ -1,14 +1,19 @@
 <ion-content [attr.dir]="translateService.direction()">
 
     <div class="max-width">
-        <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+
+        <ion-button fill="clear" (click)="dismiss()" *ngIf="shouldStop" class="btn-close">
             <img src="assets/images/ic_cancel.svg" />
         </ion-button>
-
-        <h3>{{ "Upload video to introduce yourself" | translate }}</h3>
-
+        
         <div *ngIf="!uploading && shouldStop">
 
+            <h3>{{ "Upload a video to introduce yourself" | translate }}</h3>
+
+            <p *ngIf="!uploading && !candidate.candidate_video && !candidate.tempLocation">
+                {{ "It’s optional, but it’ll give a better impression of yourself and a higher chance of companies wanting to hire you." | translate }}
+            </p>
+    
             <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
 
                 <video controls *ngIf="!candidate.tempLocation"
@@ -17,48 +22,56 @@
                 <video controls *ngIf="candidate.tempLocation" src="{{ candidate.tempLocation }}"></video>
             </div>
 
-            <ion-button tabindex="2" class="fileUpload" *ngIf="cameras" (click)="startRecording()">
-                <ion-icon src="assets/images/md-cloud-upload.svg" slot="start"></ion-icon>&nbsp;
-                <span *ngIf="candidate.candidate_video || candidate.tempLocation">{{ "Replace video" | translate }}</span>
-                <span *ngIf="cameras.length == 0 && !candidate.candidate_video && !candidate.tempLocation">{{ "Select video" | translate }}</span>
-                <span *ngIf="cameras.length > 0 && !candidate.candidate_video && !candidate.tempLocation">{{ "Start recording" | translate }}</span>
-
+            <ion-button tabindex="2" class="btn-submit" *ngIf="!candidate.candidate_video" (click)="startCamera()">
+               {{ "Upload Video" | translate }}               
             </ion-button>
 
+            <div *ngIf="candidate.candidate_video">
+                <ion-button tabindex="2" class="btn-replace-video" (click)="startCamera()">
+                    {{ "Replace video" | translate }}               
+                </ion-button>
+                
+                <ion-button tabindex="2" class="btn-delete-video" (click)="delete()">
+                    {{ "Delete video" | translate }}               
+                </ion-button>            
+            </div>
+            
             <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept="video/*" capture>
 
         </div>
 
         <div *ngIf="!uploading && !shouldStop">
 
-            <h5>
-                {{ "txt_time_elapsed" | translate : { seconds: timer } }}
-            </h5> 
+            <video #player id="player"></video>
+            
+            <div *ngIf="!recording" class="btn-wrapper">
+                <ion-button tabindex="3" class="btn-start-recording" (click)="startRecording()">
+                    {{ "Start recording" | translate }}
+                </ion-button>
 
-            <div class="selected-file">
-                <video #player id="player" controls></video>
+                <ion-button tabindex="4" class="btn-cancel-upload" color="light" (click)="stopRecording()">
+                    {{ "Cancel" | translate }}
+                </ion-button>
             </div>
             
-            <ion-button tabindex="3" class="btn-stop" color="warning" (click)="stopRecording()">
-                <ion-icon src="assets/images/md-cloud-upload.svg" slot="start"></ion-icon>
-                {{ "Stop recording" | translate }}
+            <ion-button *ngIf="recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
+                <b>{{ "Stop recording" | translate }}</b>
+                <span>{{ "txt_time_elapsed" | translate : { seconds: timer } }}</span>
             </ion-button>
         </div>
 
-        <div class="progress-wrapper" *ngIf="uploading">
-            <div class="progress-box">
+        <div *ngIf="uploading">
+            <h3>{{ "Please wait while we prepare your video" | translate }}</h3>
 
-                <h4>{{ "Uploading…" | translate }} <span>{{ progress + '%' }}</span></h4>
-
-                <div class="progress-bar">
-                    <div class="progress" [style.width]="progress + '%'"></div>
+            <div class="progress-wrapper">
+                <div class="progress-box">
+                    <div class="progress-bar">
+                        <div class="progress" [style.width]="progress + '%'"></div>
+                    </div>
                 </div>
-
-                <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
-                </ion-icon>
             </div>
         </div>
-
+        
         <ion-button class="btn-submit" *ngIf="candidate.tempLocation" (click)="submit()" [disabled]="loading || uploading">
             <span *ngIf="!loading">{{ "Save" | translate }}</span> 
             <ion-spinner *ngIf="loading"></ion-spinner>
