@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {
   Platform,
   PopoverController,
@@ -47,8 +47,9 @@ export class CivilIdBackPage implements OnInit {
 
   public candidate: Candidate;
   public cloudinaryUrl;
-
+  public interval;
   constructor(
+    private _ngzone: NgZone,
     private _fb: FormBuilder,
     private platform: Platform,
     public alertCtrl: AlertController,
@@ -73,7 +74,7 @@ export class CivilIdBackPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      civil_photo_back_path: [this.candidate.candidate_civil_photo_back ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_civil_photo_back : '', Validators.required],
+      civil_photo_back_path: [this.candidate.candidate_civil_photo_back ? this.awsService.permanentBucketUrl + 'photos/' + this.candidate.candidate_civil_photo_back : '', Validators.required],
       civil_photo_back: [this.candidate.candidate_civil_photo_back, Validators.required]
     });
   }
@@ -222,7 +223,7 @@ export class CivilIdBackPage implements OnInit {
         this._handleFileSuccess(event);
       }, async err => {
 
-        this.progress = false;
+        this.progress = null;
 
         const ignoreErrors = [
           'No image picked',
@@ -327,6 +328,8 @@ export class CivilIdBackPage implements OnInit {
 
         this.progress = false;
       }, () => {
+        clearInterval(this.interval);
+        this.progress = 100;
         this.uploadFileSubscription.unsubscribe();
       });
     }
@@ -337,11 +340,24 @@ export class CivilIdBackPage implements OnInit {
    * @param event
    */
   _handleFileSuccess(event) {
+
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
+    let count = 1;
+
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        this._ngzone.run(() => {
+          if (count < 100) {
+            this.progress = count = count + 1;
+          }
+        });
+      }, 80);
+    }
+
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      // this.progress = Math.round(100 * event.loaded / event.total);
     } else if (event.Key && event.Key.length > 0) {
 
       if (this.fileInput && this.fileInput.nativeElement) {
@@ -369,6 +385,8 @@ export class CivilIdBackPage implements OnInit {
             
           } else  {
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
+            clearInterval(this.interval);
+            this.progress = 100;
             this.dismiss();
           }
         });

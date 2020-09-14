@@ -1,0 +1,480 @@
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Subscription, Subscribable } from 'rxjs';
+import { AlertController, ModalController, Platform } from '@ionic/angular';
+import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+//services
+import { AwsService } from 'src/app/providers/logged-in/aws.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
+import { AuthService } from 'src/app/providers/auth.service';
+
+
+declare var MediaRecorder;
+
+@Component({
+  selector: 'app-upload-video',
+  templateUrl: './upload-video.page.html',
+  styleUrls: ['./upload-video.page.scss'],
+})
+export class UploadVideoPage implements OnInit {
+
+  @ViewChild('player', { static: false }) player: ElementRef;
+
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+
+  public candidate;
+
+  public progress = 0;
+
+  public loading: boolean = false;
+
+  public uploading: boolean = false; 
+
+  public currentTarget;
+
+  public shouldStop = true;
+
+  public mediaRecorder; 
+
+  public stream;
+
+  public timer = 0;
+
+  public interval;
+
+  public maxDuration = 30;
+
+  public cameras = [];
+
+  public browserUploadSubscription: Subscription;
+  public updateSubscription: Subscription;
+  
+  constructor(
+    public platform: Platform,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    private mediaCapture: MediaCapture,
+    public accountService: AccountService,
+    public authService: AuthService,
+    public sentryService: SentryErrorhandlerService,
+    public translateService: TranslateLabelService,
+    public awsService: AwsService
+  ) { }
+
+  ngOnInit() {
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      this.cameras = devices.filter((d) => d.kind === 'videoinput');
+    });
+  }
+
+  ngOnDestroy() {
+
+    if (!!this.browserUploadSubscription) {
+      this.browserUploadSubscription.unsubscribe();
+    }
+
+    if (!!this.updateSubscription) {
+      this.updateSubscription.unsubscribe();
+    }
+
+    if(!this.shouldStop)
+      this.stopRecording();
+  }
+
+  ionViewWillLeave() {
+    if(!this.shouldStop) {
+      this.stopRecording();
+    }
+  }
+
+  /**
+   * start recording in mobile app 
+   */
+  startRecording() {
+
+    if(this.cameras.length == 0) {
+      this.fileInput.nativeElement.click();
+    } else if(this.platform.is('hybrid')) {
+      this.startRecordingInMobile();
+    } else {
+      this.startRecordingInBrowser();
+    }
+  }
+
+  /**
+   * start recording in mobile apps 
+   */
+  startRecordingInMobile() {
+
+    let options: CaptureVideoOptions= { 
+      limit: 1,
+      duration: 30
+    }
+
+    this.mediaCapture.captureVideo(options)
+      .then(
+        (data: MediaFile[]) => {
+          this.uploadFileViaNativeFilePath(data[1].fullPath);
+        },
+        async (err: CaptureError) => {
+
+          const alert = await this.alertCtrl.create({
+            header: this.translateService.transform('Error'),
+            message: this.translateService.transform("txt_recording_error", {
+              error: err
+            }),
+            buttons: [this.translateService.transform('Okay')]
+          });
+
+          await alert.present();
+        }
+      );
+  }
+
+  /**
+   * start recording in mobile browser 
+   */
+  startRecordingInBrowser() {
+
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+        .then((stream) => {
+    
+          this.stream = stream;
+
+          this.shouldStop = false;
+  
+          const options = { mimeType: 'video/webm' };
+          const recordedChunks = [];
+          
+          this.mediaRecorder = new MediaRecorder(stream, options);
+
+          //show live feed 
+
+          setTimeout(() => {
+
+            const player = this.player.nativeElement;
+            player.srcObject = stream;
+            player.onloadedmetadata = (e) => {
+              player.play();
+            };
+  
+          });
+          
+          this.mediaRecorder.addEventListener('dataavailable', (e) => {
+            if (e.data.size > 0) {
+              recordedChunks.push(e.data);
+            }
+          });
+
+          this.mediaRecorder.addEventListener('stop', () => {
+            //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+            //downloadLink.download = 'acetest.webm';
+            let file = new File([new Blob(recordedChunks, { type : 'video/webm' })], this.authService.id + ".webm"); 
+
+            this.uploadFile(file, {
+              'duration': (this.maxDuration - this.timer) + '',
+            });
+          });
+
+          this.mediaRecorder.start();
+
+          //start timer 
+
+          this.timer = this.maxDuration;
+
+          this.interval = setInterval(() => {
+            
+            if(this.timer == 0)  {
+              //to fix: max recording duration less then max allowed duration by 1 second
+              setTimeout(() => {
+                this.stopRecording();
+              }, 1000);
+            }
+
+            if(this.timer > 0)
+              this.timer--;
+            
+          }, 1000);  
+        })
+        .catch(async (err) => {
+          console.log("The following error occurred: " + err);
+
+          const alert = await this.alertCtrl.create({
+            header: this.translateService.transform('Error'),
+            message: this.translateService.transform("txt_recording_error", {
+              error: err.name
+            }),
+            buttons: [this.translateService.transform('Okay')]
+          });
+
+          await alert.present();
+        });
+  }
+
+  /**
+   * stop recording in mobile browser
+   */
+  stopRecording() {
+         
+    this.shouldStop = true;
+
+    if(this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+
+    console.log(this.mediaRecorder);
+
+    if(this.mediaRecorder && this.mediaRecorder.state != "inactive")
+      this.mediaRecorder.stop();
+
+    //stop camera 
+
+    if(this.stream)
+      this.stream.getTracks().forEach( (track) => {
+        track.stop();
+      });
+  }
+
+  /**
+   * Upload video by native path
+   */
+  async uploadFileViaNativeFilePath(uri) {
+
+    this.uploading = true;
+
+    this.awsService.uploadNativePath(uri).then(o => {
+      o.subscribe(event => {
+        this._handleFileSuccess(event);
+      }, async err => {
+
+        this.progress = 0;
+
+        this.uploading = false;
+
+        const ignoreErrors = [
+          'No image picked',
+          'User cancelled photos app',
+        ];
+
+        if (
+          err && (
+            ignoreErrors.indexOf(err.message) > -1 ||
+            err.message.includes('aborted')
+          )
+        ) {
+          return null;
+        }
+
+        // log to slack/sentry to know how many user getting file upload error
+
+        this.sentryService.handleError(err);
+
+        // always show abstract error message
+
+        let message;
+
+        const networkErrors = [
+          '504:null',
+          'NetworkingError: Network Failure'
+        ];
+
+        // networking errors
+        if (err && networkErrors.indexOf(err.message) > -1) {
+          message = this.translateService.transform('Error uploading file');
+          // system errors
+        } else if (err.message && err.message.indexOf(':') > -1) {
+          message = this.translateService.transform('Error getting file from Library');
+          // plugin errors
+        } else if (err.message) {
+          message = err.message;
+          // custom file validation errors
+        } else {
+          message = err;
+        }
+
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message,
+          buttons: [this.translateService.transform('Okay')]
+        });
+
+        await alert.present();
+      });
+    });
+  }
+
+  /**
+   * Upload video from browser
+   * @param event
+   */
+  async browserUpload(event) {
+
+    const fileList: FileList = event.target.files;
+
+    if (fileList.length == 0) {
+      return false;
+    }
+
+    this.validateVideoFile(fileList[0]).then(data => {
+     
+      this.uploadFile(fileList[0]);
+
+    }, err => {
+      console.log(err);
+
+      this.alertCtrl.create({
+        message: err,
+        buttons: [this.translateService.transform('Ok')]
+      }).then(alert => { alert.present(); });
+
+    });
+  }
+    
+  validateVideoFile(file) {
+    return new Promise((resolve, reject) => {
+      try {
+          let video = document.createElement('video')
+          video.preload = 'metadata'
+  
+          video.onloadedmetadata = () => {
+
+            if(video.duration > this.maxDuration) {
+              reject(this.translateService.transform('Video duration can not exceed 30 second limit'));
+            }
+            
+            resolve(true);
+          }
+  
+          video.onerror = () => {
+              reject(this.translateService.transform('Invalid video. Please select a video file.'));
+          }
+
+          const type = file.type.split('/')[0];
+
+          if (type != 'video') {
+            reject(this.translateService.transform('Invalid File format'))
+          }
+
+          video.src = window.URL.createObjectURL(file);
+
+      } catch (e) {
+          reject(e);
+      }
+    });
+  }
+
+  uploadFile(file, metadata = {}) {
+
+    this.uploading = true;
+
+    this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
+      this._handleFileSuccess(event);
+    }, async err => {
+
+      if (!err.message || !err.message.includes('aborted')) {
+        // log to sentry
+
+        this.sentryService.handleError(err);
+
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: this.translateService.transform('Error while uploading file!'),
+          buttons: [this.translateService.transform('Okay')]
+        });
+
+        await alert.present();
+      }
+
+      if (this.fileInput && this.fileInput.nativeElement) {
+        this.fileInput.nativeElement.value = null;
+      }
+      this.uploading = false;
+      this.progress = 0;
+    }, () => {
+      this.browserUploadSubscription.unsubscribe();
+    });
+  }
+
+  /**
+   * Handle file upload success
+   * @param event 
+   */
+  public _handleFileSuccess(event) {
+
+    // Via this API, you get access to the raw event stream.
+    // Look for upload progress events.
+    if (event.type === "progress") {
+      // This is an upload progress event. Compute and show the % done:
+      this.progress = Math.round(100 * event.loaded / event.total);
+
+    } else if (event.Key && event.Key.length > 0) {
+
+      this.candidate.tempLocation = event.Location;
+      this.candidate.candidate_video = event.Key;
+
+      this.progress = 0;
+      this.uploading = false;
+
+    } else if (!this.currentTarget) {
+      this.currentTarget = event;
+    }
+  }
+
+  /**
+   * close popup modal
+   */
+  dismiss(data = {}) {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay)
+        this.modalCtrl.dismiss(data);
+    });
+  }
+
+  /**
+   * cancel file upload 
+   */
+  cancelUpload() {
+    this.progress = 0;
+    this.uploading = false; 
+
+    if (this.currentTarget) {
+      this.currentTarget.abort();
+    }
+  }
+
+  /**
+   * save uploaded cv
+   */
+  submit() {
+
+    this.loading = true;
+
+    this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
+
+      this.loading = false;
+
+      if (res.operation == 'success') {
+
+        this.candidate.tempLocation = null;
+        this.candidate.candidate_video = res.candidate_video;
+
+        this.dismiss({
+          candidate_video: res.candidate_video
+        });
+        
+      } else {
+
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
+      }
+    }, () => {
+      this.loading = false;
+    });
+  }
+}

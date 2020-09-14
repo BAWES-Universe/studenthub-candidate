@@ -28,6 +28,7 @@ import { UpdateEmailPage } from '../update-email/update-email.page';
 import { CivilExpiryPage } from '../civil-expiry/civil-expiry.page';
 import { CivilIdFrontPage } from '../civil-id-front/civil-id-front.page';
 import { CivilIdBackPage } from '../civil-id-back/civil-id-back.page';
+import { UploadVideoPage } from '../upload-video/upload-video.page';
 
 
 @Component({
@@ -246,6 +247,37 @@ export class CompleteProfilePage implements OnInit {
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  /**
+   * cloudinary video thumbnail url
+   * @param candidate_video 
+   */
+  thumbnailUrl(candidate_video) {
+    return candidate_video.split('.')[0] + '.jpg';
+  }
+
+  async updateVideo() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: UploadVideoPage,
+      componentProps: {
+        candidate: Object.assign({}, this.candidate),
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.candidate_video) {
+        this.candidate.candidate_video = e.data.candidate_video;
       }
     });
     modal.present();

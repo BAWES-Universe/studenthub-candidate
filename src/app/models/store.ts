@@ -5,6 +5,7 @@ export class Store {
     store_id: number;
     company_id: number;
     store_name: string;
+    store_location: string;
     store_status: number;
     candidates: Candidate[];    
     company: Company;

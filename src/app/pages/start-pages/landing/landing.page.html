@@ -1,5 +1,6 @@
 <ion-content [attr.dir]="translateService.direction()">
   <div class="desktop-view">
+
       <a class="translate-link" (click)="translate()">
         <span *ngIf="translateService.currentLang != 'en'">English</span>
         <span *ngIf="translateService.currentLang == 'en'">عربى</span>

@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  NgZone,
+  ChangeDetectorRef
+} from '@angular/core';
 import {
   Platform,
   PopoverController,
@@ -33,10 +40,11 @@ export class CivilIdFrontPage implements OnInit {
 
   @ViewChild('btnChangePhoto', { static: false }) btnChangePhoto: IonButton;
 
-  public progress;
+  public progress: number = 0;
 
   public uploadFileSubscription: Subscription;
-  
+  public interval;
+
   public uploadingPhoto = false;
 
   public saving = false;
@@ -47,8 +55,8 @@ export class CivilIdFrontPage implements OnInit {
 
   public candidate: Candidate;
   public cloudinaryUrl;
-
   constructor(
+    private _ngzone: NgZone,
     private _fb: FormBuilder,
     private platform: Platform,
     public alertCtrl: AlertController,
@@ -73,7 +81,7 @@ export class CivilIdFrontPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      civil_photo_front_path: [this.candidate.candidate_civil_photo_front ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_civil_photo_front : '', Validators.required],
+      civil_photo_front_path: [this.candidate.candidate_civil_photo_front ? this.awsService.permanentBucketUrl + 'photos/' + this.candidate.candidate_civil_photo_front : '', Validators.required],
       civil_photo_front: [this.candidate.candidate_civil_photo_front, Validators.required]
     });
   }
@@ -138,7 +146,7 @@ export class CivilIdFrontPage implements OnInit {
       {
         text: LoadLibLbl,
         handler: () => {
-       
+
           this._cameraService.getImageFromLibrary().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
@@ -167,7 +175,7 @@ export class CivilIdFrontPage implements OnInit {
       {
         text: UseCamLbl,
         handler: () => {
-         
+
           this._cameraService.getImageFromCamera().then((nativeImageFilePath) => {
             // Upload and process for progress
             this.uploadFileViaNativeFilePath(nativeImageFilePath);
@@ -215,14 +223,13 @@ export class CivilIdFrontPage implements OnInit {
    * Upload logo by native path
    */
   async uploadFileViaNativeFilePath(uri) {
-    this.progress = 1;//show loader
-
+    this.progress = 1; // show loader
     this.awsService.uploadNativePath(uri).then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 
-        this.progress = false;
+        this.progress = null;
 
         const ignoreErrors = [
           'No image picked',
@@ -233,7 +240,7 @@ export class CivilIdFrontPage implements OnInit {
           err && (
             ignoreErrors.indexOf(err.message) > -1 ||
             err.message.includes('aborted')
-          ) 
+          )
         ) {
           return null;
         }
@@ -301,8 +308,8 @@ export class CivilIdFrontPage implements OnInit {
     else
     {
       this.progress = 1;
-
       this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+
         this._handleFileSuccess(event);
       }, async err => {
 
@@ -311,7 +318,7 @@ export class CivilIdFrontPage implements OnInit {
           // log to sentry
 
           this.sentryService.handleError(err);
-          
+
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
             message: this.translateService.transform('Error while uploading file!'),
@@ -325,8 +332,10 @@ export class CivilIdFrontPage implements OnInit {
           this.fileInput.nativeElement.value = null;
         }
 
-        this.progress = false;
+        this.progress = null;
       }, () => {
+        clearInterval(this.interval);
+        this.progress = 100;
         this.uploadFileSubscription.unsubscribe();
       });
     }
@@ -339,9 +348,21 @@ export class CivilIdFrontPage implements OnInit {
   _handleFileSuccess(event) {
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
+
+    let count = 1;
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        this._ngzone.run(() => {
+          if (count < 100) {
+            this.progress = count = count + 1;
+          }
+        });
+      }, 80);
+    }
+
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      // this.progress = Math.round(100 * event.loaded / event.total);
     } else if (event.Key && event.Key.length > 0) {
 
       if (this.fileInput && this.fileInput.nativeElement) {
@@ -365,10 +386,12 @@ export class CivilIdFrontPage implements OnInit {
             });
             alert.present();
 
-            this.progress = null;
-            
+            // this.progress = null;
+
           } else  {
             this.candidate.candidate_civil_photo_front = response.candidate_civil_photo_front;
+            clearInterval(this.interval);
+            this.progress = 100;
             this.dismiss();
           }
         });

@@ -18,7 +18,8 @@ export class AwsService {
 
     public permanentBucketUrl = environment.permanentBucketUrl;
     public cloudinaryUrl = environment.cloudinaryUrl;
-
+    public cloudinaryVideoUrl = environment.cloudinaryVideoUrl;
+    
     private _region = 'eu-west-2'; // London
     private _access_key_uuid = 'AKIAJXOMRCDE65WKBPUA';
     private _secret_access_key = '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';
@@ -146,7 +147,7 @@ export class AwsService {
      * @param { File } file
      * @returns { Observable<any> }
      */
-    uploadFile(file: File = null): Observable<any> {
+    uploadFile(file: File = null, metadata = {}): Observable<any> {
 
         let s3 = new AWS.S3({
             apiVersion: '2006-03-01'
@@ -164,6 +165,7 @@ export class AwsService {
             Bucket: this._bucket_name, //bucket name
             Key: key, //file name
             ContentType: file.type, //(String) A standard MIME type describing the format of the object file
+            Metadata: metadata
         }
 
         return Observable.create((observer: Observer<any>) => {
