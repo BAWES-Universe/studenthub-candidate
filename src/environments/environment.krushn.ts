@@ -11,7 +11,8 @@ export const environment = {
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face/v1596453482/dev/",
   cloudinaryVideoUrl: "https://res.cloudinary.com/studenthub/video/upload/w_250/v1596453482/dev/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
-  apiEndpoint: 'http://localhost:8888/bawes/studenthub/candidate/web/v1'
+  //apiEndpoint: 'http://localhost:8888/bawes/studenthub/candidate/web/v1'
+  apiEndpoint: 'http://localhost/studenthub/candidate/web/v1'
 };
 
 /*
