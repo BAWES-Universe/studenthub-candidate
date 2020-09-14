@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {
   Platform,
   PopoverController,
@@ -45,8 +45,10 @@ export class ProfilePhotoPage implements OnInit {
   public currentTarget;
 
   public candidate: Candidate;
+  public interval;
 
   constructor(
+    private _ngzone: NgZone,
     private _fb: FormBuilder,
     private platform: Platform,
     public alertCtrl: AlertController,
@@ -221,7 +223,7 @@ export class ProfilePhotoPage implements OnInit {
       }, async err => {
 
         this.progress = 0;
-
+        clearInterval(this.interval);
         this.uploadingPhoto = false;
 
         const ignoreErrors = [
@@ -325,6 +327,7 @@ export class ProfilePhotoPage implements OnInit {
         }
         this.uploadingPhoto = false;
         this.progress = 0;
+        clearInterval(this.interval);
       }, () => {
         this.uploadFileSubscription.unsubscribe();
       });
@@ -337,11 +340,23 @@ export class ProfilePhotoPage implements OnInit {
    */
   _handleFileSuccess(event) {
 
+    let count = 1;
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        this._ngzone.run(() => {
+          if (count < 100) {
+            this.progress = count = count + 1;
+          }
+        });
+      }, 35);
+    }
+
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
+
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      // this.progress = Math.round(100 * event.loaded / event.total);
     } else if (event.Key && event.Key.length > 0) {
 
       if (this.fileInput && this.fileInput.nativeElement) {
@@ -355,7 +370,7 @@ export class ProfilePhotoPage implements OnInit {
 
       this.progress = 0;
       this.uploadingPhoto = false;
-
+      clearInterval(this.interval);
     } else if (!this.currentTarget) {
       this.currentTarget = event;
     }
@@ -418,7 +433,7 @@ export class ProfilePhotoPage implements OnInit {
     }
 
     this.progress = 0;
-
+    clearInterval(this.interval);
     this.loading = false;
     if (this.currentTarget) {
       this.currentTarget.abort();
