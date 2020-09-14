@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ErrorHandler, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -49,6 +49,9 @@ import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-
 import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
+
+import { registerLocaleData } from '@angular/common';
+import localeAr from '@angular/common/locales/ar-KW'
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -124,4 +127,11 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  static injector: Injector;
+
+  constructor(public injector: Injector) {
+    AppModule.injector = injector;
+    registerLocaleData(localeAr, 'ar');
+  }
+}
