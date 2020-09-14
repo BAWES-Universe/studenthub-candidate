@@ -73,7 +73,7 @@ export class CivilIdFrontPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      civil_photo_front_path: [this.candidate.candidate_civil_photo_front ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_civil_photo_front : '', Validators.required],
+      civil_photo_front_path: [this.candidate.candidate_civil_photo_front ? this.awsService.permanentBucketUrl + 'photos/' + this.candidate.candidate_civil_photo_front : '', Validators.required],
       civil_photo_front: [this.candidate.candidate_civil_photo_front, Validators.required]
     });
   }

@@ -73,7 +73,7 @@ export class CivilIdBackPage implements OnInit {
    */
   _initForm() {
     this.form = this._fb.group({
-      civil_photo_back_path: [this.candidate.candidate_civil_photo_back ? environment.cloudinaryUrl + 'candidate-photo/' + this.candidate.candidate_civil_photo_back : '', Validators.required],
+      civil_photo_back_path: [this.candidate.candidate_civil_photo_back ? this.awsService.permanentBucketUrl + 'photos/' + this.candidate.candidate_civil_photo_back : '', Validators.required],
       civil_photo_back: [this.candidate.candidate_civil_photo_back, Validators.required]
     });
   }
