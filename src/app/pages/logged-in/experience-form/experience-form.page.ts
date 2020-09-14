@@ -78,7 +78,8 @@ export class ExperienceFormPage implements OnInit {
 
       let ele = document.getElementById('input[' + i + ']') as any;
 
-      ele.setFocus();
+      if(ele)
+        ele.setFocus();
     }
   }
 
