@@ -29,6 +29,8 @@ export class UploadVideoPage implements OnInit {
 
   public loading: boolean = false;
 
+  public recording: boolean = false;
+
   public uploading: boolean = false; 
 
   public currentTarget;
@@ -89,23 +91,23 @@ export class UploadVideoPage implements OnInit {
   }
 
   /**
-   * start recording in mobile app 
+   * start camera in mobile app 
    */
-  startRecording() {
+  startCamera() {
 
     if(this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if(this.platform.is('hybrid')) {
-      this.startRecordingInMobile();
+      this.startCameraInMobile();
     } else {
-      this.startRecordingInBrowser();
+      this.startCameraInBrowser();
     }
   }
 
   /**
    * start recording in mobile apps 
    */
-  startRecordingInMobile() {
+  startCameraInMobile() {
 
     let options: CaptureVideoOptions= { 
       limit: 1,
@@ -135,7 +137,7 @@ export class UploadVideoPage implements OnInit {
   /**
    * start recording in mobile browser 
    */
-  startRecordingInBrowser() {
+  startCameraInBrowser() {
 
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
         .then((stream) => {
@@ -162,7 +164,7 @@ export class UploadVideoPage implements OnInit {
           });
           
           this.mediaRecorder.addEventListener('dataavailable', (e) => {
-            if (e.data.size > 0) {
+            if (e.data.size > 0 && this.recording) {
               recordedChunks.push(e.data);
             }
           });
@@ -170,6 +172,11 @@ export class UploadVideoPage implements OnInit {
           this.mediaRecorder.addEventListener('stop', () => {
             //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
             //downloadLink.download = 'acetest.webm';
+
+            if(recordedChunks.length == 0) {
+              return false;
+            }
+
             let file = new File([new Blob(recordedChunks, { type : 'video/webm' })], this.authService.id + ".webm"); 
 
             this.uploadFile(file, {
@@ -178,24 +185,6 @@ export class UploadVideoPage implements OnInit {
           });
 
           this.mediaRecorder.start();
-
-          //start timer 
-
-          this.timer = this.maxDuration;
-
-          this.interval = setInterval(() => {
-            
-            if(this.timer == 0)  {
-              //to fix: max recording duration less then max allowed duration by 1 second
-              setTimeout(() => {
-                this.stopRecording();
-              }, 1000);
-            }
-
-            if(this.timer > 0)
-              this.timer--;
-            
-          }, 1000);  
         })
         .catch(async (err) => {
           console.log("The following error occurred: " + err);
@@ -211,6 +200,29 @@ export class UploadVideoPage implements OnInit {
           await alert.present();
         });
   }
+  
+  startRecording() {
+
+    this.recording = true;
+
+    //start timer 
+
+    this.timer = this.maxDuration;
+
+    this.interval = setInterval(() => {
+      
+      if(this.timer == 0)  {
+        //to fix: max recording duration less then max allowed duration by 1 second
+        //setTimeout(() => {
+          this.stopRecording();
+        //}, 1000);
+      }
+
+      if(this.timer > 0)
+        this.timer--;
+      
+    }, 1000);  
+  }
 
   /**
    * stop recording in mobile browser
@@ -218,13 +230,12 @@ export class UploadVideoPage implements OnInit {
   stopRecording() {
          
     this.shouldStop = true;
+    this.recording = false;
 
     if(this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
-
-    console.log(this.mediaRecorder);
 
     if(this.mediaRecorder && this.mediaRecorder.state != "inactive")
       this.mediaRecorder.stop();
@@ -444,6 +455,10 @@ export class UploadVideoPage implements OnInit {
     }
   }
 
+  delete() {
+
+  }
+  
   /**
    * save uploaded cv
    */

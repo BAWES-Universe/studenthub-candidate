@@ -195,7 +195,12 @@
     "txt_time_elapsed": "{{ seconds }} second remain",
     "txt_recording_error": "The following error occurred: {{ error }}",
     "Invalid video. Please select a video file.": "",
-    "Video duration can not exceed 30 second limit": ""
+    "Video duration can not exceed 30 second limit": "",
+    "Upload a video to introduce yourself": "",
+    "Upload Video": "",
+    "Delete video": "",
+    "Please wait while we prepare your video": "",
+    "It’s optional, but it’ll give a better impression of yourself and a higher chance of companies wanting to hire you.": ""
 }
 
 
