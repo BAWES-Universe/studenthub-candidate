@@ -248,16 +248,17 @@ export class AuthService {
     this.email = data.email;
     this.isProfileCompleted = data.isProfileCompleted;
 
+    /*
     //to fix: https://www.pivotaltracker.com/story/show/174788568
-    if(!this.language_pref && data.language_pref)
-      this.language_pref = data.language_pref;
-    
+
+    this.language_pref = data.language_pref;      
+
+    if(data.language_pref) {      
+      this.eventService.setLanguagePref$.next(data.language_pref);
+    }*/
+
     // Save to Storage
     this.saveLoggedInUser();
-
-    if (data.language_pref) {
-      this.eventService.setLanguagePref$.next(data.language_pref);
-    }
 
     // Log User In by Triggering Event that Access Token has been Set
     this.eventService.userLogin$.next(data);
