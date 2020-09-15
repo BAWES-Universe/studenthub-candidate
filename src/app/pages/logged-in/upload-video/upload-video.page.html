@@ -31,8 +31,9 @@
                     {{ "Replace video" | translate }}               
                 </ion-button>
                 
-                <ion-button tabindex="2" class="btn-delete-video" (click)="delete()">
-                    {{ "Delete video" | translate }}               
+                <ion-button tabindex="2" [disabled]="deleting" class="btn-delete-video" (click)="delete()">
+                    <span *ngIf="!deleting">{{ "Delete video" | translate }}</span>
+                    <ion-spinner *ngIf="deleting"></ion-spinner>                    
                 </ion-button>            
             </div>
             
@@ -44,8 +45,12 @@
 
             <video #player id="player"></video>
             
-            <div *ngIf="!recording" class="btn-wrapper">
-                <ion-button tabindex="3" class="btn-start-recording" (click)="startRecording()">
+            <span class="txt-count-down" *ngIf="countDown > 0">
+                {{ countDown }}
+            </span>
+
+            <div *ngIf="countDown == 0 && !recording" class="btn-wrapper">
+                <ion-button tabindex="3" class="btn-start-recording" (click)="startCountDown()">
                     {{ "Start recording" | translate }}
                 </ion-button>
 
@@ -54,7 +59,7 @@
                 </ion-button>
             </div>
             
-            <ion-button *ngIf="recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
+            <ion-button *ngIf="countDown == 0 && recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
                 <b>{{ "Stop recording" | translate }}</b>
                 <span>{{ "txt_time_elapsed" | translate : { seconds: timer } }}</span>
             </ion-button>

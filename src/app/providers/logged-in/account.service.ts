@@ -229,7 +229,14 @@ export class AccountService {
       video: candidate_video
     });
   }
- 
+  
+  /**
+   * delete Video 
+   */
+  deleteVideo(): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/remove-video';
+    return this._authhttp.delete(url);
+  }
 
   /**
    * update profile photo
