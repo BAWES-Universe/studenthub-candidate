@@ -279,6 +279,10 @@ export class CompleteProfilePage implements OnInit {
       if(e.data && e.data.candidate_video) {
         this.candidate.candidate_video = e.data.candidate_video;
       }
+      
+      if(e.data && e.data.remove_candidate_video) {
+        this.candidate.candidate_video = null;
+      }
     });
     modal.present();
   }

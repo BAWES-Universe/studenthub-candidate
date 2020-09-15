@@ -118,6 +118,30 @@ p {
     }
 }
 
+.btn-replace-video,
+.btn-delete-video {
+    height: 73px;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    min-width: 314px;
+    clear: both;
+    display: block;
+    margin-bottom: 12px;
+    text-transform: none !important;
+    outline: none;
+    --border-radius: 10px;
+    --background: #ffffff;
+    --color: #292f38;
+    --border-width: 4px;
+    --border-color: #bdbdbd;
+    --border-style: solid;
+    --box-shadow: none;
+}
+
 .selected-file {
     margin-bottom: 26px;
     width: auto;
@@ -245,3 +269,41 @@ p {
     --background: #6B6B6B;
     color: #B4B4B4
 }
+
+.txt-count-down {
+    font-size: 210px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    top: calc(50% - 125px);
+    position: absolute;
+    left: calc(50% - 57px);
+    -webkit-animation: scale-up-center 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+	        animation: scale-up-center 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+}
+
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+}
+
+@keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+}
+  

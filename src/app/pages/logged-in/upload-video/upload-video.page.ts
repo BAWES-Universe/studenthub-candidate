@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Subscription, Subscribable } from 'rxjs';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, Platform } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 //services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
@@ -27,6 +27,8 @@ export class UploadVideoPage implements OnInit {
 
   public progress = 0;
 
+  public deleting: boolean = false;
+
   public loading: boolean = false;
 
   public recording: boolean = false;
@@ -41,6 +43,8 @@ export class UploadVideoPage implements OnInit {
 
   public stream;
 
+  public countDown = 0;
+
   public timer = 0;
 
   public interval;
@@ -51,11 +55,13 @@ export class UploadVideoPage implements OnInit {
 
   public browserUploadSubscription: Subscription;
   public updateSubscription: Subscription;
-  
+  public deleteSubscription: Subscription;
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     private mediaCapture: MediaCapture,
     public accountService: AccountService,
     public authService: AuthService,
@@ -78,6 +84,10 @@ export class UploadVideoPage implements OnInit {
 
     if (!!this.updateSubscription) {
       this.updateSubscription.unsubscribe();
+    }
+
+    if(!!this.deleteSubscription) {
+      this.deleteSubscription.unsubscribe();
     }
 
     if(!this.shouldStop)
@@ -164,18 +174,24 @@ export class UploadVideoPage implements OnInit {
           });
           
           this.mediaRecorder.addEventListener('dataavailable', (e) => {
+            console.log('dataavailable', e.data.size);
+
             if (e.data.size > 0 && this.recording) {
               recordedChunks.push(e.data);
             }
           });
 
           this.mediaRecorder.addEventListener('stop', () => {
+            console.log('stopped');
+            
             //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
             //downloadLink.download = 'acetest.webm';
 
             if(recordedChunks.length == 0) {
               return false;
             }
+
+            this.recording = false;
 
             let file = new File([new Blob(recordedChunks, { type : 'video/webm' })], this.authService.id + ".webm"); 
 
@@ -184,7 +200,7 @@ export class UploadVideoPage implements OnInit {
             });
           });
 
-          this.mediaRecorder.start();
+          //this.mediaRecorder.start();
         })
         .catch(async (err) => {
           console.log("The following error occurred: " + err);
@@ -201,21 +217,44 @@ export class UploadVideoPage implements OnInit {
         });
   }
   
-  startRecording() {
+  startCountDown() {
 
     this.recording = true;
+
+    this.countDown = 3;
+
+    let countDownTimer = setInterval(() => {
+      
+      if(this.countDown > 0) {
+        this.countDown --;
+      }
+
+      if(this.countDown == 0) {
+        this.startRecording();
+
+        clearInterval(countDownTimer);
+        countDownTimer = null;
+      }
+
+    }, 1000);
+  }
+
+  startRecording() {
 
     //start timer 
 
     this.timer = this.maxDuration;
 
+    //start recorder after count down 
+
+    this.mediaRecorder.start();
+    
     this.interval = setInterval(() => {
-      
+
+      //on timeout stop recording 
+
       if(this.timer == 0)  {
-        //to fix: max recording duration less then max allowed duration by 1 second
-        //setTimeout(() => {
-          this.stopRecording();
-        //}, 1000);
+        this.stopRecording();
       }
 
       if(this.timer > 0)
@@ -230,7 +269,6 @@ export class UploadVideoPage implements OnInit {
   stopRecording() {
          
     this.shouldStop = true;
-    this.recording = false;
 
     if(this.interval) {
       clearInterval(this.interval);
@@ -422,11 +460,13 @@ export class UploadVideoPage implements OnInit {
 
     } else if (event.Key && event.Key.length > 0) {
 
-      this.candidate.tempLocation = event.Location;
+      //this.candidate.tempLocation = event.Location;
       this.candidate.candidate_video = event.Key;
 
-      this.progress = 0;
-      this.uploading = false;
+      //this.progress = 0;
+      //this.uploading = false;
+
+      this.submit();
 
     } else if (!this.currentTarget) {
       this.currentTarget = event;
@@ -457,18 +497,51 @@ export class UploadVideoPage implements OnInit {
 
   delete() {
 
+    this.deleting = true;
+
+    this.deleteSubscription = this.accountService.deleteVideo().subscribe(res => {
+
+      this.deleting = false;
+
+      if (res.operation == 'success') {
+
+        this.candidate.tempLocation = null;
+        this.candidate.candidate_video = null;
+
+        this.dismiss({
+          remove_candidate_video: true
+        });
+        
+      } else {
+
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
+      }
+    }, () => {
+      this.deleting = false;
+    });
   }
   
   /**
    * save uploaded cv
    */
-  submit() {
+  async submit() {
 
-    this.loading = true;
+    const loading = await this.loadingCtrl.create({
+      message: this.translateService.transform('Saving...')
+    });
+    await loading.present();
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
 
-      this.loading = false;
+      loading.dismiss();
+
+      this.progress = 0;
+      this.uploading = false;
 
       if (res.operation == 'success') {
 
@@ -489,7 +562,10 @@ export class UploadVideoPage implements OnInit {
         });
       }
     }, () => {
-      this.loading = false;
+      loading.dismiss();
+
+      this.progress = 0;
+      this.uploading = false;
     });
   }
 }
