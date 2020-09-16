@@ -35,7 +35,8 @@ export class PhonePage implements OnInit {
     this._initForm();
 
     setTimeout(() => {
-      this.inptPhone.setFocus();
+      if(this.inptPhone)
+        this.inptPhone.setFocus();
     }, 500);
   }
 

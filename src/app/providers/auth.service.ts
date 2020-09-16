@@ -426,7 +426,7 @@ export class AuthService {
 
     const authHeader = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: 'Basic ' + btoa(`${email}:${password}`)
+      Authorization: 'Basic ' + btoa(unescape(encodeURIComponent(`${email}:${password}`)))
     });
 
     const url = environment.apiEndpoint + this._urlBasicAuth;
