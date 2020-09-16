@@ -30,7 +30,7 @@ export class PaymentsPage implements OnInit {
   public workHistory: any[] = [];
 
   public statistics: any;
-  public salaries: Salary[];
+  public salaries: Salary[] = [];
   public candidate: Candidate;
 
   public loading = false;

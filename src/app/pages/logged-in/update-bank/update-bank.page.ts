@@ -40,7 +40,8 @@ export class UpdateBankPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.benefName.setFocus();
+      if(this.benefName)
+        this.benefName.setFocus();
     }, 300);
   }
 

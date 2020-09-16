@@ -42,7 +42,8 @@ export class RegisterPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.nameInput.setFocus();
+      if(this.nameInput)
+        this.nameInput.setFocus();
     }, 300);
 
   }

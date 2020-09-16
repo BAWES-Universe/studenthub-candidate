@@ -39,7 +39,8 @@ export class IdCardPage implements OnInit {
     this._initForm();
 
     setTimeout(() => {
-      this.inptId.setFocus();
+      if(this.inptId)
+        this.inptId.setFocus();
     }, 500);
   }
 
