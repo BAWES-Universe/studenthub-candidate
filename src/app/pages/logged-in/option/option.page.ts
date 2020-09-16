@@ -3,6 +3,8 @@ import { PopoverController } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import {EventService} from "../../../providers/event.service";
+import {AccountService} from "../../../providers/logged-in/account.service";
 
 
 @Component({
@@ -15,7 +17,9 @@ export class OptionPage implements OnInit {
   constructor(
     public translateService: TranslateLabelService,
     public authService: AuthService,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    public eventService: EventService,
+    public accountService: AccountService,
   ) { }
 
   ngOnInit() {
@@ -34,5 +38,16 @@ export class OptionPage implements OnInit {
   logout() {
     this.authService.logout();
     this.popoverCtrl.dismiss();
+  }
+
+  translate() {
+
+    const code = this.translateService.currentLang != 'ar' ? 'ar' : 'en';
+
+    this.eventService.setLanguagePref$.next(code);
+
+    if (this.authService.isLogin) {
+      this.accountService.setLanguagePref(code).subscribe();
+    }
   }
 }

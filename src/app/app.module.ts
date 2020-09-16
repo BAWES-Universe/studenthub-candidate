@@ -8,10 +8,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { IonicStorageModule } from '@ionic/storage';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
-// import { CookieService } from 'ngx-cookie-service';
 import { CacheModule } from 'ionic-cache';
 
 import { AuthService } from './providers/auth.service';
@@ -42,7 +40,7 @@ import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
-import {UpdateBankPageModule} from "./pages/logged-in/update-bank/update-bank.module";
+import {UpdateBankPageModule} from './pages/logged-in/update-bank/update-bank.module';
 import { CompanyPageModule } from './pages/logged-in/company/company.module';
 import { CivilIdFrontPageModule } from './pages/logged-in/civil-id-front/civil-id-front.module';
 import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-back.module';
@@ -51,7 +49,7 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
 
 import { registerLocaleData } from '@angular/common';
-import localeAr from '@angular/common/locales/ar-KW'
+import localeAr from '@angular/common/locales/ar-KW';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();

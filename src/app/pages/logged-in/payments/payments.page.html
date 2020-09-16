@@ -6,7 +6,7 @@
   </ion-refresher>
   <div class="max-width">
     <ng-container  *ngIf="candidate">
-      <h1 *ngIf="(!candidate.bank_id || salaries.length == 0)">{{ "Bank Information" | translate }}</h1>
+      <h1 *ngIf="(!candidate.bank_id || !salaries)">{{ "Bank Information" | translate }}</h1>
       <h3 *ngIf="!candidate.bank_id">{{ "We'll need your bank information to pay you for work done" | translate }}</h3>
       <h3 *ngIf="candidate.bank_id && salaries && salaries.length == 0">{{ "We'll be making payments to the following bank account" | translate }}</h3>
     </ng-container>

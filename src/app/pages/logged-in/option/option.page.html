@@ -4,6 +4,15 @@
       <ion-icon slot="start" name="key-outline"></ion-icon>
       {{ "Change Password" | translate }}
     </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="globe-outline"></ion-icon>
+      <ion-label>
+        <a (click)="translate()" tappable>
+          <span *ngIf="translateService.currentLang != 'en'">English</span>
+          <span *ngIf="translateService.currentLang == 'en'">عربى</span>
+        </a>
+      </ion-label>
+    </ion-item>
     <ion-item lines="none" tappable class="ion-activatable ion-focusable" (click)="logout()">
       <ion-icon slot="start" name="log-out-outline"></ion-icon> 
       {{ "Logout" | translate }}

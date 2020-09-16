@@ -26,15 +26,29 @@ video {
 }
 
 h3 {
-    font-size: 42px;
+    font-size: 36px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
     color: #000000;
-    margin-top: 45px;
-    margin-bottom: 45px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+p {
+  font-size: 22px;
+  font-weight: lighter;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+}
+
+[dir="ltr"] p {
+    font-family: EffraLight;
 }
 
 .btn-stop,
@@ -85,55 +99,47 @@ h3 {
 }
 
 .progress-wrapper {
-    h4 {
-        font-size: 14px;
-        line-height: 1.41;
-        color: #292f38;
-        font-weight: normal;
-        margin: 0;
-        width: calc(100% - 50px);
-
-        span {
-            float: var(--end);
-        }
-    }
+    margin-top: 65px;
 
     .progress-box {
-        width: 313px;
-        height: 60px;
-        border-radius: 4px;
-        border: solid 1px #bdbdbd;
-        padding: 10px 13px;
-        position: relative;
-
-        .progress-bar {
-            width: 233px;
-            height: 5px;
-            border-radius: 15px;
-            background-color: rgba(242, 68, 89, 0.2);
-            margin-top: 10px;
-        }
+        width: 100%;
+        height: 32px;
+        border-radius: 3px;
+        border: solid 3px #000000;
+        background-color: #ffffff;
 
         .progress {
             width: 0%;
-            height: 5px;
-            border-radius: 15px;
-            background-color: #f24459;
-        }
-
-        ion-icon {
-            position: absolute;
-            top: 20px;
+            background: #4354a4;
+            height: 27px;
+            float: var(--start);
+            display: block;
         }
     }
 }
 
-[dir="ltr"] .progress-wrapper ion-icon {
-    right: 20px;
-}
-
-[dir="rtl"] .progress-wrapper ion-icon {
-    left: 20px;
+.btn-replace-video,
+.btn-delete-video {
+    height: 73px;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    min-width: 314px;
+    clear: both;
+    display: block;
+    margin-bottom: 12px;
+    text-transform: none !important;
+    outline: none;
+    --border-radius: 10px;
+    --background: #ffffff;
+    --color: #292f38;
+    --border-width: 4px;
+    --border-color: #bdbdbd;
+    --border-style: solid;
+    --box-shadow: none;
 }
 
 .selected-file {
@@ -188,6 +194,19 @@ h3 {
     }
 }
 
+#player {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.btn-cancel-upload,
+.btn-start-recording,
+.btn-stop-recording,
 .btn-submit {
     width: 100%;
     height: 53px;
@@ -198,15 +217,93 @@ h3 {
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    color: #fff;
     border-radius: 22px;
-    margin-top: 25px;
-    --background: #000000;
+    margin-top: 32px;
     --border-radius: 22px;
     --box-shadow: none;
+}
+
+.btn-wrapper {
+    bottom: 40px;
+    position: fixed;
+    width: calc(100% - 60px);
+
+    .btn-start-recording {
+        --background: #eb5757;
+    }
+
+    .btn-cancel-upload {
+        margin-top: 20px;
+        --background: #fff;
+        --color: #333333;
+    }
+}
+
+.btn-stop-recording {
+    width: calc(100% - 60px);
+    height: 68px;
+    position: absolute;
+    bottom: 40px;
+    margin: 0;
+    --color: #333333;
+    --background: #ffffff;
+    
+    b {
+        position: relative;
+        top: -10px;
+    }
+    
+    span {
+        position: absolute;
+        top: 36px;
+        font-weight: normal;
+    }
+}
+
+.btn-submit {
+    color: #fff;
+    --background: #333333;
 }
 
 .btn-submit[disabled] {
     --background: #6B6B6B;
     color: #B4B4B4
 }
+
+.txt-count-down {
+    font-size: 210px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    top: calc(50% - 125px);
+    position: absolute;
+    left: calc(50% - 57px);
+    -webkit-animation: scale-up-center 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+	        animation: scale-up-center 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) infinite both;
+}
+
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+}
+
+@keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+}
+  

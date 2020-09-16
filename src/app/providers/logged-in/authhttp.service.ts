@@ -4,9 +4,10 @@ import { Observable, empty, throwError } from 'rxjs';
 import { catchError, take, map, retryWhen } from 'rxjs/operators';
 import { genericRetryStrategy } from '../../util/genericRetryStrategy';
 import { environment } from 'src/environments/environment';
-//services
+// services
 import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
+import {TranslateLabelService} from '../translate-label.service';
 
 
 /**
@@ -20,7 +21,8 @@ export class AuthHttpService {
   constructor(
     public _http: HttpClient,
     public _auth: AuthService,
-    public eventService: EventService
+    public eventService: EventService,
+    public translateService: TranslateLabelService
   ) { }
 
   /**
@@ -33,7 +35,7 @@ export class AuthHttpService {
 
     const url = environment.apiEndpoint + endpointUrl;
 
-    let response = this._http.get(url, { headers: this._buildAuthHeaders(), observe: 'response' })
+    const response = this._http.get(url, { headers: this._buildAuthHeaders(), observe: 'response' })
       .pipe(
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
@@ -42,7 +44,7 @@ export class AuthHttpService {
 
     if (!withHeader) {
       return response.pipe(map((res) => {
-        return res.body
+        return res.body;
       }));
     }
 
@@ -58,7 +60,7 @@ export class AuthHttpService {
   post(endpointUrl: string, params: any, withHeader: boolean = false): Observable<any> {
     const url = environment.apiEndpoint + endpointUrl;
 
-    let response = this._http.post(url, JSON.stringify(params), { headers: this._buildAuthHeaders(), observe: 'response' })
+    const response = this._http.post(url, JSON.stringify(params), { headers: this._buildAuthHeaders(), observe: 'response' })
       .pipe(
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
@@ -66,9 +68,9 @@ export class AuthHttpService {
       );
 
     if (!withHeader) {
-      return response.pipe(map((res) => { return res.body }));
+      return response.pipe(map((res) => res.body));
     }
-    return response.pipe(map((res) => { return res }));
+    return response.pipe(map((res) => res));
   }
 
   /**
@@ -85,12 +87,12 @@ export class AuthHttpService {
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res) => { return res; })
+        map((res) => res)
       );
   }
 
   /**
-   * Requests via DELETE verb. Params should be a part of the url string 
+   * Requests via DELETE verb. Params should be a part of the url string
    * similar to get requests.
    * @param {string} endpointUrl
    * @returns {Observable<any>}
@@ -103,7 +105,7 @@ export class AuthHttpService {
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res) => { return res })
+        map((res) => res)
       );
   }
 
@@ -118,25 +120,26 @@ export class AuthHttpService {
 
     // Build Headers with Bearer Token
     return new HttpHeaders({
-      "Authorization": "Bearer " + bearerToken,
-      "Content-Type": "application/json"
+      Authorization: 'Bearer ' + bearerToken,
+      'Content-Type': 'application/json',
+      Language: this.translateService.currentLang
     });
   }
 
   /**
    * Handles Caught Errors from All Authorized Requests Made to Server
-   * @returns {Observable} 
+   * @returns {Observable}
    */
   public _handleError(error: any): Observable<any> {
 
-    let errMsg = (error.message) ? error.message :
+    const errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
     // Handle Bad Requests
-    // This error usually appears when agent attempts to handle an 
+    // This error usually appears when agent attempts to handle an
     // account that he's been removed from assigning
     if (error.status === 400) {
-      //this.eventService.agentRemoved$.next();
+      // this.eventService.agentRemoved$.next();
       return empty();
     }
 
@@ -144,7 +147,7 @@ export class AuthHttpService {
 
     if (error.status == 0 || error.status == 504) {
       this.eventService.internetOffline$.next();
-      //this._auth.logout("Unable to connect to Pogi servers. Please check your internet connection.");
+      // this._auth.logout("Unable to connect to Pogi servers. Please check your internet connection.");
       return empty();
     }
 
@@ -159,13 +162,13 @@ export class AuthHttpService {
       return empty();
     }
 
-    // Handle internal server error - 500  
+    // Handle internal server error - 500
     if (error.status === 500) {
       this.eventService.error500$.next();
       return empty();
     }
 
-    // Handle page not found - 404 error 
+    // Handle page not found - 404 error
     if (error.status === 404) {
       this.eventService.error404$.next();
       return empty();
