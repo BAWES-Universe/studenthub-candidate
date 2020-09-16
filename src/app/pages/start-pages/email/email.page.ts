@@ -35,7 +35,8 @@ export class EmailPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.emailInput.setFocus();
+      if(this.emailInput)
+        this.emailInput.setFocus();
     }, 300);
   }
 

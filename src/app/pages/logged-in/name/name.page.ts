@@ -35,7 +35,8 @@ export class NamePage implements OnInit {
     this._initForm();
 
     setTimeout(() => {
-      this.inptName.setFocus();
+      if(this.inptName)
+        this.inptName.setFocus();
     }, 500);
   }
 

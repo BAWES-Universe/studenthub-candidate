@@ -47,7 +47,8 @@ export class PasswordPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.passwordInput.setFocus();
+      if(this.passwordInput)
+        this.passwordInput.setFocus();
     }, 300);
   }
 

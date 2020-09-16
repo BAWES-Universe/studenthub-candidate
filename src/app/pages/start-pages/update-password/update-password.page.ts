@@ -44,7 +44,8 @@ export class UpdatePasswordPage implements OnInit {
     });
 
     setTimeout(() => {
-      this.inptPassword.setFocus();
+      if(this.inptPassword)
+        this.inptPassword.setFocus();
     }, 800);
   }
 

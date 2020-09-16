@@ -45,7 +45,8 @@ export class ObjectivePage implements OnInit {
     });
 
     setTimeout(() => {
-      this.inputToFocus.setFocus();
+      if(this.inputToFocus)
+        this.inputToFocus.setFocus();
     }, 500);
   }
 
