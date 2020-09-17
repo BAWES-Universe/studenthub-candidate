@@ -71,7 +71,7 @@ export class AwsService {
                     let fileName = file.name;
                     let fileType = file.type;
                     let fileLastModified = file.lastModifiedDate;
-
+                    console.log(file);
                     let fileReadResult;
 
                     try
