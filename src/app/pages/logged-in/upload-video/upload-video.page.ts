@@ -460,13 +460,11 @@ export class UploadVideoPage implements OnInit {
 
     } else if (event.Key && event.Key.length > 0) {
 
-      //this.candidate.tempLocation = event.Location;
+      this.candidate.tempLocation = event.Location;
       this.candidate.candidate_video = event.Key;
 
-      //this.progress = 0;
-      //this.uploading = false;
-
-      this.submit();
+      this.progress = 0;
+      this.uploading = false;
 
     } else if (!this.currentTarget) {
       this.currentTarget = event;
@@ -530,18 +528,14 @@ export class UploadVideoPage implements OnInit {
    * save uploaded cv
    */
   async submit() {
-
-    const loading = await this.loadingCtrl.create({
-      message: this.translateService.transform('Saving...')
-    });
-    await loading.present();
+    
+    this.loading = true;
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
 
-      loading.dismiss();
-
       this.progress = 0;
       this.uploading = false;
+      this.loading = false;
 
       if (res.operation == 'success') {
 
@@ -562,9 +556,8 @@ export class UploadVideoPage implements OnInit {
         });
       }
     }, () => {
-      loading.dismiss();
-
       this.progress = 0;
+      this.loading = false;
       this.uploading = false;
     });
   }
