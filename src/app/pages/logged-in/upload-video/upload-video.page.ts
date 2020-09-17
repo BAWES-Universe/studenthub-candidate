@@ -174,15 +174,12 @@ export class UploadVideoPage implements OnInit {
           });
           
           this.mediaRecorder.addEventListener('dataavailable', (e) => {
-            console.log('dataavailable', e.data.size);
-
             if (e.data.size > 0 && this.recording) {
               recordedChunks.push(e.data);
             }
           });
 
           this.mediaRecorder.addEventListener('stop', () => {
-            console.log('stopped');
             
             //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
             //downloadLink.download = 'acetest.webm';
@@ -452,6 +449,8 @@ export class UploadVideoPage implements OnInit {
    */
   public _handleFileSuccess(event) {
 
+    console.log(event);
+    
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === "progress") {

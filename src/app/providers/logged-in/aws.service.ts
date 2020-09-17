@@ -180,7 +180,6 @@ export class AwsService {
                 return observer.error(this.translateService.transform('Maximum 5mb Upload is allowed'));
             }
 
-
             const currUpload = s3.upload(params);
             
             observer.next(currUpload);
