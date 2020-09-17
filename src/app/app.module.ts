@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { CacheModule } from 'ionic-cache';
+import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 
 import { AuthService } from './providers/auth.service';
 import { OptionPageModule } from './pages/logged-in/option/option.module';
@@ -120,6 +121,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MediaCapture,
     OneSignal,
     SwUpdate,
+    SelectiveLoadingStrategy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
