@@ -47,6 +47,8 @@ export class ProfilePhotoPage implements OnInit {
   public candidate: Candidate;
   public interval;
 
+  public allowedImageSize = 5000000; // in bits 5 MB
+
   constructor(
     private _ngzone: NgZone,
     private _fb: FormBuilder,
@@ -289,7 +291,6 @@ export class ProfilePhotoPage implements OnInit {
     if (fileList.length == 0) {
       return false;
     }
-
     const prefix = fileList[0].name.split('.')[0];
 
     const type = fileList[0].type.split('/')[0];
@@ -299,8 +300,12 @@ export class ProfilePhotoPage implements OnInit {
         message: this.translateService.transform('Invalid File format'),
         buttons: [this.translateService.transform('Ok')]
       }).then(alert => { alert.present(); });
-    }
-    else {
+    }else if (fileList[0].size > this.allowedImageSize) {
+      this.alertCtrl.create({
+        message: this.translateService.transform('Maximum 5mb Upload is allowed'),
+        buttons: [this.translateService.transform('Ok')]
+      }).then(alert => { alert.present(); });
+    } else {
 
       this.uploadingPhoto = true;
 
@@ -339,7 +344,6 @@ export class ProfilePhotoPage implements OnInit {
    * @param event
    */
   _handleFileSuccess(event) {
-
     let count = 1;
     if (!this.interval) {
       this.interval = setInterval(() => {

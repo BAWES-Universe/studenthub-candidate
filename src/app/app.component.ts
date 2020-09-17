@@ -176,17 +176,19 @@ export class AppComponent implements OnInit {
      */
     this.eventService.setOneSignalSubscription$.subscribe(userEventData => {
 
-      this.oneSignal.setSubscription(userEventData['setSubscription']);
+      if (this.oneSignal) {
+        this.oneSignal.setSubscription(userEventData['setSubscription']);
 
-      Storage.set({
-        key: 'oneSignal',
-        value: JSON.stringify(userEventData)
-      });
+        Storage.set({
+          key: 'oneSignal',
+          value: JSON.stringify(userEventData)
+        });
+      }
     });
 
     this.eventService.setOneSignal$.subscribe(() => {
       this.setOneSignalSubscription();
-    }); 
+    });
 
     // On Logout Event, set root to Login Page
     this.eventService.userLogout$.subscribe((logoutReason) => {
@@ -256,15 +258,18 @@ export class AppComponent implements OnInit {
         };
       }
 
-      this.oneSignal.setSubscription(data.setSubscription);
-      //this.oneSignal.enableVibrate(data.enableVibrate);
-      //this.oneSignal.enableSound(data.enableSound);
+      if (this.oneSignal) {
+        this.oneSignal.setSubscription(data.setSubscription);
 
-      this.oneSignal.sendTags({
-        'candidate_id': this.authService.id + '',
-        'name': this.authService.name,
-        'email': this.authService.email
-      }); 
+        //this.oneSignal.enableVibrate(data.enableVibrate);
+        //this.oneSignal.enableSound(data.enableSound);
+
+        this.oneSignal.sendTags({
+          'candidate_id': this.authService.id + '',
+          'name': this.authService.name,
+          'email': this.authService.email
+        });
+      }
     } else {
       const OneSignal = window.OneSignal || [];
 

@@ -39,7 +39,8 @@ export class SkillFormPage implements OnInit {
 
     setTimeout(() => {
 
-      const lastElementIndex = this.candidate.candidateSkills.length;
+      const lastElementIndex = (this.candidate && this.candidate.candidateSkills && this.candidate.candidateSkills.length) ?
+          this.candidate.candidateSkills.length : 0;
 
       const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
  

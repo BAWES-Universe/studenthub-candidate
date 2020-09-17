@@ -26,6 +26,7 @@ export class AwsService {
     private _bucket_name = 'studenthub-public-anyone-can-upload-24hr-expiry';
 
     public maxUploadSize = 18874368; // 18 MB
+    public maxImageUploadSize = 5000000; // 5 MB //https://sentry.io/organizations/pogi/issues/1885937107/?project=168200&query=is%3Aunresolved&statsPeriod=14d
 
     public txtMaxUploadSize = '18MB';
 
@@ -70,8 +71,10 @@ export class AwsService {
                     // Store File Details for later use
                     let fileName = file.name;
                     let fileType = file.type;
-                    let fileLastModified = file.lastModifiedDate;
+                    let fileSize = file.size;
 
+                        let fileLastModified = file.lastModifiedDate;
+                    console.log(file);
                     let fileReadResult;
 
                     try
@@ -173,6 +176,10 @@ export class AwsService {
             if(file.size > this.maxUploadSize) {
                 return observer.error(this.translateService.transform('txt_max_upload_limit_exceed', { 'maxUploadSize': this.txtMaxUploadSize }));
             }
+            if (file.type == 'image' && file.size > this.maxImageUploadSize) {
+                return observer.error(this.translateService.transform('Maximum 5mb Upload is allowed'));
+            }
+
 
             const currUpload = s3.upload(params);
             
