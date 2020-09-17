@@ -8,6 +8,7 @@ import { CompleteProfilePageRoutingModule } from './complete-profile-routing.mod
 
 import { CompleteProfilePage } from './complete-profile.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     TranslateModule.forChild(),
+    LoadingModalModule,
     CompleteProfilePageRoutingModule
   ],
   declarations: [CompleteProfilePage]
