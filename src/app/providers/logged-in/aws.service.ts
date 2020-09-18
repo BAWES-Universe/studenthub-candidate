@@ -73,8 +73,8 @@ export class AwsService {
                     let fileType = file.type;
                     let fileSize = file.size;
 
-                        let fileLastModified = file.lastModifiedDate;
-                    console.log(file);
+                    let fileLastModified = file.lastModifiedDate;
+                    
                     let fileReadResult;
 
                     try

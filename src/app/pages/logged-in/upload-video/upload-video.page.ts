@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Subscription, Subscribable } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 //services
@@ -35,6 +35,8 @@ export class UploadVideoPage implements OnInit {
 
   public uploading: boolean = false; 
 
+  public progressInterval; 
+
   public currentTarget;
 
   public shouldStop = true;
@@ -58,6 +60,7 @@ export class UploadVideoPage implements OnInit {
   public deleteSubscription: Subscription;
 
   constructor(
+    private _ngzone: NgZone,
     public platform: Platform,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
@@ -496,12 +499,24 @@ export class UploadVideoPage implements OnInit {
    * @param event 
    */
   public _handleFileSuccess(event) {
-    
+    let count = 1;
+
+    if (!this.progressInterval) {
+
+      this.progressInterval = setInterval(() => {
+        this._ngzone.run(() => {
+          if (count < 100) {
+            this.progress = count = count + 1;
+          }
+        });
+      }, 500);
+    }
+
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === "progress") {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      //this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
@@ -510,6 +525,8 @@ export class UploadVideoPage implements OnInit {
 
       this.progress = 0;
       this.uploading = false;
+      clearInterval(this.progressInterval);
+      this.progressInterval = null;
 
     } else if (!this.currentTarget) {      
       this.currentTarget = event;
