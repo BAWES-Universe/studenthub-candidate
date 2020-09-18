@@ -16,10 +16,18 @@
     
             <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
 
-                <video controls *ngIf="!candidate.tempLocation"
-                    src="{{ awsService.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}"></video>
-
-                <video controls *ngIf="candidate.tempLocation" src="{{ candidate.tempLocation }}"></video>
+                <cl-video [public-id]="getVideoPublicId(candidate.candidate_video)" 
+                    width="250px"
+                    cloud_name="studenthub" 
+                    controls="true" preload="none" 
+                    autoplay="true"  class="manipulation-video"
+                    fallback-content="Your browser does not support HTML5 video tags"
+                    data-cld-source-types='["hls"]'
+                    *ngIf="!candidate.tempLocation">
+                </cl-video>
+                 
+                <video controls [src]="candidate.tempLocation"
+                    *ngIf="candidate.tempLocation"></video>
             </div>
 
             <ion-button tabindex="2" class="btn-submit" *ngIf="!candidate.candidate_video" (click)="startCamera()">
