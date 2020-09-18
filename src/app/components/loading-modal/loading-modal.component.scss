@@ -59,6 +59,16 @@
             }
         }
 
+        ion-item:nth-child(1) {
+            small {
+                width: 30%;
+            }
+
+            span {
+                width: 70%;
+            }
+        }
+
         ion-item:nth-child(2) {
             small {
                 width: 40%;

@@ -377,6 +377,7 @@ export class ProfilePhotoPage implements OnInit {
       this.progress = 0;
       this.uploadingPhoto = false;
       clearInterval(this.interval);
+      this.interval = null;
       
     } else if (!this.currentTarget) {
       this.currentTarget = event;
