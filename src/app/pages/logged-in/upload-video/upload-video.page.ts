@@ -8,6 +8,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { environment } from 'src/environments/environment';
 
 
 declare var MediaRecorder;
@@ -58,6 +59,8 @@ export class UploadVideoPage implements OnInit {
   public browserUploadSubscription: Subscription;
   public updateSubscription: Subscription;
   public deleteSubscription: Subscription;
+
+  public format = 'webm';//webm
 
   constructor(
     private _ngzone: NgZone,
@@ -113,6 +116,7 @@ export class UploadVideoPage implements OnInit {
         });
       });
     };
+
   }
 
   ngOnDestroy() {
@@ -137,6 +141,14 @@ export class UploadVideoPage implements OnInit {
     if(!this.shouldStop) {
       this.stopRecording();
     }
+  }
+
+  getVideoPublicId(candidate_video) {
+    if(environment.production) {
+      return  'candidate-video/' + candidate_video.split('.')[0];
+    } 
+      
+    return  'dev/candidate-video/' + candidate_video.split('.')[0];
   }
 
   /**
@@ -197,7 +209,7 @@ export class UploadVideoPage implements OnInit {
 
           this.shouldStop = false;
   
-          const options = { mimeType: 'video/webm' };
+          const options = { mimeType: 'video/' + this.format };
           const recordedChunks = [];
           
           this.mediaRecorder = new MediaRecorder(stream, options);
@@ -232,7 +244,7 @@ export class UploadVideoPage implements OnInit {
 
             this.recording = false;
 
-            let file = new File([new Blob(recordedChunks, { type : 'video/webm' })], this.authService.id + ".webm"); 
+            let file = new File([new Blob(recordedChunks, { type : 'video/' + this.format })], this.authService.id + ".mp4"); 
 
             this.uploadFile(file, {
               'duration': (this.maxDuration - this.timer) + '',
@@ -509,7 +521,7 @@ export class UploadVideoPage implements OnInit {
             this.progress = count = count + 1;
           }
         });
-      }, 500);
+      }, 1500);
     }
 
     // Via this API, you get access to the raw event stream.

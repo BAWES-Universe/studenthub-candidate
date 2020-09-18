@@ -8,6 +8,8 @@ import { UploadVideoPageRoutingModule } from './upload-video-routing.module';
 
 import { UploadVideoPage } from './upload-video.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as Cloudinary from 'cloudinary-core';
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     TranslateModule.forChild(),
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub'}),
     UploadVideoPageRoutingModule
   ],
   declarations: [UploadVideoPage]
