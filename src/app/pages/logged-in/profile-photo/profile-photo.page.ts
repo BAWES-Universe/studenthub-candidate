@@ -345,7 +345,9 @@ export class ProfilePhotoPage implements OnInit {
    */
   _handleFileSuccess(event) {
     let count = 1;
+
     if (!this.interval) {
+
       this.interval = setInterval(() => {
         this._ngzone.run(() => {
           if (count < 100) {
@@ -375,6 +377,7 @@ export class ProfilePhotoPage implements OnInit {
       this.progress = 0;
       this.uploadingPhoto = false;
       clearInterval(this.interval);
+      
     } else if (!this.currentTarget) {
       this.currentTarget = event;
     }

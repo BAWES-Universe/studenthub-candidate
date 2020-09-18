@@ -140,7 +140,6 @@
                   "with": "src/environments/environment.krushn.ts"
                 }
               ],
-              "aot": true,
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             },
