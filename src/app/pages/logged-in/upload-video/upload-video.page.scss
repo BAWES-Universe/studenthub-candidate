@@ -114,6 +114,8 @@ p {
             height: 27px;
             float: var(--start);
             display: block;
+            left: -1px;
+            position: relative;
         }
     }
 }
