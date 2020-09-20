@@ -9,11 +9,11 @@ ion-content {
     opacity: 0;
 }
   
+cl-video,
 video {
-    width: 100%;
+    width: 250px;
     height: auto;
     background: black;
-    max-width: 250px;
 }
 
 .btn-close {
@@ -114,10 +114,13 @@ p {
             height: 27px;
             float: var(--start);
             display: block;
+            left: -1px;
+            position: relative;
         }
     }
 }
 
+.btn-save-changes,
 .btn-replace-video,
 .btn-delete-video {
     height: 73px;
@@ -261,6 +264,7 @@ p {
 }
 
 .btn-submit {
+    margin-top: 0;
     color: #fff;
     --background: #333333;
 }

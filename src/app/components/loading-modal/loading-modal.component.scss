@@ -1,4 +1,3 @@
-
 .text-list,
 .salary-list {
     skeleton-text {
@@ -6,7 +5,7 @@
         margin: 0;
         padding: 0;
         width: 50%;
-        display: block; 
+        display: block;
     }
 
     ion-item:nth-child(2) skeleton-text {
@@ -16,8 +15,249 @@
     ion-item:nth-child(3) skeleton-text {
         width: 70%;
     }
-    
+
     ion-item:nth-child(4) skeleton-text {
         width: 30%;
     }
 }
+
+.complete-profile {
+    
+    ion-skeleton-text {
+        padding: 0;
+        margin: 0;
+    }
+
+    ion-list {
+        margin: 0 -14px;
+
+        ion-item {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+            margin: 4px 4px 8px 4px;
+            background: #fff;
+            border-radius: 4px;
+            min-height: 72px;
+            --ion-background-color: #fff;
+            --inner-border-width: 0px;
+            --padding-bottom: 0;
+            --padding-top: 0;
+            --padding-end: 10px;
+            --padding-start: 24px;
+
+            small {
+                display: block;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                padding: 0;
+                height: 16px;
+            }
+
+            span {
+                height: 14px;
+                margin-top: 12px;
+                display: block;
+            }
+        }
+
+        ion-item:nth-child(1) {
+            small {
+                width: 30%;
+            }
+
+            span {
+                width: 70%;
+            }
+        }
+
+        ion-item:nth-child(2) {
+            small {
+                width: 40%;
+            }
+
+            span {
+                width: 60%;
+            }
+        }
+
+        ion-item:nth-child(2) {
+            small {
+                width: 70%;
+            }
+
+            span {
+                width: 80%;
+            }
+        }
+        
+        ion-item:nth-child(3) {
+            small {
+                width: 40%;
+            }
+
+            span {
+                width: 90%;
+            }
+        }
+        
+        ion-item:nth-child(4) {
+            small {
+                width: 30%;
+            }
+
+            span {
+                width: 80%;
+            }
+        }
+        
+        ion-item:nth-child(5) {
+            small {
+                width: 24%;
+            }
+
+            span {
+                width: 65%;
+            }
+        }
+        
+        ion-item:nth-child(6) {
+            small {
+                width: 44%;
+            }
+
+            span {
+                width: 55%;
+            }
+        }
+        
+        ion-item:nth-child(7) {
+            small {
+                width: 71%;
+            }
+
+            span {
+                width: 51%;
+            }
+        }
+        
+        ion-item:nth-child(8) {
+            small {
+                width: 47%;
+            }
+
+            span {
+                width: 85%;
+            }
+        }
+        
+        ion-item:nth-child(9) {
+            small {
+                width: 33%;
+            }
+
+            span {
+                width: 72%;
+            }
+        }
+        
+        ion-item:nth-child(10) {
+            small {
+                width: 70%;
+            }
+
+            span {
+                width: 80%;
+            }
+        }
+        
+        ion-item:nth-child(11) {
+            small {
+                width: 49%;
+            }
+
+            span {
+                width: 64%;
+            }
+        }
+        ion-item:nth-child(12) {
+            small {
+                width: 55%;
+            }
+
+            span {
+                width: 80%;
+            }
+        }
+        
+        ion-item:nth-child(13) {
+            small {
+                width: 70%;
+            }
+
+            span {
+                width: 70%;
+            }
+        }
+        
+
+        ion-item:nth-child(14) {
+            small {
+                width: 70%;
+            }
+
+            span {
+                width: 80%;
+            }
+        }
+        
+        ion-item:nth-child(15) {
+            small {
+                width: 40%;
+            }
+
+            span {
+                width: 90%;
+            }
+        }
+        
+        ion-item:nth-child(16) {
+            small {
+                width: 30%;
+            }
+
+            span {
+                width: 80%;
+            }
+        }
+        
+        ion-item:nth-child(17) {
+            small {
+                width: 24%;
+            }
+
+            span {
+                width: 65%;
+            }
+        }
+        
+        ion-item:nth-child(18) {
+            small {
+                width: 44%;
+            }
+
+            span {
+                width: 55%;
+            }
+        }
+        
+        ion-item:nth-child(19) {
+            small {
+                width: 71%;
+            }
+
+            span {
+                width: 51%;
+            }
+        }
+    }
+}
+

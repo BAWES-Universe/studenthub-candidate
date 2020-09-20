@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+import { PreLoad } from 'src/app/util/preLoad';
 // validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
@@ -17,6 +18,7 @@ const { Storage } = Plugins;
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
+@PreLoad('VerifyEmailPage')
 export class RegisterPage implements OnInit {
 
   @ViewChild('nameInput') nameInput;

@@ -16,34 +16,45 @@
     
             <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
 
-                <video controls *ngIf="!candidate.tempLocation"
-                    src="{{ awsService.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}"></video>
-
-                <video controls *ngIf="candidate.tempLocation" src="{{ candidate.tempLocation }}"></video>
+                <cl-video [public-id]="getVideoPublicId(candidate.candidate_video)" 
+                    width="250px"
+                    cloud_name="studenthub" 
+                    controls="true" preload="none" 
+                    autoplay="true"  class="manipulation-video"
+                    fallback-content="Your browser does not support HTML5 video tags"
+                    data-cld-source-types='["hls"]'
+                    *ngIf="!candidate.tempLocation">
+                </cl-video>
+                 
+                <video controls [src]="candidate.tempLocation"
+                    *ngIf="candidate.tempLocation"></video>
             </div>
 
             <ion-button tabindex="2" class="btn-submit" *ngIf="!candidate.candidate_video" (click)="startCamera()">
                {{ "Upload Video" | translate }}               
             </ion-button>
 
-            <div *ngIf="candidate.candidate_video">
-                <ion-button tabindex="2" class="btn-replace-video" (click)="startCamera()">
-                    {{ "Replace video" | translate }}               
-                </ion-button>
-                
-                <ion-button tabindex="2" [disabled]="deleting" class="btn-delete-video" (click)="delete()">
-                    <span *ngIf="!deleting">{{ "Delete video" | translate }}</span>
-                    <ion-spinner *ngIf="deleting"></ion-spinner>                    
-                </ion-button>            
-            </div>
+            <ion-button tabindex="2" *ngIf="candidate.candidate_video || candidate.tempLocation" class="btn-replace-video" (click)="startCamera()">
+                {{ "Replace video" | translate }}               
+            </ion-button>
             
+            <ion-button tabindex="2" *ngIf="candidate.candidate_video && !candidate.tempLocation" [disabled]="deleting" class="btn-delete-video" (click)="delete()">
+                <span *ngIf="!deleting">{{ "Delete video" | translate }}</span>
+                <ion-spinner *ngIf="deleting"></ion-spinner>                    
+            </ion-button>   
+                    
+            <ion-button class="btn-submit" *ngIf="candidate.tempLocation" (click)="submit()" [disabled]="loading || uploading">
+                <span *ngIf="!loading">{{ "Save" | translate }}</span> 
+                <ion-spinner *ngIf="loading"></ion-spinner>
+            </ion-button>
+                    
             <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept="video/*" capture>
 
         </div>
 
         <div *ngIf="!uploading && !shouldStop">
 
-            <video #player id="player"></video>
+            <video #player volume="0" muted id="player"></video>
             
             <span class="txt-count-down" *ngIf="countDown > 0">
                 {{ countDown }}
@@ -77,10 +88,5 @@
             </div>
         </div>
         
-        <ion-button class="btn-submit" *ngIf="candidate.tempLocation" (click)="submit()" [disabled]="loading || uploading">
-            <span *ngIf="!loading">{{ "Save" | translate }}</span> 
-            <ion-spinner *ngIf="loading"></ion-spinner>
-        </ion-button>
-
     </div>
 </ion-content>

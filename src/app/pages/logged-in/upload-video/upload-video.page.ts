@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Subscription, Subscribable } from 'rxjs';
-import { AlertController, LoadingController, ModalController, Platform } from '@ionic/angular';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 //services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
@@ -8,6 +8,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { environment } from 'src/environments/environment';
 
 
 declare var MediaRecorder;
@@ -35,6 +36,8 @@ export class UploadVideoPage implements OnInit {
 
   public uploading: boolean = false; 
 
+  public progressInterval; 
+
   public currentTarget;
 
   public shouldStop = true;
@@ -57,9 +60,13 @@ export class UploadVideoPage implements OnInit {
   public updateSubscription: Subscription;
   public deleteSubscription: Subscription;
 
+  public format = 'webm';//webm
+
   constructor(
+    private _ngzone: NgZone,
     public platform: Platform,
     public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private mediaCapture: MediaCapture,
@@ -74,6 +81,42 @@ export class UploadVideoPage implements OnInit {
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       this.cameras = devices.filter((d) => d.kind === 'videoinput');
     });
+
+    //on hardware back, cancel recording 
+    
+    window.onpopstate = e => {
+      
+      if (window['history-back-from'] == 'onDidDismiss') {
+        window['history-back-from'] = null;
+        return false;
+      }
+
+      //stop recording on hardware back clicked
+
+      if(!this.uploading && !this.shouldStop) {
+        this.stopRecording();
+        return false;
+      }
+      
+      this.popoverCtrl.getTop().then(overlay => {
+        
+        if (overlay) {
+          this.popoverCtrl.dismiss({
+            'from': 'native-back-btn'
+          });
+        }
+
+        this.modalCtrl.getTop().then(overlay => {
+
+          if (overlay) {
+            this.modalCtrl.dismiss({
+              'from': 'native-back-btn'
+            });
+          }
+        });
+      });
+    };
+
   }
 
   ngOnDestroy() {
@@ -98,6 +141,14 @@ export class UploadVideoPage implements OnInit {
     if(!this.shouldStop) {
       this.stopRecording();
     }
+  }
+
+  getVideoPublicId(candidate_video) {
+    if(environment.production) {
+      return  'candidate-video/' + candidate_video.split('.')[0];
+    } 
+      
+    return  'dev/candidate-video/' + candidate_video.split('.')[0];
   }
 
   /**
@@ -151,12 +202,14 @@ export class UploadVideoPage implements OnInit {
 
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
         .then((stream) => {
+              
+          window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
     
           this.stream = stream;
 
           this.shouldStop = false;
   
-          const options = { mimeType: 'video/webm' };
+          const options = { mimeType: 'video/' + this.format };
           const recordedChunks = [];
           
           this.mediaRecorder = new MediaRecorder(stream, options);
@@ -167,6 +220,7 @@ export class UploadVideoPage implements OnInit {
 
             const player = this.player.nativeElement;
             player.srcObject = stream;
+            player.muted = true;
             player.onloadedmetadata = (e) => {
               player.play();
             };
@@ -174,15 +228,12 @@ export class UploadVideoPage implements OnInit {
           });
           
           this.mediaRecorder.addEventListener('dataavailable', (e) => {
-            console.log('dataavailable', e.data.size);
-
             if (e.data.size > 0 && this.recording) {
               recordedChunks.push(e.data);
             }
           });
 
           this.mediaRecorder.addEventListener('stop', () => {
-            console.log('stopped');
             
             //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
             //downloadLink.download = 'acetest.webm';
@@ -193,11 +244,17 @@ export class UploadVideoPage implements OnInit {
 
             this.recording = false;
 
-            let file = new File([new Blob(recordedChunks, { type : 'video/webm' })], this.authService.id + ".webm"); 
+            let file = new File([new Blob(recordedChunks, { type : 'video/' + this.format })], this.authService.id + ".mp4"); 
 
             this.uploadFile(file, {
               'duration': (this.maxDuration - this.timer) + '',
             });
+             
+            //no need to cancel recording on hardware back 
+
+            window['history-back-from'] = 'onDidDismiss';
+            window.history.back();
+
           });
 
           //this.mediaRecorder.start();
@@ -218,6 +275,8 @@ export class UploadVideoPage implements OnInit {
   }
   
   startCountDown() {
+
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     this.recording = true;
 
@@ -267,7 +326,7 @@ export class UploadVideoPage implements OnInit {
    * stop recording in mobile browser
    */
   stopRecording() {
-         
+        
     this.shouldStop = true;
 
     if(this.interval) {
@@ -384,7 +443,7 @@ export class UploadVideoPage implements OnInit {
   validateVideoFile(file) {
     return new Promise((resolve, reject) => {
       try {
-          let video = document.createElement('video')
+          let video = document.createElement('video');
           video.preload = 'metadata'
   
           video.onloadedmetadata = () => {
@@ -423,6 +482,7 @@ export class UploadVideoPage implements OnInit {
     }, async err => {
 
       if (!err.message || !err.message.includes('aborted')) {
+
         // log to sentry
 
         this.sentryService.handleError(err);
@@ -441,7 +501,7 @@ export class UploadVideoPage implements OnInit {
       }
       this.uploading = false;
       this.progress = 0;
-    }, () => {
+    }, ()  => {
       this.browserUploadSubscription.unsubscribe();
     });
   }
@@ -451,24 +511,36 @@ export class UploadVideoPage implements OnInit {
    * @param event 
    */
   public _handleFileSuccess(event) {
+    let count = 1;
+
+    if (!this.progressInterval) {
+
+      this.progressInterval = setInterval(() => {
+        this._ngzone.run(() => {
+          if (count < 100) {
+            this.progress = count = count + 1;
+          }
+        });
+      }, 1500);
+    }
 
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === "progress") {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      //this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
-      //this.candidate.tempLocation = event.Location;
+      this.candidate.tempLocation = event.Location;
       this.candidate.candidate_video = event.Key;
 
-      //this.progress = 0;
-      //this.uploading = false;
+      this.progress = 0;
+      this.uploading = false;
+      clearInterval(this.progressInterval);
+      this.progressInterval = null;
 
-      this.submit();
-
-    } else if (!this.currentTarget) {
+    } else if (!this.currentTarget) {      
       this.currentTarget = event;
     }
   }
@@ -530,18 +602,14 @@ export class UploadVideoPage implements OnInit {
    * save uploaded cv
    */
   async submit() {
-
-    const loading = await this.loadingCtrl.create({
-      message: this.translateService.transform('Saving...')
-    });
-    await loading.present();
+    
+    this.loading = true;
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
 
-      loading.dismiss();
-
       this.progress = 0;
       this.uploading = false;
+      this.loading = false;
 
       if (res.operation == 'success') {
 
@@ -562,9 +630,8 @@ export class UploadVideoPage implements OnInit {
         });
       }
     }, () => {
-      loading.dismiss();
-
       this.progress = 0;
+      this.loading = false;
       this.uploading = false;
     });
   }

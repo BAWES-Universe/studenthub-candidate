@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { PreLoad } from 'src/app/util/preLoad';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -12,6 +13,9 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
   templateUrl: './landing.page.html',
   styleUrls: ['./landing.page.scss'],
 })
+@PreLoad('EmailPage')
+@PreLoad('PasswordPage')
+@PreLoad('RegisterPage')
 export class LandingPage implements OnInit {
 
   constructor(

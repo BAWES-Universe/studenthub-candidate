@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { CacheModule } from 'ionic-cache';
+import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 
 import { AuthService } from './providers/auth.service';
 import { OptionPageModule } from './pages/logged-in/option/option.module';
@@ -47,6 +48,8 @@ import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-
 import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as Cloudinary from 'cloudinary-core';
 
 import { registerLocaleData } from '@angular/common';
 import localeAr from '@angular/common/locales/ar-KW';
@@ -71,6 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub'}),
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -120,6 +124,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MediaCapture,
     OneSignal,
     SwUpdate,
+    SelectiveLoadingStrategy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
