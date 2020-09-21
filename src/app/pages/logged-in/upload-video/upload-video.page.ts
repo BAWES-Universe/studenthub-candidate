@@ -2,16 +2,19 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
+import { environment } from 'src/environments/environment';
+//import * as cloudinary from "cloudinary-core";    
 //services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
-import { environment } from 'src/environments/environment';
 
 
 declare var MediaRecorder;
+
+declare var cloudinary;
 
 @Component({
   selector: 'app-upload-video',
@@ -117,6 +120,19 @@ export class UploadVideoPage implements OnInit {
       });
     };
 
+  }
+
+  ionViewDidEnter() {
+  
+    if(this.candidate.candidate_video) {
+      //setTimeout(() => {
+        let cld = cloudinary.Cloudinary.new({ cloud_name: 'demo' });
+        let demoplayer = cld.videoPlayer('video-player').width(250);      
+        demoplayer.source('elephants', {
+          "sourceTypes": ["hls"]
+        });//this.getVideoPublicId(this.candidate.candidate_video)
+      //}, 2000);
+    }
   }
 
   ngOnDestroy() {
