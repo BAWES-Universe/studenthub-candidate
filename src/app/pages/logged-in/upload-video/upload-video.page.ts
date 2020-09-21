@@ -125,13 +125,11 @@ export class UploadVideoPage implements OnInit {
   ionViewDidEnter() {
   
     if(this.candidate.candidate_video) {
-      //setTimeout(() => {
-        let cld = cloudinary.Cloudinary.new({ cloud_name: 'demo' });
-        let demoplayer = cld.videoPlayer('video-player').width(250);      
-        demoplayer.source('elephants', {
-          "sourceTypes": ["hls"]
-        });//this.getVideoPublicId(this.candidate.candidate_video)
-      //}, 2000);
+      let cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
+      let demoplayer = cld.videoPlayer('video-player').width(250);      
+      demoplayer.source(this.getVideoPublicId(this.candidate.candidate_video), {
+        "sourceTypes": ["hls"]
+      });
     }
   }
 
