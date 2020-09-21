@@ -9,7 +9,6 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 
-
 const { Storage } = Plugins;
 
 @Component({
@@ -19,13 +18,13 @@ const { Storage } = Plugins;
 })
 export class VerifyEmailPage implements OnInit, OnDestroy {
 
-  public email: string; 
+  public email: string;
 
   public code: string;
 
-  public timer: number; 
+  public timer: number;
   
-  public timerInterval; 
+  public timerInterval;
 
   public unVerifiedToken: string; 
 
@@ -46,6 +45,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
   public verifyEmailSubscription: Subscription;
   public resendEmailSubscription: Subscription;
   public runTimer = false;
+  public errorMsg = null;
 
   constructor(
     public navCtrl: NavController,
@@ -143,7 +143,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     
     const unVerifiedTokenData = JSON.parse(value);
 
-    if(unVerifiedTokenData) {
+    if(unVerifiedTokenData && !this.code) {
       this.unVerifiedToken = unVerifiedTokenData.token;
 
       this.emailVerifiedSubscription = setInterval(_ => {
@@ -178,11 +178,12 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
       if (res.operation == 'success') {
         this.onSuccess(res);
       } else {
-        const alert = await this.alertCtrl.create({
-          message: this.translateService.errorMessage(res.message),
-          buttons: [this.translateService.transform('Okay')]
-        });
-        await alert.present();
+        this.errorMsg = res.message;
+        // const alert = await this.alertCtrl.create({
+        //   message: this.translateService.errorMessage(res.message),
+        //   buttons: [this.translateService.transform('Okay')]
+        // });
+        // await alert.present();
       }
     }, err => { 
       this.loader = false;
@@ -379,5 +380,8 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
    */
   dismiss() {
     this.navCtrl.navigateRoot(['landing']);
+  }
+  loginPage() {
+    this.navCtrl.navigateRoot(['/login']);
   }
 }

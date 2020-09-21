@@ -41,14 +41,14 @@ const routes: Routes = [
       name: 'ChangePasswordPage'
     } 
   },
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule),
-    canActivate: [LoginGuard],
-    data: {
-      name: 'LoginPage'
-    } 
-  },
+  // {
+  //   path: 'login',
+  //   loadChildren: () => import('./pages/start-pages/login/login.module').then( m => m.LoginPageModule),
+  //   canActivate: [LoginGuard],
+  //   data: {
+  //     name: 'LoginPage'
+  //   }
+  // },
   {
     path: 'landing',
     loadChildren: () => import('./pages/start-pages/landing/landing.module').then( m => m.LandingPageModule),
