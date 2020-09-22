@@ -522,7 +522,7 @@ export class UploadVideoPage implements OnInit {
 
   /**
    * Handle file upload success
-   * @param event 
+   * @param event
    */
   public _handleFileSuccess(event) {
     let count = 1;
@@ -542,7 +542,7 @@ export class UploadVideoPage implements OnInit {
     // Look for upload progress events.
     if (event.type === "progress") {
       // This is an upload progress event. Compute and show the % done:
-      //this.progress = Math.round(100 * event.loaded / event.total);
+      // this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
@@ -554,7 +554,10 @@ export class UploadVideoPage implements OnInit {
       clearInterval(this.progressInterval);
       this.progressInterval = null;
 
-    } else if (!this.currentTarget) {      
+      // auto save
+      this.submit();
+
+    } else if (!this.currentTarget) {
       this.currentTarget = event;
     }
   }
@@ -630,9 +633,9 @@ export class UploadVideoPage implements OnInit {
         this.candidate.tempLocation = null;
         this.candidate.candidate_video = res.candidate_video;
 
-        this.dismiss({
-          candidate_video: res.candidate_video
-        });
+        // this.dismiss({
+        //   candidate_video: res.candidate_video
+        // });
         
       } else {
 
