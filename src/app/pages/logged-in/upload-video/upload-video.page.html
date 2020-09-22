@@ -30,7 +30,7 @@
                 <video controls preload="none" id="video-player"
                     *ngIf="!candidate.tempLocation"></video>
                     
-                <video controls [src]="candidate.tempLocation"
+                <video controls preload="none" [src]="candidate.tempLocation"
                     *ngIf="candidate.tempLocation"></video>
             </div>
 

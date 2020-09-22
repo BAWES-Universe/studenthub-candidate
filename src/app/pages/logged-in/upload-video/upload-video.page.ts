@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { environment } from 'src/environments/environment';
-//import * as cloudinary from "cloudinary-core";    
-//services
+// import * as cloudinary from "cloudinary-core";
+// services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -21,7 +21,7 @@ declare var cloudinary;
   templateUrl: './upload-video.page.html',
   styleUrls: ['./upload-video.page.scss'],
 })
-export class UploadVideoPage implements OnInit {
+export class UploadVideoPage implements OnInit, OnDestroy {
 
   @ViewChild('player', { static: false }) player: ElementRef;
 
@@ -123,12 +123,15 @@ export class UploadVideoPage implements OnInit {
   }
 
   ionViewDidEnter() {
-  
-    if(this.candidate.candidate_video) {
-      let cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
-      let demoplayer = cld.videoPlayer('video-player').width(250);      
+    this.loadVideo();
+  }
+
+  loadVideo() {
+    if (this.candidate.candidate_video) {
+      const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
+      const demoplayer = cld.videoPlayer('video-player').width(250);
       demoplayer.source(this.getVideoPublicId(this.candidate.candidate_video), {
-        "sourceTypes": ["hls"]
+        sourceTypes: ['hls']
       });
     }
   }
@@ -633,9 +636,10 @@ export class UploadVideoPage implements OnInit {
         this.candidate.tempLocation = null;
         this.candidate.candidate_video = res.candidate_video;
 
-        // this.dismiss({
-        //   candidate_video: res.candidate_video
-        // });
+        // this.loadVideo();
+        this.dismiss({
+          candidate_video: res.candidate_video
+        });
         
       } else {
 
