@@ -133,6 +133,7 @@ ion-card.success {
     color: #000000;
     margin-bottom: 38px;
     margin-top: 20px;
+    text-transform: capitalize;
 }
 .bank-card ion-card-content{
     padding-left: 24px;
@@ -141,4 +142,8 @@ ion-card.success {
     ion-content .max-width {
         padding: 24px;
     }
+}
+h3 {
+    font-family: 'effraLight', sans-serif !important;
+    --ion-font-family: 'effraLight', sans-serif !important;
 }
