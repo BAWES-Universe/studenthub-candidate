@@ -225,7 +225,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'location',
+    loadChildren: () => import('./pages/logged-in/location/location.module').then( m => m.LocationPageModule)
   }
+
 ];
 
 @NgModule({

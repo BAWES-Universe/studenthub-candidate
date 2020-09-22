@@ -220,6 +220,15 @@ export class AccountService {
   }
 
   /**
+   * update candidate location
+   * @param params 
+   */
+  updateLocation(params): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-location';
+    return this._authhttp.post(url, params);
+  }
+
+  /**
    * update Video to introduct candidate
    * @param candidate_video string
    */
