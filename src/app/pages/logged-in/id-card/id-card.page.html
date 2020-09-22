@@ -10,7 +10,7 @@
     <form [formGroup]="form" *ngIf="form">
 
       <ion-list>
-        <ion-input formControlName="civil_id" #inptId 
+        <ion-input formControlName="civil_id" type="number" inputmode="numeric" #inptId 
           placeholder="{{ 'The number of on your civil id card.' | translate }}"></ion-input>
       </ion-list>
 

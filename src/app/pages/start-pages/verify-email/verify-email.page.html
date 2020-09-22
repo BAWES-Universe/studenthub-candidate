@@ -4,24 +4,33 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3>{{ "Please verify your email" | translate }}</h3>
+    <ng-container *ngIf="!errorMsg && !loader">
+      <h3>{{ "Please verify your email" | translate }}</h3>
 
-    <h4>{{ "Check your email inbox on" | translate }}</h4>
+      <h4>{{ "Check your email inbox on" | translate }}</h4>
 
-    <p class="txt-email">{{ email }}</p>
-    
-    <ion-button class="btn-change-email" *ngIf="unVerifiedToken" (click)="updateEmail()" fill="clear">
-      {{ "Change my email address" | translate }}
-    </ion-button>
+      <p class="txt-email">{{ email }}</p>
 
-    <div class="clearfix"></div>
+      <ion-button class="btn-change-email" *ngIf="unVerifiedToken" (click)="updateEmail()" fill="clear">
+        {{ "Change my email address" | translate }}
+      </ion-button>
 
-    <ion-button (click)="resendVerificationEmail()" expand="block" [disabled]="timer" class="btn-resend">
-      <b>{{ "Didn’t receive the email?" | translate }} </b>
-      <span *ngIf="!timer">{{ "Click here to send it again" | translate }}</span>
-      <span *ngIf="timer">{{ "txt_resend_email" | translate : { value : timer } }}</span>
-    </ion-button>
+      <div class="clearfix"></div>
 
+      <ion-button (click)="resendVerificationEmail()" expand="block" [disabled]="timer" class="btn-resend">
+        <b>{{ "Didn’t receive the email?" | translate }} </b>
+        <span *ngIf="!timer">{{ "Click here to send it again" | translate }}</span>
+        <span *ngIf="timer">{{ "txt_resend_email" | translate : { value : timer } }}</span>
+      </ion-button>
+    </ng-container>
+    <ng-container>
+      <h3  *ngIf="loader">{{ "Please Wait" | translate }}</h3>
+      <h3 *ngIf="errorMsg && !loader">{{this.errorMsg}}</h3>
+
+      <ion-button  *ngIf="errorMsg && !loader" (click)="dismiss()" expand="block" class="btn-resend">
+        <h4>{{ "Login Page" | translate }} </h4>
+      </ion-button>
+    </ng-container>
   </div><!-- END .max-width -->
 
 </ion-content>

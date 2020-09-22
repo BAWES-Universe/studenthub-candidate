@@ -16,17 +16,21 @@
     
             <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
 
+                <!--
                 <cl-video [public-id]="getVideoPublicId(candidate.candidate_video)" 
                     width="250px"
                     cloud_name="studenthub" 
                     controls="true" preload="none" 
-                    autoplay="true"  class="manipulation-video"
+                    class="cld-video-player cld-video-player-skin-light manipulation-video"
                     fallback-content="Your browser does not support HTML5 video tags"
                     data-cld-source-types='["hls"]'
                     *ngIf="!candidate.tempLocation">
-                </cl-video>
-                 
-                <video controls [src]="candidate.tempLocation"
+                </cl-video>-->
+                  
+                <video controls preload="none" id="video-player"
+                    *ngIf="!candidate.tempLocation"></video>
+                    
+                <video controls preload="none" [src]="candidate.tempLocation"
                     *ngIf="candidate.tempLocation"></video>
             </div>
 

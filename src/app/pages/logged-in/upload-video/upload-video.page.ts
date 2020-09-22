@@ -1,24 +1,27 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-//services
+import { environment } from 'src/environments/environment';
+// import * as cloudinary from "cloudinary-core";
+// services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
-import { environment } from 'src/environments/environment';
 
 
 declare var MediaRecorder;
+
+declare var cloudinary;
 
 @Component({
   selector: 'app-upload-video',
   templateUrl: './upload-video.page.html',
   styleUrls: ['./upload-video.page.scss'],
 })
-export class UploadVideoPage implements OnInit {
+export class UploadVideoPage implements OnInit, OnDestroy {
 
   @ViewChild('player', { static: false }) player: ElementRef;
 
@@ -117,6 +120,20 @@ export class UploadVideoPage implements OnInit {
       });
     };
 
+  }
+
+  ionViewDidEnter() {
+    this.loadVideo();
+  }
+
+  loadVideo() {
+    if (this.candidate.candidate_video) {
+      const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
+      const demoplayer = cld.videoPlayer('video-player').width(250);
+      demoplayer.source(this.getVideoPublicId(this.candidate.candidate_video), {
+        sourceTypes: ['hls']
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -508,7 +525,7 @@ export class UploadVideoPage implements OnInit {
 
   /**
    * Handle file upload success
-   * @param event 
+   * @param event
    */
   public _handleFileSuccess(event) {
     let count = 1;
@@ -528,7 +545,7 @@ export class UploadVideoPage implements OnInit {
     // Look for upload progress events.
     if (event.type === "progress") {
       // This is an upload progress event. Compute and show the % done:
-      //this.progress = Math.round(100 * event.loaded / event.total);
+      // this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
@@ -540,7 +557,10 @@ export class UploadVideoPage implements OnInit {
       clearInterval(this.progressInterval);
       this.progressInterval = null;
 
-    } else if (!this.currentTarget) {      
+      // auto save
+      this.submit();
+
+    } else if (!this.currentTarget) {
       this.currentTarget = event;
     }
   }
@@ -616,6 +636,7 @@ export class UploadVideoPage implements OnInit {
         this.candidate.tempLocation = null;
         this.candidate.candidate_video = res.candidate_video;
 
+        // this.loadVideo();
         this.dismiss({
           candidate_video: res.candidate_video
         });
