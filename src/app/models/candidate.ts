@@ -5,6 +5,7 @@ import { University } from './university';
 import { Country } from './country';
 import { CandidateExperience } from './candidate.experience';
 import { CandidateSkill } from './candidate.skill';
+import { Area } from './area';
  
 export class Candidate {
     employee_id:number;
@@ -24,7 +25,10 @@ export class Candidate {
     candidate_video: string;
     candidate_email: string;
     candidate_phone: string;
-    candidate_address_line1
+    candidate_address_line1: string;
+    candidate_area_uuid: string;
+    candidate_latitude: string;
+    candidate_longitude: string;
     candidate_birth_date: string;
     candidate_civil_id: string;
     candidate_civil_expiry_date: string;
@@ -46,6 +50,7 @@ export class Candidate {
     company: Company;
     university: University;
     country: Country;
+    area: Area;    
     bank: Bank;
     candidateExperiences: CandidateExperience[];
     candidateSkills: CandidateSkill[];

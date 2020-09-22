@@ -1,0 +1,94 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { ModalController, IonInput, AlertController } from '@ionic/angular';
+//models
+import { Candidate } from 'src/app/models/candidate';
+//services
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AccountService } from 'src/app/providers/logged-in/account.service';
+
+
+@Component({
+  selector: 'app-location',
+  templateUrl: './location.page.html',
+  styleUrls: ['./location.page.scss'],
+})
+export class LocationPage implements OnInit {
+
+  public isLoading: boolean = false;
+
+  public candidate: Candidate;
+
+  public form: FormGroup;
+
+  @ViewChild('inptName', { static: false }) inptName: IonInput;
+
+  constructor(
+    public _fb: FormBuilder,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public accountService: AccountService,
+    public translateService: TranslateLabelService
+  ) { }
+
+  ngOnInit() {
+    this._initForm();
+
+    setTimeout(() => {
+      if(this.inptName)
+        this.inptName.setFocus();
+    }, 500);
+  }
+
+  /**
+   * Initialise form
+   */
+  async _initForm() {
+
+    this.form = this._fb.group({
+      area_uuid: [this.candidate.candidate_area_uuid, Validators.required],
+      latitude: [this.candidate.candidate_latitude, Validators.required],
+      longitude: [this.candidate.candidate_longitude, Validators.required],
+    });
+  }
+
+  /**
+   * save location
+   */
+  submit() {
+    this.isLoading = true; 
+
+    this.accountService.updateLocation(this.form.value).subscribe(res => {
+
+      this.isLoading = false;
+
+      if(res.operation == 'success') {
+        this.candidate.candidate_area_uuid = this.form.value.area_uuid;
+        this.candidate.candidate_latitude = this.form.value.latitude;
+        this.candidate.candidate_longitude = this.form.value.longitude;
+        this.dismiss();
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
+      }
+    }, () => {
+      this.isLoading = false;
+    });
+  }
+
+  /**
+   * close modal
+   * @param data 
+   */
+  dismiss(data = {}) {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay)
+        this.modalCtrl.dismiss(data);
+    });
+  }
+}
+
