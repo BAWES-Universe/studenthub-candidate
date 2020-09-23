@@ -1,0 +1,165 @@
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 25px;
+    --padding-bottom: 26px;
+}
+
+.btn-close {
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    margin: 0;
+    height: auto;
+}
+
+ion-searchbar {
+    position: absolute;
+    z-index: 1;
+    width: calc(100% - 60px);
+}
+
+.btn-submit {
+    width: 100%;
+    height: 53px;
+    text-transform: none;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    --background: #000000;
+    color: #fff;
+    margin-top: 25px;
+    margin-bottom: 24px;
+    border-radius: 22px;
+    --border-radius: 22px;
+    --box-shadow: none;
+}
+
+.btn-submit[disabled] {
+    --background: #6B6B6B;
+    color: #B4B4B4
+}
+
+#map {
+    height: calc(100% - 100px);
+}
+
+.max-width {
+    height: 100%;
+}
+
+input {
+    height: 45px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+    border: 4px solid #BDBDBD;
+    border-radius: 10px; 
+    --background: #fff;
+    background: #fff; 
+    padding: 0 18px;
+    width: calc(100% - 70px);
+    position: absolute;
+    top: 60px;
+    z-index: 1;
+    outline: none;
+}
+
+[dir="ltr"] {
+
+    input {
+        left: 35px;
+    }
+
+    .places-wrapper {
+        left: 35px;
+        
+        .item img {
+            margin-right: 20px;
+        }
+    }
+}
+
+[dir="rtl"] {
+
+    input {
+        right: 35px;
+    }
+
+    .places-wrapper {
+        right: 35px;
+
+        .item img {
+            margin-left: 20px;
+        }
+    }
+}
+
+.pac-logo:after {
+    display: none;
+}
+
+.places-wrapper { 
+
+    position: absolute;
+    top: 45px;
+    padding: 0 10px;
+    
+    .title {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 50px 7px 20px 7px;
+    }
+
+    .item {
+        margin: 20px 5px;
+        cursor: pointer;
+
+        img {
+            position: relative;
+        }
+
+        .city {
+            font-size: 14px;
+            display: block;
+            width: 100%;
+            color: #292f38;
+        }
+
+        .country {
+            font-size: 13px;
+            color: #4f4f4f;
+        }
+
+        .state {
+            font-size: 12px;
+        }
+    }
+
+    .btn-location {
+        margin: 20px 10px 25px 10px;
+        display: block;
+        color: black;
+        font-size: 16px;
+    }
+
+    .btn-location ion-icon {
+        color: yellow;
+    }
+
+    .list > .item-block:first-child {
+        border-top: none !important;
+    }
+}
+
+[dir="rtl"] .places-wrapper img {
+    margin-left: 20px;
+}

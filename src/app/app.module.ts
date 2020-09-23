@@ -53,6 +53,7 @@ import * as Cloudinary from 'cloudinary-core';
 
 import { registerLocaleData } from '@angular/common';
 import localeAr from '@angular/common/locales/ar-KW';
+import { LocationPageModule } from './pages/logged-in/location/location.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -105,6 +106,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UpdateEmailPageModule,
     UpdateBankPageModule,
     CompanyPageModule,
+    LocationPageModule,
     CivilIdFrontPageModule,
     CivilIdBackPageModule,
     CivilExpiryPageModule,
