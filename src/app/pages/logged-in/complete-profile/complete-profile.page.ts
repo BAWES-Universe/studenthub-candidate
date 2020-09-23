@@ -29,6 +29,7 @@ import { CivilExpiryPage } from '../civil-expiry/civil-expiry.page';
 import { CivilIdFrontPage } from '../civil-id-front/civil-id-front.page';
 import { CivilIdBackPage } from '../civil-id-back/civil-id-back.page';
 import { UploadVideoPage } from '../upload-video/upload-video.page';
+import { LocationPage } from '../location/location.page';
 
 
 @Component({
@@ -101,6 +102,26 @@ export class CompleteProfilePage implements OnInit {
     }, () => {
       this.loading = false;
     });
+  }
+
+  async updateArea() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: LocationPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    modal.present();
   }
 
   async updateName() {
