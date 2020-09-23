@@ -56,7 +56,7 @@ export class LocationPage implements OnInit {
 
     setTimeout(() => {
       if(this.searchInput)
-        this.searchInput.setFocus();
+        this.searchInput.nativeElement.focus();
     }, 500);
   }
 
@@ -73,8 +73,6 @@ export class LocationPage implements OnInit {
 
   ionViewDidEnter() {
 
-    console.log(this.searchInput);
-
     let ele = this.searchInput.nativeElement as HTMLInputElement;
 
     let autocomplete = new google.maps.places.Autocomplete(ele, {
@@ -84,7 +82,6 @@ export class LocationPage implements OnInit {
 
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
       var place = autocomplete.getPlace();
-      console.log(place);
       this.areaByLocation(place.geometry.location.lat(), place.geometry.location.lng(), place.name);
     });
   }
@@ -190,7 +187,6 @@ export class LocationPage implements OnInit {
     });
 
     marker.addListener('dragend', (event) => {
-      console.log(event);
       this.areaByLocation(event.latLng.lat(), event.latLng.lng());
     });
 
@@ -226,7 +222,6 @@ export class LocationPage implements OnInit {
         this.areaByLocation(resp.coords.latitude, resp.coords.longitude);
       } 
     }).catch((error) => {
-      console.log(error);
       
       this.alertCtrl.create({
         header: this.translateService.transform('Error'),
