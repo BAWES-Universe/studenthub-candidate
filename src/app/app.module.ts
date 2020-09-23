@@ -41,7 +41,7 @@ import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
-import {UpdateBankPageModule} from './pages/logged-in/update-bank/update-bank.module';
+import { UpdateBankPageModule } from './pages/logged-in/update-bank/update-bank.module';
 import { CompanyPageModule } from './pages/logged-in/company/company.module';
 import { CivilIdFrontPageModule } from './pages/logged-in/civil-id-front/civil-id-front.module';
 import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-back.module';
@@ -75,7 +75,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub'}),
+    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

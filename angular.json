@@ -103,6 +103,7 @@
                   "with": "src/environments/environment.dev.mobile.ts"
                 }
               ],
+              "aot": true,
               "serviceWorker": false
             },
             "dev": {
@@ -112,6 +113,7 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
+              "aot": true,
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             },
