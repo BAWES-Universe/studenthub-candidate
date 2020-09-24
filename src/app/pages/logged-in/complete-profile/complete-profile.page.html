@@ -48,6 +48,13 @@
         </ion-label>
       </ion-item>
 
+      <ion-item tappable (click)="updateArea()" [class.required]="!candidate.area">
+        <ion-label>
+          <small>{{ "Address" | translate }}</small>
+          <span *ngIf="candidate.area">{{ candidate.area.area_name_en }}</span>
+        </ion-label>
+      </ion-item>
+
       <ion-item tappable (click)="updateEmail()" [class.required]="!candidate.candidate_email">
         <ion-label>
           <small>{{ "Email Address" | translate }}</small>

@@ -1,9 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>location</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [attr.dir]="translateService.direction()">
 
-<ion-content>
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+      
+    <!--
+    <ion-searchbar (ionChange)="getItems($event)" mode="search" enterkeyhint="{{ 'Search' | translate }}" placeholder="{{ 'Type home location' | translate }}" #searchInput>
+      <ion-card class="places-wrapper" *ngIf="query">
+        <div class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
+            <div class="city">{{ place.structured_formatting.main_text }}</div>
+            <div class="country">{{ place.structured_formatting.secondary_text }}</div>
+        </div> 
+      </ion-card>
+    </ion-searchbar>-->
 
+    <input placeholder="{{ 'Type home location' | translate }}" #searchInput>
+
+    <div id="map"></div>
+
+    <!-- button save changes on location update/set  -->
+
+    <ion-button class="btn-submit" (click)="submit()" [disabled]="updating || form.invalid || !form.dirty" type="submit">
+      <ion-spinner *ngIf="updating"></ion-spinner>
+      <span *ngIf="!updating">{{ "Submit" | translate }}</span>
+    </ion-button>
+  </div>
+  
 </ion-content>

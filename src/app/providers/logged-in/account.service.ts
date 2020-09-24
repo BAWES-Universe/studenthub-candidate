@@ -19,7 +19,7 @@ export class AccountService {
    * load profile details
    */
   profile(): Observable<any> {
-    const url = this._accountEndpoint + '/profile?expand=isProfileCompleted,country,university,candidateSkills,candidateExperiences';
+    const url = this._accountEndpoint + '/profile?expand=area,isProfileCompleted,country,university,candidateSkills,candidateExperiences';
     return this._authhttp.get(url);
   }
 
@@ -151,6 +151,20 @@ export class AccountService {
     return this._authhttp.post(url, {
       university_id: university_id
     });
+  }
+
+  /**
+   * area by geo cordinates
+   * @param latitude 
+   * @param longitude 
+   */
+  areaByLocation(latitude, longitude, area = null): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/area-by-location?latitude=' + latitude + '&longitude=' + longitude;
+
+    if(area)
+      url += '&area=' + area;
+
+    return this._authhttp.get(url);
   }
 
   /**
