@@ -38,6 +38,8 @@ export class LocationPage implements OnInit {
 
   public area;
 
+  public country;
+
   public query: string = '';
 
   @ViewChild('searchInput', { static: false }) searchInput;
@@ -77,7 +79,7 @@ export class LocationPage implements OnInit {
 
     let autocomplete = new google.maps.places.Autocomplete(ele, {
       types: ['(regions)'],
-      componentRestrictions: { country: 'kw' }
+      //componentRestrictions: { country: 'kw' }
     });
 
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
@@ -148,7 +150,7 @@ export class LocationPage implements OnInit {
       this.isLoading = false;
 
       if (result.operation == 'success') {
-        this.setArea(result.area, result.area.area_latitude, result.area.area_longitude);
+        this.setArea(result.country, result.area, result.area.area_latitude, result.area.area_longitude);
       } 
       else 
       {
@@ -241,7 +243,7 @@ export class LocationPage implements OnInit {
 
       if (result.operation == 'success' && result.area) {
             
-        this.setArea(result.area, latitude, longitude);
+        this.setArea(result.country, result.area, latitude, longitude);
         
       } else {
 
@@ -256,13 +258,14 @@ export class LocationPage implements OnInit {
     });
   }
 
-  setArea(area, latitude, longitude) {
+  setArea(country, area, latitude, longitude) {
 
     //reset search
     this.query = null; 
 
     this.area = area;
 
+    this.country = country,
     this.form.controls.area_uuid.setValue(area.area_uuid);
 
     this.form.controls.latitude.setValue(latitude);
@@ -290,6 +293,7 @@ export class LocationPage implements OnInit {
 
       if(res.operation == 'success') {
         this.candidate.area = this.area;
+        this.candidate.country = this.country;
         this.candidate.candidate_area_uuid = this.form.value.area_uuid;
         this.candidate.candidate_latitude = this.form.value.latitude;
         this.candidate.candidate_longitude = this.form.value.longitude;
