@@ -14,7 +14,7 @@ export class Candidate {
     store_id: number;
     bank_id: number;
     university_id: number;
-    country_id: number;
+    country_id: number;//nationality
     bank_account_name: string;
     candidate_iban: string;
     candidate_name: string;
@@ -51,6 +51,7 @@ export class Candidate {
     university: University;
     country: Country;
     area: Area;    
+    nationality: Country;
     bank: Bank;
     candidateExperiences: CandidateExperience[];
     candidateSkills: CandidateSkill[];
