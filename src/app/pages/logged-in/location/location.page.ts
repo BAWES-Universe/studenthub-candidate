@@ -61,10 +61,6 @@ export class LocationPage implements OnInit {
       this.country = this.candidate.country;
       this.selected = true;
     }
-    // setTimeout(() => {
-    //   if(this.searchInput)
-    //     this.searchInput.nativeElement.focus();
-    // }, 500);
   }
 
   initMap(lat, long): void {
@@ -195,14 +191,6 @@ export class LocationPage implements OnInit {
       latitude: [this.candidate.candidate_latitude, Validators.required],
       longitude: [this.candidate.candidate_longitude, Validators.required],
     });
-
-    // if(this.candidate.candidate_latitude && this.candidate.candidate_longitude) {
-    //   this.initMap(this.candidate.candidate_latitude, this.candidate.candidate_longitude);
-    // }
-    // else
-    // {
-    //   this.getUserLocation();
-    // }
   }
 
   getUserLocation() {
@@ -270,11 +258,6 @@ export class LocationPage implements OnInit {
 
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
-
-    // if(!this.map)
-    //   this.initMap(latitude, longitude);
-    // else
-    //   this.updateMarker(latitude, longitude);
   }
 
   /**
