@@ -4,7 +4,9 @@
     <ion-button fill="clear" (click)="dismiss()" class="btn-close">
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
-      
+    <h3 *ngIf="!query">{{ "In which area do you currently live?" | translate }}</h3>
+
+    <p *ngIf="!query">{{"This will help us link you to jobs that are close to where you live" | translate}}</p>
     <!--
     <ion-searchbar (ionChange)="getItems($event)" mode="search" enterkeyhint="{{ 'Search' | translate }}" placeholder="{{ 'Type home location' | translate }}" #searchInput>
       <ion-card class="places-wrapper" *ngIf="query">
@@ -15,9 +17,36 @@
       </ion-card>
     </ion-searchbar>-->
 
-    <input placeholder="{{ 'Type home location' | translate }}" #searchInput>
+<!--    <input placeholder="{{ 'Type home location' | translate }}" #searchInput>-->
+    <ng-container *ngIf="!selected">
+      <ion-searchbar debounce="100" placeholder="{{ 'Mishref / Salmiya / Jabriya / etc.' | translate }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
+    </ng-container>
 
-    <div id="map"></div>
+    <ng-container *ngIf="selected">
+<!--      <ion-item *ngIf="candidate && candidate.area.area_name_en && candidate.country.country_name_en && !area" class="selected_area" lines="none">-->
+<!--        <ion-label>-->
+<!--          {{ candidate.area.area_name_en }} <span>{{ candidate.country.country_name_en }}</span>-->
+<!--        </ion-label>-->
+<!--        <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>-->
+<!--      </ion-item>-->
+
+      <ion-item *ngIf="area && country && area.area_name_en && country.country_name_en" class="selected_area" lines="none">
+        <ion-label>
+          {{ area.area_name_en }} <span>{{ country.country_name_en }}</span>
+        </ion-label>
+        <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>
+      </ion-item>
+    </ng-container>
+
+    <ion-list class="places-wrapper" *ngIf="query">
+      <ion-item class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
+        <ion-label>
+          <div class="location"> <ion-icon src="assets/images/ic_location.svg" ></ion-icon>&nbsp;&nbsp;{{ place.structured_formatting.main_text }} <small class="country">{{ place.structured_formatting.secondary_text }}</small></div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+<!--    <div id="map"></div>-->
 
     <!-- button save changes on location update/set  -->
 

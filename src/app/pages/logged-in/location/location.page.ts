@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, IonInput, AlertController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core'; 
+import { Plugins } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
-//models
+// models
 import { Candidate } from 'src/app/models/candidate';
-//services
+// services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { GoogleMapService } from 'src/app/providers/logged-in/google-map.service';
@@ -22,25 +22,23 @@ const { Geolocation } = Plugins;
 })
 export class LocationPage implements OnInit {
 
-  public isLoading: boolean = false;
-
-  public updating: boolean = false;
+  public isLoading = false;
+  public updating = false;
 
   public candidate: Candidate;
-
   public form: FormGroup;
 
   public places = [];
 
-  public map;//: google.maps.Map;
-
+  public map; // : google.maps.Map;
   public marker;
 
   public area;
-
   public country;
 
   public query: string = '';
+
+  public selected = false;
 
   @ViewChild('searchInput', { static: false }) searchInput;
 
@@ -55,11 +53,18 @@ export class LocationPage implements OnInit {
 
   ngOnInit() {
     this._initForm();
-
-    setTimeout(() => {
-      if(this.searchInput)
-        this.searchInput.nativeElement.focus();
-    }, 500);
+    if (
+        this.candidate &&
+        this.candidate.area.area_name_en &&
+        this.candidate.country.country_name_en) {
+      this.area = this.candidate.area;
+      this.country = this.candidate.country;
+      this.selected = true;
+    }
+    // setTimeout(() => {
+    //   if(this.searchInput)
+    //     this.searchInput.nativeElement.focus();
+    // }, 500);
   }
 
   initMap(lat, long): void {
@@ -71,21 +76,6 @@ export class LocationPage implements OnInit {
     });
 
     this.updateMarker(lat, long);
-  }
-
-  ionViewDidEnter() {
-
-    let ele = this.searchInput.nativeElement as HTMLInputElement;
-
-    let autocomplete = new google.maps.places.Autocomplete(ele, {
-      types: ['(regions)'],
-      //componentRestrictions: { country: 'kw' }
-    });
-
-    google.maps.event.addListener(autocomplete, 'place_changed', () => {
-      var place = autocomplete.getPlace();
-      this.areaByLocation(place.geometry.location.lat(), place.geometry.location.lng(), place.name);
-    });
   }
 
   /**
@@ -206,13 +196,13 @@ export class LocationPage implements OnInit {
       longitude: [this.candidate.candidate_longitude, Validators.required],
     });
 
-    if(this.candidate.candidate_latitude && this.candidate.candidate_longitude) {
-      this.initMap(this.candidate.candidate_latitude, this.candidate.candidate_longitude);
-    }
-    else 
-    {
-      this.getUserLocation();
-    }
+    // if(this.candidate.candidate_latitude && this.candidate.candidate_longitude) {
+    //   this.initMap(this.candidate.candidate_latitude, this.candidate.candidate_longitude);
+    // }
+    // else
+    // {
+    //   this.getUserLocation();
+    // }
   }
 
   getUserLocation() {
@@ -260,12 +250,18 @@ export class LocationPage implements OnInit {
 
   setArea(country, area, latitude, longitude) {
 
-    //reset search
-    this.query = null; 
+    // reset search
+    this.query = null;
 
     this.area = area;
 
-    this.country = country,
+    this.country = country;
+    if (
+        this.area.area_name_en &&
+        this.country.country_name_en) {
+      this.selected = true;
+    }
+
     this.form.controls.area_uuid.setValue(area.area_uuid);
 
     this.form.controls.latitude.setValue(latitude);
@@ -275,10 +271,10 @@ export class LocationPage implements OnInit {
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
 
-    if(!this.map)
-      this.initMap(latitude, longitude);
-    else 
-      this.updateMarker(latitude, longitude);
+    // if(!this.map)
+    //   this.initMap(latitude, longitude);
+    // else
+    //   this.updateMarker(latitude, longitude);
   }
 
   /**
@@ -337,6 +333,10 @@ export class LocationPage implements OnInit {
       if (overlay)
         this.modalCtrl.dismiss(data);
     });
+  }
+
+  reset() {
+    this.selected = false;
   }
 }
 
