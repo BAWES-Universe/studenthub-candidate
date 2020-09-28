@@ -119,7 +119,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
       });
     };
-
   }
 
   ionViewDidEnter() {
