@@ -6,6 +6,7 @@
     </ion-button>
 
     <ion-item lines="none">
+      <div tabindex="0"></div>
       <ion-thumbnail slot="start" *ngIf="company.company_logo">
         <ion-img [src]="awsService.cloudinaryUrl + company.company_logo"></ion-img>
       </ion-thumbnail>
@@ -15,6 +16,7 @@
     </ion-item>
 
     <ion-item lines="none" *ngIf="company.company_website">
+      <div tabindex="0"></div>
       <ion-label>
         <h5>
           {{ "Website" | translate }}
@@ -26,6 +28,7 @@
     </ion-item>
 
     <ion-item lines="none" *ngIf="company.company_description_en">
+      <div tabindex="0"></div>
       <ion-label>
         <h5>
           {{ "Description" | translate }}

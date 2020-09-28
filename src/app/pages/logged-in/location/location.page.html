@@ -13,6 +13,7 @@
 
     <ng-container *ngIf="selected">
       <ion-item *ngIf="area && country && area.area_name_en && country.country_name_en" class="selected_area" lines="none">
+        <div tabindex="0"></div>
         <ion-label>
           {{ area.area_name_en }} <span>{{ country.country_name_en }}</span>
         </ion-label>
@@ -22,6 +23,7 @@
 
     <ion-list class="places-wrapper" *ngIf="query">
       <ion-item class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
+        <div tabindex="0"></div>
         <ion-label>
           <div class="location"> <ion-icon src="assets/images/ic_location.svg" ></ion-icon>&nbsp;&nbsp;{{ place.structured_formatting.main_text }} <small class="country">{{ place.structured_formatting.secondary_text }}</small></div>
         </ion-label>
