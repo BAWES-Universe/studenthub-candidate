@@ -171,8 +171,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * start camera in mobile app 
    */
   startCamera() {
-
-    if(this.cameras.length == 0) {
+    if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if(this.platform.is('hybrid')) {
       this.startCameraInMobile();
@@ -276,6 +275,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           //this.mediaRecorder.start();
         })
         .catch(async (err) => {
+
+          //in case error from recording 
+
+          this.stopRecording();
+
           console.log("The following error occurred: " + err);
 
           const alert = await this.alertCtrl.create({
