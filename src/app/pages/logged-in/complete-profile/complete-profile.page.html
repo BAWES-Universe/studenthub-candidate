@@ -61,6 +61,7 @@
               {{ translateService.langContent(candidate.country.country_name_en, candidate.country.country_name_ar) }}
             </span>
           </span>
+          <span *ngIf="!candidate.area">{{ "In which area do you currently live?" | translate }}</span>
         </ion-label>
       </ion-item>
 
