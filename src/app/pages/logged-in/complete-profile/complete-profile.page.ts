@@ -148,6 +148,22 @@ export class CompleteProfilePage implements OnInit {
     this.content.scrollToPoint(0, 0);
   }
 
+  onVideoError() {
+    this.candidate.candidate_video = null;
+  }
+  
+  onCivilBackError() {
+    this.candidate.candidate_civil_photo_back = null;
+  }
+  
+  onCivilFrontError() {
+    this.candidate.candidate_civil_photo_front = null;
+  }
+
+  onPhotoError() {
+    this.candidate.candidate_personal_photo = null;
+  }
+
   /**
    * broadcast scroll event
    * @param e 
