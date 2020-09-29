@@ -21,7 +21,7 @@
         <ion-label>
           <small>{{ "Personal Photo" | translate }}</small>
           <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
-          <img width="126" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
+          <img width="126" (error)="onPhotoError()" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
         </ion-label>
       </ion-item>
 
@@ -30,7 +30,7 @@
         <ion-label>
           <small>{{ "Introductory video" | translate }}</small>
           <span *ngIf="!candidate.candidate_video">{{ "Record a 30 second video introducing yourself" | translate }}</span>
-          <img width="126" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+          <img width="126" (error)="onVideoError()" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
         </ion-label>
       </ion-item>
 
@@ -200,7 +200,7 @@
         <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Civil ID Photo (Front)" | translate }}</small>
-          <img width="126" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+          <img width="126" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
           <span *ngIf="!candidate.candidate_civil_photo_front">{{ "A photo of your civil id from the front" | translate }}
           </span>
         </ion-label>
@@ -210,7 +210,7 @@
         <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Civil ID Photo (Back)" | translate }}</small>
-          <img width="126" *ngIf="candidate.candidate_civil_photo_back" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+          <img width="126" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
           <span *ngIf="!candidate.candidate_civil_photo_back">{{ "A photo of your civil id from the back" | translate }}
           </span>
         </ion-label>
