@@ -10,7 +10,7 @@
     <ion-list class="candidateExperiences" *ngIf="experienceList">
 
       <ion-item *ngFor="let s of tmpExperience;let i=index;">
-
+        
         <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a experience' | translate }}"
           [(ngModel)]="experienceList[i]" (ionFocus)="validateExperiences()" (ionChange)="change($event, i, s)"
           inputmode="text" enterkeyhint="{{ 'Next' | translate }}" (keyup)="nextOnEnter($event, i)"></ion-input>

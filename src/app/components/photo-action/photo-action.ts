@@ -6,9 +6,11 @@ import { Component } from '@angular/core';
       <ion-list>
         <ion-list-header><ion-label>{{ "Select Action" | translate }}</ion-label></ion-list-header>
         <ion-item (click)="close('browse')" tappable>
+            <div tabindex="0"></div>
             <ion-icon name="albums"  slot="end" ></ion-icon> {{ "Select Photo" | translate }}
         </ion-item>
         <ion-item lines="none" (click)="close('remove')" tappable>
+            <div tabindex="0"></div>
             <ion-icon name="trash"  slot="end" ></ion-icon> {{ "Remove Photo" | translate }}
         </ion-item>
       </ion-list>

@@ -17,22 +17,25 @@
     <ion-list *ngIf="candidate">
 
       <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Personal Photo" | translate }}</small>
           <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
-          <img width="126" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
+          <img width="126" (error)="onPhotoError()" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateVideo()">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Introductory video" | translate }}</small>
           <span *ngIf="!candidate.candidate_video">{{ "Record a 30 second video introducing yourself" | translate }}</span>
-          <img width="126" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+          <img width="126" (error)="onVideoError()" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Name (English)" | translate }}</small>
           <span *ngIf="candidate.candidate_name">{{ candidate.candidate_name }}</span>
@@ -41,6 +44,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updateNameArabic()" [class.required]="!candidate.candidate_name_ar">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Name (Arabic)" | translate }}</small>
           <span *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</span>
@@ -49,13 +53,19 @@
       </ion-item>
 
       <ion-item tappable (click)="updateArea()" [class.required]="!candidate.area">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Address" | translate }}</small>
-          <span *ngIf="candidate.area">{{ candidate.area.area_name_en }}</span>
+          <span *ngIf="candidate.area">
+            {{ translateService.langContent(candidate.area.area_name_en, candidate.area.area_name_ar) }}<span *ngIf="candidate.country">,
+              {{ translateService.langContent(candidate.country.country_name_en, candidate.country.country_name_ar) }}
+            </span>
+          </span>
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateEmail()" [class.required]="!candidate.candidate_email">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Email Address" | translate }}</small>
           <span *ngIf="candidate.candidate_email">{{ candidate.candidate_email }}</span>
@@ -63,6 +73,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Phone number" | translate }}</small>
           <span *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</span>
@@ -70,6 +81,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Brief Intro" | translate }}</small>
           <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
@@ -79,24 +91,33 @@
       </ion-item>
 
       <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Work Experience" | translate }}</small>
-          <ion-item *ngFor="let candidateExperience of candidate.candidateExperiences">{{ candidateExperience.experience }}</ion-item>
+          <ion-item *ngFor="let candidateExperience of candidate.candidateExperiences">
+            <div tabindex="0"></div>
+            {{ candidateExperience.experience }}
+          </ion-item>
           <span *ngIf="candidate.candidateExperiences.length == 0">{{ "Do you have any work experience?" | translate }}
           </span>
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Your Skills" | translate }}</small>
-          <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">{{ candidateSkill.skill }}</ion-item>
+          <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">
+            <div tabindex="0"></div>
+            {{ candidateSkill.skill }}
+          </ion-item>
           <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
           </span>
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateUniversity()" [class.required]="!candidate.university">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "University" | translate }}</small>
           <span
@@ -105,16 +126,18 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateNationality()" [class.required]="!candidate.country">
+      <ion-item tappable (click)="updateNationality()" [class.required]="!candidate.nationality">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Nationality" | translate }}</small>
           <span
-            *ngIf="candidate.country">{{ translateService.langContent(candidate.country.country_name_en, candidate.country.country_name_ar) }}</span>
-          <span *ngIf="!candidate.country">{{ "Where are you from?" | translate }} </span>
+            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_name_en, candidate.nationality.country_name_ar) }}</span>
+          <span *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </span>
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateDateOfBirth()" [class.required]="!candidate.candidate_birth_date">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Date of Birth" | translate }}</small>
           <span
@@ -124,6 +147,7 @@
       </ion-item>
   
       <ion-item tappable (click)="updateGender()" [class.required]="!candidate.candidate_gender">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Gender" | translate }}</small>
           <span *ngIf="candidate.candidate_gender == 1">{{ "Male" | translate }}</span>
@@ -134,6 +158,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updateDrivingLicense()" [class.required]="!candidate.candidate_driving_license">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Driving License" | translate }}</small>
           <span *ngIf="candidate.candidate_driving_license == 1">{{ "Yes" | translate }}</span>
@@ -143,6 +168,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updateResume()">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Upload CV or Portfolio" | translate }}</small>
           <span *ngIf="candidate.candidate_resume">{{ candidate.candidate_resume }}</span>
@@ -151,6 +177,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Civil ID Number" | translate }}</small>
           <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
@@ -160,6 +187,7 @@
       </ion-item>
 
       <ion-item tappable (click)="updateCandidateIdExpiryDate()" [class.required]="!candidate.candidate_civil_expiry_date">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Civil ID Expiry Date" | translate }}</small>
           <span *ngIf="candidate.candidate_civil_expiry_date">{{ candidate.candidate_civil_expiry_date | translate }}</span>
@@ -169,18 +197,20 @@
       </ion-item>
 
       <ion-item tappable (click)="updateCivilIdFront()" [class.required]="!candidate.candidate_civil_photo_front">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Civil ID Photo (Front)" | translate }}</small>
-          <img width="126" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+          <img width="126" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
           <span *ngIf="!candidate.candidate_civil_photo_front">{{ "A photo of your civil id from the front" | translate }}
           </span>
         </ion-label>
       </ion-item>
 
       <ion-item tappable (click)="updateCivilIdBack()" [class.required]="!candidate.candidate_civil_photo_back">
+        <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Civil ID Photo (Back)" | translate }}</small>
-          <img width="126" *ngIf="candidate.candidate_civil_photo_back" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+          <img width="126" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
           <span *ngIf="!candidate.candidate_civil_photo_back">{{ "A photo of your civil id from the back" | translate }}
           </span>
         </ion-label>

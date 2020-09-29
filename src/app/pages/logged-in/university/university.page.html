@@ -15,6 +15,7 @@
     <ion-list *ngIf="candidate">
       
       <ion-item *ngFor="let university of universities" tappable (click)="rowSelected(university)">
+        <div tabindex="0"></div>
         {{ translateService.langContent(university.university_name_en, university.university_name_ar) }}
         <ion-icon slot="end" name="checkmark" *ngIf="!saving && candidate.university_id == university.university_id">
         </ion-icon>
