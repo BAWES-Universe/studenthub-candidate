@@ -44,7 +44,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@sentry/browser": "^5.24.2",
-    "aws-sdk": "^2.761.0",
+    "aws-sdk": "^2.763.0",
     "cloudinary-core": "^2.11.2",
     "cloudinary-video-player": "^1.4.3",
     "cordova-plugin-file": "^6.0.2",
