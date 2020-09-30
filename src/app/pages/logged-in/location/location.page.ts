@@ -55,7 +55,9 @@ export class LocationPage implements OnInit {
     this._initForm();
     if (
         this.candidate &&
+        this.candidate.area &&
         this.candidate.area.area_name_en &&
+        this.candidate.country &&
         this.candidate.country.country_name_en) {
       this.area = this.candidate.area;
       this.country = this.candidate.country;
