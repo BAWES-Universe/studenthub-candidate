@@ -555,4 +555,15 @@ export class CompleteProfilePage implements OnInit {
 
     this.navCtrl.navigateRoot(['/']);
   }
+
+  translate() {
+
+    const code = this.translateService.currentLang != 'ar' ? 'ar' : 'en';
+
+    this.eventService.setLanguagePref$.next(code);
+
+    if (this.authService.isLogin) {
+      this.accountService.setLanguagePref(code).subscribe();
+    }
+  }
 }

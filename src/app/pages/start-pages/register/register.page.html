@@ -12,7 +12,13 @@
 
       <ion-input type="telephone" autocomplete="tel" #phoneInput formControlName="phone" maxlength="8" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
 
-      <ion-input type="password" autocomplete="off" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>
+      <div class="password_field">
+        <ion-input type="{{type}}" autocomplete="off" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>
+        <ion-button  fill="clear" class="password_change_icon skip-hover" (click)="showPassword()">
+          <ion-icon *ngIf="!showPass" name="eye"></ion-icon>
+          <ion-icon *ngIf="showPass" name="eye-off"></ion-icon>
+        </ion-button>
+      </div>
 
       <ion-button class="btn-signup" [disabled]="!registerForm.valid || isLoading" type="submit">
         <ion-spinner *ngIf="isLoading"></ion-spinner>
