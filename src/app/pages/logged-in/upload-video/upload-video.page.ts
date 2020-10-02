@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
@@ -83,8 +83,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    
-    if(navigator.mediaDevices) {
+
+    if (navigator.mediaDevices) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
         this.cameras = devices.filter((d) => d.kind === 'videoinput');
       });
@@ -159,7 +159,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
   }
 
-  ionViewWillLeave() { 
+  ionViewWillLeave() {
     if (!this.shouldStop) {
       this.stopRecording();
     }
@@ -167,16 +167,16 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   getVideoPublicId(candidate_video) {
     if (environment.production) {
-      return  'candidate-video/' + candidate_video.split('.')[0];
+      return 'candidate-video/' + candidate_video.split('.')[0];
     }
 
-    return  'dev/candidate-video/' + candidate_video.split('.')[0];
+    return 'dev/candidate-video/' + candidate_video.split('.')[0];
   }
 
   /**
    * start camera in mobile app
    */
-  startCamera() { 
+  startCamera() {
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
@@ -191,19 +191,19 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    */
   startCameraInMobile() {
 
-  const options: CaptureVideoOptions = {
+    const options: CaptureVideoOptions = {
       limit: 1,
       duration: 30
     };
 
-  this.mediaCapture.captureVideo(options)
+    this.mediaCapture.captureVideo(options)
       .then(
-        (data: MediaFile[]) => { 
-          if(data && data[0])
+        (data: MediaFile[]) => {
+          if (data && data[0])
             this.uploadFileViaNativeFilePath(data[0].fullPath);
         },
         async (err: CaptureError) => {
-         
+
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
             message: this.translateService.transform('txt_recording_error', {
@@ -220,87 +220,87 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   /**
    * start recording in mobile browser
    */
-  startCameraInBrowser() { 
+  startCameraInBrowser() {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-        .then((stream) => {
+      .then((stream) => {
 
-          window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+        window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-          this.stream = stream;
+        this.stream = stream;
 
-          this.shouldStop = false;
+        this.shouldStop = false;
 
-          const options = { mimeType: 'video/' + this.format };
-          const recordedChunks = [];
+        const options = { mimeType: 'video/' + this.format };
+        const recordedChunks = [];
 
-          this.mediaRecorder = new MediaRecorder(stream, options);
+        this.mediaRecorder = new MediaRecorder(stream, options);
 
-          // show live feed
+        // show live feed
 
-          setTimeout(() => {
+        setTimeout(() => {
 
-            const player = this.player.nativeElement;
-            player.srcObject = stream;
-            player.muted = true;
-            player.onloadedmetadata = (e) => {
-              player.play();
-            };
+          const player = this.player.nativeElement;
+          player.srcObject = stream;
+          player.muted = true;
+          player.onloadedmetadata = (e) => {
+            player.play();
+          };
 
-          });
-
-          this.mediaRecorder.addEventListener('dataavailable', (e) => {
-            if (e.data.size > 0 && this.recording) {
-              recordedChunks.push(e.data);
-            }
-          });
-
-          this.mediaRecorder.addEventListener('stop', () => {
-
-            // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-            // downloadLink.download = 'acetest.webm';
-
-            if (recordedChunks.length == 0) {
-              return false;
-            }
-
-            this.recording = false;
-
-            const file = new File([new Blob(recordedChunks, { type : 'video/' + this.format })], this.authService.id + '.mp4');
-
-            this.uploadFile(file, {
-              duration: (this.maxDuration - this.timer) + '',
-            });
-
-            // no need to cancel recording on hardware back
-
-            window['history-back-from'] = 'onDidDismiss';
-            window.history.back();
-
-          });
-
-          // this.mediaRecorder.start();
-        })
-        .catch(async (err) => {
-
-          // in case error from recording
-
-          this.stopRecording();
-
-          console.log('The following error occurred: ' + err);
-
-          const alert = await this.alertCtrl.create({
-            header: this.translateService.transform('Error'),
-            message: this.translateService.transform('txt_recording_error', {
-              error: err.name
-            }),
-            buttons: [this.translateService.transform('Okay')]
-          });
-
-          await alert.present();
         });
+
+        this.mediaRecorder.addEventListener('dataavailable', (e) => {
+          if (e.data.size > 0 && this.recording) {
+            recordedChunks.push(e.data);
+          }
+        });
+
+        this.mediaRecorder.addEventListener('stop', () => {
+
+          // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+          // downloadLink.download = 'acetest.webm';
+
+          if (recordedChunks.length == 0) {
+            return false;
+          }
+
+          this.recording = false;
+
+          const file = new File([new Blob(recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.mp4');
+
+          this.uploadFile(file, {
+            duration: (this.maxDuration - this.timer) + '',
+          });
+
+          // no need to cancel recording on hardware back
+
+          window['history-back-from'] = 'onDidDismiss';
+          window.history.back();
+
+        });
+
+        // this.mediaRecorder.start();
+      })
+      .catch(async (err) => {
+
+        // in case error from recording
+
+        this.stopRecording();
+
+        console.log('The following error occurred: ' + err);
+
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: this.translateService.transform('txt_recording_error', {
+            error: err.name
+          }),
+          buttons: [this.translateService.transform('Okay')]
+        });
+
+        await alert.present();
+      });
   }
 
-  startCountDown() { 
+  startCountDown() {
     // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     this.recording = true;
@@ -310,7 +310,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     let countDownTimer = setInterval(() => {
 
       if (this.countDown > 0) {
-        this.countDown --;
+        this.countDown--;
       }
 
       if (this.countDown == 0) {
@@ -327,7 +327,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     //if had error on starting camera 
 
-    if(!this.mediaRecorder) {
+    if (!this.mediaRecorder) {
       //this.fileInput.nativeElement.click();
       this.stopRecording();
 
@@ -352,7 +352,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       // on timeout stop recording
 
-      if (this.timer == 0)  {
+      if (this.timer == 0) {
         this.stopRecording();
       }
 
@@ -367,7 +367,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * stop recording in mobile browser
    */
   stopRecording() {
- 
+
     this.shouldStop = true;
 
     if (this.interval) {
@@ -381,7 +381,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     // stop camera 
     if (this.stream) {
-      this.stream.getTracks().forEach( (track) => {
+      this.stream.getTracks().forEach((track) => {
         track.stop();
       });
     }
@@ -391,7 +391,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * Upload video by native path
    */
   async uploadFileViaNativeFilePath(uri) {
-    
+
     this.uploading = true;
 
     this.awsService.uploadNativePath(uri).then(o => {
@@ -460,7 +460,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * @param event
    */
   async browserUpload(event) {
- 
+
     const fileList: FileList = event.target.files;
 
     if (fileList.length == 0) {
@@ -471,7 +471,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       this.uploadFile(fileList[0]);
 
-    }, err => { 
+    }, err => {
 
       this.alertCtrl.create({
         message: err,
@@ -482,41 +482,41 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   validateVideoFile(file) {
-  
+
     return new Promise((resolve, reject) => {
       try {
-          const video = document.createElement('video');
-          video.preload = 'metadata';
+        const video = document.createElement('video');
+        video.preload = 'metadata';
 
-          video.onloadedmetadata = () => {
+        video.onloadedmetadata = () => {
 
-            if (video.duration > this.maxDuration) {
-              reject(this.translateService.transform('Video duration can not exceed 30 second limit'));
-            }
-
-            resolve(true);
-          };
-
-          video.onerror = () => {
-              reject(this.translateService.transform('Invalid video. Please select a video file.'));
-          };
-
-          const type = file.type.split('/')[0];
-
-          if (type != 'video') {
-            reject(this.translateService.transform('Invalid File format'));
+          if (video.duration > this.maxDuration) {
+            reject(this.translateService.transform('Video duration can not exceed 30 second limit'));
           }
 
-          video.src = window.URL.createObjectURL(file);
+          resolve(true);
+        };
+
+        video.onerror = () => {
+          reject(this.translateService.transform('Invalid video. Please select a video file.'));
+        };
+
+        const type = file.type.split('/')[0];
+
+        if (type != 'video') {
+          reject(this.translateService.transform('Invalid File format'));
+        }
+
+        video.src = window.URL.createObjectURL(file);
 
       } catch (e) {
-          reject(e);
+        reject(e);
       }
     });
   }
 
   uploadFile(file, metadata = {}) {
- 
+
     this.uploading = true;
 
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
@@ -543,7 +543,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       }
       this.uploading = false;
       this.progress = 0;
-    }, ()  => {
+    }, () => {
       this.browserUploadSubscription.unsubscribe();
     });
   }
@@ -648,7 +648,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * save uploaded cv
    */
   async submit() {
-  
+
     this.loading = true;
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
