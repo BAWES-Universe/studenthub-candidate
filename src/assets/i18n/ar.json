@@ -206,6 +206,9 @@
     "Record a 30 second video introducing yourself": "سجل مقطع فيديو مدته 30 ثانية تقدم فيه نفسك",
     "Maximum 5mb Upload is allowed": "يسمح بتحميل 5 ميغا بايت كحد أقصى",
     "Getting location": "الحصول على الموقع",
-    "Search": "",
-    "Type home location": ""
+    "Search": "بحث",
+    "Type home location": "اكتب موقع المنزل",
+    "Address": "عنوان",
+    "In which area do you currently live?": "في أي منطقة تعيش حاليا؟",
+    "This will help us link you to jobs that are close to where you live": "سيساعدنا ذلك في ربطك بالوظائف القريبة من مكان إقامتك"
 }
