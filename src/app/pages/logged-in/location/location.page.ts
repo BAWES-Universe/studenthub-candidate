@@ -53,12 +53,14 @@ export class LocationPage implements OnInit {
 
   ngOnInit() {
     this._initForm();
+
     if (
         this.candidate &&
         this.candidate.area &&
         this.candidate.area.area_name_en &&
         this.candidate.country &&
-        this.candidate.country.country_name_en) {
+        this.candidate.country.country_name_en
+      ) {
       this.area = this.candidate.area;
       this.country = this.candidate.country;
       this.selected = true;
@@ -177,7 +179,8 @@ export class LocationPage implements OnInit {
     });
 
     marker.addListener('dragend', (event) => {
-      this.areaByLocation(event.latLng.lat(), event.latLng.lng());
+      if(event && event.latLng)
+        this.areaByLocation(event.latLng.lat(), event.latLng.lng());
     });
 
     return marker;

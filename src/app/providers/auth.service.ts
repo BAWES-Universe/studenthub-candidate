@@ -518,8 +518,7 @@ export class AuthService {
   }
 
   _handleCivilIdError(error: any): Observable<any> {
-    console.log(error);
-
+ 
     const errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
