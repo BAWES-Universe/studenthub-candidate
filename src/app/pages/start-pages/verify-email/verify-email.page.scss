@@ -64,7 +64,9 @@ h4 {
     color: #4354a4;
     text-transform: none; 
     display: block; 
-    float: left;
+    float: var(--start);
+    margin-left: 0;
+    margin-right: 0;
     --padding-start: 0;
     --padding-end: 0;
 }

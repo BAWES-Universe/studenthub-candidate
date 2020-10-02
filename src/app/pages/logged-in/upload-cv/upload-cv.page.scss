@@ -186,6 +186,18 @@ h3 {
     }
 }
 
+[dir="rtl"] {
+
+    .selected-file {
+        .fileName,a {
+            top: 2px;
+        }
+        .extension {
+            padding: 12px 0;
+        }
+    }
+
+}
 .btn-deleteFile {
     width: calc(100% - 24px) !important;
     border: 1px solid rgba(130, 130, 130, 0.3) !important;

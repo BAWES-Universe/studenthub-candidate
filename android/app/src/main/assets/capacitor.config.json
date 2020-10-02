@@ -1,6 +1,6 @@
 {
   "appId": "co.studenthub.candidate",
-  "appName": "payroll-candidate",
+  "appName": "Studenthub",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

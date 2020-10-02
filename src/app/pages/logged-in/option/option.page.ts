@@ -3,8 +3,8 @@ import { PopoverController } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import {EventService} from "../../../providers/event.service";
-import {AccountService} from "../../../providers/logged-in/account.service";
+import { EventService } from "../../../providers/event.service";
+import { AccountService } from "../../../providers/logged-in/account.service";
 
 
 @Component({
@@ -49,5 +49,7 @@ export class OptionPage implements OnInit {
     if (this.authService.isLogin) {
       this.accountService.setLanguagePref(code).subscribe();
     }
+
+    this.popoverCtrl.dismiss();
   }
 }

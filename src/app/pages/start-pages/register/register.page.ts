@@ -30,7 +30,9 @@ export class RegisterPage implements OnInit {
 
   // @Input() email;
   public email;
+  public type = 'password';
 
+  public showPass = false;
   constructor(
     public router: Router,
     public fb: FormBuilder,
@@ -122,4 +124,18 @@ export class RegisterPage implements OnInit {
   loginPage() {
     //   this.nav.pop();
   }
+
+  /**
+   * Toggle password visibility for password field
+   */
+  showPassword() {
+    this.showPass = !this.showPass;
+
+    if (this.showPass) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
+  }
+
 }

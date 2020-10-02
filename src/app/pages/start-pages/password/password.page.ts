@@ -32,7 +32,9 @@ export class PasswordPage implements OnInit {
   // Store number of invalid password attempts to suggest reset password
   public numberOfLoginAttempts = 0;
   public email;
+  public type = 'password';
 
+  public showPass = false;
   constructor(
     public router: Router,
     public fb: FormBuilder,
@@ -172,5 +174,15 @@ export class PasswordPage implements OnInit {
         buttons: [this.translateService.transform('Okay')]
       }).then(alert => alert.present());
     });
+  }
+
+  showPassword() {
+    this.showPass = !this.showPass;
+
+    if (this.showPass) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
   }
 }
