@@ -83,11 +83,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      console.log(devices);
-      this.cameras = devices.filter((d) => d.kind === 'videoinput');
-    });
+    
+    if(navigator.mediaDevices) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        this.cameras = devices.filter((d) => d.kind === 'videoinput');
+      });
+    }
 
     // on hardware back, cancel recording
 
@@ -158,8 +159,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
   }
 
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave');
+  ionViewWillLeave() { 
     if (!this.shouldStop) {
       this.stopRecording();
     }
@@ -176,8 +176,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   /**
    * start camera in mobile app
    */
-  startCamera() {
-    console.log('startCamera in app');
+  startCamera() { 
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
@@ -191,7 +190,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * start recording in mobile apps
    */
   startCameraInMobile() {
-  console.log('startCameraInMobile');
+
   const options: CaptureVideoOptions = {
       limit: 1,
       duration: 30
@@ -199,12 +198,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   this.mediaCapture.captureVideo(options)
       .then(
-        (data: MediaFile[]) => {
-          console.log('success',data);
-          this.uploadFileViaNativeFilePath(data[0].fullPath);
+        (data: MediaFile[]) => { 
+          if(data && data[0])
+            this.uploadFileViaNativeFilePath(data[0].fullPath);
         },
         async (err: CaptureError) => {
-          console.log('err', err);
+         
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
             message: this.translateService.transform('txt_recording_error', {
@@ -221,8 +220,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   /**
    * start recording in mobile browser
    */
-  startCameraInBrowser() {
-    console.log('startCameraInBrowser');
+  startCameraInBrowser() { 
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
         .then((stream) => {
 
@@ -302,8 +300,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
   }
 
-  startCountDown() {
-    console.log('startCountDown');
+  startCountDown() { 
     // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     this.recording = true;
@@ -326,8 +323,23 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  startRecording() {
-    console.log('start recording');
+  async startRecording() {
+
+    //if had error on starting camera 
+
+    if(!this.mediaRecorder) {
+      //this.fileInput.nativeElement.click();
+      this.stopRecording();
+
+      const alert = await this.alertCtrl.create({
+        header: this.translateService.transform('Error'),
+        message: this.translateService.transform('Error on starting recording'),
+        buttons: [this.translateService.transform('Okay')]
+      });
+
+      await alert.present();
+    }
+
     // start timer
 
     this.timer = this.maxDuration;
@@ -355,23 +367,19 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * stop recording in mobile browser
    */
   stopRecording() {
-    console.log('stop recording');
+ 
     this.shouldStop = true;
 
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
-    console.log('mediaRecorder');
-    console.log(this.mediaRecorder);
 
     if (this.mediaRecorder && this.mediaRecorder.state != 'inactive') {
       this.mediaRecorder.stop();
     }
 
-    // stop camera
-    console.log('stream');
-    console.log(this.stream);
+    // stop camera 
     if (this.stream) {
       this.stream.getTracks().forEach( (track) => {
         track.stop();
@@ -383,7 +391,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * Upload video by native path
    */
   async uploadFileViaNativeFilePath(uri) {
-    console.log('uploadFileViaNativeFilePath');
+    
     this.uploading = true;
 
     this.awsService.uploadNativePath(uri).then(o => {
@@ -452,7 +460,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * @param event
    */
   async browserUpload(event) {
-    console.log('browserUpload');
+ 
     const fileList: FileList = event.target.files;
 
     if (fileList.length == 0) {
@@ -463,8 +471,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       this.uploadFile(fileList[0]);
 
-    }, err => {
-      console.log(err);
+    }, err => { 
 
       this.alertCtrl.create({
         message: err,
@@ -475,7 +482,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   validateVideoFile(file) {
-    console.log('validateVideoFile');
+  
     return new Promise((resolve, reject) => {
       try {
           const video = document.createElement('video');
@@ -509,7 +516,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   uploadFile(file, metadata = {}) {
-    console.log('uploadFile');
+ 
     this.uploading = true;
 
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
@@ -641,7 +648,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * save uploaded cv
    */
   async submit() {
-    console.log('submit');
+  
     this.loading = true;
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
