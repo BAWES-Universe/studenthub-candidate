@@ -31,21 +31,21 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public progress = 0;
 
-  public deleting: boolean = false;
+  public deleting = false;
 
-  public loading: boolean = false;
+  public loading = false;
 
-  public recording: boolean = false;
+  public recording = false;
 
-  public uploading: boolean = false; 
+  public uploading = false;
 
-  public progressInterval; 
+  public progressInterval;
 
   public currentTarget;
 
   public shouldStop = true;
 
-  public mediaRecorder; 
+  public mediaRecorder;
 
   public stream;
 
@@ -63,7 +63,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   public updateSubscription: Subscription;
   public deleteSubscription: Subscription;
 
-  public format = 'webm';//webm
+  public format = 'webm'; // webm
 
   constructor(
     private _ngzone: NgZone,
@@ -78,34 +78,38 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     public awsService: AwsService
-  ) { }
+  ) {
+    document.addEventListener('deviceready', this.onDeviceReady);
+  }
 
   ngOnInit() {
+    console.log('ngOnInit');
     navigator.mediaDevices.enumerateDevices().then((devices) => {
+      console.log(devices);
       this.cameras = devices.filter((d) => d.kind === 'videoinput');
     });
 
-    //on hardware back, cancel recording 
-    
+    // on hardware back, cancel recording
+
     window.onpopstate = e => {
-      
+
       if (window['history-back-from'] == 'onDidDismiss') {
         window['history-back-from'] = null;
         return false;
       }
 
-      //stop recording on hardware back clicked
+      // stop recording on hardware back clicked
 
-      if(!this.uploading && !this.shouldStop) {
+      if (!this.uploading && !this.shouldStop) {
         this.stopRecording();
         return false;
       }
-      
+
       this.popoverCtrl.getTop().then(overlay => {
-        
+
         if (overlay) {
           this.popoverCtrl.dismiss({
-            'from': 'native-back-btn'
+            from: 'native-back-btn'
           });
         }
 
@@ -113,7 +117,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
           if (overlay) {
             this.modalCtrl.dismiss({
-              'from': 'native-back-btn'
+              from: 'native-back-btn'
             });
           }
         });
@@ -145,35 +149,38 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.updateSubscription.unsubscribe();
     }
 
-    if(!!this.deleteSubscription) {
+    if (!!this.deleteSubscription) {
       this.deleteSubscription.unsubscribe();
     }
 
-    if(!this.shouldStop)
+    if (!this.shouldStop) {
       this.stopRecording();
+    }
   }
 
   ionViewWillLeave() {
-    if(!this.shouldStop) {
+    console.log('ionViewWillLeave');
+    if (!this.shouldStop) {
       this.stopRecording();
     }
   }
 
   getVideoPublicId(candidate_video) {
-    if(environment.production) {
+    if (environment.production) {
       return  'candidate-video/' + candidate_video.split('.')[0];
-    } 
-      
+    }
+
     return  'dev/candidate-video/' + candidate_video.split('.')[0];
   }
 
   /**
-   * start camera in mobile app 
+   * start camera in mobile app
    */
   startCamera() {
+    console.log('startCamera in app');
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
-    } else if(this.platform.is('hybrid')) {
+    } else if (this.platform.is('hybrid')) {
       this.startCameraInMobile();
     } else {
       this.startCameraInBrowser();
@@ -181,25 +188,26 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   /**
-   * start recording in mobile apps 
+   * start recording in mobile apps
    */
   startCameraInMobile() {
-
-    let options: CaptureVideoOptions= { 
+  console.log('startCameraInMobile');
+  const options: CaptureVideoOptions = {
       limit: 1,
       duration: 30
-    }
+    };
 
-    this.mediaCapture.captureVideo(options)
+  this.mediaCapture.captureVideo(options)
       .then(
         (data: MediaFile[]) => {
-          this.uploadFileViaNativeFilePath(data[1].fullPath);
+          console.log('success',data);
+          this.uploadFileViaNativeFilePath(data[0].fullPath);
         },
         async (err: CaptureError) => {
-
+          console.log('err', err);
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
-            message: this.translateService.transform("txt_recording_error", {
+            message: this.translateService.transform('txt_recording_error', {
               error: err
             }),
             buttons: [this.translateService.transform('Okay')]
@@ -211,25 +219,25 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   /**
-   * start recording in mobile browser 
+   * start recording in mobile browser
    */
   startCameraInBrowser() {
-
+    console.log('startCameraInBrowser');
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
         .then((stream) => {
-              
+
           window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-    
+
           this.stream = stream;
 
           this.shouldStop = false;
-  
+
           const options = { mimeType: 'video/' + this.format };
           const recordedChunks = [];
-          
+
           this.mediaRecorder = new MediaRecorder(stream, options);
 
-          //show live feed 
+          // show live feed
 
           setTimeout(() => {
 
@@ -239,9 +247,9 @@ export class UploadVideoPage implements OnInit, OnDestroy {
             player.onloadedmetadata = (e) => {
               player.play();
             };
-  
+
           });
-          
+
           this.mediaRecorder.addEventListener('dataavailable', (e) => {
             if (e.data.size > 0 && this.recording) {
               recordedChunks.push(e.data);
@@ -249,42 +257,42 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           });
 
           this.mediaRecorder.addEventListener('stop', () => {
-            
-            //downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-            //downloadLink.download = 'acetest.webm';
 
-            if(recordedChunks.length == 0) {
+            // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+            // downloadLink.download = 'acetest.webm';
+
+            if (recordedChunks.length == 0) {
               return false;
             }
 
             this.recording = false;
 
-            let file = new File([new Blob(recordedChunks, { type : 'video/' + this.format })], this.authService.id + ".mp4"); 
+            const file = new File([new Blob(recordedChunks, { type : 'video/' + this.format })], this.authService.id + '.mp4');
 
             this.uploadFile(file, {
-              'duration': (this.maxDuration - this.timer) + '',
+              duration: (this.maxDuration - this.timer) + '',
             });
-             
-            //no need to cancel recording on hardware back 
+
+            // no need to cancel recording on hardware back
 
             window['history-back-from'] = 'onDidDismiss';
             window.history.back();
 
           });
 
-          //this.mediaRecorder.start();
+          // this.mediaRecorder.start();
         })
         .catch(async (err) => {
 
-          //in case error from recording 
+          // in case error from recording
 
           this.stopRecording();
 
-          console.log("The following error occurred: " + err);
+          console.log('The following error occurred: ' + err);
 
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
-            message: this.translateService.transform("txt_recording_error", {
+            message: this.translateService.transform('txt_recording_error', {
               error: err.name
             }),
             buttons: [this.translateService.transform('Okay')]
@@ -293,22 +301,22 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           await alert.present();
         });
   }
-  
-  startCountDown() {
 
-    //window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+  startCountDown() {
+    console.log('startCountDown');
+    // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     this.recording = true;
 
     this.countDown = 3;
 
     let countDownTimer = setInterval(() => {
-      
-      if(this.countDown > 0) {
+
+      if (this.countDown > 0) {
         this.countDown --;
       }
 
-      if(this.countDown == 0) {
+      if (this.countDown == 0) {
         this.startRecording();
 
         clearInterval(countDownTimer);
@@ -319,57 +327,63 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   startRecording() {
-
-    //start timer 
+    console.log('start recording');
+    // start timer
 
     this.timer = this.maxDuration;
 
-    //start recorder after count down 
+    // start recorder after count down
 
     this.mediaRecorder.start();
-    
+
     this.interval = setInterval(() => {
 
-      //on timeout stop recording 
+      // on timeout stop recording
 
-      if(this.timer == 0)  {
+      if (this.timer == 0)  {
         this.stopRecording();
       }
 
-      if(this.timer > 0)
+      if (this.timer > 0) {
         this.timer--;
-      
-    }, 1000);  
+      }
+
+    }, 1000);
   }
 
   /**
    * stop recording in mobile browser
    */
   stopRecording() {
-        
+    console.log('stop recording');
     this.shouldStop = true;
 
-    if(this.interval) {
+    if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
+    console.log('mediaRecorder');
+    console.log(this.mediaRecorder);
 
-    if(this.mediaRecorder && this.mediaRecorder.state != "inactive")
+    if (this.mediaRecorder && this.mediaRecorder.state != 'inactive') {
       this.mediaRecorder.stop();
+    }
 
-    //stop camera 
-
-    if(this.stream)
+    // stop camera
+    console.log('stream');
+    console.log(this.stream);
+    if (this.stream) {
       this.stream.getTracks().forEach( (track) => {
         track.stop();
       });
+    }
   }
 
   /**
    * Upload video by native path
    */
   async uploadFileViaNativeFilePath(uri) {
-
+    console.log('uploadFileViaNativeFilePath');
     this.uploading = true;
 
     this.awsService.uploadNativePath(uri).then(o => {
@@ -438,7 +452,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * @param event
    */
   async browserUpload(event) {
-
+    console.log('browserUpload');
     const fileList: FileList = event.target.files;
 
     if (fileList.length == 0) {
@@ -446,7 +460,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
 
     this.validateVideoFile(fileList[0]).then(data => {
-     
+
       this.uploadFile(fileList[0]);
 
     }, err => {
@@ -459,30 +473,31 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     });
   }
-    
+
   validateVideoFile(file) {
+    console.log('validateVideoFile');
     return new Promise((resolve, reject) => {
       try {
-          let video = document.createElement('video');
-          video.preload = 'metadata'
-  
+          const video = document.createElement('video');
+          video.preload = 'metadata';
+
           video.onloadedmetadata = () => {
 
-            if(video.duration > this.maxDuration) {
+            if (video.duration > this.maxDuration) {
               reject(this.translateService.transform('Video duration can not exceed 30 second limit'));
             }
-            
+
             resolve(true);
-          }
-  
+          };
+
           video.onerror = () => {
               reject(this.translateService.transform('Invalid video. Please select a video file.'));
-          }
+          };
 
           const type = file.type.split('/')[0];
 
           if (type != 'video') {
-            reject(this.translateService.transform('Invalid File format'))
+            reject(this.translateService.transform('Invalid File format'));
           }
 
           video.src = window.URL.createObjectURL(file);
@@ -494,7 +509,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   uploadFile(file, metadata = {}) {
-
+    console.log('uploadFile');
     this.uploading = true;
 
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
@@ -546,7 +561,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
-    if (event.type === "progress") {
+    if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
       // this.progress = Math.round(100 * event.loaded / event.total);
 
@@ -573,17 +588,18 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {
-      if (overlay)
+      if (overlay) {
         this.modalCtrl.dismiss(data);
+      }
     });
   }
 
   /**
-   * cancel file upload 
+   * cancel file upload
    */
   cancelUpload() {
     this.progress = 0;
-    this.uploading = false; 
+    this.uploading = false;
 
     if (this.currentTarget) {
       this.currentTarget.abort();
@@ -606,7 +622,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.dismiss({
           remove_candidate_video: true
         });
-        
+
       } else {
 
         this.alertCtrl.create({
@@ -620,12 +636,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.deleting = false;
     });
   }
-  
+
   /**
    * save uploaded cv
    */
   async submit() {
-    
+    console.log('submit');
     this.loading = true;
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
@@ -643,7 +659,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.dismiss({
           candidate_video: res.candidate_video
         });
-        
+
       } else {
 
         this.alertCtrl.create({
@@ -657,6 +673,20 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.progress = 0;
       this.loading = false;
       this.uploading = false;
+    });
+  }
+
+  onDeviceReady() {
+    // pendingcaptureresult is fired if the capture call is successful
+    document.addEventListener('pendingcaptureresult', mediaFiles => {
+      console.log('success', mediaFiles);
+      // Do something with result
+    });
+
+    // pendingcaptureerror is fired if the capture call is unsuccessful
+    document.addEventListener('pendingcaptureerror', error => {
+      // Handle error case
+      console.log('error', error);
     });
   }
 }
