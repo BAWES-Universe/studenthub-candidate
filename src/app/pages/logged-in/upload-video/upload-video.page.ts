@@ -265,7 +265,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
           this.recording = false;
 
-          const file = new File([new Blob(recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + + this.format);
+          const file = new File([new Blob(recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
 
           this.uploadFile(file, {
             duration: (this.maxDuration - this.timer) + '',
