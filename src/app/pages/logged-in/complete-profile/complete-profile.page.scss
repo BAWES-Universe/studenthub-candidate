@@ -143,9 +143,26 @@ ion-list {
     }
 }
 
+.translate-link {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 94px;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4354a4;
+    z-index: 9999;
+    border-right: 1px solid;
+}
+
 .inTabs {
     h3, 
-    .btn-logout {
+    .btn-logout,
+    .translate-link{
         display: none;
     }
 }
@@ -167,4 +184,16 @@ ion-label ion-item {
     --padding-end: 0;
     --padding-start: 9px;
     border-bottom: solid 1px #bdbdbd;
+}
+[dir="rtl"] {
+    .translate-link {
+        border-left: 1px solid;
+        border-right: 0;
+        left:144px;
+        right:auto;
+    }
+    .btn-logout {
+        left: 12px;
+        right: auto;
+    }
 }

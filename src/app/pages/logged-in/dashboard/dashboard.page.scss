@@ -138,10 +138,20 @@ ion-card {
 ion-icon {
     font-size: 100px;
     position: absolute;
-    right: 7px;
     bottom: -49px;
     z-index: 999;
 }
+
+[dir="ltr"] ion-icon {
+    right: 7px;
+}
+
+[dir="rtl"] ion-icon {
+    left: 7px;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+}
+
 .white-bg {
     background: #fff;
 }

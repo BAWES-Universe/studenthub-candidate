@@ -189,8 +189,7 @@ export class AwsService {
             });
 
             currUpload.send((err, data) => {
-                if(err) {
-                    console.log(err);
+                if(err) { 
                     observer.error(err);
                 } else {
                     observer.next(data);
