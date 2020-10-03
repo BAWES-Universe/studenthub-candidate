@@ -243,15 +243,21 @@ export class LocationPage implements OnInit {
 
   setArea(country, area, latitude, longitude) {
 
+    if(!country || !area) {
+      return null;
+    }
+
     // reset search
     this.query = null;
 
     this.area = area;
 
     this.country = country;
+
     if (
         this.area.area_name_en &&
-        this.country.country_name_en) {
+        this.country.country_name_en) 
+    {
       this.selected = true;
     }
 

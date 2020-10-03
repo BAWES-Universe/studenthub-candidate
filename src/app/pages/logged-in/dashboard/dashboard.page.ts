@@ -135,7 +135,7 @@ export class DashboardPage implements OnInit {
   }
 
   getFirstName() {
-    if(this.authService.name) {
+    if(this.authService.name && this.authService.name.length > 1) {
       const FullName = this.authService.name.split(' ');
       return (FullName[0]) ? FullName[0] : this.authService.name;
     }
