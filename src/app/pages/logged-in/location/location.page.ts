@@ -35,8 +35,19 @@ export class LocationPage implements OnInit {
 
   public area;
   public country;
+  public country_name;
 
   public query: string = '';
+
+  public placeholders = {
+    'Kuwait' : 'Mishref / Salmiya / Jabriya / etc.',
+    'Bahrain' : 'Manama / Riffa / Muharraq / etc.',
+    'KSA': 'Riyadh / Jeddah / Mecca / etc.',
+    'Saudi Arabia': 'Riyadh / Jeddah / Mecca / etc.',
+    'UAE': 'Dubai / Abu Dhabi / Sharjah / etc.',
+    'United Arab Emirates': 'Dubai / Abu Dhabi / Sharjah / etc.',
+    'Qatar': 'Doha / Al Rayyan Municipality/ Al Wakrah / etc.',
+  }
 
   public selected = false;
 
@@ -63,8 +74,18 @@ export class LocationPage implements OnInit {
       ) {
       this.area = this.candidate.area;
       this.country = this.candidate.country;
+      this.country_name = this.translateService.langContent(this.candidate.country.country_name_en, this.candidate.country.country_name_ar);
       this.selected = true;
     }
+  }
+
+  onCountryChange(event) {    
+    this.area = null;
+    this.query = null;
+
+    setTimeout(() => {
+      this.searchInput.setFocus();
+    }, 500);    
   }
 
   initMap(lat, long): void {
@@ -91,7 +112,7 @@ export class LocationPage implements OnInit {
       return;
     }
 
-    this.googleMapService.getPlacePredictions(this.query).subscribe(result => {
+    this.googleMapService.getPlacePredictions(this.query, this.country_name).subscribe(result => {
 
       if (!result || result.length == 0) {
         return null;
@@ -331,6 +352,7 @@ export class LocationPage implements OnInit {
 
   reset() {
     this.selected = false;
+
   }
 }
 
