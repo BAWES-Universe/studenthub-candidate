@@ -15,7 +15,7 @@
       <ion-item *ngIf="area && country && area.area_name_en && country.country_name_en" class="selected_area" lines="none">
         <div tabindex="0"></div>
         <ion-label>
-          {{ area.area_name_en }} <span>{{ country.country_name_en }}</span>
+            {{ translateService.langContent(area.area_name_en, area.area_name_ar) }}<span *ngIf="country.country_name_en">, {{ translateService.langContent(country.country_name_en, country.country_name_ar) }}</span>
         </ion-label>
         <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>
       </ion-item>
