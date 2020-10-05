@@ -20,8 +20,8 @@ export class GoogleMapService {
      * Places list by keyword 
      * @returns {Observable<any>}
      */
-    getPlacePredictions(query: string): Observable<any> {
-        let url = this._googleMapEndpoint + 'place-predictions?query=' + query;
+    getPlacePredictions(query: string, country_name: string): Observable<any> {
+        let url = this._googleMapEndpoint + 'place-predictions?query=' + query + '&country_name=' + country_name;
         return this._authhttp.get(url);
     }
 
