@@ -48,8 +48,8 @@ export class UpdateBankPage implements OnInit {
   ngOnInit() {
     // Initialize the Login Form
     this.form = this.fb.group({
-      benef_name: [this.candidate.transfer_benef_name, [Validators.required]],
-      iban: [this.candidate.transfer_benef_iban, [Validators.required]]
+      benef_name: [this.candidate.bank_account_name, [Validators.required]],
+      iban: [this.candidate.candidate_iban, [Validators.required]]
     });
   }
 
