@@ -9,7 +9,7 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-      <ion-input type="text" #emailInput enterkeyhint='{{ "Continue" | translate }}'
+      <ion-input type="text" inputmode="email" #emailInput enterkeyhint='{{ "Continue" | translate }}'
                formControlName="email" placeholder="{{ 'Your Email' | translate }}"></ion-input>
 
       <ion-button class="btn-signup" [disabled]="!form.valid || isLoading" type="submit">
