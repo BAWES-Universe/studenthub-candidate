@@ -9,7 +9,7 @@
 
     <form [formGroup]="registerMobileForm" (ngSubmit)="onSubmit()" novalidate>
 
-      <ion-input type="email" #emailInput enterkeyhint='{{ "Continue" | translate }}'
+      <ion-input type="email" inputmode="email" #emailInput enterkeyhint='{{ "Continue" | translate }}'
                formControlName="email" placeholder="{{ 'Your Email' | translate }}"></ion-input>
 
       <ion-button class="btn-signup" [disabled]="!registerMobileForm.valid || isLoading" type="submit">
