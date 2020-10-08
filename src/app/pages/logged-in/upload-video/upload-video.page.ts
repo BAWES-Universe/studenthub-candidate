@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { environment } from 'src/environments/environment';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 // import * as cloudinary from "cloudinary-core";
 // services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
@@ -73,6 +74,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private mediaCapture: MediaCapture,
+    private androidPermissions: AndroidPermissions,
     public accountService: AccountService,
     public authService: AuthService,
     public sentryService: SentryErrorhandlerService,
@@ -196,25 +198,46 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       duration: 30
     };
 
-    this.mediaCapture.captureVideo(options)
-      .then(
-        (data: MediaFile[]) => {
-          if (data && data[0])
-            this.uploadFileViaNativeFilePath(data[0].fullPath);
-        },
-        async (err: CaptureError) => {
+    this.mediaCapture.captureVideo(options).then((data: MediaFile[]) => {
 
-          const alert = await this.alertCtrl.create({
-            header: this.translateService.transform('Error'),
-            message: this.translateService.transform('txt_recording_error', {
-              error: err
-            }),
-            buttons: [this.translateService.transform('Okay')]
-          });
+      if (!data || !data[0]) {
+        return false;
+      }
 
-          await alert.present();
-        }
-      );
+      if(this.platform.is('android')) {
+        
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if(result.hasPermission) {
+              this.uploadFileViaNativeFilePath(data[0].fullPath);
+            } else {
+              this.requestVideoReadPermission(data[0].fullPath);
+            }
+          },
+          err => this.requestVideoReadPermission(data[0].fullPath)        
+        );              
+      } else {
+        this.uploadFileViaNativeFilePath(data[0].fullPath);
+      }  
+    },
+    async (err: CaptureError) => {
+
+      const alert = await this.alertCtrl.create({
+        header: this.translateService.transform('Error'),
+        message: this.translateService.transform('txt_recording_error', {
+          error: err
+        }),
+        buttons: [this.translateService.transform('Okay')]
+      });
+
+      await alert.present();
+    });
+  }
+
+  requestVideoReadPermission(fullPath) {
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(e => {
+      if(e.hasPermission)
+        this.uploadFileViaNativeFilePath(fullPath);
+    });     
   }
 
   /**
@@ -452,6 +475,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         await alert.present();
       });
+    }, () => {
+      
+      this.progress = 0;
+
+      this.uploading = false;
     });
   }
 
