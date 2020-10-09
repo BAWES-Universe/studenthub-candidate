@@ -41,6 +41,8 @@ export class CompleteProfilePage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
+  public videoInterval;
+
   public submitting: boolean = false;
 
   public loading: boolean = false;
@@ -77,6 +79,13 @@ export class CompleteProfilePage implements OnInit {
 
     this.accountService.profile().subscribe(async res => {
       this.candidate = res;
+
+      //if video not processed keep pinging server 
+
+      if(!this.candidate.candidate_video_processed && !this.videoInterval) {
+        this.setVideoStatusSubsciption();
+      }
+
       // if (this.candidate.pendingField) {
       //   this.pendingFields = this.candidate.pendingField.join();
       //
@@ -102,6 +111,38 @@ export class CompleteProfilePage implements OnInit {
     }, () => {
       this.loading = false;
     });
+  }
+
+  setVideoStatusSubsciption() {
+
+    this.videoInterval = setInterval(() => {
+      this.checkVideoStatus();
+    }, 60 * 1000);//every minute //
+  }
+
+  /**
+   * check video status on cloudinary
+   */
+  checkVideoStatus() {
+    this.accountService.checkVideoStatus().subscribe(response => {
+
+      if(response.candidate_video_processed) {
+
+        clearInterval(this.videoInterval);
+
+        this.videoInterval = null;
+
+        this.candidate.candidate_video_processed = true;
+        this.candidate.candidate_video = response.candidate_video;
+        
+        //fire event to update video reference when available 
+        
+        this.eventService.candidateVideoProcessed$.next({
+          candidate_video: response.candidate_video,
+          candidate_video_processed: response.candidate_video_processed
+        });
+      }
+    })
   }
 
   async updateArea() {
@@ -315,6 +356,11 @@ export class CompleteProfilePage implements OnInit {
 
       if(e.data && e.data.candidate_video) {
         this.candidate.candidate_video = e.data.candidate_video;
+        this.candidate.candidate_video_processed = e.data.candidate_video_processed;
+
+        if(!this.candidate.candidate_video_processed) {
+          this.setVideoStatusSubsciption();
+        }
       }
       
       if(e.data && e.data.remove_candidate_video) {

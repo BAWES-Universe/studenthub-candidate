@@ -34,7 +34,18 @@
         <ion-label>
           <small>{{ "Introductory video" | translate }}</small>
           <span *ngIf="!candidate.candidate_video">{{ "Record a 30 second video introducing yourself" | translate }}</span>
-          <img width="126" (error)="onVideoError()" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+          
+          <div *ngIf="candidate.candidate_video" [class.video-processing]="!candidate.candidate_video_processed">
+
+            <img width="126" (error)="onVideoError()" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+            
+            <!-- show processing if video not processed -->
+            <span *ngIf="!candidate.candidate_video_processed">
+              <ion-icon name="hourglass-outline"></ion-icon>
+              {{ "Processing..." | translate }}
+            </span>
+          </div>
+
         </ion-label>
       </ion-item>
 

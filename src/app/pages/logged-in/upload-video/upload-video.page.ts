@@ -3,13 +3,16 @@ import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { environment } from 'src/environments/environment';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 // import * as cloudinary from "cloudinary-core";
+//import { Cloudinary } from '@cloudinary/angular-5.x'; 
 // services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 declare var MediaRecorder;
@@ -73,16 +76,28 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private mediaCapture: MediaCapture,
+    private androidPermissions: AndroidPermissions,
     public accountService: AccountService,
     public authService: AuthService,
+    public eventService: EventService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     public awsService: AwsService
   ) {
-    document.addEventListener('deviceready', this.onDeviceReady);
   }
 
   ngOnInit() {
+
+    //handle event to mark video processed
+    
+    this.eventService.candidateVideoProcessed$.subscribe((data : any) => {
+      this.candidate.candidate_video_processed = data.candidate_video_processed;
+      this.candidate.candidate_video = data.candidate_video;
+
+      setTimeout(() => {
+        this.loadVideo();
+      }, 200);
+    });
 
     if (navigator.mediaDevices) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -131,13 +146,21 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   loadVideo() {
-    if (this.candidate.candidate_video) {
-      const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
-      const demoplayer = cld.videoPlayer('video-player').width(250);
-      demoplayer.source(this.getVideoPublicId(this.candidate.candidate_video), {
-        sourceTypes: ['hls']
-      });
+    if (!this.candidate.candidate_video || !this.candidate.candidate_video_processed) {
+      return false;
     }
+      
+    const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
+    const player = cld.videoPlayer('video-player').width(250);
+      
+    player.source(this.getVideoPublicId(this.candidate.candidate_video), {
+        sourceTypes: ['hls', 'dash', 'webm', 'mp4', 'ogv'],
+        /*transformation: [
+          {
+            streaming_profile: 'hd',
+          }
+        ]*/
+    });
   }
 
   ngOnDestroy() {
@@ -196,25 +219,46 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       duration: 30
     };
 
-    this.mediaCapture.captureVideo(options)
-      .then(
-        (data: MediaFile[]) => {
-          if (data && data[0])
-            this.uploadFileViaNativeFilePath(data[0].fullPath);
-        },
-        async (err: CaptureError) => {
+    this.mediaCapture.captureVideo(options).then((data: MediaFile[]) => {
 
-          const alert = await this.alertCtrl.create({
-            header: this.translateService.transform('Error'),
-            message: this.translateService.transform('txt_recording_error', {
-              error: err
-            }),
-            buttons: [this.translateService.transform('Okay')]
-          });
+      if (!data || !data[0]) {
+        return false;
+      }
 
-          await alert.present();
-        }
-      );
+      if(this.platform.is('android')) {
+        
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+            if(result.hasPermission) {
+              this.uploadFileViaNativeFilePath(data[0].fullPath);
+            } else {
+              this.requestVideoReadPermission(data[0].fullPath);
+            }
+          },
+          err => this.requestVideoReadPermission(data[0].fullPath)        
+        );              
+      } else {
+        this.uploadFileViaNativeFilePath(data[0].fullPath);
+      }  
+    },
+    async (err: CaptureError) => {
+ 
+      const alert = await this.alertCtrl.create({
+        header: this.translateService.transform('Error'),
+        message: this.translateService.transform('txt_recording_error', {
+          error: err
+        }),
+        buttons: [this.translateService.transform('Okay')]
+      });
+
+      await alert.present();
+    }); 
+  }
+
+  requestVideoReadPermission(fullPath) {
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(e => {
+      if(e.hasPermission)
+        this.uploadFileViaNativeFilePath(fullPath);
+    });     
   }
 
   /**
@@ -452,7 +496,24 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         await alert.present();
       });
+    }, () => {
+      
+      this.progress = 0;
+
+      this.uploading = false;
     });
+  }
+
+  onVideoError() {
+    this.candidate.candidate_video = null;
+  }
+  
+  /**
+   * cloudinary video thumbnail url
+   * @param candidate_video 
+   */
+  thumbnailUrl(candidate_video) {
+    return candidate_video.split('.')[0] + '.jpg';
   }
 
   /**
@@ -522,7 +583,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
       this._handleFileSuccess(event);
     }, async err => {
-
+ 
       if (!err.message || !err.message.includes('aborted')) {
 
         // log to sentry
@@ -552,8 +613,9 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * Handle file upload success
    * @param event
    */
-  public _handleFileSuccess(event) {
-    let count = 1;
+  public _handleFileSuccess(event) { 
+
+    /*let count = 1;
 
     if (!this.progressInterval) {
 
@@ -564,13 +626,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           }
         });
       }, 1500);
-    }
+    }*/
 
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      // this.progress = Math.round(100 * event.loaded / event.total);
+      this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
@@ -661,10 +723,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         this.candidate.tempLocation = null;
         this.candidate.candidate_video = res.candidate_video;
+        this.candidate.candidate_video_processed = false;
 
         // this.loadVideo();
         this.dismiss({
-          candidate_video: res.candidate_video
+          candidate_video: res.candidate_video,
+          candidate_video_processed: false
         });
 
       } else {
@@ -680,20 +744,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.progress = 0;
       this.loading = false;
       this.uploading = false;
-    });
-  }
-
-  onDeviceReady() {
-    // pendingcaptureresult is fired if the capture call is successful
-    document.addEventListener('pendingcaptureresult', mediaFiles => {
-      console.log('success', mediaFiles);
-      // Do something with result
-    });
-
-    // pendingcaptureerror is fired if the capture call is unsuccessful
-    document.addEventListener('pendingcaptureerror', error => {
-      // Handle error case
-      console.log('error', error);
     });
   }
 }

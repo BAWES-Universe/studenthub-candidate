@@ -27,8 +27,20 @@
                     *ngIf="!candidate.tempLocation">
                 </cl-video>-->
                   
+                <!-- show processing if video not processed -->
+                   
+                <div *ngIf="!candidate.tempLocation && !candidate.candidate_video_processed" class="video-processing">
+
+                    <img width="250" (error)="onVideoError()" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+                    
+                    <span>
+                        <ion-icon name="hourglass-outline"></ion-icon>
+                        {{ "Processing..." | translate }}
+                    </span>
+                </div>
+
                 <video controls preload="none" id="video-player"
-                    *ngIf="!candidate.tempLocation"></video>
+                    *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"></video>
                     
                 <video controls preload="none" [src]="candidate.tempLocation"
                     *ngIf="candidate.tempLocation"></video>
