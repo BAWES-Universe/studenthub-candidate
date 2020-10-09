@@ -197,3 +197,18 @@ ion-label ion-item {
         right: auto;
     }
 }
+
+.video-processing {
+    position: relative;
+
+    img {
+        opacity: 0.5;
+    }
+
+    span {
+        position: absolute;
+        left: 16px;
+        display: block;
+        top: calc(50% - 11px);
+    }
+}

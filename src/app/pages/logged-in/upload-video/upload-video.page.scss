@@ -315,3 +315,18 @@ p {
     margin: 0 auto;
     text-align: center;
 }
+
+.video-processing {
+    position: relative;
+
+    img {
+        opacity: 0.5;
+    }
+
+    span {
+        position: absolute;
+        left: calc(50% - 53.5px);
+        display: block;
+        top: calc(50% - 11px);
+    }
+}

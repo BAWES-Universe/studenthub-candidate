@@ -145,6 +145,7 @@ export class DashboardPage implements OnInit {
     this.accountService.profile().subscribe(data => {
 
       this.candidate = data;
+
     }, () => {
       this.updating = false;
     });
