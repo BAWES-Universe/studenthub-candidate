@@ -4,8 +4,6 @@ import { AlertController, LoadingController, ModalController, Platform, PopoverC
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
 import { environment } from 'src/environments/environment';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-// import * as cloudinary from "cloudinary-core";
-//import { Cloudinary } from '@cloudinary/angular-5.x'; 
 // services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -151,6 +149,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
       
     const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
+    
     const player = cld.videoPlayer('video-player').width(250);
       
     player.source(this.getVideoPublicId(this.candidate.candidate_video), {
