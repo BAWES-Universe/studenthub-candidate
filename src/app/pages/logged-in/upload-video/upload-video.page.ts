@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { environment } from 'src/environments/environment';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 // services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
@@ -14,8 +13,6 @@ import { EventService } from 'src/app/providers/event.service';
 
 
 declare var MediaRecorder;
-
-declare var cloudinary;
 
 @Component({
   selector: 'app-upload-video',
@@ -67,7 +64,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   public format = 'webm'; // webm
 
   constructor(
-    private _ngzone: NgZone,
     public platform: Platform,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
@@ -81,7 +77,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     public awsService: AwsService
-  ) {
+  ) { 
   }
 
   ngOnInit() {
@@ -91,10 +87,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     this.eventService.candidateVideoProcessed$.subscribe((data : any) => {
       this.candidate.candidate_video_processed = data.candidate_video_processed;
       this.candidate.candidate_video = data.candidate_video;
-
-      setTimeout(() => {
-        this.loadVideo();
-      }, 200);
     });
 
     if (navigator.mediaDevices) {
@@ -140,26 +132,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter() {
-    this.loadVideo();
-  }
-
-  loadVideo() {
-    if (!this.candidate.candidate_video || !this.candidate.candidate_video_processed) {
-      return false;
-    }
-      
-    const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
-    
-    const player = cld.videoPlayer('video-player').width(250);
-      
-    player.source(this.getVideoPublicId(this.candidate.candidate_video), {
-        sourceTypes: ['hls', 'dash', 'webm', 'mp4', 'ogv'],
-        /*transformation: [
-          {
-            streaming_profile: 'hd',
-          }
-        ]*/
-    });
   }
 
   ngOnDestroy() {
@@ -185,14 +157,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     if (!this.shouldStop) {
       this.stopRecording();
     }
-  }
-
-  getVideoPublicId(candidate_video) {
-    if (environment.production) {
-      return 'candidate-video/' + candidate_video.split('.')[0];
-    }
-
-    return 'dev/candidate-video/' + candidate_video.split('.')[0];
   }
 
   /**
@@ -721,13 +685,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       if (res.operation == 'success') {
 
         this.candidate.tempLocation = null;
-        this.candidate.candidate_video = res.candidate_video;
         this.candidate.candidate_video_processed = false;
+        this.candidate.candidate_video = res.candidate_video; 
 
         // this.loadVideo();
         this.dismiss({
-          candidate_video: res.candidate_video,
-          candidate_video_processed: false
+          candidate_video_processed: false,
+          candidate_video: res.candidate_video
         });
 
       } else {
