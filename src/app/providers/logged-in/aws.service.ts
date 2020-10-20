@@ -18,7 +18,6 @@ export class AwsService {
 
     public permanentBucketUrl = environment.permanentBucketUrl;
     public cloudinaryUrl = environment.cloudinaryUrl;
-    public cloudinaryVideoUrl = environment.cloudinaryVideoUrl;
     
     private _region = 'eu-west-2'; // London
     private _access_key_uuid = 'AKIAJXOMRCDE65WKBPUA';

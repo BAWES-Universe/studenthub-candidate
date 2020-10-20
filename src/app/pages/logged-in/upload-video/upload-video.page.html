@@ -16,22 +16,10 @@
     
             <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
 
-                <!--
-                <cl-video [public-id]="getVideoPublicId(candidate.candidate_video)" 
-                    width="250px"
-                    cloud_name="studenthub" 
-                    controls="true" preload="none" 
-                    class="cld-video-player cld-video-player-skin-light manipulation-video"
-                    fallback-content="Your browser does not support HTML5 video tags"
-                    data-cld-source-types='["hls"]'
-                    *ngIf="!candidate.tempLocation">
-                </cl-video>-->
-                  
-                <!-- show processing if video not processed -->
-                   
+
                 <div *ngIf="!candidate.tempLocation && !candidate.candidate_video_processed" class="video-processing">
 
-                    <img width="250" (error)="onVideoError()" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+                    <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
                     
                     <span>
                         <ion-icon name="hourglass-outline"></ion-icon>
@@ -39,8 +27,11 @@
                     </span>
                 </div>
 
-                <video controls preload="none" id="video-player"
-                    *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"></video>
+                <video controls preload="none" id="video-player" *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"
+                    [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_id + '.jpg'">
+                    <source src="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
+                      type="video/mp4">
+                </video>
                     
                 <video controls preload="none" [src]="candidate.tempLocation"
                     *ngIf="candidate.tempLocation"></video>
