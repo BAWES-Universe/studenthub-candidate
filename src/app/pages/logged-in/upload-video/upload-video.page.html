@@ -28,7 +28,7 @@
                 </div>
 
                 <video controls preload="none" id="video-player" *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"
-                    [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg'">
+                    [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_id + '.jpg'">
                     <source src="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
                       type="video/mp4">
                 </video>
