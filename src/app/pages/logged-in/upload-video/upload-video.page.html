@@ -19,8 +19,8 @@
 
                 <div *ngIf="!candidate.tempLocation && !candidate.candidate_video_processed" class="video-processing">
 
-                    <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
-                    
+                     <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_id + '.jpg' }}" />
+                        
                     <span>
                         <ion-icon name="hourglass-outline"></ion-icon>
                         {{ "Processing..." | translate }}

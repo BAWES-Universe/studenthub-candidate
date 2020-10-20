@@ -470,14 +470,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   onVideoError() {
     this.candidate.candidate_video = null;
   }
-  
-  /**
-   * cloudinary video thumbnail url
-   * @param candidate_video 
-   */
-  thumbnailUrl(candidate_video) {
-    return candidate_video.split('.')[0] + '.jpg';
-  }
 
   /**
    * Upload video from browser
