@@ -38,7 +38,8 @@
           
           <div *ngIf="candidate.candidate_video" [class.video-processing]="!candidate.candidate_video_processed">
 
-            <img width="126" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_id + '.jpg' }}" />
+            <img width="126" (error)="onVideoError()" 
+              src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
 
             <!-- show processing if video not processed -->
             <span *ngIf="!candidate.candidate_video_processed">
