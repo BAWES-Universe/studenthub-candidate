@@ -19,7 +19,7 @@
 
                 <div *ngIf="!candidate.tempLocation && !candidate.candidate_video_processed" class="video-processing">
 
-                     <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_id + '.jpg' }}" />
+                     <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
                         
                     <span>
                         <ion-icon name="hourglass-outline"></ion-icon>
@@ -28,7 +28,7 @@
                 </div>
 
                 <video controls preload="none" id="video-player" *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"
-                    [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_id + '.jpg'">
+                    [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg'">
                     <source src="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
                       type="video/mp4">
                 </video>
