@@ -117,7 +117,7 @@ export class CompleteProfilePage implements OnInit {
 
     this.videoInterval = setInterval(() => {
       this.checkVideoStatus();
-    }, 60 * 1000);//every minute //
+    }, 5 * 1000);//every 5 second
   }
 
   /**
