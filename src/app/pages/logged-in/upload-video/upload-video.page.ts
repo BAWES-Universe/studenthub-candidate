@@ -630,6 +630,9 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * remove video from S3
+   */
   delete() {
 
     this.deleting = true;
@@ -677,12 +680,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       if (res.operation == 'success') {
 
         this.candidate.tempLocation = null;
-        this.candidate.candidate_video_processed = false;
+        this.candidate.candidate_video_processed = res.candidate_video_processed;
         this.candidate.candidate_video = res.candidate_video; 
 
         // this.loadVideo();
         this.dismiss({
-          candidate_video_processed: false,
+          candidate_video_processed: res.candidate_video_processed,
           candidate_video: res.candidate_video
         });
 
