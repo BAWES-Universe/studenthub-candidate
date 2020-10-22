@@ -195,6 +195,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       if(this.platform.is('android')) {
         
         this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+           
             if(result.hasPermission) {
               this.uploadFileViaNativeFilePath(data[0].fullPath);
             } else {
@@ -204,6 +205,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           err => this.requestVideoReadPermission(data[0].fullPath)        
         );              
       } else {
+           
         this.uploadFileViaNativeFilePath(data[0].fullPath);
       }  
     },
@@ -221,10 +223,25 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }); 
   }
 
+  /**
+   * request storage permission
+   * @param fullPath 
+   */
   requestVideoReadPermission(fullPath) {
-    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(e => {
-      if(e.hasPermission)
+
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(async e => {
+      if(e.hasPermission) {
         this.uploadFileViaNativeFilePath(fullPath);
+      } else {
+
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: this.translateService.transform('Missing storage permission to upload video'),
+          buttons: [this.translateService.transform('Okay')]
+        });
+
+        await alert.present();
+      }
     });     
   }
 
