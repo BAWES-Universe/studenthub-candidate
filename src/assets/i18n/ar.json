@@ -218,5 +218,6 @@
     "Dubai / Abu Dhabi / Sharjah / etc.": "دبي / أبو ظبي / الشارقة / إلخ.",
     "Riyadh / Jeddah / Mecca / etc.": "الرياض / جدة / مكة / الخ.",
     "Manama / Riffa / Muharraq / etc.": "المنامة / الرفاع / المحرق / إلخ.",
-    "Processing...": "معالجة..."
+    "Processing...": "معالجة...",
+    "Missing storage permission to upload video": "لا يوجد إذن تخزين لتحميل الفيديو"
 }
