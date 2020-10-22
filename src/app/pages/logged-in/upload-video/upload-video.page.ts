@@ -63,6 +63,10 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public format = 'webm'; // webm
 
+  public recordedChunks = [];
+
+  public playingRecording: boolean = false; 
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
@@ -238,7 +242,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.shouldStop = false;
 
         const options = { mimeType: 'video/' + this.format };
-        const recordedChunks = [];
+
+        this.recordedChunks = [];
 
         this.mediaRecorder = new MediaRecorder(stream, options);
 
@@ -252,31 +257,30 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           player.onloadedmetadata = (e) => {
             player.play();
           };
-
         });
 
         this.mediaRecorder.addEventListener('dataavailable', (e) => {
           if (e.data.size > 0 && this.recording) {
-            recordedChunks.push(e.data);
+            this.recordedChunks.push(e.data);
           }
         });
 
         this.mediaRecorder.addEventListener('stop', () => {
 
-          // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+          //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
 
-          if (recordedChunks.length == 0) {
+          const player = this.player.nativeElement;
+          player.muted = false;
+          player.volume = 1;
+          player.src = URL.createObjectURL(new Blob(this.recordedChunks));
+          player.pause();
+
+          if (this.recordedChunks.length == 0) {
             return false;
           }
 
           this.recording = false;
-
-          const file = new File([new Blob(recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
-
-          this.uploadFile(file, {
-            duration: (this.maxDuration - this.timer) + '',
-          });
 
           // no need to cancel recording on hardware back
 
@@ -594,11 +598,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.candidate.tempLocation = event.Location;
       this.candidate.candidate_video = event.Key;
 
-      this.progress = 0;
-      this.uploading = false;
-      clearInterval(this.progressInterval);
-      this.progressInterval = null;
-
       // auto save
       this.submit();
 
@@ -661,6 +660,44 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       }
     }, () => {
       this.deleting = false;
+    });
+  }
+
+  /**
+   * toogle recorded video status
+   */
+  togglePlayer() {
+    const video = this.player.nativeElement;
+
+    if (video.paused == true) { 
+      
+      this.playingRecording = true;
+      video.play();
+    } else { 
+      video.pause();
+      video.currentTime = 0;
+      this.playingRecording = false;
+    }
+  }
+
+  onRecodingPlayerEnded() {
+    this.playingRecording = false;
+  }
+
+  /**
+   * save recording 
+   */
+  saveRecording() {
+
+    const player = this.player.nativeElement;
+    player.muted = true;
+    player.volume = 0;
+    player.pause();
+      
+    const file = new File([new Blob(this.recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
+
+    this.uploadFile(file, {
+      duration: (this.maxDuration - this.timer) + '',
     });
   }
 
