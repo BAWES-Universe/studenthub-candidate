@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
@@ -68,6 +68,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   public playingRecording: boolean = false; 
 
   constructor(
+    private _ngzone: NgZone,
     public platform: Platform,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
@@ -166,13 +167,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   /**
    * start camera in mobile app
    */
-  startCamera() {
+  startCamera(immediate = false) {
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
       this.startCameraInMobile();
     } else {
-      this.startCameraInBrowser();
+      this.startCameraInBrowser(immediate);
     }
   }
 
@@ -248,7 +249,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   /**
    * start recording in mobile browser
    */
-  startCameraInBrowser() {
+  startCameraInBrowser(immediate = false) {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then((stream) => {
 
@@ -283,7 +284,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
 
         this.mediaRecorder.addEventListener('stop', () => {
-
+ 
           //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
 
@@ -293,11 +294,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           player.src = URL.createObjectURL(new Blob(this.recordedChunks));
           player.pause();
 
+          this.recording = false;
+
           if (this.recordedChunks.length == 0) {
             return false;
           }
-
-          this.recording = false;
 
           // no need to cancel recording on hardware back
 
@@ -307,6 +308,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
 
         // this.mediaRecorder.start();
+
+        if(immediate) {
+          this.startCountDown();
+        }
+
       })
       .catch(async (err) => {
 
@@ -405,6 +411,18 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     if (this.mediaRecorder && this.mediaRecorder.state != 'inactive') {
       this.mediaRecorder.stop();
+    } else { 
+
+      this.recordedChunks = [];
+
+      const player = this.player.nativeElement;
+      player.muted = true;
+      player.volume = 0;
+      player.src = '';
+      player.pause();
+
+      this.recording = false;
+      this.shouldStop = true;
     }
 
     // stop camera 
@@ -591,7 +609,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    */
   public _handleFileSuccess(event) { 
 
-    /*let count = 1;
+    let count = 1;
 
     if (!this.progressInterval) {
 
@@ -602,13 +620,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           }
         });
       }, 1500);
-    }*/
+    }
 
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      //this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
@@ -727,6 +745,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
 
+      this.recordedChunks = [];
       this.progress = 0;
       this.uploading = false;
       this.loading = false;

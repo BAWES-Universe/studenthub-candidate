@@ -2,7 +2,7 @@
 
     <div class="max-width">
 
-        <ion-button fill="clear" (click)="dismiss()" *ngIf="shouldStop" class="btn-close">
+        <ion-button fill="clear" (click)="dismiss()" *ngIf="shouldStop && !uploading" class="btn-close">
             <img src="assets/images/ic_cancel.svg" />
         </ion-button>
         
@@ -69,30 +69,37 @@
                 {{ countDown }}
             </span>
 
-            <div *ngIf="countDown == 0 && !recording" class="btn-wrapper">
-
-                <ion-button tabindex="3" class="btn-start-recording" *ngIf="recordedChunks.length == 0" (click)="startCountDown()">
-                    {{ "Start recording" | translate }}
-                </ion-button>
-
-                <ion-button tabindex="4" *ngIf="recordedChunks.length > 0" class="btn-start-recording" (click)="saveRecording()">
-                    {{ "Save" | translate }}
-                </ion-button>
-
-                <ion-button tabindex="3" *ngIf="recordedChunks.length > 0" class="btn-restart-recording" (click)="startCamera()">
-                    {{ "Re-take" | translate }}
-                </ion-button>
+            <div class="btn-wrapper">
+                <ion-grid *ngIf="countDown == 0 && !recording">
+                    <ion-row>
+                        <ion-col *ngIf="recordedChunks.length == 0">
+                            <ion-button tabindex="3" class="btn-start-recording" (click)="startCountDown()">
+                                <ion-icon slot="start" name="videocam-outline"></ion-icon> {{ "Start recording" | translate }}
+                            </ion-button>
+                        </ion-col>
+                        <ion-col *ngIf="recordedChunks.length > 0">
+                            <ion-button tabindex="4" class="btn-start-recording" (click)="saveRecording()">
+                                <ion-icon slot="start" name="save-outline"></ion-icon> {{ "Save" | translate }}
+                            </ion-button>
+                        </ion-col>
+                        <ion-col *ngIf="recordedChunks.length > 0">
+                            <ion-button tabindex="3" class="btn-restart-recording" (click)="startCamera(true)">
+                                <ion-icon slot="start" name="videocam-outline"></ion-icon> {{ "Re-take" | translate }}
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button tabindex="5" class="btn-cancel-upload" color="light" (click)="stopRecording()">
+                                <ion-icon slot="start" name="close-outline"></ion-icon> {{ "Cancel" | translate }}
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
                 
-                <ion-button tabindex="5" class="btn-cancel-upload" color="light" (click)="stopRecording()">
-                    {{ "Cancel" | translate }}
+                <ion-button *ngIf="countDown == 0 && recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
+                    <b>{{ "Stop recording" | translate }}</b>
+                    <span>{{ "txt_time_elapsed" | translate : { seconds: timer } }}</span>
                 </ion-button>
             </div>
-            
-            <ion-button *ngIf="countDown == 0 && recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
-                <b>{{ "Stop recording" | translate }}</b>
-                <span>{{ "txt_time_elapsed" | translate : { seconds: timer } }}</span>
-            </ion-button>
-
 
         </div>
 

@@ -36,16 +36,10 @@
 
           <span *ngIf="!candidate.candidate_video">{{ "Record a 30 second video introducing yourself" | translate }}</span>
           
-          <div *ngIf="candidate.candidate_video" [class.video-processing]="!candidate.candidate_video_processed">
+          <div *ngIf="candidate.candidate_video">
 
             <img width="126" (error)="onVideoError()" 
               src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
-
-            <!-- show processing if video not processed -->
-            <span *ngIf="!candidate.candidate_video_processed">
-              <ion-icon name="hourglass-outline"></ion-icon>
-              {{ "Processing..." | translate }}
-            </span>
           </div>
 
         </ion-label>
