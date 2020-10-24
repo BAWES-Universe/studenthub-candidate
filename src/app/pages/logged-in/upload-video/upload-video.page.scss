@@ -207,9 +207,11 @@ p {
     left: 0;
 }
 
+
 .btn-cancel-upload,
 .btn-start-recording,
 .btn-stop-recording,
+.btn-restart-recording,
 .btn-submit {
     width: 100%;
     height: 53px;
@@ -221,32 +223,35 @@ p {
     line-height: 1.65;
     letter-spacing: normal;
     border-radius: 22px;
-    margin-top: 32px;
     --border-radius: 22px;
     --box-shadow: none;
 }
 
 .btn-wrapper {
-    bottom: 40px;
+    bottom: 20px;
     position: fixed;
     width: calc(100% - 60px);
-
+    max-width: 800px;
+    
     .btn-start-recording {
         --background: #eb5757;
     }
 
+    .btn-restart-recording {
+        --background: var(--ion-color-warning);
+    }
+
     .btn-cancel-upload {
-        margin-top: 20px;
         --background: #fff;
         --color: #333333;
     }
 }
 
 .btn-stop-recording {
-    width: calc(100% - 60px);
+    width: 100%;
     height: 68px;
     position: absolute;
-    bottom: 40px;
+    bottom: 0px;
     margin: 0;
     --color: #333333;
     --background: #ffffff;
@@ -329,4 +334,21 @@ p {
         display: block;
         top: calc(50% - 11px);
     }
+}
+
+.btn-toogle-video {
+    position: absolute;
+    z-index: 1;
+    left: calc(50% - 25px);
+    top: calc(50% - 60px);
+    --border-radius: 100%;
+    height: 60px;
+    width: 60px;
+    --background: none;
+    --box-shadow: none;
+    font-size: 60px;
+    --padding-bottom: 0;
+    --padding-top: 0;
+    --padding-start: 0;
+    --padding-end: 0;
 }

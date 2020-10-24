@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
@@ -63,7 +63,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public format = 'webm'; // webm
 
+  public recordedChunks = [];
+
+  public playingRecording: boolean = false; 
+
   constructor(
+    private _ngzone: NgZone,
     public platform: Platform,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
@@ -162,13 +167,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   /**
    * start camera in mobile app
    */
-  startCamera() {
+  startCamera(immediate = false) {
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
       this.startCameraInMobile();
     } else {
-      this.startCameraInBrowser();
+      this.startCameraInBrowser(immediate);
     }
   }
 
@@ -191,6 +196,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       if(this.platform.is('android')) {
         
         this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+           
             if(result.hasPermission) {
               this.uploadFileViaNativeFilePath(data[0].fullPath);
             } else {
@@ -200,6 +206,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           err => this.requestVideoReadPermission(data[0].fullPath)        
         );              
       } else {
+           
         this.uploadFileViaNativeFilePath(data[0].fullPath);
       }  
     },
@@ -217,17 +224,32 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }); 
   }
 
+  /**
+   * request storage permission
+   * @param fullPath 
+   */
   requestVideoReadPermission(fullPath) {
-    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(e => {
-      if(e.hasPermission)
+
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(async e => {
+      if(e.hasPermission) {
         this.uploadFileViaNativeFilePath(fullPath);
+      } else {
+
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: this.translateService.transform('Missing storage permission to upload video'),
+          buttons: [this.translateService.transform('Okay')]
+        });
+
+        await alert.present();
+      }
     });     
   }
 
   /**
    * start recording in mobile browser
    */
-  startCameraInBrowser() {
+  startCameraInBrowser(immediate = false) {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then((stream) => {
 
@@ -238,7 +260,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.shouldStop = false;
 
         const options = { mimeType: 'video/' + this.format };
-        const recordedChunks = [];
+
+        this.recordedChunks = [];
 
         this.mediaRecorder = new MediaRecorder(stream, options);
 
@@ -252,31 +275,30 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           player.onloadedmetadata = (e) => {
             player.play();
           };
-
         });
 
         this.mediaRecorder.addEventListener('dataavailable', (e) => {
           if (e.data.size > 0 && this.recording) {
-            recordedChunks.push(e.data);
+            this.recordedChunks.push(e.data);
           }
         });
 
         this.mediaRecorder.addEventListener('stop', () => {
-
-          // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+ 
+          //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
 
-          if (recordedChunks.length == 0) {
-            return false;
-          }
+          const player = this.player.nativeElement;
+          player.muted = false;
+          player.volume = 1;
+          player.src = URL.createObjectURL(new Blob(this.recordedChunks));
+          player.pause();
 
           this.recording = false;
 
-          const file = new File([new Blob(recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
-
-          this.uploadFile(file, {
-            duration: (this.maxDuration - this.timer) + '',
-          });
+          if (this.recordedChunks.length == 0) {
+            return false;
+          }
 
           // no need to cancel recording on hardware back
 
@@ -286,6 +308,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
 
         // this.mediaRecorder.start();
+
+        if(immediate) {
+          this.startCountDown();
+        }
+
       })
       .catch(async (err) => {
 
@@ -384,6 +411,18 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     if (this.mediaRecorder && this.mediaRecorder.state != 'inactive') {
       this.mediaRecorder.stop();
+    } else { 
+
+      this.recordedChunks = [];
+
+      const player = this.player.nativeElement;
+      player.muted = true;
+      player.volume = 0;
+      player.src = '';
+      player.pause();
+
+      this.recording = false;
+      this.shouldStop = true;
     }
 
     // stop camera 
@@ -570,7 +609,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    */
   public _handleFileSuccess(event) { 
 
-    /*let count = 1;
+    let count = 1;
 
     if (!this.progressInterval) {
 
@@ -581,23 +620,18 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           }
         });
       }, 1500);
-    }*/
+    }
 
     // Via this API, you get access to the raw event stream.
     // Look for upload progress events.
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      this.progress = Math.round(100 * event.loaded / event.total);
+      //this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
       this.candidate.tempLocation = event.Location;
       this.candidate.candidate_video = event.Key;
-
-      this.progress = 0;
-      this.uploading = false;
-      clearInterval(this.progressInterval);
-      this.progressInterval = null;
 
       // auto save
       this.submit();
@@ -665,6 +699,44 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   /**
+   * toogle recorded video status
+   */
+  togglePlayer() {
+    const video = this.player.nativeElement;
+
+    if (video.paused == true) { 
+      
+      this.playingRecording = true;
+      video.play();
+    } else { 
+      video.pause();
+      video.currentTime = 0;
+      this.playingRecording = false;
+    }
+  }
+
+  onRecodingPlayerEnded() {
+    this.playingRecording = false;
+  }
+
+  /**
+   * save recording 
+   */
+  saveRecording() {
+
+    const player = this.player.nativeElement;
+    player.muted = true;
+    player.volume = 0;
+    player.pause();
+      
+    const file = new File([new Blob(this.recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
+
+    this.uploadFile(file, {
+      duration: (this.maxDuration - this.timer) + '',
+    });
+  }
+
+  /**
    * save uploaded cv
    */
   async submit() {
@@ -673,6 +745,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
 
+      this.recordedChunks = [];
       this.progress = 0;
       this.uploading = false;
       this.loading = false;
