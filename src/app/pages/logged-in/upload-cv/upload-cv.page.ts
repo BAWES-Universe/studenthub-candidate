@@ -303,4 +303,8 @@ export class UploadCvPage implements OnInit {
       this.loading = false;
     });
   }
+
+  getResumeUrl(candidate) {
+    return this.awsService.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+  }
 }
