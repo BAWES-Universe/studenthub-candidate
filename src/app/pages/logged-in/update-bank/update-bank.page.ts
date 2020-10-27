@@ -74,6 +74,17 @@ export class UpdateBankPage implements OnInit {
       return false;
     }
 
+    const benef_name = this.form.value.benef_name.split(' ').length;
+
+    if (benef_name == 1) {
+      const prompt = await this.alertCtrl.create({
+        message: this.translateService.transform('Please specify your full name'),
+        buttons: [this.translateService.transform('ok')]
+      });
+      prompt.present();
+      return false;
+    }
+
     this.isLoading = true;
 
     this.accountService.updateBankDetail(this.form.value).subscribe(async res => {
