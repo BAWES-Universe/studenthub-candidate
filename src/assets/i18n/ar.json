@@ -221,4 +221,6 @@
     "Processing...": "معالجة...",
     "Missing storage permission to upload video": "لا يوجد إذن تخزين لتحميل الفيديو",
     "Missing required permission": "الإذن المطلوب مفقود",
+    "Please specify your full name" : "يرجى تحديد الاسم الكامل الخاص بك",
+    "ok" :"حسنا"
 }
