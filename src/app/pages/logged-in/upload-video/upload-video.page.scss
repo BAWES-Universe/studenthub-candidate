@@ -207,7 +207,7 @@ p {
     left: 0;
 }
 
-
+.btn-try-again,
 .btn-cancel-upload,
 .btn-start-recording,
 .btn-stop-recording,
@@ -351,4 +351,18 @@ p {
     --padding-top: 0;
     --padding-start: 0;
     --padding-end: 0;
+}
+
+.missing-permission {
+    text-align: center;
+
+    ion-icon {
+        font-size: 36px;
+        text-align: center;
+        margin: auto;
+    }
+
+    h2 {
+        margin-bottom: 60px;
+    }
 }

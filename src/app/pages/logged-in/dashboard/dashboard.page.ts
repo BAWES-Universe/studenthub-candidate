@@ -55,7 +55,7 @@ export class DashboardPage implements OnInit {
     
     const agent = window.navigator.userAgent.toLowerCase();
 
-    if(this.platform.is('ios') && agent.indexOf('safari') > -1 && (!window.safari || !window.safari.pushNotification)) {
+    if (this.platform.is('ios') && agent.indexOf('safari') > -1 && !(agent.indexOf('chrome') > -1) && (!window.safari || !window.safari.pushNotification)) {
       this.pushNotificationAvailable = false; // ios browser not supporting push notification
     }
 
