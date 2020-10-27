@@ -67,6 +67,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public playingRecording: boolean = false; 
 
+  public havePermission = true; 
+
   constructor(
     private _ngzone: NgZone,
     public platform: Platform,
@@ -168,6 +170,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * start camera in mobile app
    */
   startCamera(immediate = false) {
+    this.havePermission = true; 
+    
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
@@ -235,6 +239,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.uploadFileViaNativeFilePath(fullPath);
       } else {
 
+        this.havePermission = false;
+
         const alert = await this.alertCtrl.create({
           header: this.translateService.transform('Error'),
           message: this.translateService.transform('Missing storage permission to upload video'),
@@ -250,6 +256,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * start recording in mobile browser
    */
   startCameraInBrowser(immediate = false) {
+
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then((stream) => {
 
@@ -268,13 +275,14 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         // show live feed
 
         setTimeout(() => {
-
-          const player = this.player.nativeElement;
-          player.srcObject = stream;
-          player.muted = true;
-          player.onloadedmetadata = (e) => {
-            player.play();
-          };
+          if(this.player && this.player.nativeElement) {
+            const player = this.player.nativeElement;
+            player.srcObject = stream;
+            player.muted = true;
+            player.onloadedmetadata = (e) => {
+              player.play();
+            };
+          }
         });
 
         this.mediaRecorder.addEventListener('dataavailable', (e) => {
@@ -288,11 +296,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
           //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
 
-          const player = this.player.nativeElement;
-          player.muted = false;
-          player.volume = 1;
-          player.src = URL.createObjectURL(new Blob(this.recordedChunks));
-          player.pause();
+          if(this.player && this.player.nativeElement) {
+            const player = this.player.nativeElement;
+            player.muted = false;
+            player.volume = 1;
+            player.src = URL.createObjectURL(new Blob(this.recordedChunks));
+            player.pause();
+          }
 
           this.recording = false;
 
@@ -321,6 +331,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.stopRecording();
 
         console.log('The following error occurred: ' + err);
+
+        this.havePermission = false;
 
         const alert = await this.alertCtrl.create({
           header: this.translateService.transform('Error'),
@@ -415,11 +427,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       this.recordedChunks = [];
 
-      const player = this.player.nativeElement;
-      player.muted = true;
-      player.volume = 0;
-      player.src = '';
-      player.pause();
+      if(this.player && this.player.nativeElement) {
+        const player = this.player.nativeElement;
+        player.muted = true;
+        player.volume = 0;
+        player.src = '';
+        player.pause();
+      }
 
       this.recording = false;
       this.shouldStop = true;
@@ -702,6 +716,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * toogle recorded video status
    */
   togglePlayer() {
+
+    if(!this.player || !this.player.nativeElement) {
+      return false;
+    }
+
     const video = this.player.nativeElement;
 
     if (video.paused == true) { 
@@ -724,11 +743,13 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    */
   saveRecording() {
 
-    const player = this.player.nativeElement;
-    player.muted = true;
-    player.volume = 0;
-    player.pause();
-      
+    if(this.player && this.player.nativeElement) {
+      const player = this.player.nativeElement;
+      player.muted = true;
+      player.volume = 0;
+      player.pause();
+    }
+
     const file = new File([new Blob(this.recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
 
     this.uploadFile(file, {

@@ -6,114 +6,135 @@
             <img src="assets/images/ic_cancel.svg" />
         </ion-button>
         
-        <div *ngIf="!uploading && shouldStop">
+        <div *ngIf="havePermission">
+            <div *ngIf="!uploading && shouldStop">
 
-            <h3>{{ "Upload a video to introduce yourself" | translate }}</h3>
+                <h3>{{ "Upload a video to introduce yourself" | translate }}</h3>
 
-            <p *ngIf="!uploading && !candidate.candidate_video && !candidate.tempLocation">
-                {{ "It’s optional, but it’ll give a better impression of yourself and a higher chance of companies wanting to hire you." | translate }}
-            </p>
-    
-            <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
+                <p *ngIf="!uploading && !candidate.candidate_video && !candidate.tempLocation">
+                    {{ "It’s optional, but it’ll give a better impression of yourself and a higher chance of companies wanting to hire you." | translate }}
+                </p>
+        
+                <div class="selected-file" *ngIf="candidate.candidate_video || candidate.tempLocation">
 
 
-                <div *ngIf="!candidate.tempLocation && !candidate.candidate_video_processed" class="video-processing">
+                    <div *ngIf="!candidate.tempLocation && !candidate.candidate_video_processed" class="video-processing">
 
-                     <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
+                        <img width="250" (error)="onVideoError()" src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
+                            
+                        <span>
+                            <ion-icon name="hourglass-outline"></ion-icon>
+                            {{ "Processing..." | translate }}
+                        </span>
+                    </div>
+
+                    <video controls preload="none" id="video-player" *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"
+                        [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg'">
+                        <source src="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
+                        type="video/mp4">
+                    </video>
                         
-                    <span>
-                        <ion-icon name="hourglass-outline"></ion-icon>
-                        {{ "Processing..." | translate }}
-                    </span>
+                    <video controls preload="none" [src]="candidate.tempLocation"
+                        *ngIf="candidate.tempLocation"></video>
                 </div>
 
-                <video controls preload="none" id="video-player" *ngIf="!candidate.tempLocation && candidate.candidate_video_processed"
-                    [poster]="awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg'">
-                    <source src="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
-                      type="video/mp4">
-                </video>
-                    
-                <video controls preload="none" [src]="candidate.tempLocation"
-                    *ngIf="candidate.tempLocation"></video>
-            </div>
-
-            <ion-button tabindex="2" class="btn-submit" *ngIf="!candidate.candidate_video" (click)="startCamera()">
-               {{ "Upload Video" | translate }}               
-            </ion-button>
-
-            <ion-button tabindex="2" *ngIf="candidate.candidate_video || candidate.tempLocation" class="btn-replace-video" (click)="startCamera()">
-                {{ "Replace video" | translate }}               
-            </ion-button>
-            
-            <ion-button tabindex="2" *ngIf="candidate.candidate_video && !candidate.tempLocation" [disabled]="deleting" class="btn-delete-video" (click)="delete()">
-                <span *ngIf="!deleting">{{ "Delete video" | translate }}</span>
-                <ion-spinner *ngIf="deleting"></ion-spinner>                    
-            </ion-button>   
-                    
-            <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept="video/*" capture>
-
-        </div>
-
-        <div *ngIf="!uploading && (!shouldStop || recordedChunks.length > 0)">
-
-            <video #player volume="0" (ended)="onRecodingPlayerEnded()" muted id="player">
-            </video>
-            
-            <!-- if video recorded -->
-            <ion-button class="btn-toogle-video" (click)="togglePlayer()" *ngIf="countDown == 0 && recordedChunks.length > 0">
-                <ion-icon *ngIf="!playingRecording" name="play-outline"></ion-icon>
-                <ion-icon *ngIf="playingRecording" name="stop-outline"></ion-icon>
-            </ion-button>
-            
-            <span class="txt-count-down" *ngIf="countDown > 0">
-                {{ countDown }}
-            </span>
-
-            <div class="btn-wrapper">
-                <ion-grid *ngIf="countDown == 0 && !recording">
-                    <ion-row>
-                        <ion-col *ngIf="recordedChunks.length == 0">
-                            <ion-button tabindex="3" class="btn-start-recording" (click)="startCountDown()">
-                                <ion-icon slot="start" name="videocam-outline"></ion-icon> {{ "Start recording" | translate }}
-                            </ion-button>
-                        </ion-col>
-                        <ion-col *ngIf="recordedChunks.length > 0">
-                            <ion-button tabindex="4" class="btn-start-recording" (click)="saveRecording()">
-                                <ion-icon slot="start" name="save-outline"></ion-icon> {{ "Save" | translate }}
-                            </ion-button>
-                        </ion-col>
-                        <ion-col *ngIf="recordedChunks.length > 0">
-                            <ion-button tabindex="3" class="btn-restart-recording" (click)="startCamera(true)">
-                                <ion-icon slot="start" name="videocam-outline"></ion-icon> {{ "Re-take" | translate }}
-                            </ion-button>
-                        </ion-col>
-                        <ion-col>
-                            <ion-button tabindex="5" class="btn-cancel-upload" color="light" (click)="stopRecording()">
-                                <ion-icon slot="start" name="close-outline"></ion-icon> {{ "Cancel" | translate }}
-                            </ion-button>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-                
-                <ion-button *ngIf="countDown == 0 && recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
-                    <b>{{ "Stop recording" | translate }}</b>
-                    <span>{{ "txt_time_elapsed" | translate : { seconds: timer } }}</span>
+                <ion-button tabindex="2" class="btn-submit" *ngIf="!candidate.candidate_video" (click)="startCamera()">
+                {{ "Upload Video" | translate }}               
                 </ion-button>
+
+                <ion-button tabindex="2" *ngIf="candidate.candidate_video || candidate.tempLocation" class="btn-replace-video" (click)="startCamera()">
+                    {{ "Replace video" | translate }}               
+                </ion-button>
+                
+                <ion-button tabindex="2" *ngIf="candidate.candidate_video && !candidate.tempLocation" [disabled]="deleting" class="btn-delete-video" (click)="delete()">
+                    <span *ngIf="!deleting">{{ "Delete video" | translate }}</span>
+                    <ion-spinner *ngIf="deleting"></ion-spinner>                    
+                </ion-button>   
+                        
+                <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept="video/*" capture>
+
             </div>
 
-        </div>
+            <div *ngIf="!uploading && (!shouldStop || recordedChunks.length > 0)">
 
-        <div *ngIf="uploading">
-            <h3>{{ "Please wait while we prepare your video" | translate }}</h3>
+                <video #player volume="0" (ended)="onRecodingPlayerEnded()" muted id="player">
+                </video>
+                
+                <!-- if video recorded -->
+                <ion-button class="btn-toogle-video" (click)="togglePlayer()" *ngIf="countDown == 0 && recordedChunks.length > 0">
+                    <ion-icon *ngIf="!playingRecording" name="play-outline"></ion-icon>
+                    <ion-icon *ngIf="playingRecording" name="stop-outline"></ion-icon>
+                </ion-button>
+                
+                <span class="txt-count-down" *ngIf="countDown > 0">
+                    {{ countDown }}
+                </span>
 
-            <div class="progress-wrapper">
-                <div class="progress-box">
-                    <div class="progress-bar">
-                        <div class="progress" [style.width]="progress + '%'"></div>
+                <div class="btn-wrapper">
+                    <ion-grid *ngIf="countDown == 0 && !recording">
+                        <ion-row>
+                            <ion-col *ngIf="recordedChunks.length == 0">
+                                <ion-button tabindex="3" class="btn-start-recording" (click)="startCountDown()">
+                                    <ion-icon slot="start" name="videocam-outline"></ion-icon> {{ "Start recording" | translate }}
+                                </ion-button>
+                            </ion-col>
+                            <ion-col *ngIf="recordedChunks.length > 0">
+                                <ion-button tabindex="4" class="btn-start-recording" (click)="saveRecording()">
+                                    <ion-icon slot="start" name="save-outline"></ion-icon> {{ "Save" | translate }}
+                                </ion-button>
+                            </ion-col>
+                            <ion-col *ngIf="recordedChunks.length > 0">
+                                <ion-button tabindex="3" class="btn-restart-recording" (click)="startCamera(true)">
+                                    <ion-icon slot="start" name="videocam-outline"></ion-icon> {{ "Re-take" | translate }}
+                                </ion-button>
+                            </ion-col>
+                            <ion-col>
+                                <ion-button tabindex="5" class="btn-cancel-upload" color="light" (click)="stopRecording()">
+                                    <ion-icon slot="start" name="close-outline"></ion-icon> {{ "Cancel" | translate }}
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    
+                    <ion-button *ngIf="countDown == 0 && recording" tabindex="3" class="btn-stop-recording" (click)="stopRecording()">
+                        <b>{{ "Stop recording" | translate }}</b>
+                        <span>{{ "txt_time_elapsed" | translate : { seconds: timer } }}</span>
+                    </ion-button>
+                </div>
+
+            </div>
+
+            <div *ngIf="uploading">
+                <h3>{{ "Please wait while we prepare your video" | translate }}</h3>
+
+                <div class="progress-wrapper">
+                    <div class="progress-box">
+                        <div class="progress-bar">
+                            <div class="progress" [style.width]="progress + '%'"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
+        <!-- show page when user declide permission for camera/mic/storage -->
+
+        <div *ngIf="!havePermission" class="missing-permission">
+
+            <ion-icon name="warning-outline"></ion-icon>
+
+            <h2>{{ "Missing required permission" | translate }} </h2>
+
+            <ion-button class="btn-try-again" (click)="startCamera()">
+                {{ "Try again" | translate }}
+            </ion-button>
+            
+            <!-- 
+            Enable //in ios, android open app detail to enable permisssion? 
+
+            //on browser show arrow to enable settings in browser tab 
+            -->
+        </div>
+
     </div>
 </ion-content>
