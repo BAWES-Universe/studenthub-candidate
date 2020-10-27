@@ -57,13 +57,12 @@
 
             <div *ngIf="!uploading && (!shouldStop || recordedChunks.length > 0)">
 
-                <video #player volume="0" (ended)="onRecodingPlayerEnded()" muted id="player">
+                <video #player volume="0" (ended)="onRecodingPlayerEnded()" (click)="playingRecording && togglePlayer()" muted id="player">
                 </video>
                 
                 <!-- if video recorded -->
-                <ion-button class="btn-toogle-video" (click)="togglePlayer()" *ngIf="countDown == 0 && recordedChunks.length > 0">
-                    <ion-icon *ngIf="!playingRecording" name="play-outline"></ion-icon>
-                    <ion-icon *ngIf="playingRecording" name="stop-outline"></ion-icon>
+                <ion-button class="btn-toogle-video" (click)="togglePlayer()" *ngIf="!playingRecording && countDown == 0 && recordedChunks.length > 0">
+                    <ion-icon name="play-outline"></ion-icon>
                 </ion-button>
                 
                 <span class="txt-count-down" *ngIf="countDown > 0">
