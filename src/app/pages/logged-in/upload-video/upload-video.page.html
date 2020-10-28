@@ -57,7 +57,7 @@
 
             <div *ngIf="!uploading && (!shouldStop || recordedChunks.length > 0)">
 
-                <video #player volume="0" (ended)="onRecodingPlayerEnded()" (click)="playingRecording && togglePlayer()" muted id="player">
+                <video #player volume="0" (ended)="onRecodingPlayerEnded()" (click)="togglePlayer()" muted id="player">
                 </video>
                 
                 <!-- if video recorded -->
