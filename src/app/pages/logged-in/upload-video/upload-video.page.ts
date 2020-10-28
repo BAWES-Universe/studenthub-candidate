@@ -1,20 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { environment } from 'src/environments/environment';
-// import * as cloudinary from "cloudinary-core";
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 // services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 declare var MediaRecorder;
-
-declare var cloudinary;
 
 @Component({
   selector: 'app-upload-video',
@@ -65,6 +63,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public format = 'webm'; // webm
 
+  public recordedChunks = [];
+
+  public playingRecording: boolean = false; 
+
+  public havePermission = true; 
+
   constructor(
     private _ngzone: NgZone,
     public platform: Platform,
@@ -73,16 +77,24 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private mediaCapture: MediaCapture,
+    private androidPermissions: AndroidPermissions,
     public accountService: AccountService,
     public authService: AuthService,
+    public eventService: EventService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     public awsService: AwsService
-  ) {
-    document.addEventListener('deviceready', this.onDeviceReady);
+  ) { 
   }
 
   ngOnInit() {
+
+    //handle event to mark video processed
+    
+    this.eventService.candidateVideoProcessed$.subscribe((data : any) => {
+      this.candidate.candidate_video_processed = data.candidate_video_processed;
+      this.candidate.candidate_video = data.candidate_video;
+    });
 
     if (navigator.mediaDevices) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -127,17 +139,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter() {
-    this.loadVideo();
-  }
-
-  loadVideo() {
-    if (this.candidate.candidate_video) {
-      const cld = cloudinary.Cloudinary.new({ cloud_name: 'studenthub' });
-      const demoplayer = cld.videoPlayer('video-player').width(250);
-      demoplayer.source(this.getVideoPublicId(this.candidate.candidate_video), {
-        sourceTypes: ['hls']
-      });
-    }
   }
 
   ngOnDestroy() {
@@ -165,24 +166,18 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
   }
 
-  getVideoPublicId(candidate_video) {
-    if (environment.production) {
-      return 'candidate-video/' + candidate_video.split('.')[0];
-    }
-
-    return 'dev/candidate-video/' + candidate_video.split('.')[0];
-  }
-
   /**
    * start camera in mobile app
    */
-  startCamera() {
+  startCamera(immediate = false) {
+    this.havePermission = true; 
+    
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
       this.startCameraInMobile();
     } else {
-      this.startCameraInBrowser();
+      this.startCameraInBrowser(immediate);
     }
   }
 
@@ -196,31 +191,72 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       duration: 30
     };
 
-    this.mediaCapture.captureVideo(options)
-      .then(
-        (data: MediaFile[]) => {
-          if (data && data[0])
-            this.uploadFileViaNativeFilePath(data[0].fullPath);
-        },
-        async (err: CaptureError) => {
+    this.mediaCapture.captureVideo(options).then((data: MediaFile[]) => {
 
-          const alert = await this.alertCtrl.create({
-            header: this.translateService.transform('Error'),
-            message: this.translateService.transform('txt_recording_error', {
-              error: err
-            }),
-            buttons: [this.translateService.transform('Okay')]
-          });
+      if (!data || !data[0]) {
+        return false;
+      }
 
-          await alert.present();
-        }
-      );
+      if(this.platform.is('android')) {
+        
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
+           
+            if(result.hasPermission) {
+              this.uploadFileViaNativeFilePath(data[0].fullPath);
+            } else {
+              this.requestVideoReadPermission(data[0].fullPath);
+            }
+          },
+          err => this.requestVideoReadPermission(data[0].fullPath)        
+        );              
+      } else {
+           
+        this.uploadFileViaNativeFilePath(data[0].fullPath);
+      }  
+    },
+    async (err: CaptureError) => {
+ 
+      const alert = await this.alertCtrl.create({
+        header: this.translateService.transform('Error'),
+        message: this.translateService.transform('txt_recording_error', {
+          error: err
+        }),
+        buttons: [this.translateService.transform('Okay')]
+      });
+
+      await alert.present();
+    }); 
+  }
+
+  /**
+   * request storage permission
+   * @param fullPath 
+   */
+  requestVideoReadPermission(fullPath) {
+
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(async e => {
+      if(e.hasPermission) {
+        this.uploadFileViaNativeFilePath(fullPath);
+      } else {
+
+        this.havePermission = false;
+
+        const alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: this.translateService.transform('Missing storage permission to upload video'),
+          buttons: [this.translateService.transform('Okay')]
+        });
+
+        await alert.present();
+      }
+    });     
   }
 
   /**
    * start recording in mobile browser
    */
-  startCameraInBrowser() {
+  startCameraInBrowser(immediate = false) {
+
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then((stream) => {
 
@@ -231,45 +267,48 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.shouldStop = false;
 
         const options = { mimeType: 'video/' + this.format };
-        const recordedChunks = [];
+
+        this.recordedChunks = [];
 
         this.mediaRecorder = new MediaRecorder(stream, options);
 
         // show live feed
 
         setTimeout(() => {
-
-          const player = this.player.nativeElement;
-          player.srcObject = stream;
-          player.muted = true;
-          player.onloadedmetadata = (e) => {
-            player.play();
-          };
-
+          if(this.player && this.player.nativeElement) {
+            const player = this.player.nativeElement;
+            player.srcObject = stream;
+            player.muted = true;
+            player.onloadedmetadata = (e) => {
+              player.play();
+            };
+          }
         });
 
         this.mediaRecorder.addEventListener('dataavailable', (e) => {
           if (e.data.size > 0 && this.recording) {
-            recordedChunks.push(e.data);
+            this.recordedChunks.push(e.data);
           }
         });
 
         this.mediaRecorder.addEventListener('stop', () => {
-
-          // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+ 
+          //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
 
-          if (recordedChunks.length == 0) {
-            return false;
+          if(this.player && this.player.nativeElement) {
+            const player = this.player.nativeElement;
+            player.muted = false;
+            player.volume = 1;
+            player.src = URL.createObjectURL(new Blob(this.recordedChunks));
+            player.pause();
           }
 
           this.recording = false;
 
-          const file = new File([new Blob(recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
-
-          this.uploadFile(file, {
-            duration: (this.maxDuration - this.timer) + '',
-          });
+          if (this.recordedChunks.length == 0) {
+            return false;
+          }
 
           // no need to cancel recording on hardware back
 
@@ -279,6 +318,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
 
         // this.mediaRecorder.start();
+
+        if(immediate) {
+          this.startCountDown();
+        }
+
       })
       .catch(async (err) => {
 
@@ -287,6 +331,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         this.stopRecording();
 
         console.log('The following error occurred: ' + err);
+
+        this.havePermission = false;
 
         const alert = await this.alertCtrl.create({
           header: this.translateService.transform('Error'),
@@ -377,6 +423,20 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     if (this.mediaRecorder && this.mediaRecorder.state != 'inactive') {
       this.mediaRecorder.stop();
+    } else { 
+
+      this.recordedChunks = [];
+
+      if(this.player && this.player.nativeElement) {
+        const player = this.player.nativeElement;
+        player.muted = true;
+        player.volume = 0;
+        player.src = '';
+        player.pause();
+      }
+
+      this.recording = false;
+      this.shouldStop = true;
     }
 
     // stop camera 
@@ -452,7 +512,16 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         await alert.present();
       });
+    }, () => {
+      
+      this.progress = 0;
+
+      this.uploading = false;
     });
+  }
+
+  onVideoError() {
+    this.candidate.candidate_video = null;
   }
 
   /**
@@ -522,7 +591,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
       this._handleFileSuccess(event);
     }, async err => {
-
+ 
       if (!err.message || !err.message.includes('aborted')) {
 
         // log to sentry
@@ -552,7 +621,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * Handle file upload success
    * @param event
    */
-  public _handleFileSuccess(event) {
+  public _handleFileSuccess(event) { 
+
     let count = 1;
 
     if (!this.progressInterval) {
@@ -570,17 +640,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     // Look for upload progress events.
     if (event.type === 'progress') {
       // This is an upload progress event. Compute and show the % done:
-      // this.progress = Math.round(100 * event.loaded / event.total);
+      //this.progress = Math.round(100 * event.loaded / event.total);
 
     } else if (event.Key && event.Key.length > 0) {
 
       this.candidate.tempLocation = event.Location;
       this.candidate.candidate_video = event.Key;
-
-      this.progress = 0;
-      this.uploading = false;
-      clearInterval(this.progressInterval);
-      this.progressInterval = null;
 
       // auto save
       this.submit();
@@ -613,6 +678,9 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * remove video from S3
+   */
   delete() {
 
     this.deleting = true;
@@ -645,6 +713,51 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   /**
+   * toogle recorded video status
+   */
+  togglePlayer() {
+
+    if(!this.player || !this.player.nativeElement) {
+      return false;
+    }
+
+    const video = this.player.nativeElement;
+
+    if (video.paused == true) { 
+      
+      this.playingRecording = true;
+      video.play();
+    } else { 
+      video.pause();
+      video.currentTime = 0;
+      this.playingRecording = false;
+    }
+  }
+
+  onRecodingPlayerEnded() {
+    this.playingRecording = false;
+  }
+
+  /**
+   * save recording 
+   */
+  saveRecording() {
+
+    if(this.player && this.player.nativeElement) {
+      const player = this.player.nativeElement;
+      player.muted = true;
+      player.volume = 0;
+      player.pause();
+    }
+
+    const file = new File([new Blob(this.recordedChunks, { type: 'video/' + this.format })], this.authService.id + '.' + this.format);
+
+    this.uploadFile(file, {
+      duration: (this.maxDuration - this.timer) + '',
+    });
+  }
+
+  /**
    * save uploaded cv
    */
   async submit() {
@@ -653,6 +766,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     this.updateSubscription = this.accountService.updateVideo(this.candidate.candidate_video).subscribe(res => {
 
+      this.recordedChunks = [];
       this.progress = 0;
       this.uploading = false;
       this.loading = false;
@@ -660,10 +774,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       if (res.operation == 'success') {
 
         this.candidate.tempLocation = null;
-        this.candidate.candidate_video = res.candidate_video;
+        this.candidate.candidate_video_processed = res.candidate_video_processed;
+        this.candidate.candidate_video = res.candidate_video; 
 
         // this.loadVideo();
         this.dismiss({
+          candidate_video_processed: res.candidate_video_processed,
           candidate_video: res.candidate_video
         });
 
@@ -680,20 +796,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.progress = 0;
       this.loading = false;
       this.uploading = false;
-    });
-  }
-
-  onDeviceReady() {
-    // pendingcaptureresult is fired if the capture call is successful
-    document.addEventListener('pendingcaptureresult', mediaFiles => {
-      console.log('success', mediaFiles);
-      // Do something with result
-    });
-
-    // pendingcaptureerror is fired if the capture call is unsuccessful
-    document.addEventListener('pendingcaptureerror', error => {
-      // Handle error case
-      console.log('error', error);
     });
   }
 }

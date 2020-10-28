@@ -20,6 +20,8 @@ export class EventService {
   
   public setLanguagePref$ = new Subject();
 
+  public candidateVideoProcessed$ = new Subject();
+
   public tabScrolled$ = new Subject();
   
   constructor() { }

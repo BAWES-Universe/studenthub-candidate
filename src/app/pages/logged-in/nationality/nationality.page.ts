@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {AlertController, ModalController} from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 //services
 import { CountryService } from 'src/app/providers/country.service';
+import { AccountService } from "../../../providers/logged-in/account.service";
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 //models
 import { Candidate } from 'src/app/models/candidate';
 import { Country } from 'src/app/models/country';
-import {AccountService} from "../../../providers/logged-in/account.service";
 
 
 @Component({
@@ -132,7 +132,7 @@ export class NationalityPage implements OnInit {
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
-      } else  {
+      } else {
         this.dismiss();
       }
     });

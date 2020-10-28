@@ -48,8 +48,8 @@ export class UpdateBankPage implements OnInit {
   ngOnInit() {
     // Initialize the Login Form
     this.form = this.fb.group({
-      benef_name: [this.candidate.transfer_benef_name, [Validators.required]],
-      iban: [this.candidate.transfer_benef_iban, [Validators.required]]
+      benef_name: [this.candidate.bank_account_name, [Validators.required]],
+      iban: [this.candidate.candidate_iban, [Validators.required]]
     });
   }
 
@@ -71,6 +71,17 @@ export class UpdateBankPage implements OnInit {
   async onSubmit() {
     
     if (!this.form.valid) {
+      return false;
+    }
+
+    const benef_name = this.form.value.benef_name.split(' ').length;
+
+    if (benef_name == 1) {
+      const prompt = await this.alertCtrl.create({
+        message: this.translateService.transform('Please specify your full name'),
+        buttons: [this.translateService.transform('Okay')]
+      });
+      prompt.present();
       return false;
     }
 

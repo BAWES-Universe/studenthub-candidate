@@ -23,6 +23,7 @@ export class Candidate {
     candidate_gender: number;
     candidate_personal_photo: string;
     candidate_video: string;
+    candidate_video_processed: any;
     candidate_email: string;
     candidate_phone: string;
     candidate_address_line1: string;

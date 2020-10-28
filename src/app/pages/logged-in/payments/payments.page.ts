@@ -122,8 +122,8 @@ export class PaymentsPage implements OnInit {
         refresher.target.complete();
       }
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
     },
       error => { },

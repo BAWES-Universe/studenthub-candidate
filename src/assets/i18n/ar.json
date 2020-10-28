@@ -211,5 +211,16 @@
     "Address": "عنوان",
     "Error on starting recording": "خطأ في بدء التسجيل",
     "In which area do you currently live?": "في أي منطقة تعيش حاليا؟",
-    "This will help us link you to jobs that are close to where you live": "سيساعدنا ذلك في ربطك بالوظائف القريبة من مكان إقامتك"
+    "This will help us link you to jobs that are close to where you live": "سيساعدنا ذلك في ربطك بالوظائف القريبة من مكان إقامتك",
+    "Select country": "حدد الدولة",
+    "Mishref / Salmiya / Jabriya / etc.": "مشرف / السالمية / الجابرية / الكتاسترة",
+    "Doha / Al Rayyan Municipality/ Al Wakrah / etc.": "الدوحة / بلدية الريان / الوكرة / الخ.",
+    "Dubai / Abu Dhabi / Sharjah / etc.": "دبي / أبو ظبي / الشارقة / إلخ.",
+    "Riyadh / Jeddah / Mecca / etc.": "الرياض / جدة / مكة / الخ.",
+    "Manama / Riffa / Muharraq / etc.": "المنامة / الرفاع / المحرق / إلخ.",
+    "Processing...": "معالجة...",
+    "Missing storage permission to upload video": "لا يوجد إذن تخزين لتحميل الفيديو",
+    "Missing required permission": "الإذن المطلوب مفقود",
+    "Please specify your full name" : "يرجى تحديد الاسم الكامل الخاص بك",
+    "ok" :"حسنا"
 }

@@ -33,8 +33,15 @@
         <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Introductory video" | translate }}</small>
+
           <span *ngIf="!candidate.candidate_video">{{ "Record a 30 second video introducing yourself" | translate }}</span>
-          <img width="126" (error)="onVideoError()" *ngIf="candidate.candidate_video" src="{{ awsService.cloudinaryVideoUrl + 'candidate-video/' + thumbnailUrl(candidate.candidate_video) }}" />
+          
+          <div *ngIf="candidate.candidate_video">
+
+            <img width="126" (error)="onVideoError()" 
+              src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
+          </div>
+
         </ion-label>
       </ion-item>
 

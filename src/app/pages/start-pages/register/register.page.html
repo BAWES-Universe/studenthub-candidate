@@ -10,7 +10,7 @@
 
       <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name" placeholder="{{ 'Your name as shown on your civil id' | translate }}"></ion-input>
 
-      <ion-input type="telephone" autocomplete="tel" #phoneInput formControlName="phone" maxlength="8" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
+      <ion-input type="telephone" inputmode="tel" autocomplete="tel" #phoneInput formControlName="phone" maxlength="8" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
 
       <div class="password_field">
         <ion-input type="{{type}}" autocomplete="off" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>

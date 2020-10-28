@@ -68,9 +68,6 @@ export class IdCardPage implements OnInit {
 
         this.candidate.candidate_civil_id = this.form.value.civil_id;
         
-        //update arabic name from civil id
-        this.getNameByCivilId(this.form.value.civil_id);
-
         this.dismiss();
       } else {
         this.alertCtrl.create({

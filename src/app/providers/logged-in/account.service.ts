@@ -243,6 +243,14 @@ export class AccountService {
   }
 
   /**
+   * check cloudinary video status 
+   */
+  checkVideoStatus(): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/video-status';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * update Video to introduct candidate
    * @param candidate_video string
    */
