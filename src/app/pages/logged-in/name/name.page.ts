@@ -53,8 +53,19 @@ export class NamePage implements OnInit {
   /**
    * save arabic name
    */
-  submit() {
+  async submit() {
     this.isLoading = true; 
+
+    const name = this.form.value.name.split(' ').length;
+
+    if (name == 1) {
+      const prompt = await this.alertCtrl.create({
+        message: this.translateService.transform('Please specify your full name'),
+        buttons: [this.translateService.transform('Okay')]
+      });
+      prompt.present();
+      return false;
+    }
 
     this.accountService.updateName(this.form.value.name).subscribe(res => {
 

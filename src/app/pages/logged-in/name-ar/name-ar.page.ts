@@ -53,8 +53,19 @@ export class NameArPage implements OnInit {
   /**
    * save arabic name
    */
-  submit() {
+  async submit() {
     this.isLoading = true; 
+
+    const name_ar = this.form.value.name_ar.split(' ').length;
+
+    if (name_ar == 1) {
+      const prompt = await this.alertCtrl.create({
+        message: this.translateService.transform('Please specify your full name'),
+        buttons: [this.translateService.transform('Okay')]
+      });
+      prompt.present();
+      return false;
+    }
 
     this.accountService.updateNameAr(this.form.value.name_ar).subscribe(res => {
 

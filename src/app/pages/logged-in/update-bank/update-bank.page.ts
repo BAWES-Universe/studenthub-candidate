@@ -79,7 +79,7 @@ export class UpdateBankPage implements OnInit {
     if (benef_name == 1) {
       const prompt = await this.alertCtrl.create({
         message: this.translateService.transform('Please specify your full name'),
-        buttons: [this.translateService.transform('ok')]
+        buttons: [this.translateService.transform('Okay')]
       });
       prompt.present();
       return false;
