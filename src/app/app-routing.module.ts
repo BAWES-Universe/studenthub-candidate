@@ -223,13 +223,29 @@ const routes: Routes = [
     }
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },  {
     path: 'location',
     loadChildren: () => import('./pages/logged-in/location/location.module').then( m => m.LocationPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/logged-in/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'national-id',
+    loadChildren: () => import('./pages/logged-in/national-id/national-id.module').then( m => m.NationalIdPageModule)
+  },
+  {
+    path: 'first-impression',
+    loadChildren: () => import('./pages/logged-in/first-impression/first-impression.module').then( m => m.FirstImpressionPageModule)
+  },
+  {
+    path: 'personal-info',
+    loadChildren: () => import('./pages/logged-in/personal-info/personal-info.module').then( m => m.PersonalInfoPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   }
-
 ];
 
 @NgModule({

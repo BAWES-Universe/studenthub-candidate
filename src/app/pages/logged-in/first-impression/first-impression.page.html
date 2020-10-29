@@ -1,0 +1,71 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>
+      {{ "Make a first impression" | translate }}
+    </h3>
+
+    <p>
+      {{ "Sounds shallow but it’s how things work!" | translate }}
+    </p>
+
+    <ion-list *ngIf="candidate">
+
+      <ion-item tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Brief Intro" | translate }}</small>
+          <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
+          <span *ngIf="!candidate.candidate_objective">{{ "Tell us more about yourself. What makes you special?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Personal Photo" | translate }}</small>
+          <span *ngIf="!candidate.candidate_personal_photo">{{ "Make sure to look professional" | translate }}</span>
+          <img width="126" (error)="onPhotoError()" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
+        </ion-label>
+      </ion-item>
+      
+      <ion-item tappable (click)="updateVideo()">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Introductory video" | translate }}</small>
+
+          <span *ngIf="!candidate.candidate_video">
+            [{{ "Optional" | translate }}] {{ "Record a 30 second video introducing yourself" | translate }}
+          </span>
+          
+          <div *ngIf="candidate.candidate_video">
+
+            <img width="126" (error)="onVideoError()" 
+              src="{{ awsService.permanentBucketUrl + 'candidate-video/' + candidate.candidate_video + '.jpg' }}" />
+          </div>
+
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateResume()">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Upload CV or Portfolio" | translate }}</small>
+          <span *ngIf="candidate.candidate_resume">{{ candidate.candidate_resume }}</span>
+          <span *ngIf="!candidate.candidate_resume">
+            [{{ "Optional" | translate }}] {{ "Have a cool file to showcase?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+
+    <loading-modal type="first-impression" [loading]="!candidate"></loading-modal>
+
+  </div>
+
+</ion-content>

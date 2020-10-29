@@ -6,7 +6,8 @@ h3 {
     line-height: normal;
     letter-spacing: normal;
     color: #000000;
-    margin-top: 42px;
+    margin-bottom: 22px;
+    margin-top: 25px;
 }
 
 p {
@@ -19,7 +20,16 @@ p {
     letter-spacing: normal;
     color: #000000;
     margin-top: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 30px;
+}
+
+.btn-close {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    position: relative;
+    top: -10px;
+    padding-top: 0 !important;
 }
 
 .btn-logout {
@@ -81,72 +91,49 @@ ion-list {
     margin: 0 -14px;
 
     ion-item {
-        margin: 4px 4px 19px 4px;
-        border-radius: 4px;
-        height: 90px;
-        border-radius: 4px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-        background-color: #ffffff;
+        margin: 4px 4px 8px 4px;
+        background: #fff;
+        border-radius: 4px;
+        min-height: 72px;
         --ion-background-color: #fff;
         --inner-border-width: 0px;
-        --padding-end: 20px;
-        --padding-start: 20px;
-        --padding-top: 21px;
-        --padding-bottom: 21px;
+        --padding-bottom: 0;
+        --padding-top: 0;
+        --padding-end: 10px;
+        --padding-start: 24px;
 
-        .step {
-            border-radius: 100%;
-            width: 44px;
-            height: 44px;
-            background-color: #4354a4;
-            font-family: Roboto;
-            font-size: 16px;
-            font-weight: bold;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal; 
-            color: #ffffff;
-            justify-content: center;
-            display: flex; 
-            align-items: center;
-            margin-inline-end: 25px;
-            background-color: #219653;
-
-            .count {
-                display: none;
-            }
-
-            ion-icon {
-                display: block;
-                font-size: 26px;
-            }
+        small {
+            font-size: 14px;
+            font-weight: 500;
+            color: #828282;
+            width: 100%;
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
-        ion-label {
+        span {
             font-size: 14px;
-            font-weight: bold;
-            font-stretch: normal;
+            font-weight: normal;
             font-style: normal;
-            line-height: normal;
+            font-stretch: normal;
+            line-height: 1.41;
             letter-spacing: normal;
-            color: #000;
+            color: #292f38;
         }
     }
 
     ion-item.required {
-        .step {
-            background-color: #4354a4;
+        border-left: 4px solid #f24459;
 
-            .count {
-                display: block;
-            }
-
-            ion-icon {
-                display: none;
-            }
+        small {
+            color: #f24459;
         }
 
+        span {
+            color: #828282;
+        }
     }
 }
 
