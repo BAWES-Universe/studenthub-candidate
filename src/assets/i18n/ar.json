@@ -222,5 +222,15 @@
     "Missing storage permission to upload video": "لا يوجد إذن تخزين لتحميل الفيديو",
     "Missing required permission": "الإذن المطلوب مفقود",
     "Please specify your full name" : "يرجى تحديد الاسم الكامل الخاص بك",
-    "ok" :"حسنا"
+    "ok" :"حسنا",
+    "Personal and contact info": "المعلومات الشخصية ومعلومات الاتصال",
+    "National ID": "الهوية الوطنية",
+    "ID Number": "رقم الهوية",
+    "ID Expiry Date": "تاريخ انتهاء الهوية",
+    "ID Photo (Front)": "صورة الهوية (أمامية)",
+    "ID Photo (Back)": "صورة الهوية (للخلف)",
+    "Optional": "اختياري",
+    "Sounds shallow but it’s how things work!": "يبدو سطحيًا ولكن هكذا تعمل الأشياء!",
+    "Your National / Civil ID": "بطاقتك الوطنية / المدنية",
+    "Make a first impression": "اترك الانطباع الأول"
 }

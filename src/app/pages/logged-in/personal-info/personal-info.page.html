@@ -1,0 +1,131 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>
+      {{ "Personal and contact info" | translate }}
+    </h3>
+
+    <ion-list *ngIf="candidate">
+
+      <ion-item tappable (click)="updateName()" [class.required]="!candidate.candidate_name">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Name (English)" | translate }}</small>
+          <span class="candidate_name" *ngIf="candidate.candidate_name">{{ candidate.candidate_name }}</span>
+          <span *ngIf="!candidate.candidate_name">{{ "It should match what’s on your civil id" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateNameArabic()" [class.required]="!candidate.candidate_name_ar">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Name (Arabic)" | translate }}</small>
+          <span *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</span>
+          <span *ngIf="!candidate.candidate_name_ar">{{ "It should match what’s on your civil id" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateEmail()" [class.required]="!candidate.candidate_email">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Email Address" | translate }}</small>
+          <span *ngIf="candidate.candidate_email">{{ candidate.candidate_email }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Phone number" | translate }}</small>
+          <span *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Work Experience" | translate }}</small>
+          <ion-item *ngFor="let candidateExperience of candidate.candidateExperiences">
+            <div tabindex="0"></div>
+            {{ candidateExperience.experience }}
+          </ion-item>
+          <span *ngIf="candidate.candidateExperiences.length == 0">{{ "Do you have any work experience?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Your Skills" | translate }}</small>
+          <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">
+            <div tabindex="0"></div>
+            {{ candidateSkill.skill }}
+          </ion-item>
+          <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateUniversity()" [class.required]="!candidate.university">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "University" | translate }}</small>
+          <span
+            *ngIf="candidate.university">{{ translateService.langContent(candidate.university.university_name_en, candidate.university.university_name_ar) }}</span>
+          <span *ngIf="!candidate.university">{{ "Where do you study?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateNationality()" [class.required]="!candidate.nationality">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Nationality" | translate }}</small>
+          <span
+            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_name_en, candidate.nationality.country_name_ar) }}</span>
+          <span *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateDateOfBirth()" [class.required]="!candidate.candidate_birth_date">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Date of Birth" | translate }}</small>
+          <span
+            *ngIf="candidate.candidate_birth_date">{{ toDate(candidate.candidate_birth_date) | date :'dd/MM/yyyy': undefined: translateService.currentLang }}</span>
+          <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+  
+      <ion-item tappable (click)="updateGender()" [class.required]="!candidate.candidate_gender">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Gender" | translate }}</small>
+          <span *ngIf="candidate.candidate_gender == 1">{{ "Male" | translate }}</span>
+          <span *ngIf="candidate.candidate_gender == 2">{{ "Female" | translate }}</span>
+          <span *ngIf="candidate.candidate_gender == 3">{{ "Other" | translate }}</span>
+          <span *ngIf="!candidate.candidate_gender">{{ "Male? Female? Other?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateDrivingLicense()" [class.required]="!candidate.candidate_driving_license">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Driving License" | translate }}</small>
+          <span *ngIf="candidate.candidate_driving_license == 1">{{ "Yes" | translate }}</span>
+          <span *ngIf="candidate.candidate_driving_license == 2">{{ "No" | translate }}</span>
+          <span *ngIf="!candidate.candidate_driving_license">{{ "Do you have one?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+
+    <loading-modal type="personal-info" [loading]="!candidate"></loading-modal>
+
+  </div>
+
+</ion-content>

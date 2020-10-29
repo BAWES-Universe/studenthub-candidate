@@ -161,7 +161,7 @@ export class AuthService {
       this.language_pref = loggedInUser.language_pref;
 
       if(!this.isProfileCompleted) {
-        this.navCtrl.navigateRoot(['complete-profile']);
+      //    this.navCtrl.navigateRoot(['complete-profile']);
       }
     }
 
