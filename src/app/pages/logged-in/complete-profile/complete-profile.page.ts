@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 //models
 import { Candidate } from 'src/app/models/candidate';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class CompleteProfilePage implements OnInit {
   constructor( 
     public navCtrl: NavController, 
     public authService: AuthService,
+    public eventService: EventService,
     public accountService: AccountService,  
     public translateService: TranslateLabelService, 
   ) {
@@ -53,6 +55,17 @@ export class CompleteProfilePage implements OnInit {
     }, () => {
       this.loading = false;
     });
+  }
+
+  translate() {
+
+    const code = this.translateService.currentLang != 'ar' ? 'ar' : 'en';
+
+    this.eventService.setLanguagePref$.next(code);
+
+    if (this.authService.isLogin) {
+      this.accountService.setLanguagePref(code).subscribe();
+    }
   }
 
   /**

@@ -4,7 +4,7 @@
     {{ "Logout" | translate }}
   </ion-button>
   
-  <ion-button class="translate-link" fill="clear"  (click)="translate()">
+  <ion-button class="translate-link" fill="clear" (click)="translate()">
     <span *ngIf="translateService.currentLang != 'en'">English</span>
     <span *ngIf="translateService.currentLang == 'en'">عربى</span>
   </ion-button>
