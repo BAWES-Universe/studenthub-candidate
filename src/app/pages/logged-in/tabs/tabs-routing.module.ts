@@ -40,7 +40,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../complete-profile/complete-profile.module').then(m => m.CompleteProfilePageModule),
+            loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule),
             canActivate: [AuthService], 
             data: {
               preload: true
