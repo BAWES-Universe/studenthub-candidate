@@ -99,28 +99,32 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences.length == 0">
+      <ion-item tappable (click)="updateExperiences()" [class.required]="candidate.candidateExperiences && candidate.candidateExperiences.length == 0">
         <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Work Experience" | translate }}</small>
-          <ion-item *ngFor="let candidateExperience of candidate.candidateExperiences">
-            <div tabindex="0"></div>
-            {{ candidateExperience.experience }}
-          </ion-item>
-          <span *ngIf="candidate.candidateExperiences.length == 0">{{ "Do you have any work experience?" | translate }}
+          <ng-container *ngIf="candidate.candidateExperiences">
+            <ion-item *ngFor="let candidateExperience of candidate.candidateExperiences">
+              <div tabindex="0"></div>
+              {{ candidateExperience.experience }}
+            </ion-item>
+          </ng-container>
+          <span *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length == 0">{{ "Do you have any work experience?" | translate }}
           </span>
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills.length == 0">
+      <ion-item tappable (click)="updateSkills()" [class.required]="candidate.candidateSkills && candidate.candidateSkills.length == 0">
         <div tabindex="0"></div>
         <ion-label>
           <small>{{ "Your Skills" | translate }}</small>
-          <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">
-            <div tabindex="0"></div>
-            {{ candidateSkill.skill }}
-          </ion-item>
-          <span *ngIf="candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
+          <ng-container *ngIf="candidate.candidateSkills">
+            <ion-item *ngFor="let candidateSkill of candidate.candidateSkills">
+              <div tabindex="0"></div>
+              {{ candidateSkill.skill }}
+            </ion-item>
+          </ng-container>
+          <span *ngIf="candidate.candidateSkills && candidate.candidateSkills.length == 0">{{ "Let us know what skills you have that may be of use to your workplace" | translate }}
           </span>
         </ion-label>
       </ion-item>
