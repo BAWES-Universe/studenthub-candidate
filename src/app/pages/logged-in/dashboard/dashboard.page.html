@@ -2,9 +2,15 @@
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
   
-  <div class="max-width" *ngIf="!loading">
+  <div class="max-width" *ngIf="!loadingProfile && !loading">
 
-    <h3>{{ "txt_greeting" | translate : { customer: this.getFirstName() } }}</h3>
+    <h3>
+      {{ 
+        "txt_greeting" | translate : { 
+          customer: translateService.langContent(this.candidate.candidate_name, this.candidate.candidate_name_ar) | split:' '
+        } 
+      }}
+    </h3>
 
     <p class="txt-job-status" *ngIf="store" [innerHtml]="'txt_assigned' | translate : { company: company.company_name, store: store.store_name }">
     </p> 
@@ -80,4 +86,6 @@
     </div>
     
   </div>
+
+
 </ion-content>

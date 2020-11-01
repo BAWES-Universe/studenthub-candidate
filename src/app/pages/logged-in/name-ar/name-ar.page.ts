@@ -6,6 +6,7 @@ import { Candidate } from 'src/app/models/candidate';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class NameArPage implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public accountService: AccountService,
+    public eventService: EventService,
     public translateService: TranslateLabelService
   ) { }
 
@@ -73,6 +75,12 @@ export class NameArPage implements OnInit {
 
       if(res.operation == 'success') {
         this.candidate.candidate_name_ar = this.form.value.name_ar;
+
+        this.eventService.nameUpdated$.next({
+          candidate_name: this.candidate.candidate_name,
+          candidate_name_ar: this.candidate.candidate_name_ar
+        });
+
         this.dismiss();
       } else {
         this.alertCtrl.create({
