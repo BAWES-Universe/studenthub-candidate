@@ -56,7 +56,6 @@ export class NamePage implements OnInit {
    * save arabic name
    */
   async submit() {
-    this.isLoading = true; 
 
     const name = this.form.value.name.split(' ').length;
 
@@ -68,6 +67,8 @@ export class NamePage implements OnInit {
       prompt.present();
       return false;
     }
+    
+    this.isLoading = true; 
 
     this.accountService.updateName(this.form.value.name).subscribe(res => {
 
