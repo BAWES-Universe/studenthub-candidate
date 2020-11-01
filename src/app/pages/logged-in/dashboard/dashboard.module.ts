@@ -8,6 +8,7 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import { SplitPipe } from 'src/app/pipes/split.pipe';
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     LoadingModalModule,
     DashboardPageRoutingModule
   ],
-  declarations: [DashboardPage]
+  declarations: [
+    SplitPipe,
+    DashboardPage
+  ]
 })
 export class DashboardPageModule {}

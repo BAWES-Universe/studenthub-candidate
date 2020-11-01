@@ -24,7 +24,10 @@ export class DashboardPage implements OnInit {
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public candidate_job_search_status: any;
+
   public candidate: Candidate;
+
+  public loadingProfile: boolean = false; 
 
   public updating = false;
 
@@ -55,12 +58,22 @@ export class DashboardPage implements OnInit {
     
     const agent = window.navigator.userAgent.toLowerCase();
 
-    if (this.platform.is('ios') && agent.indexOf('safari') > -1 && !(agent.indexOf('chrome') > -1) && (!window.safari || !window.safari.pushNotification)) {
+    if (
+      this.platform.is('ios') && agent.indexOf('safari') > -1 && !(agent.indexOf('chrome') > -1) && 
+      (!window.safari || !window.safari.pushNotification)
+    ) {
       this.pushNotificationAvailable = false; // ios browser not supporting push notification
     }
 
     this.loadData();
     this.loadProfile();
+
+    this.eventService.nameUpdated$.subscribe((data: { candidate_name, candidate_name_ar }) => {
+      if(this.candidate) {
+        this.candidate.candidate_name = data.candidate_name;
+        this.candidate.candidate_name_ar = data.candidate_name_ar;
+      }
+    });
   }
 
   ionViewWillLeave() {
@@ -134,19 +147,21 @@ export class DashboardPage implements OnInit {
     });
   }
 
-  getFirstName() {
-    if(this.authService.name && this.authService.name.length > 1) {
-      const FullName = this.authService.name.split(' ');
-      return (FullName[0]) ? FullName[0] : this.authService.name;
-    }
-  }
-
+  /**
+   * load candidate profile
+   */
   loadProfile() {
+
+    this.loadingProfile = true;
+
     this.accountService.profile().subscribe(data => {
 
       this.candidate = data.profile;
 
+      this.loadingProfile = false;
+
     }, () => {
+      this.loadingProfile = false
       this.updating = false;
     });
   }
