@@ -79,7 +79,7 @@ export class ProfilePage implements OnInit {
 
     this.accountService.profile().subscribe(async res => {
       
-      this.candidate = res.profile;
+      this.candidate = res;
 
       //if video not processed keep pinging server 
 
