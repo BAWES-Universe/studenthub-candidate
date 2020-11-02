@@ -75,9 +75,20 @@ export class RegisterPage implements OnInit {
    * Attempts to register an account for the user
    * Then process his previous request
    */
-  onSubmit() {
+  async onSubmit() {
     
     if (!this.registerForm.valid) {
+      return false;
+    }
+
+    const name_ar = this.registerForm.value.name.split(' ').length;
+
+    if (name_ar == 1) {
+      const prompt = await this.alertCtrl.create({
+        message: this.translateService.transform('Please specify your full name'),
+        buttons: [this.translateService.transform('Okay')]
+      });
+      prompt.present();
       return false;
     }
 
