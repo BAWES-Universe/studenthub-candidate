@@ -156,7 +156,7 @@ export class DashboardPage implements OnInit {
 
     this.accountService.profile().subscribe(data => {
 
-      this.candidate = data.profile;
+      this.candidate = data;
 
       this.loadingProfile = false;
 

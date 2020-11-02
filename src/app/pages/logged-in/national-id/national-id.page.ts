@@ -43,7 +43,7 @@ export class NationalIdPage implements OnInit {
     this.loading = true;
 
     this.accountService.profile().subscribe(async res => {
-      this.candidate = res.profile;
+      this.candidate = res;
     });
   }
 
