@@ -78,6 +78,7 @@ export class ProfilePage implements OnInit {
     this.loading = true;
 
     this.accountService.profile().subscribe(async res => {
+      
       this.candidate = res.profile;
 
       //if video not processed keep pinging server 
