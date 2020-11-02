@@ -138,13 +138,12 @@ export class PaymentsPage implements OnInit {
   async profile() {
 
     this.accountService.profileWithBank().subscribe(response => {
-
       this.candidate = response;
     },
-      error => { },
-      () => {
-        this.loading = false;
-      });
+    error => { },
+    () => {
+      this.loading = false;
+    });
   }
 
   /**

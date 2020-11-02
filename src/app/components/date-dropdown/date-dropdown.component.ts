@@ -249,14 +249,21 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     }
 
     this.selectedMonth = event.target.value;
+
     const picDate = this.pickerFormat.indexOf('D') !== -1;
 
     // check if date (in case date is enable) and year is selected
+
+    //for date month year format 
+
     if (picDate && this.selectedDate && this.selectedYear) {
       const date = this._value ? new Date(this._value) : new Date();
       this.value = this.selectedYear + '/' + event.target.value + '/' + date.getDate();
       this.init(); // reset days
-    } else if (this.selectedYear) {
+
+    // for month year formats
+
+    } else if (!picDate && this.selectedYear) {
       this.value = this.selectedYear + '/' + event.target.value + '/1';
       this.init(); // reset days
     }
@@ -288,14 +295,20 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       return null;
     }
 
-    this.selectedYear = event.target.value;
     const picDate = this.pickerFormat.indexOf('D') !== -1;
 
+    this.selectedYear = event.target.value;
+    
     const date = this._value ? new Date(this._value) : new Date();
 
-    if (picDate && this.selectedDate && this.selectedMonth) {
-      this.value = event.target.value + '/' + this.selectedMonth + '/' + date.getDate();
-    } else if (this.selectedMonth) {
+    //for DMY formats 
+
+    if (this.selectedDate && this.selectedMonth) {
+      this.value = event.target.value + '/' + this.selectedMonth + '/' + this.selectedDate;
+
+    //for month and year format 
+
+    } else if (!picDate && this.selectedMonth) {
       this.value = event.target.value + '/' + this.selectedMonth + '/' + date.getDate();
     }
   }
