@@ -14,6 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UpdatePasswordPage implements OnInit {
 
+  public type: string = 'password';
+  
   public token;
 
   public newPassword = '';
@@ -97,5 +99,9 @@ export class UpdatePasswordPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+  }
+
+  showPassword() {
+    this.type = this.type == 'password'? 'text': 'password';
   }
 }

@@ -21,6 +21,10 @@ export class ChangePasswordPage implements OnInit {
   // Disable submit button if loading response
   public isLoading = false;
 
+  public type: string = 'password';
+
+  public oldType: string = 'password';
+
   @ViewChild('inptPassword', { static: false }) inptPassword: IonInput;
 
   constructor(
@@ -92,4 +96,15 @@ export class ChangePasswordPage implements OnInit {
       this.isLoading = false;
     });
   } 
+
+  toggleOldPasswordVisibility() {
+    this.oldType = this.oldType == 'text'? 'password': 'text';
+  }
+
+  /**
+   * toggle password field
+   */
+  togglePasswordVisibility() {
+    this.type = this.type == 'text'? 'password': 'text';
+  }
 }

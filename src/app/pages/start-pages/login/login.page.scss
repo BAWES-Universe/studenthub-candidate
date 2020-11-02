@@ -20,6 +20,7 @@
 .authArea button {
     margin-bottom: 7px;
 }
+
 .login-btn {
     background: none;
     --background: transparent;
@@ -28,3 +29,33 @@
     border: 1px solid gray;
     color: gray;
 }
+
+
+ion-item.field-password {
+    ion-input {
+        --padding-end: 60px;
+    }
+
+    .btn-password { 
+        position: absolute;
+        bottom: 0;
+        z-index: 111;
+        opacity: 0.7;
+        background: transparent;
+        top: 15px;
+    
+        ion-icon {
+            font-size: 22px;
+            color: #000;
+        } 
+    }
+}
+
+[dir="ltr"] .btn-password {
+    right: 0;
+}
+  
+[dir="rtl"] .btn-password {
+    left: 0;
+}
+  
