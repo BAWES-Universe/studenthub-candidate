@@ -89,7 +89,10 @@ export class AppComponent implements OnInit {
 
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
       this._initOneSignal();
-    } else {
+
+    //only when notification api available 
+
+    } else if(window && window.Notification) {
       this._includeOneSignalJs();
     }
   }
@@ -204,8 +207,9 @@ export class AppComponent implements OnInit {
             this.oneSignal.deleteTags(['name', 'email', 'candidate_id']);
           }
         });
-
-      } else if (window.OneSignal) {
+      } 
+      else if (window && window.Notification && window.OneSignal) 
+      {
         const OneSignal = window.OneSignal;
 
         OneSignal.isPushNotificationsEnabled(isEnabled => {
@@ -270,7 +274,9 @@ export class AppComponent implements OnInit {
           'email': this.authService.email
         });
       }
-    } else {
+    } 
+    else if(window && window.Notification && window.OneSignal) 
+    {
       const OneSignal = window.OneSignal || [];
 
       OneSignal.setSubscription(true);
@@ -336,7 +342,8 @@ export class AppComponent implements OnInit {
          // console.log('Push Subscription state changed: ' + JSON.stringify(state));
         }
       });
-    } else if (window.OneSignal) {
+
+    } else if (window && window.OneSignal && window.Notification) {
 
       const OneSignal = window.OneSignal || [];
 
@@ -396,8 +403,8 @@ export class AppComponent implements OnInit {
    */
   async _includeOneSignalJs() {
     
-    if (this.platform.is('capacitor') || window.location.hostname == 'localhost') {
-     return null; // only for browser
+    if (this.platform.is('capacitor') || window.location.hostname == 'localhost' || !window.Notification) {
+      return null; // only for browser
     }
 
     /**
