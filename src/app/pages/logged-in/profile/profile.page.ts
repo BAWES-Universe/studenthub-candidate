@@ -75,9 +75,10 @@ export class ProfilePage implements OnInit {
   }
 
   async loadData() {
+
     this.loading = true;
 
-    this.accountService.profile().subscribe(async res => {
+    this.accountService.profile().subscribe(res => {
       
       this.candidate = res;
 
