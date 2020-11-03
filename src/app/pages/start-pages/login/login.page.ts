@@ -29,6 +29,8 @@ export class LoginPage  {
   // Store number of invalid password attempts to suggest reset password
   private _numberOfLoginAttempts = 0;
 
+  public type = 'password';
+
   constructor(
     private _fb: FormBuilder,
     public navCtrl: NavController,
@@ -115,5 +117,9 @@ export class LoginPage  {
         alert.present();
       }
     });
+  }
+
+  togglePasswordVisibility() {
+    this.type = this.type == 'text'? 'password': 'text';
   }
 }
