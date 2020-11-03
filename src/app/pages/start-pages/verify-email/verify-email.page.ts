@@ -381,7 +381,4 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
   dismiss() {
     this.navCtrl.navigateRoot(['landing']);
   }
-  loginPage() {
-    this.navCtrl.navigateRoot(['/login']);
-  }
 }
