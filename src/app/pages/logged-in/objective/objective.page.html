@@ -12,6 +12,7 @@
       <ion-list>
         <ion-textarea #inputToFocus maxlength=100 formControlName="objective" rows="5"
           placeholder="{{ 'e.g. Engineer with 3 years of work experience' | translate }}"></ion-textarea>
+          
         <p [class.error]="inputToFocus.value.length == 100" class="txt-char-count">
           {{ "txt_char_left" | translate : { count : 100-inputToFocus.value.length } }}
         </p>

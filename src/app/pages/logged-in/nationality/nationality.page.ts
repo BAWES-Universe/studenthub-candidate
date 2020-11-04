@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, IonSearchbar, ModalController } from '@ionic/angular';
 //services
 import { CountryService } from 'src/app/providers/country.service';
 import { AccountService } from "../../../providers/logged-in/account.service";
@@ -16,6 +16,8 @@ import { Country } from 'src/app/models/country';
   styleUrls: ['./nationality.page.scss'],
 })
 export class NationalityPage implements OnInit {
+
+  @ViewChild('inputToFocus', { static: false }) inputToFocus: IonSearchbar;
 
   public candidate: Candidate;
 
@@ -50,8 +52,18 @@ export class NationalityPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+      if(this.inputToFocus)
+        this.inputToFocus.setFocus();
+    }, 500);
+  }
+
   onSearchInput(ev: any) {
+    
     this.query = ev.target.value;
+
     if (this.countryList) {
       this.countries = this.countryList.filter(item => {
         return (

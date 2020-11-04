@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController, IonInput, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, IonTextarea } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -15,7 +15,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 })
 export class ObjectivePage implements OnInit {
 
-  @ViewChild('inputToFocus', { static: false }) inputToFocus: IonInput;
+  @ViewChild('inputToFocus', { static: false }) inputToFocus: IonTextarea;
 
   public isLoading: boolean = false;
 
