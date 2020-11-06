@@ -63,13 +63,13 @@
       <ion-item tappable (click)="updateArea()" [class.required]="!candidate.country || !candidate.area">
         <div tabindex="0"></div>
         <ion-label>
-          <small>{{ "Address" | translate }}</small>
+          <small>{{ "Area you live in" | translate }}</small>
           <span *ngIf="candidate.area && candidate.country">
             {{ translateService.langContent(candidate.area.area_name_en, candidate.area.area_name_ar) }}<span *ngIf="candidate.country">,
               {{ translateService.langContent(candidate.country.country_name_en, candidate.country.country_name_ar) }}
             </span>
           </span>
-          <span *ngIf="!candidate.area || !candidate.country">{{ "In which area do you currently live?" | translate }}</span>
+          <span *ngIf="!candidate.area || !candidate.country">{{ "This will help us link you to jobs that are close to where you live" | translate }}</span>
         </ion-label>
       </ion-item>
 
