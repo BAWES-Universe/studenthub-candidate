@@ -49,6 +49,8 @@ import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-
 import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
+import {KuwaitiNationalPageModule} from './pages/logged-in/kuwaiti-national/kuwaiti-national.module';
+
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as Cloudinary from 'cloudinary-core';
 
@@ -111,6 +113,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CivilIdFrontPageModule,
     CivilIdBackPageModule,
     CivilExpiryPageModule,
+    KuwaitiNationalPageModule
   ],
   providers: [
     {

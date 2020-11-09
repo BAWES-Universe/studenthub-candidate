@@ -29,7 +29,7 @@ export class CompleteProfilePage implements OnInit {
   public candidate: Candidate;
 
   public pendingFields = '';
-
+  public required_candidate_mom_kuwaiti_field = false;
   constructor( 
     public navCtrl: NavController, 
     public authService: AuthService,
@@ -51,6 +51,7 @@ export class CompleteProfilePage implements OnInit {
 
     this.accountService.profile().subscribe(async res => {
       this.candidate = res;
+      this.checkKuwaitiNationality();
       this.loading = false;
     }, () => {
       this.loading = false;
@@ -76,5 +77,27 @@ export class CompleteProfilePage implements OnInit {
     this.authService.saveLoggedInUser();
 
     this.navCtrl.navigateRoot(['/']);
+  }
+
+  /**
+   * if user nationality is not kuwait
+   * but area is in kuwait
+   */
+  checkKuwaitiNationality() {
+    this.required_candidate_mom_kuwaiti_field = false;
+    if (this.candidate && this.candidate.pendingField) {
+      this.candidate.pendingField.forEach(data => {
+        if(data == 'candidate_mom_kuwaiti') {
+          this.required_candidate_mom_kuwaiti_field = true;
+        }
+      });
+    }
+  }
+
+  async getKiwaitField() {
+    if (this.required_candidate_mom_kuwaiti_field && !this.candidate.candidate_mom_kuwaiti) {
+      return false;
+    }
+    return true;
   }
 }

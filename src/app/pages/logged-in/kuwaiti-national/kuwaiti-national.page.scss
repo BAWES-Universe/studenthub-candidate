@@ -1,0 +1,129 @@
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 25px;
+    --padding-bottom: 26px;
+}
+
+.btn-close {
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    margin: 0;
+    height: auto;
+}
+
+h3 {
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-top: 30px;
+    margin-bottom: 37px;
+}
+
+ion-input {
+    height: 73px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+    border: 4px solid #BDBDBD;
+    border-radius: 10px;
+    --padding-top: 24px;
+    --padding-start: 18px;
+    --padding-end: 18px;
+    --placeholder-color: #828282;
+    --background: #fff;
+    background: #fff;
+    --padding-bottom: 24px;
+    margin-bottom: 17px;
+}
+
+.btn-submit {
+    width: 100%;
+    height: 53px;
+    text-transform: none;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    --background: #000000;
+    color: #fff;
+    margin-top: 25px;
+    margin-bottom: 24px;
+    border-radius: 22px;
+    --border-radius: 22px;
+    --box-shadow: none;
+}
+
+.btn-submit[disabled] {
+    --background: #6B6B6B;
+    color: #B4B4B4
+}
+
+.btn-wrapper {
+    display: block;    
+    text-align: center;
+    margin-top: 31px;
+}
+
+.btn-wrapper .button {
+    width: 314px;
+    height: 73px;
+    border-radius: 10px !important;
+    border: solid 4px #bdbdbd;
+    text-align: center;
+    background-color: white;
+    margin-top: 15px;
+    font-weight: normal;
+    text-transform: none !important;
+    --color: #292f38;
+    
+    ion-icon { 
+        padding: 0 0 0 5px;
+    }
+
+    [dir="rtl"] ion-icon {
+        padding: 0 0 0 5px;
+    }
+
+    span {
+        font-size: 18px; 
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal; 
+        text-align: center;
+    }
+}
+
+.active,
+.button-outline-md:hover:not(.disable-hover) {
+    background: #292f38; 
+    border: 4px solid #4354a4 !important;
+    font-weight: 500;
+
+    span {
+        font-weight: 500;
+    }
+}
+p {
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}

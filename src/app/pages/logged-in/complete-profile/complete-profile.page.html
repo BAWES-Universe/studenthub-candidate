@@ -21,7 +21,7 @@
 
     <ion-list *ngIf="candidate">
 
-      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name">
+      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name || (this.required_candidate_mom_kuwaiti_field && !candidate.candidate_mom_kuwaiti)">
         <div tabindex="0"></div>
         
         <span slot="start" class="step">
@@ -72,7 +72,7 @@ candidate.candidate_birth_date && candidate.country_id && candidate.university_i
 candidate.candidateExperiences && candidate.candidateExperiences.length > 0 && candidate.candidateSkills && candidate.candidateSkills.length > 0 && candidate.candidate_objective &&
 candidate.candidate_personal_photo && candidate.candidate_phone && candidate.candidate_email &&
 candidate.candidate_name && candidate.candidate_name_ar && candidate.candidate_civil_photo_back && candidate.candidate_civil_photo_front &&
-candidate.candidate_civil_expiry_date">
+candidate.candidate_civil_expiry_date && !this.candidate.pendingField">
   <div class="max-width">
     <ion-button class="btn-submit" [disabled]="submitting" (click)="submit()">
       <span *ngIf="!submitting">{{ "I have completed my profile" | translate }}</span>
