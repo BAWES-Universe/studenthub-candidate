@@ -335,6 +335,17 @@ export class AccountService {
     });
   }
 
+  /**
+   * update kuwaiti National Status
+   * @param candidate_mom_kuwaiti number
+   */
+  updateKuwaitiNationalStatus(candidate_mom_kuwaiti: number): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-kuwaiti-national';
+    return this._authhttp.post(url, {
+      candidate_mom_kuwaiti: candidate_mom_kuwaiti
+    });
+  }
+
   updateBankDetail(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-bank-detail', params);
   }

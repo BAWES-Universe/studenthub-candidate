@@ -11,6 +11,9 @@ import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
 import { TranslateLabelService } from './providers/translate-label.service';
 import { LanguageService } from './providers/language.service';
+import {KuwaitiNationalPage} from "./pages/logged-in/kuwaiti-national/kuwaiti-national.page";
+import {AccountService} from "./providers/logged-in/account.service";
+import {Candidate} from "./models/candidate";
 
 
 const { App, StatusBar, SplashScreen, Storage } = Plugins;
@@ -27,7 +30,7 @@ export class AppComponent implements OnInit {
   public updatesAvailable: boolean = false;
 
   public notificationScriptLoaded: boolean = false;
-
+  public candidate: any;
   constructor(
     public updates: SwUpdate,
     public oneSignal: OneSignal,
@@ -40,7 +43,8 @@ export class AppComponent implements OnInit {
     public languageService: LanguageService,
     public translateService: TranslateLabelService,
     public authService: AuthService,
-    public eventService: EventService
+    public eventService: EventService,
+    public accountService: AccountService
   ) {
     this.initializeApp();
   }
@@ -95,6 +99,7 @@ export class AppComponent implements OnInit {
     } else if(window && window.Notification) {
       this._includeOneSignalJs();
     }
+
   }
 
   /**
@@ -102,6 +107,10 @@ export class AppComponent implements OnInit {
    */
   async ngOnInit() {
 
+    this.eventService.kuwaitiNationl$.subscribe(candidate => {
+      this.candidate = candidate;
+      this.kuwaitiNationalUpdate();
+    });
     /**
      * Save user language preference after login
      */
@@ -163,7 +172,7 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
-
+      this.loadCandidateProfile();
       if(data['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
       } else {
@@ -600,6 +609,34 @@ export class AppComponent implements OnInit {
    */
   onUpdateAlertClose() {
     this.updatesAvailable = false;
+  }
+
+  /**
+   * update kuwaiti national option of user
+   */
+  async kuwaitiNationalUpdate() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: KuwaitiNationalPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async loadCandidateProfile() {
+    this.accountService.profile().subscribe(res => {
+      this.candidate = res;
+    });
   }
 }
 

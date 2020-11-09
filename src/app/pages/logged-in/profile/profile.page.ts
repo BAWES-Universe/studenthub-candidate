@@ -52,6 +52,7 @@ export class ProfilePage implements OnInit {
   public candidate: Candidate;
 
   public pendingFields = '';
+  public required_candidate_mom_kuwaiti_field = false
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -81,7 +82,7 @@ export class ProfilePage implements OnInit {
     this.accountService.profile().subscribe(res => {
       
       this.candidate = res;
-
+      this.checkKuwaitiNationality()
       //if video not processed keep pinging server 
 
       if(!this.candidate.candidate_video_processed && !this.videoInterval) {
@@ -157,7 +158,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
+      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -496,7 +497,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
+      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -612,6 +613,26 @@ export class ProfilePage implements OnInit {
 
     if (this.authService.isLogin) {
       this.accountService.setLanguagePref(code).subscribe();
+    }
+  }
+
+  async updateKuwaitiNationalStatus() {
+    this.eventService.kuwaitiNationl$.next(this.candidate);
+  }
+
+
+  /**
+   * if user nationality is not kuwait
+   * but area is in kuwait
+   */
+  checkKuwaitiNationality() {
+    this.required_candidate_mom_kuwaiti_field = false;
+    if (this.candidate && this.candidate.pendingField) {
+      this.candidate.pendingField.forEach(data => {
+        if(data == 'candidate_mom_kuwaiti') {
+          this.required_candidate_mom_kuwaiti_field = true;
+        }
+      });
     }
   }
 }

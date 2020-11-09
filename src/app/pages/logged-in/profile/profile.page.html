@@ -14,7 +14,6 @@
     <p>
       {{ "We’ll be using the information you provide to possibly match you with a work opportunity" | translate }}
     </p>
-
     <ion-list *ngIf="candidate">
 
       <ion-item tappable (click)="updatePhoto()" [class.required]="!candidate.candidate_personal_photo">
@@ -70,6 +69,16 @@
             </span>
           </span>
           <span *ngIf="!candidate.area || !candidate.country">{{ "This will help us link you to jobs that are close to where you live" | translate }}</span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti" *ngIf="required_candidate_mom_kuwaiti_field">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Your mother Kuwaiti?" | translate }}</small>
+          <span *ngIf="candidate.candidate_mom_kuwaiti == 1">{{ "Yes" | translate }}</span>
+          <span *ngIf="candidate.candidate_mom_kuwaiti == 2">{{ "No" | translate }}</span>
+          <span *ngIf="!candidate.candidate_mom_kuwaiti">{{ "Not Specified" | translate }} </span>
         </ion-label>
       </ion-item>
 
