@@ -314,12 +314,12 @@ export class PersonalInfoPage implements OnInit {
    */
   checkKuwaitiNationality() {
     this.required_candidate_mom_kuwaiti_field = false;
-    if (this.candidate && this.candidate.pendingField) {
-      this.candidate.pendingField.forEach(data => {
-        if(data == 'candidate_mom_kuwaiti') {
-          this.required_candidate_mom_kuwaiti_field = true;
-        }
-      });
+    if (
+        this.candidate && this.candidate.area && this.candidate.nationality &&
+        this.candidate.country && this.candidate.country.country_nationality_name_en == 'Kuwaiti' &&
+        this.candidate.nationality.country_nationality_name_en != 'Kuwaiti')
+    {
+      this.required_candidate_mom_kuwaiti_field = true;
     }
   }
 }
