@@ -27,8 +27,8 @@ export class UniversityService {
    */
   filter(keyword: string, page: number): Observable<any> {
     const url = environment.apiEndpoint + '/universities?q=' + keyword;
-    const request = this._http.get(url);
+    return this._http.get(url);
 
-    return this.cache.loadFromObservable('filter-university', request, 'university', this.ttl);
+    //return this.cache.loadFromObservable('filter-university', request, 'university', this.ttl);
   }
 }
