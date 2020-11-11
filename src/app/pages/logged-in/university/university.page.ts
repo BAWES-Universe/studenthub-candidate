@@ -55,16 +55,22 @@ export class UniversityPage implements OnInit {
    */
   onSearchInput(ev: any) {
     this.query = ev.target.value;
-    if (this.universityList) {
+    this.loadData(1);
+
+    /*if (this.universityList) {
       this.universities = this.universityList.filter(item => {
         return (
           item.university_name_en.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
           item.university_name_ar.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1
         );
       });
-    }
+    }*/
   }
 
+  /**
+   * load universities
+   * @param page 
+   */
   loadData(page: number) {
 
     // Load list of university
@@ -73,8 +79,11 @@ export class UniversityPage implements OnInit {
 
     this.universitySubscription = this.universityService.filter(this.query, page).subscribe(response => {
 
-      this.universities = response;
-      this.universityList = response;
+      this.totalPage = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.universities = response.body;
+      this.universityList = response.body;
     },
       error => { },
       () => {
@@ -96,13 +105,20 @@ export class UniversityPage implements OnInit {
 
     this.currentPage++;
 
+    this.loading = true;
+
     this.doInfiniteSubscription = this.universityService.filter(this.query, this.currentPage).subscribe(response => {
-      for (const university of response) {
+      for (const university of response.body) {
         this.universities.push(university);
       }
+
       if (event && event.target) {
         event.target.complete();
       }
+
+      this.loading = false;
+    }, () => {
+      this.loading = false;
     });
   }
 

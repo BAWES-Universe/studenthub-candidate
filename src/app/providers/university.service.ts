@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 // Services
 import { CacheService } from 'ionic-cache';
+import { AuthHttpService } from './logged-in/authhttp.service';
 
 
 /**
@@ -14,10 +13,10 @@ import { CacheService } from 'ionic-cache';
 })
 export class UniversityService {
 
-  public ttl = 60 * 60 * 24 * 7; // TTL in seconds for one week
+  //public ttl = 60 * 60 * 24 * 7; // TTL in seconds for one week
 
   constructor(
-    public _http: HttpClient,
+    public _http: AuthHttpService,
     public cache: CacheService
   ) { }
 
@@ -26,8 +25,8 @@ export class UniversityService {
    * @returns {Observable<any>}
    */
   filter(keyword: string, page: number): Observable<any> {
-    const url = environment.apiEndpoint + '/universities?q=' + keyword;
-    return this._http.get(url);
+    const url = '/universities?q=' + keyword;
+    return this._http.get(url, true);
 
     //return this.cache.loadFromObservable('filter-university', request, 'university', this.ttl);
   }
