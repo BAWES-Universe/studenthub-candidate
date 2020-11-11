@@ -386,6 +386,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       await alert.present();
     }
 
+    //if already recording 
+
+    if(this.mediaRecorder.state == 'recording') {
+      return false;
+    }
+
     // start timer
 
     this.timer = this.maxDuration;
