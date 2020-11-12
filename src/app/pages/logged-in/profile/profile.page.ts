@@ -135,9 +135,11 @@ export class ProfilePage implements OnInit {
 
         this.videoInterval = null;
 
-        this.candidate.candidate_video_processed = true;
-        this.candidate.candidate_video = response.candidate_video;
-        
+        if(this.candidate) {
+          this.candidate.candidate_video_processed = true;
+          this.candidate.candidate_video = response.candidate_video;
+        }
+
         //fire event to update video reference when available 
         
         this.eventService.candidateVideoProcessed$.next({
@@ -358,10 +360,13 @@ export class ProfilePage implements OnInit {
       }
 
       if(e.data && e.data.candidate_video) {
-        this.candidate.candidate_video = e.data.candidate_video;
-        this.candidate.candidate_video_processed = e.data.candidate_video_processed;
 
-        if(!this.candidate.candidate_video_processed) {
+        if(this.candidate) {
+          this.candidate.candidate_video = e.data.candidate_video;
+          this.candidate.candidate_video_processed = e.data.candidate_video_processed;
+        }
+        
+        if(!e.data.candidate_video_processed) {
           this.setVideoStatusSubsciption();
         }
       }
