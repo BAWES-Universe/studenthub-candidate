@@ -84,7 +84,8 @@ export class LocationPage implements OnInit {
     this.query = null;
 
     setTimeout(() => {
-      this.searchInput.setFocus();
+      if(this.searchInput) 
+        this.searchInput.setFocus();
     }, 500);    
   }
 
