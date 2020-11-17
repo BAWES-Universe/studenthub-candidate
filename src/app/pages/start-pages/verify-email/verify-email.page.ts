@@ -3,7 +3,7 @@ import { NavController, AlertController, LoadingController, ToastController } fr
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Plugins } from '@capacitor/core';
-//services
+// services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -23,14 +23,14 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
   public code: string;
 
   public timer: number;
-  
+
   public timerInterval;
 
-  public unVerifiedToken: string; 
+  public unVerifiedToken: string;
 
-  public isVerified: boolean = false;
-  
-  public loader: boolean = false;
+  public isVerified = false;
+
+  public loader = false;
 
   public emailVerifiedSubscription;
 
@@ -38,7 +38,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
   public timeElapsedToVerify = 0;
 
-  public timeoutToVerify = 5 * 60 * 1000;//5 min in milliseconds 
+  public timeoutToVerify = 5 * 60 * 1000; // 5 min in milliseconds
 
   public isAlreadyVerifiedSubscription: Subscription;
   public updateEmailSubscription: Subscription;
@@ -70,23 +70,23 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
       this.isAlreadyVerifiedSubscription.unsubscribe();
     }
 
-    if(!!this.updateEmailSubscription) {
+    if (!!this.updateEmailSubscription) {
       this.updateEmailSubscription.unsubscribe();
     }
 
-    if(!!this.verifyEmailSubscription) {
+    if (!!this.verifyEmailSubscription) {
       this.verifyEmailSubscription.unsubscribe();
     }
 
-    if(!!this.resendEmailSubscription) {
+    if (!!this.resendEmailSubscription) {
       this.resendEmailSubscription.unsubscribe();
     }
 
-    if(!!this.timerInterval) {
+    if (!!this.timerInterval) {
       this.clearTimer();
     }
 
-    this.clearVerifySubscription(); 
+    this.clearVerifySubscription();
   }
 
   setTimer() {
@@ -96,8 +96,8 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     }
 
     this.timer = 60;
-    
-    if(this.timerInterval) {
+
+    if (this.timerInterval) {
       return null;
     }
 
@@ -105,7 +105,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
       this.timer--;
 
-      if(!this.timer || this.timer < 1) {
+      if (!this.timer || this.timer < 1) {
         this.clearTimer();
       }
     }, 1000);
@@ -120,37 +120,42 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
   ionViewWillLeave() {
     this.clearVerifySubscription();
   }
-  
+
   clearVerifySubscription() {
 
-    if(this.emailVerifiedSubscription)
+    if (this.emailVerifiedSubscription) {
       clearInterval(this.emailVerifiedSubscription);
+    }
 
-    this.emailVerifiedSubscription = null; 
+    this.emailVerifiedSubscription = null;
   }
 
-  async ionViewDidEnter() { 
-  
+  async ionViewDidEnter() {
+
     this.setTimer();
-    
+
     this.email = this.route.snapshot.paramMap.get('email');
     this.code = this.route.snapshot.paramMap.get('code');
 
-    if(this.code)
+    if (!this.email) {
+      return this.navCtrl.navigateRoot(['not-found']);
+    }
+    if (this.code) {
       this.verify();
+    }
 
     const { value } = await Storage.get({ key: 'unVerifiedToken' });
-    
+
     const unVerifiedTokenData = JSON.parse(value);
 
-    if(unVerifiedTokenData && !this.code) {
+    if (unVerifiedTokenData && !this.code) {
       this.unVerifiedToken = unVerifiedTokenData.token;
 
       this.emailVerifiedSubscription = setInterval(_ => {
 
         this.timeElapsedToVerify += this.timeIntervalToVerify;
 
-        if(this.timeElapsedToVerify >= this.timeoutToVerify) {
+        if (this.timeElapsedToVerify >= this.timeoutToVerify) {
           this.clearVerifySubscription();
           return this.navCtrl.navigateRoot(['/']);
         }
@@ -163,15 +168,15 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
   /**
    * Verify verification code
    */
-  verify() { 
+  verify() {
 
     this.loader = true;
 
     this.verifyEmailSubscription = this.authService.verifyEmail(this.email, this.code).subscribe(async res => {
-       
+
       this.loader = false;
-      
-      if (this.isVerified) { 
+
+      if (this.isVerified) {
         return true;
       }
 
@@ -185,7 +190,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
         // });
         // await alert.present();
       }
-    }, err => { 
+    }, err => {
       this.loader = false;
     });
   }
@@ -200,7 +205,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     const ChangeEmail = this.translateService.transform('Change Email');
     const NewEmail = this.translateService.transform('Enter New Email');
 
-   const alert = await this.alertCtrl.create({
+    const alert = await this.alertCtrl.create({
       header: ChangeEmail,
       inputs: [
         {
@@ -259,16 +264,16 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     this.clearVerifySubscription();
 
     this.clearTimer();
-    
+
     Storage.remove({ key: 'unVerifiedToken' });
 
     // on email update from profile page
 
     if (this.authService.isLogin) {
 
-      this.eventService.userUpdated$.next();//email updated
+      this.eventService.userUpdated$.next(); // email updated
 
-      if(res['isProfileCompleted']) {
+      if (res.isProfileCompleted) {
         this.navCtrl.navigateRoot(['/']);
       } else {
         this.navCtrl.navigateRoot(['complete-profile']);
@@ -296,8 +301,8 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
       action = this.accountService.updateEmail(data.newEmail);
     } else {
       const params = {
-        'unVerifiedToken': this.unVerifiedToken,
-        'newEmail': data.newEmail
+        unVerifiedToken: this.unVerifiedToken,
+        newEmail: data.newEmail
       };
       action = this.authService.updateEmail(params);
     }
@@ -310,9 +315,9 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
           this.email = data.newEmail;
 
-          //reset timer 
+          // reset timer
           this.runTimer = true;
-          this.setTimer(); 
+          this.setTimer();
 
           return true;
 
@@ -353,22 +358,22 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
     this.resendEmailSubscription = this.authService.resendVerificationEmail(this.email).subscribe(async res => {
 
-      //reset timer
+      // reset timer
       this.runTimer = true;
-      this.setTimer(); 
-      
+      this.setTimer();
+
       const alert = await this.alertCtrl.create({
         message: this.translateService.errorMessage(res.message),
         buttons: [ok]
       });
       await alert.present();
 
-      if ( 
-        res.operation != 'success' && 
+      if (
+        res.operation != 'success' &&
         (
-          res.errorCode == 1 || //if email already verified 
-          res.errorCode == 3 // account not founnd 
-        ) 
+          res.errorCode == 1 || // if email already verified
+          res.errorCode == 3 // account not founnd
+        )
       ) {
         this.navCtrl.navigateRoot(['/']);
       }
