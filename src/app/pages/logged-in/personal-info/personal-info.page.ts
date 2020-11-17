@@ -32,7 +32,7 @@ export class PersonalInfoPage implements OnInit {
   public loading: boolean = false;
 
   public candidate: Candidate;
-  public required_candidate_mom_kuwaiti_field = false
+  
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
@@ -55,7 +55,6 @@ export class PersonalInfoPage implements OnInit {
 
     this.accountService.profile().subscribe(async res => {
       this.candidate = res;
-      this.checkKuwaitiNationality();
     });
   }
 
@@ -304,22 +303,8 @@ export class PersonalInfoPage implements OnInit {
 
     modal.present();
   }
+
   async updateKuwaitiNationalStatus() {
     this.eventService.kuwaitiNationl$.next(this.candidate);
-  }
-
-  /**
-   * if user nationality is not kuwait
-   * but area is in kuwait
-   */
-  checkKuwaitiNationality() {
-    this.required_candidate_mom_kuwaiti_field = false;
-    if (
-        this.candidate && this.candidate.area && this.candidate.nationality &&
-        this.candidate.country && this.candidate.country.country_nationality_name_en == 'Kuwaiti' &&
-        this.candidate.nationality.country_nationality_name_en != 'Kuwaiti')
-    {
-      this.required_candidate_mom_kuwaiti_field = true;
-    }
   }
 }
