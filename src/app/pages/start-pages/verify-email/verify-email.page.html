@@ -1,6 +1,6 @@
 <ion-content [attr.dir]="translateService.direction()">
   <div class="max-width">
-    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+    <ion-button fill="clear" (click)="dismiss()" *ngIf="!loader" class="btn-close">
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
@@ -24,7 +24,7 @@
       </ion-button>
     </ng-container>
     <ng-container>
-      <h3  *ngIf="loader">{{ "Please Wait" | translate }}</h3>
+      <h3  *ngIf="loader">{{ "Verifying your email.." | translate }}</h3>
       <h3 *ngIf="errorMsg && !loader">{{this.errorMsg}}</h3>
 
       <ion-button  *ngIf="errorMsg && !loader" (click)="dismiss()" expand="block" class="btn-resend">
