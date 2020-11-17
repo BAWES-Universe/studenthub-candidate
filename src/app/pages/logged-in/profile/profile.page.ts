@@ -52,7 +52,6 @@ export class ProfilePage implements OnInit {
   public candidate: Candidate;
 
   public pendingFields = '';
-  public required_candidate_mom_kuwaiti_field = false
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -75,6 +74,9 @@ export class ProfilePage implements OnInit {
     this.loadData();
   }
 
+  /**
+   * load candidate details
+   */
   async loadData() {
 
     this.loading = true;
@@ -82,7 +84,7 @@ export class ProfilePage implements OnInit {
     this.accountService.profile().subscribe(res => {
       
       this.candidate = res;
-      this.checkKuwaitiNationality()
+  
       //if video not processed keep pinging server 
 
       if(!this.candidate.candidate_video_processed && !this.videoInterval) {
@@ -623,21 +625,5 @@ export class ProfilePage implements OnInit {
 
   async updateKuwaitiNationalStatus() {
     this.eventService.kuwaitiNationl$.next(this.candidate);
-  }
-
-
-  /**
-   * if user nationality is not kuwait
-   * but area is in kuwait
-   */
-  checkKuwaitiNationality() {
-    this.required_candidate_mom_kuwaiti_field = false;
-    if (this.candidate && this.candidate.pendingField) {
-      this.candidate.pendingField.forEach(data => {
-        if(data == 'candidate_mom_kuwaiti') {
-          this.required_candidate_mom_kuwaiti_field = true;
-        }
-      });
-    }
   }
 }

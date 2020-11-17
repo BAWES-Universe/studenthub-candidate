@@ -21,7 +21,13 @@
 
     <ion-list *ngIf="candidate">
 
-      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name || !candidate.candidate_area_uuid || (this.required_candidate_mom_kuwaiti_field && !candidate.candidate_mom_kuwaiti)">
+      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name || !candidate.candidate_area_uuid || 
+        (
+          candidate.country && candidate.nationality &&
+          candidate.country.country_nationality_name_en == 'Kuwaiti' &&
+          candidate.nationality.country_nationality_name_en != 'Kuwaiti' && 
+          !candidate.candidate_mom_kuwaiti
+        )">
         <div tabindex="0"></div>
         
         <span slot="start" class="step">

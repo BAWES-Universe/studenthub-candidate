@@ -72,16 +72,6 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti" *ngIf="required_candidate_mom_kuwaiti_field">
-        <div tabindex="0"></div>
-        <ion-label>
-          <small>{{ "Your mother Kuwaiti?" | translate }}</small>
-          <span *ngIf="candidate.candidate_mom_kuwaiti == 1">{{ "Yes" | translate }}</span>
-          <span *ngIf="candidate.candidate_mom_kuwaiti == 2">{{ "No" | translate }}</span>
-          <span *ngIf="!candidate.candidate_mom_kuwaiti">{{ "Not Specified" | translate }} </span>
-        </ion-label>
-      </ion-item>
-
       <ion-item tappable (click)="updateEmail()" [class.required]="!candidate.candidate_email">
         <div tabindex="0"></div>
         <ion-label>
@@ -186,6 +176,19 @@
           <span *ngIf="candidate.candidate_driving_license == 1">{{ "Yes" | translate }}</span>
           <span *ngIf="candidate.candidate_driving_license == 2">{{ "No" | translate }}</span>
           <span *ngIf="!candidate.candidate_driving_license">{{ "Do you have one?" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti" 
+        *ngIf="candidate.country && candidate.nationality &&
+        candidate.country.country_nationality_name_en == 'Kuwaiti' &&
+        candidate.nationality.country_nationality_name_en != 'Kuwaiti'">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Your mother Kuwaiti?" | translate }}</small>
+          <span *ngIf="candidate.candidate_mom_kuwaiti == 1">{{ "Yes" | translate }}</span>
+          <span *ngIf="candidate.candidate_mom_kuwaiti == 2">{{ "No" | translate }}</span>
+          <span *ngIf="!candidate.candidate_mom_kuwaiti">{{ "Not Specified" | translate }} </span>
         </ion-label>
       </ion-item>
 

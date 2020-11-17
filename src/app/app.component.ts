@@ -111,6 +111,7 @@ export class AppComponent implements OnInit {
       this.candidate = candidate;
       this.kuwaitiNationalUpdate();
     });
+
     /**
      * Save user language preference after login
      */
@@ -619,6 +620,7 @@ export class AppComponent implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: KuwaitiNationalPage,
+      cssClass: 'kuwaiti-national-popup',
       componentProps: {
         candidate: this.candidate,
       }
