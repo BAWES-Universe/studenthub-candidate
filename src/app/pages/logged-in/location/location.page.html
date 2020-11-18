@@ -15,8 +15,8 @@
       
       <ion-item lines="none" [class.country-wrapper]="!country_name">
         <div tabindex="0"></div>
-        <ion-select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}" 
-          cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)">
+        <ion-select #select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}"
+          cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)" interface="popover">
           <ion-select-option value="Kuwait">{{ translateService.langContent('Kuwait', 'الكويت') }}</ion-select-option>
           <ion-select-option value="Bahrain">{{ translateService.langContent('Bahrain', 'البحرين') }}</ion-select-option>
           <ion-select-option value="Saudi Arabia">{{ translateService.langContent('Saudi Arabia', 'المملكة العربية السعودية') }}</ion-select-option>
