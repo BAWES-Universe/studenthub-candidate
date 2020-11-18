@@ -25,6 +25,10 @@
 
       <loading-modal [loading]="loading" type="text"></loading-modal>
 
+      <ion-infinite-scroll *ngIf="currentPage < totalPage" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      
       <h2 class="no-result-found" *ngIf="universities && universities.length == 0 && !loading && query">
         {{ 'no_result_found' | translate : {'query' : query } }}
       </h2>

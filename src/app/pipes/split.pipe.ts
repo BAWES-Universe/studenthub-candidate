@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SplitPipe implements PipeTransform {
     
     transform(val:string, params: any):string {
-        return val.split(params)[0];
+        if(val)
+            return val.split(params)[0];
     }
 }

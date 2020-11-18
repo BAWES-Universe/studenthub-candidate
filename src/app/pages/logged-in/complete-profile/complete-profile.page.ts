@@ -29,7 +29,7 @@ export class CompleteProfilePage implements OnInit {
   public candidate: Candidate;
 
   public pendingFields = '';
-
+ 
   constructor( 
     public navCtrl: NavController, 
     public authService: AuthService,

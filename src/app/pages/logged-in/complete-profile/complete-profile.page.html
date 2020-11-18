@@ -21,7 +21,13 @@
 
     <ion-list *ngIf="candidate">
 
-      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name">
+      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name || !candidate.candidate_area_uuid || 
+        (
+          candidate.country && candidate.nationality &&
+          candidate.country.country_nationality_name_en == 'Kuwaiti' &&
+          candidate.nationality.country_nationality_name_en != 'Kuwaiti' && 
+          !candidate.candidate_mom_kuwaiti
+        )">
         <div tabindex="0"></div>
         
         <span slot="start" class="step">
@@ -67,12 +73,12 @@
   </div>
 
 </ion-content>
-<ion-footer *ngIf="candidate && candidate.candidate_driving_license && candidate.candidate_gender &&
+<ion-footer *ngIf="candidate && candidate.candidate_driving_license && candidate.candidate_area_uuid && candidate.candidate_gender &&
 candidate.candidate_birth_date && candidate.country_id && candidate.university_id && candidate.candidate_civil_id &&
 candidate.candidateExperiences && candidate.candidateExperiences.length > 0 && candidate.candidateSkills && candidate.candidateSkills.length > 0 && candidate.candidate_objective &&
 candidate.candidate_personal_photo && candidate.candidate_phone && candidate.candidate_email &&
 candidate.candidate_name && candidate.candidate_name_ar && candidate.candidate_civil_photo_back && candidate.candidate_civil_photo_front &&
-candidate.candidate_civil_expiry_date">
+candidate.candidate_civil_expiry_date && !this.candidate.pendingField">
   <div class="max-width">
     <ion-button class="btn-submit" [disabled]="submitting" (click)="submit()">
       <span *ngIf="!submitting">{{ "I have completed my profile" | translate }}</span>

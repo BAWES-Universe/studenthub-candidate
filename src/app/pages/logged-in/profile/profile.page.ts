@@ -74,6 +74,9 @@ export class ProfilePage implements OnInit {
     this.loadData();
   }
 
+  /**
+   * load candidate details
+   */
   async loadData() {
 
     this.loading = true;
@@ -81,7 +84,7 @@ export class ProfilePage implements OnInit {
     this.accountService.profile().subscribe(res => {
       
       this.candidate = res;
-
+  
       //if video not processed keep pinging server 
 
       if(!this.candidate.candidate_video_processed && !this.videoInterval) {
@@ -134,9 +137,11 @@ export class ProfilePage implements OnInit {
 
         this.videoInterval = null;
 
-        this.candidate.candidate_video_processed = true;
-        this.candidate.candidate_video = response.candidate_video;
-        
+        if(this.candidate) {
+          this.candidate.candidate_video_processed = true;
+          this.candidate.candidate_video = response.candidate_video;
+        }
+
         //fire event to update video reference when available 
         
         this.eventService.candidateVideoProcessed$.next({
@@ -157,7 +162,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
+      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -357,10 +362,13 @@ export class ProfilePage implements OnInit {
       }
 
       if(e.data && e.data.candidate_video) {
-        this.candidate.candidate_video = e.data.candidate_video;
-        this.candidate.candidate_video_processed = e.data.candidate_video_processed;
 
-        if(!this.candidate.candidate_video_processed) {
+        if(this.candidate) {
+          this.candidate.candidate_video = e.data.candidate_video;
+          this.candidate.candidate_video_processed = e.data.candidate_video_processed;
+        }
+        
+        if(!e.data.candidate_video_processed) {
           this.setVideoStatusSubsciption();
         }
       }
@@ -496,7 +504,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
+      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -613,5 +621,19 @@ export class ProfilePage implements OnInit {
     if (this.authService.isLogin) {
       this.accountService.setLanguagePref(code).subscribe();
     }
+  }
+
+  async updateKuwaitiNationalStatus() {
+    this.eventService.kuwaitiNationl$.next(this.candidate);
+  }
+
+  /**
+   * return area name
+   * @param area 
+   * @param country 
+   */
+  area(area, country) {
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+      this.translateService.langContent(country.country_name_en, country.country_name_ar);
   }
 }

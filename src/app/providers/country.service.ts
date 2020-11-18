@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs'; 
 // Services
 import { CacheService } from "ionic-cache";
+import { AuthHttpService } from './logged-in/authhttp.service';
 
 
 /**
@@ -14,10 +13,10 @@ import { CacheService } from "ionic-cache";
 })
 export class CountryService {
 
-  public ttl = 60 * 60 * 24 * 7; // TTL in seconds for one week
+  //public ttl = 60 * 60 * 24 * 7; // TTL in seconds for one week
 
   constructor(
-    public _http: HttpClient,
+    public _http: AuthHttpService,
     public cache: CacheService
   ) { }
 
@@ -26,7 +25,7 @@ export class CountryService {
    * @returns {Observable<any>}
    */
   filter(keyword: string): Observable<any> {
-    const url = environment.apiEndpoint + '/countries?q= ' + keyword;
-    return this._http.get(url);
+    const url = '/countries?q= ' + keyword;
+    return this._http.get(url, true);
   }
 }

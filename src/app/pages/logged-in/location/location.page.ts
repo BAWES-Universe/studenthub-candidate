@@ -84,7 +84,8 @@ export class LocationPage implements OnInit {
     this.query = null;
 
     setTimeout(() => {
-      this.searchInput.setFocus();
+      if(this.searchInput) 
+        this.searchInput.setFocus();
     }, 500);    
   }
 
@@ -290,6 +291,10 @@ export class LocationPage implements OnInit {
 
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
+
+    //save changes 
+    
+    this.submit();
   }
 
   /**

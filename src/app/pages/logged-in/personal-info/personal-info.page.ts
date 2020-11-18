@@ -18,6 +18,8 @@ import { PhonePage } from '../phone/phone.page';
 import { SkillFormPage } from '../skill-form/skill-form.page';
 import { UniversityPage } from '../university/university.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
+import {LocationPage} from "../location/location.page";
+import {EventService} from "../../../providers/event.service";
 
 
 @Component({
@@ -30,13 +32,14 @@ export class PersonalInfoPage implements OnInit {
   public loading: boolean = false;
 
   public candidate: Candidate;
-
+  
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public translateService: TranslateLabelService,
     public accountService: AccountService,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -202,7 +205,7 @@ export class PersonalInfoPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
+      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -279,5 +282,29 @@ export class PersonalInfoPage implements OnInit {
   
   dismiss() {
     this.navCtrl.back();
+  }
+
+  async updateArea() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: LocationPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+      this.loadData();
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    modal.present();
+  }
+
+  async updateKuwaitiNationalStatus() {
+    this.eventService.kuwaitiNationl$.next(this.candidate);
   }
 }

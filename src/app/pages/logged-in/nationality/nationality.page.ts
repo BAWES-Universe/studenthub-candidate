@@ -74,6 +74,10 @@ export class NationalityPage implements OnInit {
     }
   }
 
+  /**
+   * load countries
+   * @param page 
+   */
   loadData(page: number) {
 
     // Load list of country
@@ -82,8 +86,11 @@ export class NationalityPage implements OnInit {
 
     this.countrySubscription = this.countryService.filter(this.query).subscribe(response => {
 
-      this.countries = response;
-      this.countryList = response;
+      this.totalPage = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.countries = response.body;
+      this.countryList = response.body;
     },
       error => { },
       () => {
@@ -105,13 +112,19 @@ export class NationalityPage implements OnInit {
 
     this.currentPage++;
 
+    this.loading = true;
+
     this.doInfiniteSubscription = this.countryService.filter(this.query).subscribe(response => {
-      for (const country of response) {
+      for (const country of response.body) {
         this.countries.push(country);
       }
       if (event && event.target) {
         event.target.complete();
       }
+
+      this.loading = false;
+    }, () => {
+      this.loading = false;
     });
   }
 
@@ -131,10 +144,9 @@ export class NationalityPage implements OnInit {
    * @param country
    */
   async rowSelected(country: Country) {
-    this.saving = true;
+    // this.saving = true;
     this.candidate.country_id = country.country_id;
     this.candidate.nationality = country;
-
     this.accountService.updateNationality(country.country_id).subscribe(async response => {
       this.saving = false;
 
@@ -144,9 +156,8 @@ export class NationalityPage implements OnInit {
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
-      } else {
-        this.dismiss();
       }
     });
+    this.dismiss();
   }
 }

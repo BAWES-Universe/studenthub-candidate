@@ -20,6 +20,7 @@ export class EventService {
   public setOneSignal$ = new Subject();
   
   public setLanguagePref$ = new Subject();
+  public kuwaitiNationl$ = new Subject();
 
   public candidateVideoProcessed$ = new Subject();
 
