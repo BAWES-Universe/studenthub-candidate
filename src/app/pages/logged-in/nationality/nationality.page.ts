@@ -144,10 +144,9 @@ export class NationalityPage implements OnInit {
    * @param country
    */
   async rowSelected(country: Country) {
-    this.saving = true;
+    // this.saving = true;
     this.candidate.country_id = country.country_id;
     this.candidate.nationality = country;
-
     this.accountService.updateNationality(country.country_id).subscribe(async response => {
       this.saving = false;
 
@@ -157,9 +156,8 @@ export class NationalityPage implements OnInit {
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
-      } else {
-        this.dismiss();
       }
     });
+    this.dismiss();
   }
 }
