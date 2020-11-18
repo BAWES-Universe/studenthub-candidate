@@ -1,6 +1,6 @@
 <ion-content [attr.dir]="translateService.direction()">
 
-  <ion-progress-bar *ngIf="isLoading" [reversed]="translateService.currentLang =='ar' ? true: false" type="indeterminate"></ion-progress-bar>
+  <ion-progress-bar *ngIf="isLoading || updating" [reversed]="translateService.currentLang =='ar' ? true: false" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width">
     <ion-button fill="clear" (click)="dismiss()" class="btn-close">
@@ -52,12 +52,6 @@
       </ion-item>
     </ion-list>
 
-    <!-- button save changes on location update/set  -->
-
-    <ion-button class="btn-submit" *ngIf="!query" (click)="submit()" [disabled]="updating || form.invalid || !form.dirty" type="submit">
-      <ion-spinner *ngIf="updating"></ion-spinner>
-      <span *ngIf="!updating">{{ "Submit" | translate }}</span>
-    </ion-button>
   </div>
   
 </ion-content>

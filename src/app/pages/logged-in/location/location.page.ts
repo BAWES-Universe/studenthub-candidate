@@ -291,6 +291,10 @@ export class LocationPage implements OnInit {
 
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
+
+    //save changes 
+    
+    this.submit();
   }
 
   /**
