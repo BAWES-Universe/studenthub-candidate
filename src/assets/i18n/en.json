@@ -17,5 +17,9 @@
     "pending_field": "Please complete your profile with pending fields like {{ value }}",
     "txt_transfer_pending": "from {{company}} for working at {{store}}",
     "txt_time_elapsed": "{{ seconds }} seconds left",
-    "txt_recording_error": "The following error occurred: {{ error }}"
+    "txt_recording_error": "The following error occurred: {{ error }}",
+    "txt_years_old": "{{ value }} years old",
+    "txt_file_uploaded": "{{ extension }} file uploaded",
+    "txt_born_on": "Born on <b>{{ date }}</b>",
+    "txt_lives_in": "Lives in <b>{{area}}</b>"
 }
