@@ -626,4 +626,14 @@ export class ProfilePage implements OnInit {
   async updateKuwaitiNationalStatus() {
     this.eventService.kuwaitiNationl$.next(this.candidate);
   }
+
+  /**
+   * return area name
+   * @param area 
+   * @param country 
+   */
+  area(area, country) {
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+      this.translateService.langContent(country.country_name_en, country.country_name_ar);
+  }
 }

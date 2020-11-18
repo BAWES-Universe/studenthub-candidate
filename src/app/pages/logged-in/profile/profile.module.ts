@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { AgePipe } from 'src/app/pipes/age.pipe';
 
 @NgModule({
   imports: [
@@ -19,6 +20,9 @@ import { TranslateModule } from '@ngx-translate/core';
     LoadingModalModule,
     ProfilePageRoutingModule
   ],
-  declarations: [ProfilePage]
+  declarations: [
+    ProfilePage,
+    AgePipe
+  ]
 })
 export class ProfilePageModule {}
