@@ -12,7 +12,7 @@ export const environment = {
   oneSignalSafariAppId: '',
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto:low/v1596453482/dev/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
-  apiEndpoint: 'http://localhost/studenthub/candidate/web/v1'
+  apiEndpoint: 'http://localhost:8888/studenthub/candidate/web/v1'
   //apiEndpoint: 'http://localhost/studenthub/candidate/web/v1'
 };
 
