@@ -222,6 +222,20 @@ export class AccountService {
     });
   }
 
+
+  /**
+   * update civil id number and civil_expiry_date
+   * @param civil_id
+   * @param civil_expiry_date
+   */
+  updateCivilIdAndExpiryDate(civil_id: string, civil_expiry_date: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-civil-id-expiry-date';
+    return this._authhttp.post(url, {
+      civil_id: civil_id,
+      civil_expiry_date: civil_expiry_date
+    });
+  }
+
   /**
    * update resume
    * @param resume string
