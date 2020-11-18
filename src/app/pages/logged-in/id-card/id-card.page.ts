@@ -24,6 +24,8 @@ export class IdCardPage implements OnInit {
   public candidate: Candidate;
 
   public form: FormGroup;
+  public min; //min date
+  public max;//max date
 
   constructor(
     public _fb: FormBuilder,
@@ -36,38 +38,50 @@ export class IdCardPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._initForm();
+    const today = new Date();
+    // var dd = today.getDate();
+    const mm = today.getMonth() + 1; // 0 is January, so we must add 1
+    const yyyy = today.getFullYear();
 
-    setTimeout(() => {
-      if(this.inptId)
-        this.inptId.setFocus();
-    }, 500);
+    this.min = new Date().toISOString();
+    this.max = new Date((yyyy + 20), mm).toISOString();
+
+    // this._initForm();
+
+    // setTimeout(() => {
+    //   if(this.inptId)
+    //     this.inptId.setFocus();
+    // }, 500);
   }
 
+  ionViewDidEnter() {
+    this._initForm();
+  }
   /**
    * Initialise form
    */
-  async _initForm() {
-
+  _initForm() {
     this.form = this._fb.group({
       civil_id: [this.candidate.candidate_civil_id, Validators.required],
+      civil_expiry_date: [this.candidate.candidate_civil_expiry_date, Validators.required],
     });
+    console.log(this.form.value.civil_id);
   }
 
   /**
    * save civil_id
    */
   submit() {
-    this.isLoading = true; 
+    this.isLoading = true;
 
-    this.accountService.updateCivilId(this.form.value.civil_id).subscribe(res => {
+    this.accountService.updateCivilIdAndExpiryDate(this.form.value.civil_id, this.form.value.civil_expiry_date).subscribe(res => {
 
       this.isLoading = false;
 
       if(res.operation == 'success') {
 
         this.candidate.candidate_civil_id = this.form.value.civil_id;
-        
+        this.candidate.candidate_civil_expiry_date = res.candidate_civil_expiry_date;
         this.dismiss();
       } else {
         this.alertCtrl.create({

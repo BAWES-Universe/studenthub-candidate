@@ -241,5 +241,9 @@
     "This is hopefully temporary as we’re currently working on legalizing health cards for non-Kuwaitis.": "نأمل أن يكون هذا مؤقتًا لأننا نعمل حاليًا على تقنين البطاقات الصحية لغير الكويتيين.",
     "Your mother Kuwaiti?": "امك كويتية؟",
     "Not Specified": "غير محدد",
-    "Verifying your email.." : "التحقق من بريدك الإلكتروني .."
+    "Verifying your email.." : "التحقق من بريدك الإلكتروني ..",
+    "The details of your civil id card.": "رقم البطاقة المدنية وانتهاء صلاحيتها",
+    "Civil ID number and expiry": "رقم البطاقة المدنية وانتهاء صلاحيتها",
+    "The number on your civil id card": "الرقم الموجود على بطاقة الهوية المدنية الخاصة بك",
+    "Expiring on": "تنتهي في"
 }
