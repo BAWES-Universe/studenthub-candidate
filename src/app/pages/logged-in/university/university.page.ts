@@ -153,8 +153,9 @@ export class UniversityPage implements OnInit {
           alert.present();
         });
       } else  {
-        this.dismiss();
+        // this.dismiss();
       }
     });
+    this.dismiss();
   }
 }

@@ -32,7 +32,7 @@ export class KuwaitiNationalPage implements OnInit {
    */
   submit(answer) {
     this.isLoading = answer;
-
+    this.candidate.candidate_mom_kuwaiti = answer;
     this.accountService.updateKuwaitiNationalStatus(answer).subscribe(res => {
 
       this.isLoading = false;
@@ -40,8 +40,6 @@ export class KuwaitiNationalPage implements OnInit {
       if(res.operation == 'success') {
 
         this.candidate.candidate_mom_kuwaiti = answer;
-
-        this.dismiss(); 
 
       } else {
         this.alertCtrl.create({
@@ -54,6 +52,7 @@ export class KuwaitiNationalPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**
