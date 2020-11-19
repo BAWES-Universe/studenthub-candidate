@@ -23,6 +23,7 @@ const { Geolocation } = Plugins;
 export class LocationPage implements OnInit {
 
   public isLoading = false;
+  public loading = false;
   public updating = false;
 
   public candidate: Candidate;
@@ -107,6 +108,9 @@ export class LocationPage implements OnInit {
   async getItems(ev: any) {
 
     this.query = ev.target.value;
+    if (this.query) {
+      this.loading = true;
+    }
 
     if (!this.query || this.query.length == 0) {
       this.places = [];
@@ -114,7 +118,7 @@ export class LocationPage implements OnInit {
     }
 
     this.googleMapService.getPlacePredictions(this.query, this.country_name).subscribe(result => {
-
+      this.loading = false;
       if (!result || result.length == 0) {
         return null;
       }

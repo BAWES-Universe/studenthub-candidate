@@ -23,7 +23,7 @@
         <ion-spinner slot="end" *ngIf="saving && candidate.country_id == country.country_id"></ion-spinner>
       </ion-item>
 
-      <loading-modal [loading]="loading" type="text"></loading-modal>
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
       <ion-infinite-scroll *ngIf="currentPage < totalPage" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
