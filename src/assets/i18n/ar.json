@@ -261,5 +261,6 @@
     "txt_years_old": "{{ value }} years old",
     "txt_file_uploaded": "{{ extension }} file uploaded",
     "txt_born_on": "Born on <b>{{ date }}</b>",
-    "txt_lives_in": "Lives in <b>{{area}}</b>"
+    "txt_lives_in": "Lives in <b>{{area}}</b>",
+    "txt_add_univerity": "No Search results found. Want us to add \"{{ query }}\"?"
 }
