@@ -8,7 +8,7 @@ import { LocationPageRoutingModule } from './location-routing.module';
 
 import { LocationPage } from './location.page';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     ReactiveFormsModule,
     TranslateModule.forChild(),
+    LoadingModalModule,
     LocationPageRoutingModule
   ],
   declarations: [LocationPage]

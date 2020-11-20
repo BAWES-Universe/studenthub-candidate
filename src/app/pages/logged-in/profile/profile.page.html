@@ -165,7 +165,6 @@
         candidate.nationality.country_nationality_name_en != 'Kuwaiti'">
         <div tabindex="0"></div>
         <ion-label>
-          <small>{{ "" | translate }}</small>
           <span *ngIf="candidate.candidate_mom_kuwaiti == 1" [innerHtml]="'Mother is <b>Kuwaiti</b>' | translate"></span>
           <span *ngIf="candidate.candidate_mom_kuwaiti == 2" [innerHtml]="'Mother is <b>not Kuwaiti</b>' | translate"></span>
           <span *ngIf="!candidate.candidate_mom_kuwaiti">{{ "Your mother Kuwaiti?" | translate }} </span>
