@@ -91,8 +91,7 @@
 
 .first-impression,
 .national-id,
-.personal-info,
-.profile {
+.personal-info {
     
     ion-skeleton-text {
         padding: 0;
@@ -332,3 +331,226 @@
     }
 }
 
+.profile {
+    ion-thumbnail {
+        width: 136px;
+        height: 136px;
+        --border-radius: 100%;
+        margin: 38px 0 32px 0;
+    }
+    
+    h2.candidate-name {
+        margin: 32px 0 25px 0;
+        height: 35px;
+        width: 240px;
+    }
+    
+    h4.candidate-name {
+        margin: 5px 0 24px 0;
+        height: 30px;
+        width: 300px;
+    }
+    
+    .birth-date {
+        margin: 11px 0 24px 0;
+        
+        .txt-born-on {
+            width: 95px;
+            height: 22px;
+            display: block;
+        }
+
+        .txt-birth-date {
+            width: 175px;
+            height: 17px;
+            margin-top: 12px;
+        }
+    }
+    
+    .objective {
+        margin: 24px 0 40px 0;
+        height: 22px;
+        width: 95%;
+    }
+    
+    ion-item {
+        --inner-border-width: 0;
+        --padding-start: 58px;
+        margin-bottom: 5px;
+    
+        ion-label {
+            margin-bottom: 5px;
+        }
+    
+        h5 {
+            margin: 0 0 7px 0;
+            height: 19px;
+            width: 210px;
+        }
+    
+        p {
+            margin: 3px 0 13px 0;
+            height: 17px;
+            width: 70%;
+        }
+    
+        .hint {
+            margin: 7px 0 11px 0;
+            height: 17px;
+            width: 70%;
+        }
+    }
+    
+    .skills,
+    .experiences {
+        p {
+            margin-top: 10px;
+        }
+    
+        span {
+            clear: both;
+            display: block;
+        }
+    }
+    
+    .no-logo {
+        border: 1px solid #57CCC6;
+    }
+    
+    .video {
+        --background: url('src/assets/images/ic_video.svg') no-repeat 0px 11px;
+    
+        img {
+            width: 90px;
+            margin-top: 5px;
+        }
+    }
+    
+    .resume {
+        --background: url('src/assets/images/ic_ad.svg') no-repeat 0px 11px;
+    }
+    
+    .skills {
+        --background: url('src/assets/images/ic_food_tools.svg') no-repeat 0px 11px;
+    }
+    
+    .experiences {
+        --background: url('src/assets/images/ic_suitcase.svg') no-repeat 0px 11px;
+    }
+    
+    .area {
+        --background: url('src/assets/images/ic_home_2.svg') no-repeat 0px 11px;
+
+        ion-skeleton-text {
+            width: 50%;
+        }
+    }
+    
+    .phone {
+        --background: url('src/assets/images/ic_phone.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 70%;
+        }
+    }
+    
+    .email {
+        --background: url('src/assets/images/ic_message.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 55%;
+        }
+    }
+    
+    .nationality {
+        --background: url('src/assets/images/ic_globe.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 70%;
+        }
+    }
+    
+    .gender {
+        --background: url('src/assets/images/ic_swipe.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 60%;
+        }
+    }
+    
+    .university {
+        --background: url('src/assets/images/md-school.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 50%;
+        }
+    }
+    
+    .driving-license {
+        --background: url('src/assets/images/ic_car.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 80%;
+        }
+    }
+    
+    .mother-nationality {
+        --background: url('src/assets/images/ic_username.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 60%;
+        }
+    }
+    
+    .id-number {
+        --background: url('src/assets/images/ic_feed.svg') no-repeat 0px 15px;
+
+        ion-skeleton-text {
+            width: 70%;
+        }
+    }
+    
+    .civil-front,
+    .civil-back {
+        --background: url('src/assets/images/ic_profile_info.svg') no-repeat 0px 15px;
+    
+        p {
+            margin-bottom: 7px;
+        }
+    }
+    
+    .area,
+    .phone,
+    .email,
+    .nationality,
+    .gender,
+    .university,
+    .driving-license,
+    .mother-nationality,
+    .id-number,
+    .civil-front,
+    .civil-back {
+        margin-bottom: 5px;
+
+        ion-skeleton-text {
+            height: 17px;
+        }
+    }
+    
+    .civil-id-image {
+        height: 200px !important;
+        width: 150px;
+    }
+
+    .txt-expiring-on {
+        opacity: 0.85;
+    }
+    
+    @media only screen and (max-width: 750px) {
+        
+        ion-thumbnail {
+            margin: 8px 0 32px 0;
+        }
+    }
+    
+}

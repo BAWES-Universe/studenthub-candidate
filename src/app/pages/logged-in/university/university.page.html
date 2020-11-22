@@ -22,16 +22,23 @@
         <ion-spinner slot="end" *ngIf="saving && candidate.university_id == university.university_id"></ion-spinner>
 
       </ion-item>
+      
+      <ion-item *ngIf="universities.length == 0 && query.length > 0 createUniversity" tappable (click)="createUniversity()">
+        <div tabindex="0"></div>
+        {{ 'txt_add_univerity' | translate : { query : query } }}
+        <ion-spinner slot="end" *ngIf="adding || (saving && university && candidate.university_id == university.university_id)"></ion-spinner>
+      </ion-item>
 
-      <loading-modal [loading]="loading" type="text"></loading-modal>
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
       <ion-infinite-scroll *ngIf="currentPage < totalPage" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
       
-      <h2 class="no-result-found" *ngIf="universities && universities.length == 0 && !loading && query">
+      <h2 class="no-result-found" *ngIf="universities && universities.length == 0 && !loading && query.length == 0">
         {{ 'no_result_found' | translate : {'query' : query } }}
       </h2>
+      
     </ion-list>
   </div>
 </ion-content>

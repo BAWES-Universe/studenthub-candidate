@@ -32,8 +32,8 @@ export class GenderPage implements OnInit {
    * save arabic name
    */
   submit(answer) {
-    this.isLoading = answer; 
-
+    this.isLoading = answer;
+    this.candidate.candidate_gender = answer;
     this.accountService.updateGender(answer).subscribe(res => {
 
       this.isLoading = false;
@@ -41,8 +41,6 @@ export class GenderPage implements OnInit {
       if(res.operation == 'success') {
 
         this.candidate.candidate_gender = answer;
-
-        this.dismiss();
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),
@@ -54,6 +52,7 @@ export class GenderPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**

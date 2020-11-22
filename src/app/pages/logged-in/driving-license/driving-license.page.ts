@@ -32,8 +32,8 @@ export class DrivingLicensePage implements OnInit {
    * save arabic name
    */
   submit(answer) {
-    this.isLoading = answer; 
-
+    this.isLoading = answer;
+    this.candidate.candidate_driving_license = answer;
     this.accountService.updateDrivingLicense(answer).subscribe(res => {
 
       this.isLoading = false;
@@ -41,8 +41,6 @@ export class DrivingLicensePage implements OnInit {
       if(res.operation == 'success') {
 
         this.candidate.candidate_driving_license = answer;
-
-        this.dismiss(); 
 
       } else {
         this.alertCtrl.create({
@@ -55,6 +53,7 @@ export class DrivingLicensePage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**
