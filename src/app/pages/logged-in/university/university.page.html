@@ -26,7 +26,7 @@
       <ion-item *ngIf="universities.length == 0 && query.length > 0 createUniversity" tappable (click)="createUniversity()">
         <div tabindex="0"></div>
         {{ 'txt_add_univerity' | translate : { query : query } }}
-        <ion-spinner slot="end" *ngIf="adding || (saving && university && candidate.university_id == university.university_id)"></ion-spinner>
+        <ion-spinner slot="end" *ngIf="adding"></ion-spinner>
       </ion-item>
 
       <loading-modal [loading]="loading" type="text-list"></loading-modal>
