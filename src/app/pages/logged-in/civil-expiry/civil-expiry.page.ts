@@ -61,8 +61,8 @@ export class CivilExpiryPage implements OnInit {
    * save arabic name
    */
   submit() {
-    this.isLoading = true; 
-
+    this.isLoading = true;
+    this.candidate.candidate_civil_expiry_date = this.form.value.civil_expiry_date;
     this.accountService.updateCivilExpiryDate(this.form.value.civil_expiry_date).subscribe(res => {
 
       this.isLoading = false;

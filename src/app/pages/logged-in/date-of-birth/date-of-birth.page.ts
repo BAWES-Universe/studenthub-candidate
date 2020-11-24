@@ -66,8 +66,8 @@ export class DateOfBirthPage implements OnInit {
    * save arabic name
    */
   submit() {
-    this.isLoading = true; 
-
+    this.isLoading = true;
+    this.candidate.candidate_birth_date = this.form.value.birth_date;
     this.accountService.updateBirthDate(this.form.value.birth_date).subscribe(res => {
 
       this.isLoading = false;
@@ -75,8 +75,6 @@ export class DateOfBirthPage implements OnInit {
       if(res.operation == 'success') {
 
         this.candidate.candidate_birth_date = res.candidate_birth_date;
-
-        this.dismiss();
         
       } else {
         this.alertCtrl.create({
@@ -89,6 +87,7 @@ export class DateOfBirthPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**
