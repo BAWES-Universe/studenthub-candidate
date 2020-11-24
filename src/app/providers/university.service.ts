@@ -15,6 +15,8 @@ export class UniversityService {
 
   //public ttl = 60 * 60 * 24 * 7; // TTL in seconds for one week
 
+  private _urlEndpoint = '/universities';
+
   constructor(
     public _http: AuthHttpService,
     public cache: CacheService
@@ -25,9 +27,21 @@ export class UniversityService {
    * @returns {Observable<any>}
    */
   filter(keyword: string, page: number): Observable<any> {
-    const url = '/universities?q=' + keyword;
+    const url = this._urlEndpoint + '?q=' + keyword + '&page=' + page;
     return this._http.get(url, true);
 
     //return this.cache.loadFromObservable('filter-university', request, 'university', this.ttl);
+  }
+
+  /**
+   * Add new university if not available in list 
+   * @param name
+   */
+  create(name: string): Observable<any> {
+    let url = this._urlEndpoint;
+    let params = {
+      'name': name
+    };
+    return this._http.post(url, params);
   }
 }

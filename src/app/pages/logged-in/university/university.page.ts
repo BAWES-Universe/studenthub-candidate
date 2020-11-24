@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {AlertController, ModalController} from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 // services
 import { UniversityService } from 'src/app/providers/university.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -17,6 +17,8 @@ import { University } from 'src/app/models/university';
 })
 export class UniversityPage implements OnInit {
 
+  public adding: boolean = false;
+
   public candidate: Candidate;
 
   public currentPage = 1;
@@ -25,9 +27,9 @@ export class UniversityPage implements OnInit {
 
   public query = '';
 
-  public universities: University[];
+  public universities: University[] = [];
 
-  public universityList: University[];
+  public universityList: University[] = [];
 
   public loading = false;
   public saving = false;
@@ -149,13 +151,37 @@ export class UniversityPage implements OnInit {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(response.message),
           buttons: [this.translateService.transform('Okay')],
-        }).then( alert => {
+        }).then(alert => {
           alert.present();
         });
-      } else  {
+      } else {
         // this.dismiss();
       }
     });
     this.dismiss();
+  }
+
+  /**
+   * create new university
+   */
+  createUniversity() {
+
+    this.adding = true;
+
+    this.universityService.create(this.query).subscribe(response => {
+
+      this.adding = false;
+
+      if (response.operation == 'success') {
+        this.rowSelected(response.university);
+      } else {
+        this.alertCtrl.create({
+          message: this.translateService.errorMessage(response.message),
+          buttons: [this.translateService.transform('Ok')]
+        }).then(prompt => prompt.present());
+      }
+    },() => {
+      this.adding = false;
+    });
   }
 }
