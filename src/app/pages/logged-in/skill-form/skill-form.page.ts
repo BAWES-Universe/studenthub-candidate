@@ -226,19 +226,19 @@ export class SkillFormPage implements OnInit {
     }
 
     if (skills.length <= this.maxSkillsAllowed) {
-      this.loading = true;
+      // this.loading = true;
       const params = {
         'skills': skills.join(',')
       };
 
       this.accountService.updateSkills(params).subscribe(jsonResponse => {
-
+            this.candidate.candidateSkills = jsonResponse.skills;
         // On Success
-        if (jsonResponse.operation == 'success') {
-
-          this.candidate.candidateSkills = jsonResponse.skills;
-          this.dismiss();
-        }
+        // if (jsonResponse.operation == 'success') {
+        //
+        //   this.candidate.candidateSkills = jsonResponse.skills;
+        //
+        // }
 
         // On Failure
         if (jsonResponse.operation == 'error') {
@@ -253,6 +253,7 @@ export class SkillFormPage implements OnInit {
         () => {
           this.loading = false;
         });
+      this.dismiss();
     }
   }
 }

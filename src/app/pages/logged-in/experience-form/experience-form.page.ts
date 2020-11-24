@@ -226,7 +226,7 @@ export class ExperienceFormPage implements OnInit {
     }
 
     if (experiences.length <= this.maxExperiencesAllowed) {
-      this.loading = true;
+      // this.loading = true;
       const params = {
         'experiences': experiences.join(',')
       };
@@ -237,8 +237,6 @@ export class ExperienceFormPage implements OnInit {
         if (jsonResponse.operation == 'success') {
 
           this.candidate.candidateExperiences = jsonResponse.experiences;
-
-          this.dismiss();
         }
 
         // On Failure
@@ -254,6 +252,7 @@ export class ExperienceFormPage implements OnInit {
         () => {
           this.loading = false;
         });
+      this.dismiss();
     }
   }
 }

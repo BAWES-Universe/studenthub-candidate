@@ -67,12 +67,12 @@ export class NamePage implements OnInit {
       prompt.present();
       return false;
     }
-    
-    this.isLoading = true; 
+
+    // this.isLoading = true;
 
     this.accountService.updateName(this.form.value.name).subscribe(res => {
 
-      this.isLoading = false;
+      // this.isLoading = false;
 
       if(res.operation == 'success') {
         this.candidate.candidate_name = this.form.value.name;
@@ -81,8 +81,6 @@ export class NamePage implements OnInit {
           candidate_name: this.candidate.candidate_name,
           candidate_name_ar: this.candidate.candidate_name_ar
         });
-
-        this.dismiss();
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),
@@ -94,6 +92,7 @@ export class NamePage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**
