@@ -68,11 +68,11 @@ export class NameArPage implements OnInit {
       return false;
     }
     
-    this.isLoading = true; 
+    // this.isLoading = true;
 
     this.accountService.updateNameAr(this.form.value.name_ar).subscribe(res => {
 
-      this.isLoading = false;
+      // this.isLoading = false;
 
       if(res.operation == 'success') {
         this.candidate.candidate_name_ar = this.form.value.name_ar;
@@ -82,7 +82,6 @@ export class NameArPage implements OnInit {
           candidate_name_ar: this.candidate.candidate_name_ar
         });
 
-        this.dismiss();
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),
@@ -94,6 +93,7 @@ export class NameArPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**

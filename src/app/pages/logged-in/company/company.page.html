@@ -41,7 +41,12 @@
    
     <ion-slides *ngIf="company.brands" [options]="slideOpts" pager="false">
       <ion-slide *ngFor="let brand of company.brands">
-        <img src="{{ awsService.cloudinaryUrl + 'company-brand/' +brand.brand_logo }}" />
+        
+        <div class="no-logo" *ngIf="!brand.brand_logo">
+          <span>{{ translateService.langContent(brand.brand_name_en, brand.brand_name_ar) }} </span>
+        </div>
+
+        <img *ngIf="brand.brand_logo" src="{{ awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo }}" />
       </ion-slide>
     </ion-slides>
   </div>

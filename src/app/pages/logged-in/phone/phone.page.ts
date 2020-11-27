@@ -55,17 +55,15 @@ export class PhonePage implements OnInit {
    * save arabic name
    */
   submit() {
-    this.isLoading = true;
+    // this.isLoading = true;
 
     this.accountService.updatePhoneDetail(this.form.value).subscribe(res => {
 
-      this.isLoading = false;
+      // this.isLoading = false;
 
       if (res.operation == 'success') {
 
         this.candidate.candidate_phone = this.form.value.phone;
-
-        this.dismiss();
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),
@@ -77,6 +75,7 @@ export class PhonePage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**

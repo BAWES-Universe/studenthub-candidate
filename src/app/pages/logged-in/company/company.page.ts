@@ -51,8 +51,8 @@ export class CompanyPage implements OnInit {
     public modalCtrl: ModalController
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { 
+  } 
 
   dismiss() {
     this.modalCtrl.dismiss();

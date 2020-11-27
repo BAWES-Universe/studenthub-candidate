@@ -54,8 +54,8 @@ export class ObjectivePage implements OnInit {
    * save objective
    */
   submit() {
-    this.isLoading = true; 
-
+    this.isLoading = true;
+    this.candidate.candidate_objective = this.form.value.objective;
     this.accountService.updateObjective(this.form.value.objective).subscribe(res => {
 
       this.isLoading = false;
@@ -64,7 +64,7 @@ export class ObjectivePage implements OnInit {
 
         this.candidate.candidate_objective = this.form.value.objective;
 
-        this.dismiss();
+
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),
@@ -76,6 +76,7 @@ export class ObjectivePage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
+    this.dismiss();
   }
 
   /**
