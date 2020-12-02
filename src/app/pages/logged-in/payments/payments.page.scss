@@ -78,13 +78,14 @@ h3 {
         color: #000;
     }
     .sal {
+        font-family: EffraMedium;
         font-size: 24px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
         line-height: normal;
         letter-spacing: normal;
-        color: #000;
+        color:#000;
     }
     .from {
         font-size: 14px;
@@ -146,4 +147,15 @@ ion-card.success {
 h3 {
     font-family: 'effraLight', sans-serif !important;
     --ion-font-family: 'effraLight', sans-serif !important;
+}
+.transfer-to {
+    margin: 14px 0 0;
+    font-family: EffraMedium;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
 }
