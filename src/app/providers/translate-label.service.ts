@@ -47,7 +47,7 @@ export class TranslateLabelService extends TranslateService {
             return arContent;
         }
 
-        return enContent;
+        return enContent? enContent: arContent;
     }
 
     /**
