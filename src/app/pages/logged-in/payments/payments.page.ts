@@ -189,10 +189,16 @@ export class PaymentsPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      this.profile();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+
+      if(e.data && e.data.bank && this.candidate) {
+        this.candidate.bank_account_name = e.data.bank_account_name;
+        this.candidate.candidate_iban = e.data.candidate_iban;
+        this.candidate.bank_id = e.data.bank.bank_id;
+        this.candidate.bank = e.data.bank;
       }
     });
     modal.present();

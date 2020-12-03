@@ -15,6 +15,7 @@ export class EventService {
   public userLogin$ = new Subject();
   public userUpdated$ = new Subject();
   public nameUpdated$ = new Subject();
+  public bankUpdated$ = new Subject();
   
   public setOneSignalSubscription$ = new Subject();
   public setOneSignal$ = new Subject();

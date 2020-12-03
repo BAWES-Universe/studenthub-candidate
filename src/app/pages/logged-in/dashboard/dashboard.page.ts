@@ -68,7 +68,17 @@ export class DashboardPage implements OnInit {
     this.loadData();
     this.loadProfile();
 
+    this.eventService.bankUpdated$.subscribe((data: any) => {
+      if(this.candidate) {
+        this.candidate.bank_account_name = data.bank_account_name;
+        this.candidate.candidate_iban = data.candidate_iban;
+        this.candidate.bank = data.bank;
+        this.candidate.bank_id = data.bank.bank_id;
+      }
+    });
+        
     this.eventService.nameUpdated$.subscribe((data: { candidate_name, candidate_name_ar }) => {
+      console.log(data);
       if(this.candidate) {
         this.candidate.candidate_name = data.candidate_name;
         this.candidate.candidate_name_ar = data.candidate_name_ar;
