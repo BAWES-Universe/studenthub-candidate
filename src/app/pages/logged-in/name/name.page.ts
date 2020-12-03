@@ -81,6 +81,7 @@ export class NamePage implements OnInit {
           candidate_name: this.candidate.candidate_name,
           candidate_name_ar: this.candidate.candidate_name_ar
         });
+        
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),

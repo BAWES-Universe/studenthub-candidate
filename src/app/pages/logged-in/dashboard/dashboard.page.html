@@ -61,7 +61,9 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card class="card-bank-details" tappable (click)="updateBank($event)">
+      <ion-card class="card-bank-details" tappable 
+        *ngIf="!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank" 
+        (click)="updateBank($event)">
         <ion-card-header class="white-bg">
           <ion-card-title>
             {{ "Enter your banking details" | translate }}

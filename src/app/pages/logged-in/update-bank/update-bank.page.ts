@@ -91,7 +91,16 @@ export class UpdateBankPage implements OnInit {
       this.isLoading = false;
 
       if (res.operation == 'success') {
-        this.dismiss();
+     
+        const data = {
+          'bank_account_name' : this.form.value.benef_name,
+          'candidate_iban': this.form.value.iban,
+          'bank': res.bank
+        };
+
+        this.eventService.bankUpdated$.next(data);
+        
+        this.dismiss(data);
       }
       else if (res.operation == 'error') {
         this._handleError(res);
