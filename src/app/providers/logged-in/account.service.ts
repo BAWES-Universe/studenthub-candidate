@@ -19,7 +19,7 @@ export class AccountService {
    * load profile details
    */
   profile(): Observable<any> {
-    const url = this._accountEndpoint + '/profile?expand=area,isProfileCompleted,nationality,country,university,candidateSkills,candidateExperiences';
+    const url = this._accountEndpoint + '/profile?expand=bank,area,isProfileCompleted,nationality,country,university,candidateSkills,candidateExperiences';
     return this._authhttp.get(url);
   }
 
