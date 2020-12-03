@@ -30,7 +30,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
   public isVerified = false;
 
-  public loader = false;
+  public loader = true;
 
   public emailVerifiedSubscription;
 
@@ -174,7 +174,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
     this.verifyEmailSubscription = this.authService.verifyEmail(this.email, this.code).subscribe(async res => {
 
-      this.loader = false;
+
 
       if (this.isVerified) {
         return true;
@@ -183,6 +183,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
       if (res.operation == 'success') {
         this.onSuccess(res);
       } else {
+        this.loader = false;
         this.errorMsg = res.message;
         // const alert = await this.alertCtrl.create({
         //   message: this.translateService.errorMessage(res.message),
@@ -191,7 +192,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
         // await alert.present();
       }
     }, err => {
-      this.loader = false;
+      // this.loader = false;
     });
   }
 
@@ -270,7 +271,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     // on email update from profile page
 
     if (this.authService.isLogin) {
-
+      // this.loader = false;
       this.eventService.userUpdated$.next(); // email updated
 
       if (res.isProfileCompleted) {
