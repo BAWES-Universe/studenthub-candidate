@@ -126,7 +126,7 @@
         <div tabindex="0"></div>
         <ion-label>
           <b
-            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_name_en, candidate.nationality.country_name_ar) }}</b>
+            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_nationality_name_en, candidate.nationality.country_nationality_name_ar) }}</b>
           <b *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </b>
         </ion-label>
       </ion-item>
