@@ -96,18 +96,6 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable class="area" (click)="updateArea()" [class.required]="!candidate.country || !candidate.area">
-        <div tabindex="0"></div>
-        <ion-label>
-          <p *ngIf="candidate.area && candidate.country" 
-            [innerHtml]="'txt_lives_in' | translate : { 
-               area : area(candidate.area, candidate.country) 
-              }">
-          </p>
-          <p *ngIf="!candidate.area || !candidate.country">{{ "Area you live in" | translate }}</p>
-        </ion-label>
-      </ion-item>
-
       <ion-item tappable class="phone" (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
         <div tabindex="0"></div>
         <ion-label>
@@ -119,6 +107,18 @@
         <div tabindex="0"></div>
         <ion-label>
           <b>{{ candidate.candidate_email }}</b>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable class="area" (click)="updateArea()" [class.required]="!candidate.country || !candidate.area">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p *ngIf="candidate.area && candidate.country"
+             [innerHtml]="'txt_lives_in' | translate : {
+               area : area(candidate.area, candidate.country)
+              }">
+          </p>
+          <p *ngIf="!candidate.area || !candidate.country">{{ "Area you live in" | translate }}</p>
         </ion-label>
       </ion-item>
 

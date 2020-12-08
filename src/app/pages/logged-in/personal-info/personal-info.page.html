@@ -42,7 +42,7 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti" 
+      <ion-item tappable (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti"
         *ngIf="
           candidate.country && candidate.nationality &&
           candidate.country.country_nationality_name_en == 'Kuwaiti' &&
@@ -54,6 +54,16 @@
           <span *ngIf="candidate.candidate_mom_kuwaiti == 1">{{ "Yes" | translate }}</span>
           <span *ngIf="candidate.candidate_mom_kuwaiti == 2">{{ "No" | translate }}</span>
           <span *ngIf="!candidate.candidate_mom_kuwaiti">{{ "Not Specified" | translate }} </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateNationality()" [class.required]="!candidate.nationality">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Nationality" | translate }}</small>
+          <span
+                  *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_nationality_name_en, candidate.nationality.country_nationality_name_ar) }}</span>
+          <span *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </span>
         </ion-label>
       </ion-item>
 
@@ -110,16 +120,6 @@
           <span
             *ngIf="candidate.university">{{ translateService.langContent(candidate.university.university_name_en, candidate.university.university_name_ar) }}</span>
           <span *ngIf="!candidate.university">{{ "Where do you study?" | translate }} </span>
-        </ion-label>
-      </ion-item>
-
-      <ion-item tappable (click)="updateNationality()" [class.required]="!candidate.nationality">
-        <div tabindex="0"></div>
-        <ion-label>
-          <small>{{ "Nationality" | translate }}</small>
-          <span
-            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_nationality_name_en, candidate.nationality.country_nationality_name_ar) }}</span>
-          <span *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </span>
         </ion-label>
       </ion-item>
 
