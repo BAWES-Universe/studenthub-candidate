@@ -118,7 +118,7 @@
         <ion-label>
           <small>{{ "Nationality" | translate }}</small>
           <span
-            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_name_en, candidate.nationality.country_name_ar) }}</span>
+            *ngIf="candidate.nationality">{{ translateService.langContent(candidate.nationality.country_nationality_name_en, candidate.nationality.country_nationality_name_ar) }}</span>
           <span *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </span>
         </ion-label>
       </ion-item>
