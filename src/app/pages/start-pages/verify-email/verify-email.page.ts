@@ -142,6 +142,8 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     }
     if (this.code) {
       this.verify();
+    } else  {
+      this.loader = false;
     }
 
     const { value } = await Storage.get({ key: 'unVerifiedToken' });
