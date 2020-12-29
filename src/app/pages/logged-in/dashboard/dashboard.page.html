@@ -31,9 +31,16 @@
       {{ "Find me a job" | translate }}
     </ion-button>
  
-    <div *ngIf="candidate_job_search_status">
+    <div *ngIf="candidate && candidate_job_search_status">
       
-      <h4 *ngIf="authService.showOneSignalPrompt || !store || (!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank)">{{ "What now?" | translate }}
+      <h4 *ngIf="
+        authService.showOneSignalPrompt || 
+        !store || 
+        (
+          !candidate.bank_account_name || 
+          !candidate.candidate_iban || 
+          !candidate.bank
+        )">{{ "What now?" | translate }}
         <ion-icon src="assets/images/dude.svg"></ion-icon>
       </h4>
 

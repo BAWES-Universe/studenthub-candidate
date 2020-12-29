@@ -92,8 +92,10 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     //handle event to mark video processed
     
     this.eventService.candidateVideoProcessed$.subscribe((data : any) => {
-      this.candidate.candidate_video_processed = data.candidate_video_processed;
-      this.candidate.candidate_video = data.candidate_video;
+      if(this.candidate) {
+        this.candidate.candidate_video_processed = data.candidate_video_processed;
+        this.candidate.candidate_video = data.candidate_video;
+      }
     });
 
     if (navigator.mediaDevices) {
@@ -779,9 +781,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       if (res.operation == 'success') {
 
-        this.candidate.tempLocation = null;
-        this.candidate.candidate_video_processed = res.candidate_video_processed;
-        this.candidate.candidate_video = res.candidate_video; 
+        if(this.candidate) {
+          this.candidate.tempLocation = null;
+          this.candidate.candidate_video_processed = res.candidate_video_processed;
+          this.candidate.candidate_video = res.candidate_video; 
+        }
 
         // this.loadVideo();
         this.dismiss({
