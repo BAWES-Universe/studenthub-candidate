@@ -21,6 +21,8 @@
     }
 }
 
+//------------------ complete-profile --------------------
+
 .complete-profile {
 
     ion-skeleton-text {
@@ -88,6 +90,14 @@
         }
     }
 }
+
+[dir="rtl"] .complete-profile {
+    ion-list ion-item {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), -2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    }
+}
+
+//------------------ personal-info --------------------
 
 .first-impression,
 .national-id,
@@ -331,6 +341,19 @@
     }
 }
 
+[dir="rtl"] {
+
+    .first-impression,
+    .national-id,
+    .personal-info {
+        ion-item {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), -2px 0 4px 0 rgba(0, 0, 0, 0.12);
+        }
+    }    
+}
+
+//------------------ profile --------------------
+
 .profile {
     ion-thumbnail {
         width: 136px;
@@ -553,4 +576,64 @@
         }
     }
     
+}
+
+[dir="rtl"] .profile {
+
+    .video {
+        --background: url('src/assets/images/ic_video.svg') no-repeat 100% 11px;
+    }
+
+    .resume {
+        --background: url('src/assets/images/ic_ad.svg') no-repeat 100% 11px;
+    }
+
+    .skills {
+        --background: url('src/assets/images/ic_food_tools.svg') no-repeat 100% 11px;
+    }
+
+    .experiences {
+        --background: url('src/assets/images/ic_suitcase.svg') no-repeat 100% 11px;
+    }
+
+    .area {
+        --background: url('src/assets/images/ic_home_2.svg') no-repeat 100% 11px;
+    }
+
+    .phone {
+        --background: url('src/assets/images/ic_phone.svg') no-repeat 100% 15px;
+    }
+
+    .email {
+        --background: url('src/assets/images/ic_message.svg') no-repeat 100% 15px;
+    }
+
+    .nationality {
+        --background: url('src/assets/images/ic_globe.svg') no-repeat 100% 15px;
+    }
+
+    .gender {
+        --background: url('src/assets/images/ic_swipe.svg') no-repeat 100% 15px;
+    }
+
+    .university {
+        --background: url('src/assets/images/md-school.svg') no-repeat 100% 15px;
+    }
+
+    .driving-license {
+        --background: url('src/assets/images/ic_car.svg') no-repeat 100% 15px;
+    }
+
+    .mother-nationality {
+        --background: url('src/assets/images/ic_username.svg') no-repeat 100% 15px;
+    }
+
+    .id-number {
+        --background: url('src/assets/images/ic_feed.svg') no-repeat 100% 15px;
+    }
+
+    .civil-front,
+    .civil-back {
+        --background: url('src/assets/images/ic_profile_info.svg') no-repeat 100% 15px;
+    }
 }

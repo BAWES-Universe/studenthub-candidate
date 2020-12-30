@@ -82,6 +82,10 @@ ion-card {
     }
 }
 
+[dir="rtl"] ion-card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), -2px 0 4px 0 rgba(0, 0, 0, 0.12);
+}
+
 .disabled-feature {
     font-size: 16px;
     font-weight: 500;
@@ -108,6 +112,25 @@ ion-card {
 
 .card-notification {
     background-image: url(src/assets/images/ic_alerts.svg);
+
+    ion-icon {
+        display: none;
+    }
+}
+
+[dir="rtl"] .card-notification {
+    background-image: none;
+    
+    ion-icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        top: -2px;
+        right: -47px;
+    }
 }
 
 .profile-card {
@@ -136,18 +159,18 @@ ion-card {
     }
 }
 
-ion-icon {
+.icon-dude {
     font-size: 100px;
     position: absolute;
     bottom: -49px;
     z-index: 999;
 }
 
-[dir="ltr"] ion-icon {
+[dir="ltr"] .icon-dude {
     right: 7px;
 }
 
-[dir="rtl"] ion-icon {
+[dir="rtl"] .icon-dude {
     left: 7px;
     transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
