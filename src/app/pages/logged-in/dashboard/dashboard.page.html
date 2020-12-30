@@ -41,7 +41,7 @@
           !candidate.candidate_iban || 
           !candidate.bank
         )">{{ "What now?" | translate }}
-        <ion-icon src="assets/images/dude.svg"></ion-icon>
+        <ion-icon class="icon-dude" src="assets/images/dude.svg"></ion-icon>
       </h4>
 
       <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
@@ -50,6 +50,8 @@
           <ion-card-title>
             {{ "Enable notifications" | translate }}
             <p class="disabled-feature">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
+
+            <ion-icon src="assets/images/ic_alerts.svg"></ion-icon>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
