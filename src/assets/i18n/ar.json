@@ -13,6 +13,7 @@
     "Sorry we had some technical problems during your last operation.": "عذرًا ، كانت لدينا بعض المشكلات الفنية أثناء العملية الأخيرة.",
     "Old Password": "كلمة المرور القديمة",
     "New Password": "كلمة سر جديدة",
+    "New password": "كلمة سر جديدة",
     "Save": "حفظ",
     "Change Password": "غير كلمة السر",
     "Success": "نجاح",
@@ -161,7 +162,6 @@
     "Update email": "تحديث البريد الإلكتروني",
     "Replace file": "استبدل الملف",
     "Select file": "حدد الملف",
-    "Type your new password": "Type your new password",
     "Type to search": "اكتب للبحث",
     "Home": "الصفحة الرئيسية",
     "Profile": "الملف الشخصي",
@@ -264,5 +264,8 @@
     "txt_file_uploaded": "تم تحميل ملف {{extension}}",
     "txt_born_on": "ولد في <b> {{date}} </b>",
     "txt_lives_in": "يعيش في <b> {{area}} </b>",
-    "txt_add_univerity": "لم يتم العثور على نتائج عن البحث. هل تريد منا إضافة \"{{ query }}\"؟"
+    "txt_add_univerity": "لم يتم العثور على نتائج عن البحث. هل تريد منا إضافة \"{{ query }}\"؟",
+
+    "Type your new password": "اكتب كلمة المرور الجديدة الخاصة بك"
+    
 }
