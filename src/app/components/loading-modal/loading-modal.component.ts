@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+//services
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -11,10 +13,11 @@ export class LoadingModalComponent implements OnInit {
     @Input() type: string;
     @Input() loading: boolean;
 
-    constructor() {
+    constructor(
+        public translateService: TranslateLabelService
+    ) {
     }
 
     ngOnInit() {
     }
-
 }

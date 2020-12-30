@@ -367,7 +367,7 @@
 
 <!------------------ profile -------------------->
 
-<div class="profile" *ngIf="loading && type == 'profile'">
+<div class="profile" [attr.dir]="translateService.direction()" *ngIf="loading && type == 'profile'">
 
   <ion-thumbnail>
     <ion-skeleton-text animated></ion-skeleton-text>
