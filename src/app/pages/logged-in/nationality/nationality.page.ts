@@ -144,20 +144,33 @@ export class NationalityPage implements OnInit {
    * @param country
    */
   async rowSelected(country: Country) {
+
+    const oldNationality = this.candidate.nationality;
+
     // this.saving = true;
     this.candidate.country_id = country.country_id;
     this.candidate.nationality = country;
+
     this.accountService.updateNationality(country.country_id).subscribe(async response => {
+
       this.saving = false;
 
       if (response.operation != 'success') {
+
+        this.candidate.nationality = oldNationality;
+
+        if(oldNationality) {
+          this.candidate.country_id = oldNationality.country_id;
+        }
+
         let alert = await this.alertCtrl.create({
           message: this.translateService.errorMessage(response.message),
           buttons: [this.translateService.transform('Okay')],
         });
         alert.present();
-      }
+      } 
     });
+
     this.dismiss();
   }
 }
