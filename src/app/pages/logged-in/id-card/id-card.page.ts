@@ -65,7 +65,6 @@ export class IdCardPage implements OnInit {
       civil_id: [this.candidate.candidate_civil_id, Validators.required],
       civil_expiry_date: [this.candidate.candidate_civil_expiry_date, Validators.required],
     });
-    console.log(this.form.value.civil_id);
   }
 
   /**

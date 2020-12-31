@@ -312,12 +312,16 @@ export class LocationPage implements OnInit {
       this.updating = false;
 
       if(res.operation == 'success') {
+
         this.candidate.area = this.area;
         this.candidate.country = this.country;
+        this.candidate.country_id = this.country.country_id;
         this.candidate.candidate_area_uuid = this.form.value.area_uuid;
         this.candidate.candidate_latitude = this.form.value.latitude;
         this.candidate.candidate_longitude = this.form.value.longitude;
-        this.dismiss();
+        
+        this.dismiss({ refresh: true });
+
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),

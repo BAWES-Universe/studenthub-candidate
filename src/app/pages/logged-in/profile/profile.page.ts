@@ -162,7 +162,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      this.loadData();
+      
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -504,7 +504,6 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -633,7 +632,11 @@ export class ProfilePage implements OnInit {
    * @param country 
    */
   area(area, country) {
-    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+    if(this.translateService.currentLang == 'en')
+      return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ', ' + 
+        this.translateService.langContent(country.country_name_en, country.country_name_ar);
+      
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ، ' + 
       this.translateService.langContent(country.country_name_en, country.country_name_ar);
   }
 }
