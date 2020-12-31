@@ -20,9 +20,14 @@
 
           <b>{{ candidate.candidate_birth_date | age }}</b> <br />
 
-          <span class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
-                date: toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang 
+          <span *ngIf="translateService.currentLang != 'ar'" class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
+            date: toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang 
+          }"></span>
+          
+          <span *ngIf="translateService.currentLang == 'ar'" class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
+                date: toDate(candidate.candidate_birth_date) | date :'MMMM d ، y': undefined: translateService.currentLang 
               }"></span>
+
         </span>
 
         <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
@@ -176,7 +181,8 @@
         <ion-label>
           <div *ngIf="candidate.candidate_civil_expiry_date">
             <span>{{ "Civil ID" | translate }} <b>{{ candidate.candidate_civil_id | translate }}</b></span><br />
-            <span class="txt-expiring-on"> {{ "Expiring on" | translate }} {{ toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang }}</span>
+            <span class="txt-expiring-on" *ngIf="translateService.currentLang != 'ar'"> {{ "Expiring on" | translate }} {{ toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang }}</span>
+            <span class="txt-expiring-on" *ngIf="translateService.currentLang == 'ar'"> {{ "Expiring on" | translate }} {{ toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d ، y': undefined: translateService.currentLang }}</span>
           </div>
           <span *ngIf="!candidate.candidate_civil_expiry_date || !candidate.candidate_civil_id">{{ "The details of your civil id card." | translate }}
           </span>

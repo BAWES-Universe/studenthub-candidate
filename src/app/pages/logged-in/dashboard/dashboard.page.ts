@@ -79,7 +79,7 @@ export class DashboardPage implements OnInit {
     });
         
     this.eventService.nameUpdated$.subscribe((data: { candidate_name, candidate_name_ar }) => {
-      console.log(data);
+
       if(this.candidate) {
         this.candidate.candidate_name = data.candidate_name;
         this.candidate.candidate_name_ar = data.candidate_name_ar;
