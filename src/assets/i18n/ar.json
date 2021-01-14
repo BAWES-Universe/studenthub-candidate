@@ -30,6 +30,7 @@
     "In Progress": "في تقدم",
     "Logout": "تسجيل خروج",
     "Your Email": "بريدك الالكتروني",
+    "Your email": "بريدك الالكتروني",
     "What’s your email?": "ما هو بريدك الإلكتروني؟",
     "Continue": "استمر",
     "Your Email Address": "عنوان بريدك الإلكتروني",
@@ -52,6 +53,7 @@
     "Let’s make you an account": "دعنا نجعل لك حساب",
     "Your name": "اسمك",
     "Your Phone Number": "رقم تليفونك",
+    "Your phone number": "رقم تليفونك",
     "Create Account": "إنشاء حساب",
     "Please verify your email": "يرجى التحقق من بريدك الإلكتروني",
     "Change my email address": "تغيير عنوان بريدي الإلكتروني",
@@ -265,7 +267,11 @@
     "txt_born_on": "ولد في <b> {{date}} </b>",
     "txt_lives_in": "يعيش في <b> {{area}} </b>",
     "txt_add_univerity": "لم يتم العثور على نتائج عن البحث. هل تريد منا إضافة \"{{ query }}\"؟",
-
-    "Type your new password": "اكتب كلمة المرور الجديدة الخاصة بك"
-    
+    "Type your new password": "اكتب كلمة المرور الجديدة الخاصة بك",
+    "Sign up": "سجل",
+    "Log in": "تسجيل الدخول",
+    "Forgot password?": "هل نسيت كلمة المرور؟",
+    "Don't have an account?": "ليس لديك حساب؟",
+    "Already a member?": "عضوا فعلا؟",
+    "Login": "تسجيل الدخول"
 }

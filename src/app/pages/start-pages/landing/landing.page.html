@@ -16,8 +16,12 @@
           {{ "Part-time jobs for students and fresh graduates" | translate }}
         </h3>
 
-        <ion-button class="start-btn" expand="block" (click)="loginPage()" color="dark">
-          {{ "Sign up / Log in" | translate }}
+        <ion-button class="btn-sign-up" (click)="registerPage()" color="dark">
+          {{ "Sign up" | translate }}
+        </ion-button>
+
+        <ion-button outline class="btn-login" (click)="loginPage()">
+          {{ "Log in" | translate }}
         </ion-button>
 
         <div class="footer">

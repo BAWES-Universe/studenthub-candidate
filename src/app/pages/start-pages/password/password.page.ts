@@ -6,6 +6,7 @@ import { AlertController, IonNav, ModalController, NavController } from '@ionic/
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
+import { RegisterPage } from '../register/register.page';
 
 
 const { Storage } = Plugins;
@@ -35,6 +36,7 @@ export class PasswordPage implements OnInit {
   public type = 'password';
 
   public showPass = false;
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
@@ -43,7 +45,7 @@ export class PasswordPage implements OnInit {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
-    // @Optional() public nav: IonNav // for testing perpose
+    @Optional() public nav: IonNav // for testing perpose
   ) { 
   }
 
@@ -60,10 +62,6 @@ export class PasswordPage implements OnInit {
       this.email = window.history.state.email;
     } 
     
-    if(!this.email) {
-      this.navCtrl.navigateRoot(['/']);
-    }
-
     // Initialize the Login Form
     this.loginForm = this.fb.group({
       email: [this.email, [Validators.required]],
@@ -71,12 +69,31 @@ export class PasswordPage implements OnInit {
     });
   }
 
+  /**
+   * move to previous page if can or close popup
+   */
   dismiss() {
-    this.modalCtrl.dismiss({});
+    this.nav.canGoBack().then(canGoBack => {
+   
+      if(canGoBack) {
+        this.nav.pop();
+      } else {
+        this.modalCtrl.dismiss();
+      }
+    });
   }
 
-  back() {
-    this.navCtrl.back();
+  /**
+   * open register page
+   */
+  openRegisterPage() {
+    this.nav.canGoBack().then(canGoBack => {
+      if(canGoBack) {
+        this.nav.pop();
+      } else {
+        this.nav.push(RegisterPage);
+      }
+    });
   }
 
   /**

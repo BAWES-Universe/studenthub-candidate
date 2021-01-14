@@ -1,7 +1,7 @@
 ion-content {
   --padding-start: 30px;
   --padding-end: 30px;
-  --padding-top: 25px;
+  --padding-top: 0;
   --padding-bottom: 26px;
 }
 
@@ -134,6 +134,19 @@ ion-input {
   }
 }
 */
+
+.btn-login {
+  text-align: center;
+  text-transform: none;
+  --background: none;
+  --box-shadow: none;
+  color: #4a4a4a;
+  font-weight: normal;
+  margin: auto;
+  display: block;
+  font-size: 16px;
+  margin-top: 12px;
+}
 
 .password_field {
   position: relative;
