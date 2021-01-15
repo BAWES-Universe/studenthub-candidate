@@ -248,7 +248,6 @@
     "The number on your civil id card": "الرقم الموجود على بطاقة الهوية المدنية الخاصة بك",
     "Expiring on": "تنتهي في",
     "Transferred to" : "نقل إلى",
-
     "Is your mother a Kuwaiti national?": "هل والدتك كويتية؟",
     "Record an introductory video": "سجل فيديو تعرف فيه عن نفسك",
     "CV / Portfolio": "السيرة الذاتية",
@@ -273,5 +272,9 @@
     "Forgot password?": "هل نسيت كلمة المرور؟",
     "Don't have an account?": "ليس لديك حساب؟",
     "Already a member?": "عضوا فعلا؟",
-    "Login": "تسجيل الدخول"
+    "Login": "تسجيل الدخول",
+    "Please enter valid email address": "الرجاء إدخال عنوان بريد إلكتروني صالح",
+    "Forgot your password?": "نسيت رقمك السري؟",
+    "Enter your email to receive a password reset link. You may need to check your spam folder or unblock contact@studenthub.co": "أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور. قد تحتاج إلى التحقق من مجلد البريد العشوائي أو إلغاء حظر contact@studenthub.co",
+    "Request Password Reset": "اعادة تعيين كلمة المرور طلب"
 }

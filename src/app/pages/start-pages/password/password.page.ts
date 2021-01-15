@@ -6,6 +6,7 @@ import { AlertController, IonNav, ModalController, NavController } from '@ionic/
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
+import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
 import { RegisterPage } from '../register/register.page';
 
 
@@ -183,14 +184,7 @@ export class PasswordPage implements OnInit {
    * reset password
    */
   resetPasswordRequest() {
-    this.resettingPassword = true;
-    this.authService.resetPasswordRequest(this.email).subscribe( res => {
-      this.resettingPassword = false;
-      this.alertCtrl.create({
-        message: res.message,
-        buttons: [this.translateService.transform('Okay')]
-      }).then(alert => alert.present());
-    });
+    this.nav.push(ForgotPasswordPage);
   }
 
   showPassword() {
