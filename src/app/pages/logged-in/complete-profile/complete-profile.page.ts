@@ -51,7 +51,7 @@ export class CompleteProfilePage implements OnInit {
 
     this.accountService.profile().subscribe(async res => {
       this.candidate = res;
-      this.loading = false;
+    }, () => {
     }, () => {
       this.loading = false;
     });

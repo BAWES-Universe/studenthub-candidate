@@ -118,7 +118,7 @@ export class PasswordPage implements OnInit {
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
         this.authService.setAccessToken(res);
-        // this.dismiss();
+        this.dismiss();
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 
         Storage.set({

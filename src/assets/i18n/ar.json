@@ -276,5 +276,6 @@
     "Please enter valid email address": "الرجاء إدخال عنوان بريد إلكتروني صالح",
     "Forgot your password?": "نسيت رقمك السري؟",
     "Enter your email to receive a password reset link. You may need to check your spam folder or unblock contact@studenthub.co": "أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور. قد تحتاج إلى التحقق من مجلد البريد العشوائي أو إلغاء حظر contact@studenthub.co",
-    "Request Password Reset": "اعادة تعيين كلمة المرور طلب"
+    "Request Password Reset": "اعادة تعيين كلمة المرور طلب",
+    "ID Number and Expiry Date" : "رقم الهوية وتاريخ انتهاء الصلاحية"
 }
