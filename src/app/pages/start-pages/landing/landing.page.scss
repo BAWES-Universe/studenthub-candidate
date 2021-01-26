@@ -1,5 +1,5 @@
 .logo {
-  margin-top: 73px;
+  margin-top: 105px;
   text-align: center;
 }
 
@@ -14,11 +14,14 @@ h3 {
   letter-spacing: normal;
   color: #000000;
   text-align: center;
-  margin-bottom: 41px;
+  margin-bottom: 30px;
+  font-family: EffraLight;
 }
 
-.start-btn {
+.btn-login,
+.btn-sign-up {
   --border-radius: 47px;
+  --box-shadow: none;
   height: 53px;
   font-weight: bold;
   text-transform: initial;
@@ -28,10 +31,23 @@ h3 {
   line-height: 1.65;
   letter-spacing: normal;
   color: #ffffff;
+  width: 100%;
+}
+
+.btn-sign-up {
+  margin-bottom: 7px;
+}
+
+.btn-login {
+  --background: #fff;
+  --border-width: 1px;
+  --border-color: black;
+  --border-style: solid;
+  color: black;
 }
 
 .float-logo {
-  margin-top: 53px;
+  margin-top: 60px;
   margin-bottom: -78px;
   text-align: center;
   

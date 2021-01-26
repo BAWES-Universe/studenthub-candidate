@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Optional, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { PreLoad } from 'src/app/util/preLoad';
 // validators
@@ -9,6 +9,8 @@ import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+//pages
+import { PasswordPage } from '../password/password.page';
 
 
 const { Storage } = Plugins;
@@ -18,10 +20,11 @@ const { Storage } = Plugins;
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-@PreLoad('VerifyEmailPage')
+//@PreLoad('VerifyEmailPage')
 export class RegisterPage implements OnInit {
 
   @ViewChild('nameInput') nameInput;
+
   // @ViewChild('nameInput') nameInput;
   public registerForm: FormGroup;
 
@@ -33,14 +36,16 @@ export class RegisterPage implements OnInit {
   public type = 'password';
 
   public showPass = false;
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
     public alertCtrl: AlertController,
     public authService: AuthService,
     public translateService: TranslateLabelService,
-    // @Optional() public nav: IonNav, // for testing perpose
+    @Optional() public nav: IonNav, // for testing perpose
     public navCtrl: NavController,
+    public modal: ModalController
   ) {
   }
 
@@ -49,19 +54,9 @@ export class RegisterPage implements OnInit {
       if(this.nameInput)
         this.nameInput.setFocus();
     }, 300);
-
   }
 
   async ngOnInit() {
-
-    if (window.history.state.email) {
-      this.email = window.history.state.email;
-    } else {
-      this.dismiss();
-    }
-
-
-    // Initialize the Login Form
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],
       email: [this.email, [Validators.required, CustomValidator.emailValidator]],
@@ -104,16 +99,22 @@ export class RegisterPage implements OnInit {
           value: JSON.stringify(res.unVerifiedToken)
         });
 
-        this.navCtrl.navigateRoot(['landing']).then(() => {
+        this.modal.dismiss().then(() => {
+          setTimeout(() => {
+            this.navCtrl.navigateRoot(['landing']).then(() => {
 
-          this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
-              {
-                state : {
-                  newUser : 1
-                }
-              }
-          );
+              this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
+                  {
+                    state : {
+                      newUser : 1
+                    }
+                  }
+              );
+            });
+          }, 100);
         });
+
+
 
       } else if (res.operation === 'error') {
         this.alertCtrl.create({
@@ -129,11 +130,23 @@ export class RegisterPage implements OnInit {
   }
 
   dismiss() {
-    this.navCtrl.back();
+    this.nav.canGoBack().then(canGoBack => {
+      if(canGoBack) {
+        this.nav.pop();
+      } else {
+        this.modal.dismiss();
+      }
+    });
   }
 
-  loginPage() {
-    //   this.nav.pop();
+  openLoginPage() {
+    this.nav.canGoBack().then(canGoBack => {
+      if(canGoBack) {
+        this.nav.pop();
+      } else {
+        this.nav.push(PasswordPage);
+      }
+    });
   }
 
   /**
@@ -148,5 +161,4 @@ export class RegisterPage implements OnInit {
       this.type = 'password';
     }
   }
-
 }

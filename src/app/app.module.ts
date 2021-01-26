@@ -57,6 +57,10 @@ import * as Cloudinary from 'cloudinary-core';
 import { registerLocaleData } from '@angular/common';
 import localeAr from '@angular/common/locales/ar-KW';
 import { LocationPageModule } from './pages/logged-in/location/location.module';
+import { PasswordPageModule } from './pages/start-pages/password/password.module';
+import { RegisterPageModule } from './pages/start-pages/register/register.module';
+import { ModalPopPageModule } from './pages/start-pages/modal-pop/modal-pop.module';
+import { ForgotPasswordPageModule } from './pages/start-pages/forgot-password/forgot-password.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -113,7 +117,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     CivilIdFrontPageModule,
     CivilIdBackPageModule,
     CivilExpiryPageModule,
-    KuwaitiNationalPageModule
+    KuwaitiNationalPageModule,
+    PasswordPageModule,
+    RegisterPageModule,
+    ModalPopPageModule,
+    ForgotPasswordPageModule
   ],
   providers: [
     {

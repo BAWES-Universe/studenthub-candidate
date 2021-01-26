@@ -30,6 +30,7 @@
     "In Progress": "في تقدم",
     "Logout": "تسجيل خروج",
     "Your Email": "بريدك الالكتروني",
+    "Your email": "بريدك الالكتروني",
     "What’s your email?": "ما هو بريدك الإلكتروني؟",
     "Continue": "استمر",
     "Your Email Address": "عنوان بريدك الإلكتروني",
@@ -52,6 +53,7 @@
     "Let’s make you an account": "دعنا نجعل لك حساب",
     "Your name": "اسمك",
     "Your Phone Number": "رقم تليفونك",
+    "Your phone number": "رقم تليفونك",
     "Create Account": "إنشاء حساب",
     "Please verify your email": "يرجى التحقق من بريدك الإلكتروني",
     "Change my email address": "تغيير عنوان بريدي الإلكتروني",
@@ -246,7 +248,6 @@
     "The number on your civil id card": "الرقم الموجود على بطاقة الهوية المدنية الخاصة بك",
     "Expiring on": "تنتهي في",
     "Transferred to" : "نقل إلى",
-
     "Is your mother a Kuwaiti national?": "هل والدتك كويتية؟",
     "Record an introductory video": "سجل فيديو تعرف فيه عن نفسك",
     "CV / Portfolio": "السيرة الذاتية",
@@ -265,7 +266,16 @@
     "txt_born_on": "ولد في <b> {{date}} </b>",
     "txt_lives_in": "يعيش في <b> {{area}} </b>",
     "txt_add_univerity": "لم يتم العثور على نتائج عن البحث. هل تريد منا إضافة \"{{ query }}\"؟",
-
-    "Type your new password": "اكتب كلمة المرور الجديدة الخاصة بك"
-    
+    "Type your new password": "اكتب كلمة المرور الجديدة الخاصة بك",
+    "Sign up": "سجل",
+    "Log in": "تسجيل الدخول",
+    "Forgot password?": "هل نسيت كلمة المرور؟",
+    "Don't have an account?": "ليس لديك حساب؟",
+    "Already a member?": "عضوا فعلا؟",
+    "Login": "تسجيل الدخول",
+    "Please enter valid email address": "الرجاء إدخال عنوان بريد إلكتروني صالح",
+    "Forgot your password?": "نسيت رقمك السري؟",
+    "Enter your email to receive a password reset link. You may need to check your spam folder or unblock contact@studenthub.co": "أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور. قد تحتاج إلى التحقق من مجلد البريد العشوائي أو إلغاء حظر contact@studenthub.co",
+    "Request Password Reset": "اعادة تعيين كلمة المرور طلب",
+    "ID Number and Expiry Date" : "رقم الهوية وتاريخ انتهاء الصلاحية"
 }

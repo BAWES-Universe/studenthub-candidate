@@ -6,6 +6,8 @@ import { AlertController, IonNav, ModalController, NavController } from '@ionic/
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
+import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
+import { RegisterPage } from '../register/register.page';
 
 
 const { Storage } = Plugins;
@@ -35,6 +37,7 @@ export class PasswordPage implements OnInit {
   public type = 'password';
 
   public showPass = false;
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
@@ -43,7 +46,7 @@ export class PasswordPage implements OnInit {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
-    // @Optional() public nav: IonNav // for testing perpose
+    @Optional() public nav: IonNav // for testing perpose
   ) { 
   }
 
@@ -60,10 +63,6 @@ export class PasswordPage implements OnInit {
       this.email = window.history.state.email;
     } 
     
-    if(!this.email) {
-      this.navCtrl.navigateRoot(['/']);
-    }
-
     // Initialize the Login Form
     this.loginForm = this.fb.group({
       email: [this.email, [Validators.required]],
@@ -71,12 +70,31 @@ export class PasswordPage implements OnInit {
     });
   }
 
+  /**
+   * move to previous page if can or close popup
+   */
   dismiss() {
-    this.modalCtrl.dismiss({});
+    this.nav.canGoBack().then(canGoBack => {
+   
+      if(canGoBack) {
+        this.nav.pop();
+      } else {
+        this.modalCtrl.dismiss();
+      }
+    });
   }
 
-  back() {
-    this.navCtrl.back();
+  /**
+   * open register page
+   */
+  openRegisterPage() {
+    this.nav.canGoBack().then(canGoBack => {
+      if(canGoBack) {
+        this.nav.pop();
+      } else {
+        this.nav.push(RegisterPage);
+      }
+    });
   }
 
   /**
@@ -100,7 +118,7 @@ export class PasswordPage implements OnInit {
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
         this.authService.setAccessToken(res);
-        // this.dismiss();
+        this.dismiss();
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
 
         Storage.set({
@@ -166,14 +184,7 @@ export class PasswordPage implements OnInit {
    * reset password
    */
   resetPasswordRequest() {
-    this.resettingPassword = true;
-    this.authService.resetPasswordRequest(this.email).subscribe( res => {
-      this.resettingPassword = false;
-      this.alertCtrl.create({
-        message: res.message,
-        buttons: [this.translateService.transform('Okay')]
-      }).then(alert => alert.present());
-    });
+    this.nav.push(ForgotPasswordPage);
   }
 
   showPassword() {

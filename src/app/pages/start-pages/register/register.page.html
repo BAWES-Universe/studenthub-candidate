@@ -8,9 +8,14 @@
 
     <form [formGroup]="registerForm" (keyup.enter)="onSubmit()" (submit)="onSubmit()">
 
-      <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name" placeholder="{{ 'Your name as shown on your civil id' | translate }}"></ion-input>
+      <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name" 
+        placeholder="{{ 'Your name' | translate }}"></ion-input>
 
-      <ion-input type="telephone" inputmode="tel" autocomplete="tel" #phoneInput formControlName="phone" maxlength="8" placeholder="{{ 'Your Phone Number' | translate }}"></ion-input>
+      <ion-input type="email" inputmode="email" autocomplete="email" #nameInput formControlName="email" 
+        placeholder="{{ 'Your email' | translate }}"></ion-input>
+
+      <ion-input type="telephone" inputmode="tel" autocomplete="tel" #phoneInput 
+        formControlName="phone" maxlength="8" placeholder="{{ 'Your phone number' | translate }}"></ion-input>
 
       <div class="password_field">
         <ion-input type="{{type}}" autocomplete="off" #passwordInput formControlName="password" placeholder="{{ 'Your password' | translate }}"></ion-input>
@@ -25,6 +30,10 @@
         <span *ngIf="!isLoading">{{ "Create Account" | translate }}</span>
       </ion-button>
     </form>
+
+    <ion-button (click)="openLoginPage()" class="btn-login">
+      {{ "Already a member?" | translate }}&nbsp;<b>{{ "Login" | translate }}</b>
+    </ion-button>
   </div>
 
 </ion-content>
