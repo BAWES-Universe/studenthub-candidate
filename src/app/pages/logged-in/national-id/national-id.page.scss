@@ -110,6 +110,10 @@ ion-list {
         --padding-end: 10px;
         --padding-start: 24px;
 
+        ion-label {
+            white-space: normal;
+        }
+
         small {
             font-size: 14px;
             font-weight: 500;

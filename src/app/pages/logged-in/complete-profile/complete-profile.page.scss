@@ -131,6 +131,7 @@ ion-list {
             line-height: normal;
             letter-spacing: normal;
             color: #000;
+            white-space: normal;
         }
     }
 
@@ -213,6 +214,7 @@ ion-label ion-item {
     --padding-start: 9px;
     border-bottom: solid 1px #bdbdbd;
 }
+
 [dir="rtl"] {
     .translate-link {
         border-left: 1px solid;
