@@ -99,16 +99,22 @@ export class RegisterPage implements OnInit {
           value: JSON.stringify(res.unVerifiedToken)
         });
 
-        this.navCtrl.navigateRoot(['landing']).then(() => {
+        this.modal.dismiss().then(() => {
+          setTimeout(() => {
+            this.navCtrl.navigateRoot(['landing']).then(() => {
 
-          this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
-              {
-                state : {
-                  newUser : 1
-                }
-              }
-          );
+              this.navCtrl.navigateForward(['verify-email', this.registerForm.controls.email.value],
+                  {
+                    state : {
+                      newUser : 1
+                    }
+                  }
+              );
+            });
+          }, 100);
         });
+
+
 
       } else if (res.operation === 'error') {
         this.alertCtrl.create({
