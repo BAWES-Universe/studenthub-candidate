@@ -162,7 +162,9 @@ export class PaymentsPage implements OnInit {
         this.salaries.push(element);
       });
 
-      event.target.complete();
+      if (event && event.target) {
+        event.target.complete();
+      }
     },
       error => { },
       () => {

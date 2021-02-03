@@ -130,23 +130,31 @@ export class RegisterPage implements OnInit {
   }
 
   dismiss() {
-    this.nav.canGoBack().then(canGoBack => {
-      if(canGoBack) {
-        this.nav.pop();
-      } else {
-        this.modal.dismiss();
-      }
-    });
+    if (this.nav) {
+      this.nav.canGoBack().then(canGoBack => {
+        if(canGoBack) {
+          this.nav.pop();
+        } else {
+          this.modal.dismiss();
+        }
+      });
+    } else  {
+      this.modal.dismiss();
+    }
   }
 
   openLoginPage() {
-    this.nav.canGoBack().then(canGoBack => {
-      if(canGoBack) {
-        this.nav.pop();
-      } else {
-        this.nav.push(PasswordPage);
-      }
-    });
+    if (this.nav) {
+      this.nav.canGoBack().then(canGoBack => {
+        if (canGoBack) {
+          this.nav.pop();
+        } else {
+          this.nav.push(PasswordPage);
+        }
+      });
+    } else  {
+      this.modal.dismiss();
+    }
   }
 
   /**
@@ -154,11 +162,6 @@ export class RegisterPage implements OnInit {
    */
   showPassword() {
     this.showPass = !this.showPass;
-
-    if (this.showPass) {
-      this.type = 'text';
-    } else {
-      this.type = 'password';
-    }
+    this.type = (this.showPass) ? 'text' : 'password';
   }
 }
