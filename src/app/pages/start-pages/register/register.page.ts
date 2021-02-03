@@ -3,15 +3,12 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
-import { PreLoad } from 'src/app/util/preLoad';
+
 // validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-//pages
-import { PasswordPage } from '../password/password.page';
-
 
 const { Storage } = Plugins;
 
@@ -20,7 +17,7 @@ const { Storage } = Plugins;
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-//@PreLoad('VerifyEmailPage')
+
 export class RegisterPage implements OnInit {
 
   @ViewChild('nameInput') nameInput;
@@ -149,7 +146,7 @@ export class RegisterPage implements OnInit {
         if (canGoBack) {
           this.nav.pop();
         } else {
-          this.nav.push(PasswordPage);
+          this.modal.dismiss();
         }
       });
     } else  {
