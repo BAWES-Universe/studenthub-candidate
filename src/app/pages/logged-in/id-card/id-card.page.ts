@@ -72,8 +72,6 @@ export class IdCardPage implements OnInit {
    */
   submit() {
     this.isLoading = true;
-    this.candidate.candidate_civil_id = this.form.value.civil_id;
-    this.candidate.candidate_civil_expiry_date = this.form.value.civil_expiry_date;
     this.accountService.updateCivilIdAndExpiryDate(this.form.value.civil_id, this.form.value.civil_expiry_date).subscribe(res => {
 
       this.isLoading = false;
