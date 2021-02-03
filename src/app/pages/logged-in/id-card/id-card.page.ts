@@ -79,9 +79,9 @@ export class IdCardPage implements OnInit {
       this.isLoading = false;
 
       if(res.operation == 'success') {
-
         this.candidate.candidate_civil_id = this.form.value.civil_id;
         this.candidate.candidate_civil_expiry_date = res.candidate_civil_expiry_date;
+        this.dismiss();
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(res.message),
@@ -93,7 +93,6 @@ export class IdCardPage implements OnInit {
     }, () => {
       this.isLoading = false;
     });
-    this.dismiss();
   }
 
   async getNameByCivilId(civil_id) {
