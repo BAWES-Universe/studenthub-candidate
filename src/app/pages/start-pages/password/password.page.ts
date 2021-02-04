@@ -9,7 +9,6 @@ import { TranslateLabelService } from '../../../providers/translate-label.servic
 import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
 import { RegisterPage } from '../register/register.page';
 
-
 const { Storage } = Plugins;
 
 @Component({
@@ -47,8 +46,7 @@ export class PasswordPage implements OnInit {
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
     @Optional() public nav: IonNav // for testing perpose
-  ) { 
-  }
+  ) { }
 
   ionViewDidEnter() {
     setTimeout(() => {
@@ -61,7 +59,7 @@ export class PasswordPage implements OnInit {
 
     if (window.history.state.email) {
       this.email = window.history.state.email;
-    } 
+    }
     
     // Initialize the Login Form
     this.loginForm = this.fb.group({
@@ -74,27 +72,34 @@ export class PasswordPage implements OnInit {
    * move to previous page if can or close popup
    */
   dismiss() {
-    this.nav.canGoBack().then(canGoBack => {
-   
-      if(canGoBack) {
-        this.nav.pop();
-      } else {
-        this.modalCtrl.dismiss();
-      }
-    });
+    if (this.nav) {
+      this.nav.canGoBack().then(canGoBack => {
+        if(canGoBack) {
+          this.nav.pop();
+        } else {
+          this.modalCtrl.dismiss();
+        }
+      });
+    } else  {
+      this.modalCtrl.dismiss();
+    }
   }
 
   /**
    * open register page
    */
   openRegisterPage() {
-    this.nav.canGoBack().then(canGoBack => {
-      if(canGoBack) {
-        this.nav.pop();
-      } else {
-        this.nav.push(RegisterPage);
-      }
-    });
+    if (this.nav) {
+      this.nav.canGoBack().then(canGoBack => {
+        if (canGoBack) {
+          this.nav.pop();
+        } else {
+          this.nav.push(RegisterPage);
+        }
+      });
+    } else  {
+      this.nav.push(RegisterPage);
+    }
   }
 
   /**
