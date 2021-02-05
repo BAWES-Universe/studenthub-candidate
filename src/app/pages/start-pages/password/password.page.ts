@@ -124,7 +124,16 @@ export class PasswordPage implements OnInit {
         // Successfully logged in, set the access token within AuthService
         this.authService.setAccessToken(res);
         this.dismiss();
+
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
+        
+        this.modalCtrl.getTop().then(overlap => {
+          if(overlap) {
+            overlap.dismiss({
+              from: 'native-back-btn'
+            });
+          }
+        });
 
         Storage.set({
           key: 'unVerifiedToken',
