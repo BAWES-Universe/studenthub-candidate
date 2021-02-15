@@ -110,7 +110,7 @@ export class DashboardPage implements OnInit {
       this.candidate_job_search_status = res.candidate_job_search_status;
 
       this.store = res.store;
-      this.company = res.company;
+      this.company = (res.parent_company) ? res.parent_company : res.company;
 
       /*if(!res.isProfileCompleted) {
 
