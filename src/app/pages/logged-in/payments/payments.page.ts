@@ -118,7 +118,7 @@ export class PaymentsPage implements OnInit {
       this.salaries = response.body;
 
       // Dismiss the refresher if available
-      if (refresher) {
+      if (refresher && refresher.target) {
         refresher.target.complete();
       }
 
