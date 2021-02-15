@@ -19,6 +19,7 @@ const { Storage } = Plugins;
 export class PasswordPage implements OnInit {
 
   @ViewChild('passwordInput') passwordInput;
+  @ViewChild('emailInput') emailInput;
 
   public loginForm: FormGroup;
 
@@ -50,8 +51,8 @@ export class PasswordPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      if(this.passwordInput)
-        this.passwordInput.setFocus();
+      if(this.emailInput)
+        this.emailInput.setFocus();
     }, 300);
   }
 
