@@ -171,6 +171,11 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateRoot(['/not-found']);
     });
 
+    this.eventService.errorStorage$.subscribe(() => {
+      console.log('storage error catched');
+      this.navCtrl.navigateRoot(['/app-error']);
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
       this.loadCandidateProfile();
@@ -195,6 +200,8 @@ export class AppComponent implements OnInit {
         Storage.set({
           key: 'oneSignal',
           value: JSON.stringify(userEventData)
+        }).catch(r => {
+          this.eventService.errorStorage$.next();
         });
       }
     });
@@ -259,31 +266,34 @@ export class AppComponent implements OnInit {
 
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
 
-      const { value } = await Storage.get({ key: 'oneSignal' });
+      Storage.get({ key: 'oneSignal' }).then(ret => {
 
-      let data = JSON.parse(value);
-      
-      // set default value if not set
-      if (!data) {
-        data = {
-          setSubscription: true,
-          enableVibrate: true,
-          enableSound: true
-        };
-      }
+        let data = JSON.parse(ret.value);
+        
+        // set default value if not set
+        if (!data) {
+          data = {
+            setSubscription: true,
+            enableVibrate: true,
+            enableSound: true
+          };
+        }
 
-      if (this.oneSignal) {
-        this.oneSignal.setSubscription(data.setSubscription);
+        if (this.oneSignal) {
+          this.oneSignal.setSubscription(data.setSubscription);
 
-        //this.oneSignal.enableVibrate(data.enableVibrate);
-        //this.oneSignal.enableSound(data.enableSound);
+          //this.oneSignal.enableVibrate(data.enableVibrate);
+          //this.oneSignal.enableSound(data.enableSound);
 
-        this.oneSignal.sendTags({
-          'candidate_id': this.authService.id + '',
-          'name': this.authService.name,
-          'email': this.authService.email
-        });
-      }
+          this.oneSignal.sendTags({
+            'candidate_id': this.authService.id + '',
+            'name': this.authService.name,
+            'email': this.authService.email
+          });
+        }
+      }).catch(r => {
+        this.eventService.errorStorage$.next();
+      });
     } 
     else if(window && window.Notification && window.OneSignal) 
     {
@@ -308,6 +318,8 @@ export class AppComponent implements OnInit {
     Storage.set({ 
       'key': 'oneSignalStatus', 
       'value': '1' 
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -316,14 +328,17 @@ export class AppComponent implements OnInit {
    */
   async oneSignalActionBasedOnStatus() {
 
-    const { value } = await Storage.get({ 'key': 'oneSignalStatus' });
-    
-    if (value === '1') { // already accepted
-      this.setOneSignalSubscription();
-    } else { // not sure
-      this.checkOneSignalStatus();
-    }
-    // if status == 2, ignore - user not want notifications 
+    Storage.get({ 'key': 'oneSignalStatus' }).then(data => {
+      
+      if (data.value === '1') { // already accepted
+        this.setOneSignalSubscription();
+      } else { // not sure
+        this.checkOneSignalStatus();
+      }
+      // if status == 2, ignore - user not want notifications 
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
   }
 
   /**
