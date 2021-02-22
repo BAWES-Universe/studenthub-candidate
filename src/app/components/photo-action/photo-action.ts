@@ -35,6 +35,10 @@ export class PhotoActionComponent {
             // e.click();
         }
 
-        this.popCtrl.dismiss({ action: data });
+        this.popCtrl.getTop().then(overlay => {
+            if (overlay) {
+              this.popCtrl.dismiss({ action: data });
+            }
+        });
     }
 }

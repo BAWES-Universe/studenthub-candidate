@@ -172,7 +172,6 @@ export class AppComponent implements OnInit {
     });
 
     this.eventService.errorStorage$.subscribe(() => {
-      console.log('storage error catched');
       this.navCtrl.navigateRoot(['/app-error']);
     });
 

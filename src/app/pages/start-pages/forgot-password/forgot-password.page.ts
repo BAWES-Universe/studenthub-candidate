@@ -72,11 +72,19 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
       if(canGoBack) {
         this.nav.pop();
       } else {
-        this.modalCtrl.dismiss();
+        this.dismissModal();
       }
     });
   }
 
+  dismissModal() {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.modalCtrl.dismiss();
+      }
+    });
+  }
+  
   /**
    * Request new password
    */
