@@ -2,12 +2,12 @@
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
   
-  <div class="max-width" *ngIf="!loadingProfile && !loading">
+  <div class="max-width" *ngIf="!loadingProfile && !loading && candidate">
 
     <h3>
       {{ 
         "txt_greeting" | translate : { 
-          customer: translateService.langContent(this.candidate.candidate_name, this.candidate.candidate_name_ar) | split: ' '
+          customer: translateService.langContent(candidate.candidate_name, candidate.candidate_name_ar) | split: ' '
         } 
       }}
     </h3>
@@ -97,6 +97,5 @@
     </div>
     
   </div>
-
 
 </ion-content>

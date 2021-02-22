@@ -29,7 +29,11 @@ export class OptionPage implements OnInit {
    * close popup
    */
   dismiss() {
-    this.popoverCtrl.dismiss();
+    this.popoverCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.popoverCtrl.dismiss();
+      }
+    });
   }
 
   /**
@@ -37,7 +41,7 @@ export class OptionPage implements OnInit {
    */
   logout() {
     this.authService.logout();
-    this.popoverCtrl.dismiss();
+    this.dismiss();
   }
 
   translate() {
@@ -50,6 +54,6 @@ export class OptionPage implements OnInit {
       this.accountService.setLanguagePref(code).subscribe();
     }
 
-    this.popoverCtrl.dismiss();
+    this.dismiss();
   }
 }

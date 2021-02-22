@@ -55,6 +55,10 @@ export class CompanyPage implements OnInit {
   } 
 
   dismiss() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.modalCtrl.dismiss();
+      }
+    });
   }
 }

@@ -78,12 +78,20 @@ export class PasswordPage implements OnInit {
         if(canGoBack) {
           this.nav.pop();
         } else {
-          this.modalCtrl.dismiss();
+          this.dismissModal();
         }
       });
     } else  {
-      this.modalCtrl.dismiss();
+      this.dismissModal();
     }
+  }
+
+  dismissModal(data = {}) {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.modalCtrl.dismiss(data);
+      }
+    });
   }
 
   /**
@@ -128,12 +136,8 @@ export class PasswordPage implements OnInit {
 
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
         
-        this.modalCtrl.getTop().then(overlap => {
-          if(overlap) {
-            overlap.dismiss({
-              from: 'native-back-btn'
-            });
-          }
+        this.dismissModal({
+          from: 'native-back-btn'
         });
 
         Storage.set({
