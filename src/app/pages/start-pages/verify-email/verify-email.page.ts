@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 
+
 const { Storage } = Plugins;
 
 @Component({
@@ -175,8 +176,6 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     this.loader = true;
 
     this.verifyEmailSubscription = this.authService.verifyEmail(this.email, this.code).subscribe(async res => {
-
-
 
       if (this.isVerified) {
         return true;

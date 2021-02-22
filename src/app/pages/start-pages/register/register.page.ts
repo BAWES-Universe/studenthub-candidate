@@ -132,12 +132,20 @@ export class RegisterPage implements OnInit {
         if(canGoBack) {
           this.nav.pop();
         } else {
-          this.modal.dismiss();
+          this.dismissModal();
         }
       });
     } else  {
-      this.modal.dismiss();
+      this.dismissModal();
     }
+  }
+
+  dismissModal() {
+    this.modal.getTop().then(overlay => {
+      if (overlay) {
+        this.modal.dismiss();
+      }
+    });
   }
 
   openLoginPage() {
@@ -146,11 +154,11 @@ export class RegisterPage implements OnInit {
         if (canGoBack) {
           this.nav.pop();
         } else {
-          this.modal.dismiss();
+          this.dismissModal();
         }
       });
     } else  {
-      this.modal.dismiss();
+      this.dismissModal();
     }
   }
 
