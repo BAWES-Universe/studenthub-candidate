@@ -1,0 +1,18 @@
+<ion-content [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class='brand'>
+    <img src="assets/logo.svg" />
+  </div>
+  
+  <div class="error-msg">
+
+    <h2>{{ "Error" | translate }}</h2>
+
+    <p>{{ "Please, enable cookies/ storage." | translate }}</p>
+
+    <br />
+
+    <ion-button color="dark" class="btn-home" (click)="home()">{{ "Try Again" | translate }}</ion-button>
+  </div>
+</ion-content>
+
