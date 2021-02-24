@@ -1,4 +1,5 @@
 import { Candidate } from './candidate';
+import { Company } from './company';
 
 export class Invitation {
     invitation_uuid: string;
@@ -10,4 +11,6 @@ export class Invitation {
     invitation_created_at: string;
     invitation_updated_at: string;
     candidate: Candidate;
+    request: Request;
+    company: Company;
 }
