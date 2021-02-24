@@ -1,5 +1,6 @@
 import { Candidate } from './candidate';
 import { Company } from './company';
+import { Request } from './request';
 
 export class Invitation {
     invitation_uuid: string;
