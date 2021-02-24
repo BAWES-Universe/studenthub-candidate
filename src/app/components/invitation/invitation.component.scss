@@ -1,0 +1,115 @@
+
+.card-invitation {
+    margin: 15px 0 15px 0;
+    padding: 23px 31px 22px 27px;
+    border-radius: 8px;
+    border: solid 1px #d7d3d3;
+    background-color: #ffffff;
+    --box-shadow: none;
+    box-shadow: none;
+}
+
+.card-invitation[dir="ltr"] {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.job-type {
+    //font-family: Inter;
+    font-size: 13.1px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 7px;
+}
+
+.company {
+    margin: 0 0 17px 0;
+    //font-family: Inter;
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.txt-wrorking-as {
+    margin: 0 0 6px 0;
+    //font-family: Inter;
+    font-size: 13.1px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.txt-position-title {
+    margin: 6px 0 24px;
+    //font-family: Inter;
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.invitation-heading {
+    //font-family: Inter;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+    margin-top: 18px;
+    margin-bottom: 5px;
+}
+
+.invitation-detail {
+    margin: 0;
+    //font-family: Inter;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.btn-reject,
+.btn-signup {
+    height: 45px;
+    margin: 0 4px 0 4px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    text-transform: none;
+}
+
+.btn-reject {
+    --background: #eb5757;
+    width: 104px;
+}
+
+.btn-signup {
+    width: 200px;
+    --background: #219653;
+}
+

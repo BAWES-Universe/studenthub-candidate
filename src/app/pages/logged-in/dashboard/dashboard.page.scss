@@ -120,7 +120,7 @@ ion-card {
 
 [dir="rtl"] .card-notification {
     background-image: none;
-    
+
     ion-icon {
         display: block;
         width: 24px;
@@ -178,4 +178,15 @@ ion-card {
 
 .white-bg {
     background: #fff;
+}
+
+.txt-invitation {
+    margin: 15px 0 24px 0;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
 }

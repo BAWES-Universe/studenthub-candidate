@@ -1,0 +1,29 @@
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+
+  <div class="desktop-view">
+
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <div class="title-txt" *ngIf="invitation.invitation_status == 3">
+      {{ "Why do you think you’d be good for this job?" | translate }}
+    </div>
+
+    <div class="title-txt" *ngIf="invitation.invitation_status == 2">
+      {{ "Why do you feel that this job isn’t good for you?" | translate }}
+    </div>
+
+    <form [formGroup]="form" *ngIf="form" (ngSubmit)="submitForm()">
+      <ion-textarea enterkeyhint="Submit" placeholder="{{ 'Speak your mind' | translate }}" #input formControlName="reason">
+      </ion-textarea>
+    </form>
+
+    <ion-button [disabled]="!form.valid || loading" class="btn-submit"
+        (click)="submitForm()">
+        <ion-spinner *ngIf="loading"></ion-spinner>
+        <span *ngIf="!loading && invitation.invitation_status == 2">{{ "Reject" | translate }}</span>
+        <span *ngIf="!loading && invitation.invitation_status == 3">{{ "Apply" | translate }}</span>
+      </ion-button>
+  </div>
+</ion-content>

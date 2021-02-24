@@ -7,9 +7,13 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 //models
 import { Candidate } from '../../../models/candidate';
+import { Invitation } from 'src/app/models/invitation';
+import { Company } from 'src/app/models/company';
+import { Store } from 'src/app/models/store';
 //pages
 import { UpdateBankPage } from "../update-bank/update-bank.page";
 import { CompanyPage } from '../company/company.page';
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 
 
 declare var window;
@@ -33,11 +37,15 @@ export class DashboardPage implements OnInit {
 
   public loading = false;
 
-  public store;
+  public store: Store;
 
-  public company;
+  public company: Company;
+
+  public invitations: Invitation[] = [];
 
   public pushNotificationAvailable: boolean = true;
+
+  public invitationInterval;
 
   constructor(
     public platform: Platform,
@@ -46,6 +54,7 @@ export class DashboardPage implements OnInit {
     public authService: AuthService,
     public eventService: EventService,
     public accountService: AccountService,
+    public invitationService: InvitationService,
     public translateService: TranslateLabelService,
   ) { }
 
@@ -67,6 +76,7 @@ export class DashboardPage implements OnInit {
 
     this.loadData();
     this.loadProfile();
+    this.setInvitationSubscription();
 
     this.eventService.bankUpdated$.subscribe((data: any) => {
       
@@ -85,10 +95,47 @@ export class DashboardPage implements OnInit {
         this.candidate.candidate_name_ar = data.candidate_name_ar;
       }
     });
+
+    this.eventService.userLogout$.subscribe(() => {
+
+      if (this.invitationInterval) {
+        clearInterval(this.invitationInterval);
+        this.invitationInterval = null;
+      }
+    });
+
+    this.eventService.internetOffline$.subscribe(() => {
+      if (this.invitationInterval) {
+        clearInterval(this.invitationInterval);
+        this.invitationInterval = null;
+      }
+    });
+  }
+
+  /**
+   * subscription to check new invitation
+   */
+  async setInvitationSubscription() {
+    this.loadInvitations();
+
+    this.invitationInterval = setInterval(() => {
+      if (this.authService.isLogin && navigator.onLine) {
+        this.loadInvitations();
+      }
+    }, 1000 * 60); // every min 
   }
 
   ionViewWillLeave() {
     this.content.scrollToPoint(0, 0);
+  }
+
+  /**
+   * load invitations for request
+   */
+  loadInvitations() {
+    this.invitationService.list().subscribe(data => {
+      this.invitations = data;
+    })
   }
 
   /**
