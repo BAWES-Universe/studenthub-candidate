@@ -11,7 +11,12 @@
         <ion-img [src]="awsService.cloudinaryUrl + company.company_logo"></ion-img>
       </ion-thumbnail>
       <ion-label>
-        <h3>{{ translateService.langContent(company.company_common_name_en, company.company_common_name_ar) }}</h3>
+        <h3 *ngIf="translateService.currentLang == 'en'">
+          {{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+        </h3>
+        <h3 *ngIf="translateService.currentLang != 'en'">
+          {{ company.company_common_name_ar? company.company_common_name_ar: company.company_name }}
+        </h3>
       </ion-label>
     </ion-item>
 

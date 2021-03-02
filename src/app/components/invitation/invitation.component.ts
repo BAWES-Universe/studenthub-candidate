@@ -24,7 +24,8 @@ export class InvitationComponent implements OnInit {
     public translateService: TranslateLabelService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   /**
    * open popup to accept invitation with reason
