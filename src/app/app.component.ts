@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
+import {Component, OnInit, ApplicationRef, OnDestroy} from '@angular/core';
 import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
@@ -14,6 +14,8 @@ import { LanguageService } from './providers/language.service';
 import {KuwaitiNationalPage} from "./pages/logged-in/kuwaiti-national/kuwaiti-national.page";
 import {AccountService} from "./providers/logged-in/account.service";
 import {Candidate} from "./models/candidate";
+import {Invitation} from "./models/invitation";
+import {InvitationService} from "./providers/logged-in/invitation.service";
 
 
 const { App, StatusBar, SplashScreen, Storage } = Plugins;
@@ -25,12 +27,17 @@ declare var window;
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   public updatesAvailable: boolean = false;
 
   public notificationScriptLoaded: boolean = false;
   public candidate: any;
+
+  public invitations: Invitation[] = [];
+
+  public invitationInterval;
+
   constructor(
     public updates: SwUpdate,
     public oneSignal: OneSignal,
@@ -44,7 +51,8 @@ export class AppComponent implements OnInit {
     public translateService: TranslateLabelService,
     public authService: AuthService,
     public eventService: EventService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public invitationService: InvitationService,
   ) {
     this.initializeApp();
   }
@@ -94,17 +102,23 @@ export class AppComponent implements OnInit {
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
       this._initOneSignal();
 
-    //only when notification api available 
+    // only when notification api available
 
     } else if(window && window.Notification) {
       this._includeOneSignalJs();
     }
 
+    this.setInvitationSubscription();
   }
 
   /**
    * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
    */
+  async ngOnDestroy() {
+    if (this.invitationInterval) {
+      clearInterval(this.invitationInterval);
+    }
+  }
   async ngOnInit() {
 
     this.eventService.kuwaitiNationl$.subscribe(candidate => {
@@ -652,6 +666,25 @@ export class AppComponent implements OnInit {
   async loadCandidateProfile() {
     this.accountService.profile().subscribe(res => {
       this.candidate = res;
+    });
+  }
+
+  setInvitationSubscription() {
+    this.loadInvitations();
+
+    this.invitationInterval = setInterval(() => {
+      if (this.authService.isLogin && navigator.onLine) {
+        this.loadInvitations();
+      }
+    }, 1000 * 60); // every min
+  }
+
+  /**
+   * load invitations for request
+   */
+  loadInvitations() {
+    this.invitationService.count().subscribe(data => {
+      this.eventService.invitations$.next(data);
     });
   }
 }

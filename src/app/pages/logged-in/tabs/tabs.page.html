@@ -33,6 +33,12 @@
         <ion-label>{{ 'Home' | translate }}</ion-label>
       </ion-tab-button>
 
+      <ion-tab-button tab="invitations" layout="icon-start">
+        <ion-icon name="mail-open-outline"></ion-icon>
+        <ion-label>{{ 'Invitation' | translate }}</ion-label>
+        <ion-badge *ngIf="invitationCount">{{ invitationCount }}</ion-badge>
+      </ion-tab-button>
+
       <ion-tab-button tab="payments" layout="icon-start">
         <ion-icon src="assets/images/ic_payment.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
@@ -50,6 +56,12 @@
       <ion-tab-button tab="dashboard">
         <ion-icon src="assets/images/ic_home.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="invitations">
+        <ion-icon name="mail-open-outline"></ion-icon>
+        <ion-label>{{ 'Invitation' | translate }}</ion-label>
+        <ion-badge *ngIf="invitationCount">{{ invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments">

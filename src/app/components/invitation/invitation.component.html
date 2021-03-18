@@ -30,9 +30,16 @@
     <p class="invitation-detail">{{ model.request.request_location }}</p>
   </ng-container>
 
+  <ng-container *ngIf="model.invitation_status > 1">
+    <ion-badge *ngIf="model.invitation_status == 2" color="success">{{ "Accepted" | translate }}</ion-badge>
+    <ion-badge *ngIf="model.invitation_status == 3" color="danger">{{ "Rejected" | translate }}</ion-badge>
+  </ng-container>
+  <ng-container *ngIf="model.invitation_status == 1 && model.request.request_status != 'started'">
+    <p>{{ "This job has been already filled or cancelled before you had the chance to respond" | translate }}</p>
+  </ng-container>
 </ion-card>
 
-<ng-container>
+<ng-container *ngIf="model.invitation_status == 1 && model.request.request_status == 'started'">
   <ion-button class="btn-signup" (click)="accept($event)">
     {{ "Sign me up" | translate }}
   </ion-button>

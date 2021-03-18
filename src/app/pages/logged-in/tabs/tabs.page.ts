@@ -15,6 +15,7 @@ import { OptionPage } from '../option/option.page';
 export class TabsPage implements OnInit {
 
   public showHeader: boolean = false;
+  public invitationCount = null;
 
   constructor(
     public platform: Platform,
@@ -25,7 +26,11 @@ export class TabsPage implements OnInit {
 
   ngOnInit() {
     this.eventService.tabScrolled$.subscribe(data => {
-      this.showHeader = data['scrollTop'] > 0 ? true: false;
+      this.showHeader = (data['scrollTop'] > 0);
+    });
+
+    this.eventService.invitations$.subscribe(data => {
+      this.invitationCount = data;
     });
   }
 

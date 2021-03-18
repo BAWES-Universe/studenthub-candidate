@@ -17,8 +17,17 @@ export class InvitationService {
    * Return invitations
    * @returns {Observable<any>}
    */
-  list(): Observable<any>{
-    const url = this._endpoint + '?expand=request,company';
+  list(page: number): Observable<any>{
+    const url = this._endpoint + '?page=' + page + '&expand=request,company';
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * Return invitations
+   * @returns {Observable<any>}
+   */
+  count(): Observable<any>{
+    const url = this._endpoint + '?count=1';
     return this._authhttp.get(url);
   }
 

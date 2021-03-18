@@ -76,7 +76,7 @@ export class DashboardPage implements OnInit {
 
     this.loadData();
     this.loadProfile();
-    this.setInvitationSubscription();
+    // this.setInvitationSubscription();
 
     this.eventService.bankUpdated$.subscribe((data: any) => {
       
@@ -115,14 +115,16 @@ export class DashboardPage implements OnInit {
   /**
    * subscription to check new invitation
    */
-  async setInvitationSubscription() {
+  setInvitationSubscription() {
     this.loadInvitations();
 
     this.invitationInterval = setInterval(() => {
+      console.log(this.authService.isLogin, navigator.onLine);
       if (this.authService.isLogin && navigator.onLine) {
+        console.log('test');
         this.loadInvitations();
       }
-    }, 1000 * 60); // every min 
+    }, 5000);   // every min
   }
 
   ionViewWillLeave() {

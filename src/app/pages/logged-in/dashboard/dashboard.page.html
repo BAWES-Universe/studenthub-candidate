@@ -12,14 +12,7 @@
       }}
     </h3>
 
-    <h3 class="txt-invitation" *ngIf="invitations.length > 0">
-      {{ "Would you be interested in the following job?" | translate }}
-    </h3>
-
-    <app-invitation [model]="invitation" *ngFor="let invitation of invitations" (onUpdate)="loadInvitations()">
-    </app-invitation>
-
-    <ng-container *ngIf="invitations.length == 0">
+    <ng-container>
       <p class="txt-job-status" *ngIf="store"
         [innerHtml]="'txt_assigned' | translate : { company: company.company_name, store: store.store_name }">
       </p>

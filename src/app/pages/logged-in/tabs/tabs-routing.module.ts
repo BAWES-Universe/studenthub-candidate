@@ -15,7 +15,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../dashboard/dashboard.module').then(m => m.DashboardPageModule),
-            canActivate: [AuthService], 
+            canActivate: [AuthService],
             data: {
               preload: true
             }
@@ -49,6 +49,19 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'invitations',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../invitation/invitation.module').then(m => m.InvitationPageModule),
+            canActivate: [AuthService],
+            data: {
+              preload: true
+            }
+          },
+        ]
+      },
+      {
         path: '',
         redirectTo: '/view/dashboard',
         pathMatch: 'full'
@@ -69,4 +82,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class TabsPageRoutingModule { }
- 
