@@ -1,45 +1,83 @@
 <ion-content [attr.dir]="translateService.direction()" fullscreen>
+  <div class="ion-relative top-bar">
+    <div class="logo">
+      <img src="assets/logo-small.svg">
+    </div>
+
+    <a class="translate-link" (click)="translate()">
+      <span *ngIf="translateService.currentLang != 'en'">English</span>
+      <span *ngIf="translateService.currentLang == 'en'">عربى</span>
+    </a>
+  </div>
   <div class="desktop-view">
 
-      <a class="translate-link" (click)="translate()">
-        <span *ngIf="translateService.currentLang != 'en'">English</span>
-        <span *ngIf="translateService.currentLang == 'en'">عربى</span>
-      </a>
-
       <div class="max-width">
-
-        <div class="logo">
-          <img src="assets/logo.svg">
-        </div>
-
         <ion-slides pager="true" [options]="slideOpts">
           <ion-slide>
             <div class="slide">
-              <img src="./assets/images/green.svg"/>
-              <h2>{{ "We understand how difficult it is finding a job when you lack work experience" | translate }}</h2>
-              <p>{{ "At StudentHub, our team does it’s best to connect you with job opportunities regardless of your work experience." | translate }}</p>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size-xs="12" size-sm="3" size-md="3" size-lg="3">
+                    <img src="./assets/images/green.svg"/>
+                  </ion-col>
+                  <ion-col size-xs="12" size-sm="9" size-md="9" size-lg="9">
+                    <h2>{{ "We understand how difficult it is finding a job when you lack work experience" | translate }}</h2>
+                    <p>{{ "At StudentHub, our team does it’s best to connect you with job opportunities regardless of your work experience." | translate }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
             </div>
           </ion-slide>
 
           <ion-slide>
-              <img src="assets/images/yellow.svg">
-              <h2>{{ "Build your CV using our profile builder" | translate }}</h2>
-              <p class="margin-bottom-10">{{ "Your CV will be used by our team to convince employers to hire you." | translate }}</p>
-              <p>{{ "Try to make a good first impression!" | translate }}</p>
+            <div class="slide">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size-xs="12" size-sm="3" size-md="3" size-lg="3">
+                    <img src="assets/images/yellow.svg">
+                  </ion-col>
+                  <ion-col size-xs="12" size-sm="9" size-md="9" size-lg="9">
+                    <h2>{{ "Build your CV using our profile builder" | translate }}</h2>
+                    <p class="margin-bottom-10">{{ "Your CV will be used by our team to convince employers to hire you." | translate }}</p>
+                    <p>{{ "Try to make a good first impression!" | translate }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
           </ion-slide>
 
           <ion-slide>
-            <img src="assets/images/orange.svg">
-            <h2>{{ "Receive invitations to apply for jobs" | translate }}</h2>
-            <p class="margin-bottom-10">{{ "When an employer is hiring, our team will send you an invitation to apply for the job along with a job offer." | translate }}</p>
-            <p>{{ "By accepting, our team will then start working on convincing the employer to hire you under that job offer." | translate }}</p>
+            <div class="slide">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size-xs="12" size-sm="3" size-md="3" size-lg="3">
+                    <img src="assets/images/orange.svg">
+                  </ion-col>
+                  <ion-col size-xs="12" size-sm="9" size-md="9" size-lg="9">
+                    <h2>{{ "Receive invitations to apply for jobs" | translate }}</h2>
+                    <p class="margin-bottom-10">{{ "When an employer is hiring, our team will send you an invitation to apply for the job along with a job offer." | translate }}</p>
+                    <p>{{ "By accepting, our team will then start working on convincing the employer to hire you under that job offer." | translate }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
           </ion-slide>
 
           <ion-slide>
-            <img src="assets/images/blue.svg">
-            <h2>{{ "Track your performance and get paid" | translate }}</h2>
-            <p class="margin-bottom-10">{{ "Most employers use our salary portal to process payments." | translate }}</p>
-            <p>{{ "This means that we’ll keep you updated regarding every payment made to you." | translate }}</p>
+            <div class="slide">
+              <ion-grid>
+                <ion-row>
+                  <ion-col size-xs="12" size-sm="3" size-md="3" size-lg="3">
+                    <img src="assets/images/blue.svg">
+                  </ion-col>
+                  <ion-col size-xs="12" size-sm="9" size-md="9" size-lg="9">
+                    <h2>{{ "Track your performance and get paid" | translate }}</h2>
+                    <p class="margin-bottom-10">{{ "Most employers use our salary portal to process payments." | translate }}</p>
+                    <p>{{ "This means that we’ll keep you updated regarding every payment made to you." | translate }}</p>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
           </ion-slide>
         </ion-slides>
 
