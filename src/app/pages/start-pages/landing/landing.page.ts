@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {IonSlides, ModalController, NavController} from '@ionic/angular';
 import { PreLoad } from 'src/app/util/preLoad';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -10,7 +10,8 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
-
+import { ChangeDetectorRef } from '@angular/core';
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-landing',
@@ -23,13 +24,16 @@ import { ModalPopPage } from '../modal-pop/modal-pop.page';
 export class LandingPage implements OnInit {
 
   public slideOpts = {};
+  public didInit: boolean = false;
+  @ViewChild(IonSlides) ionSlides: IonSlides;
 
   constructor(
     public accountService: AccountService,
     public authService: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public route: Router
   ) {
   this.slideOpts = {
       initialSlide: 0,
@@ -38,6 +42,7 @@ export class LandingPage implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   translate() {
@@ -46,9 +51,29 @@ export class LandingPage implements OnInit {
 
     this.eventService.setLanguagePref$.next(code);
 
+
+    if (code == 'ar') {
+      this.slideOpts = {
+        initialSlide: 3,
+        speed: 400
+      };
+    } else  {
+      this.slideOpts = {
+        initialSlide: 0,
+        speed: 400
+      };
+    }
+
     if (this.authService.isLogin) {
       this.accountService.setLanguagePref(code).subscribe();
     }
+
+    location.reload();
+  }
+
+  reload() {
+    this.route.navigate(['/landing']);
+    console.log('reload');
   }
 
   visitWebsite() {
