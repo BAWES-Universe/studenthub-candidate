@@ -5,6 +5,16 @@
       <ion-icon slot="start" name="key-outline"></ion-icon>
       <ion-label>{{ "Change Password" | translate }}</ion-label>
     </ion-item>
+    
+    <ion-item tappable *ngIf="!authService.store" (click)="!updating && updateJobSearchStatus()">
+      <div tabindex="0"></div>
+      <ion-spinner *ngIf="updating"></ion-spinner>
+      <ng-container *ngIf="!updating">
+        <ion-icon name="eye-off-outline" slot="start"></ion-icon>
+        <ion-label>{{ "I don’t want a job anymore" | translate }}</ion-label>
+      </ng-container>
+    </ion-item>
+    
     <ion-item tappable class="ion-activatable" (click)="translate()">
       <div tabindex="0"></div>
       <ion-icon slot="start" name="globe-outline"></ion-icon>

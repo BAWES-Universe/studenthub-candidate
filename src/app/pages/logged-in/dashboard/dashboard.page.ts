@@ -7,8 +7,6 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 //models
 import { Candidate } from '../../../models/candidate';
-import { Company } from 'src/app/models/company';
-import { Store } from 'src/app/models/store';
 //pages
 import { UpdateBankPage } from "../update-bank/update-bank.page";
 import { CompanyPage } from '../company/company.page';
@@ -25,8 +23,6 @@ export class DashboardPage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
-  public candidate_job_search_status: any;
-
   public candidate: Candidate;
 
   public loadingProfile: boolean = false; 
@@ -34,10 +30,6 @@ export class DashboardPage implements OnInit {
   public updating = false;
 
   public loading = false;
-
-  public store: Store;
-
-  public company: Company;
 
   public pushNotificationAvailable: boolean = true;
 
@@ -67,7 +59,6 @@ export class DashboardPage implements OnInit {
       this.pushNotificationAvailable = false; // ios browser not supporting push notification
     }
 
-    this.loadData();
     this.loadProfile();
 
     this.eventService.bankUpdated$.subscribe((data: any) => {
@@ -89,7 +80,6 @@ export class DashboardPage implements OnInit {
     });
   }
 
-
   ionViewWillLeave() {
     this.content.scrollToPoint(0, 0);
   }
@@ -101,33 +91,6 @@ export class DashboardPage implements OnInit {
   logScrolling(e) {
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
   } 
-
-  /**
-   * load job search status ,.
-   */
-  async loadData() {
-    this.loading = true;
-
-    this.accountService.getJobSearchStatus().subscribe(res => {
-
-      this.candidate_job_search_status = res.candidate_job_search_status;
-
-      this.store = res.store;
-      this.company = (res.parent_company) ? res.parent_company : res.company;
-
-      /*if(!res.isProfileCompleted) {
-
-        this.authService.isProfileCompleted = false;
-        this.authService.saveLoggedInUser();
-
-        this.navCtrl.navigateRoot(['/complete-profile']);
-      }*/
-
-      this.loading = false;
-    }, () => {
-      this.loading = false;
-    });
-  }
 
   /**
    * set oneSignal subscription
@@ -142,19 +105,19 @@ export class DashboardPage implements OnInit {
   updateJobSearchStatus() {
 
     const params = {
-      job_search_status: this.candidate_job_search_status == 1 ? 0 : 1
+      job_search_status: this.authService.candidate_job_search_status == 1 ? 0 : 1
     };
 
     this.updating = true;
 
-    this.candidate_job_search_status = params.job_search_status;
+    this.authService.candidate_job_search_status = params.job_search_status;
 
     this.accountService.updateJobSearchStatus(params).subscribe(data => {
 
       this.updating = false;
 
       if (data.operation != 'success') {
-        this.candidate_job_search_status = !params.job_search_status; // back to old status
+        this.authService.candidate_job_search_status = !params.job_search_status; // back to old status
       }
     }, () => {
       this.updating = false;
@@ -189,7 +152,7 @@ export class DashboardPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CompanyPage,
       componentProps: {
-        company: this.company,
+        company: this.authService.company,
       }
     });
     modal.onDidDismiss().then(e => {
