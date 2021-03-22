@@ -3,10 +3,11 @@ ion-thumbnail {
     height: 136px;
     --border-radius: 100%;
     margin: 38px 0 32px 0;
+    float: var(--start);
 }
 
 h2.candidate-name {
-    margin: 32px 0 3px 0;
+    margin: 0 0 3px 0;
     font-family: Effra;
     font-size: 48px;
     font-weight: bold;
@@ -28,6 +29,35 @@ h4.candidate-name {
     line-height: normal;
     letter-spacing: normal;
     color: black;
+}
+
+.btn-settings {
+    height: 35px;
+    --background: #fff;
+    --box-shadow: none;
+    --color: black;
+    border: 1px solid black;
+    --border-radius: 5px;
+    border-radius: 5px;
+    text-transform: none;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    width: 104px;
+    position: relative;
+    top: 10px;
+    float: var(--end);
+}
+
+[dir="ltr"] .btn-settings ion-icon {
+    margin-right: 10px;
+}
+
+[dir="rtl"] .btn-settings ion-icon {
+    margin-left: 10px;
 }
 
 .birth-date {
@@ -277,6 +307,10 @@ ion-item {
     .max-width {
         max-width: 700px;
         margin: 0 auto;
+    }
+
+    .btn-settings {
+        margin-top: 30px;
     }
 }
 

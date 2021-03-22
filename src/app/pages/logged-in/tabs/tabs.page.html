@@ -1,25 +1,8 @@
 <ion-header mode="md" [class.mobile-tab]="platform.is('mobile')" class="clear-header" [class.add-border]="showHeader" [class.browser-tab]="!platform.is('mobile')">
-  
   <ion-toolbar class="main-toolbar">
-
-    <!--class="ion-no-border" to fix: https://www.pivotaltracker.com/story/show/170232399 -->
-
-    <ion-buttons slot="start" class="dummy-btn-wrapper">
-      <ion-button>
-        <ion-icon name="options-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
     <div class="brand">
       <img src="assets/logo.svg">
     </div>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="openPopover($event)">
-        <ion-icon name="options-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 <ion-content>
