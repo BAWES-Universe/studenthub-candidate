@@ -13,32 +13,32 @@
     </h3>
 
     <ng-container>
-      <p class="txt-job-status" *ngIf="store"
-        [innerHtml]="'txt_assigned' | translate : { company: company.company_name, store: store.store_name }">
+      <p class="txt-job-status" *ngIf="authService.store"
+        [innerHtml]="'txt_assigned' | translate : { company: authService.company.company_name, store: authService.store.store_name }">
       </p>
 
-      <p class="txt-job-status" *ngIf="!store && candidate_job_search_status">
+      <p class="txt-job-status" *ngIf="!authService.store && authService.candidate_job_search_status">
         {{ "We’re currently looking for a job for you. We’ll notify you when we find an open position." | translate }}
       </p>
 
-      <p class="txt-job-status" *ngIf="!store && !candidate_job_search_status">
+      <p class="txt-job-status" *ngIf="!authService.store && !authService.candidate_job_search_status">
         {{ "You’re not looking for a job, and we’re not gonna bother you about it" | translate }}
       </p>
 
-      <ion-button *ngIf="store" fill="outline" (click)="viewCompanyDetails()" class="btn-learn-more">
-        {{ "txt_learn_more" | translate : { company: company.company_name } }}
+      <ion-button *ngIf="authService.store" fill="outline" (click)="viewCompanyDetails()" class="btn-learn-more">
+        {{ "txt_learn_more" | translate : { company: authService.company.company_name } }}
       </ion-button>
 
-      <ion-button *ngIf="!store && !candidate_job_search_status" fill="outline" class="btn-toggle-job"
+      <ion-button *ngIf="!authService.store && !authService.candidate_job_search_status" fill="outline" class="btn-toggle-job"
         [disabled]="updating" (click)="updateJobSearchStatus()">
         {{ "Find me a job" | translate }}
       </ion-button>
 
-      <div *ngIf="candidate && candidate_job_search_status">
+      <div *ngIf="candidate && authService.candidate_job_search_status">
 
         <h4 *ngIf="
         authService.showOneSignalPrompt || 
-        !store || 
+        !authService.store || 
         (
           !candidate.bank_account_name || 
           !candidate.candidate_iban || 
@@ -62,7 +62,7 @@
           </ion-card-content>
         </ion-card>
 
-        <ion-card class="profile-card" *ngIf="!store" tappable [routerLink]="['/view/profile']">
+        <ion-card class="profile-card" *ngIf="!authService.store" tappable [routerLink]="['/view/profile']">
           <ion-card-header class="white-bg">
             <ion-card-title>
               {{ "Improve your profile" | translate }}
@@ -83,17 +83,6 @@
           </ion-card-header>
           <ion-card-content>
             {{ "Enter your banking details for faster bank transfers once we match you" | translate }}
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="card-job-status" *ngIf="!store" (click)="updateJobSearchStatus()">
-          <ion-card-header>
-            <ion-card-title>
-              {{ "I don’t want a job anymore" | translate }}
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            {{ "Click this button if you no longer want us to look for jobs for you" | translate }}
           </ion-card-content>
         </ion-card>
 
