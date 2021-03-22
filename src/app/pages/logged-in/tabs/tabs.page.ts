@@ -69,16 +69,4 @@ export class TabsPage implements OnInit {
       this.authService.loadingJobSearchStatus = false;
     });
   }
-
-  /**
-   * Display Popover with Additional Actions (Change Password and Logout)
-   * @param e
-   */
-  async openPopover(e) {
-    const popover = await this.popoverCtrl.create({
-      component: OptionPage,
-      event: e
-    });
-    popover.present();
-  }
 }

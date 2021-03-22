@@ -10,6 +10,13 @@
         <img (error)="onPhotoError()" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
       </ion-thumbnail>
 
+      <ion-button class="btn-settings" (click)="openPopover($event)">
+        <ion-icon name="options-outline"></ion-icon>
+        {{ "Settings" | translate }}
+      </ion-button>
+
+      <div class="clearfix"></div>
+      
       <h2 class="candidate-name" tappable (click)="updateName()"*ngIf="candidate.candidate_name">{{ candidate.candidate_name }}</h2>
 
       <h4 class="candidate-name" tappable (click)="updateNameArabic()" *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</h4>
