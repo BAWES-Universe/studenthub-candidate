@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
-//models
-import { Store } from 'src/app/models/store';
+import { Router } from '@angular/router';
+import { AlertController, PopoverController } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -21,6 +20,8 @@ export class OptionPage implements OnInit {
   constructor(
     public translateService: TranslateLabelService,
     public authService: AuthService,
+    public router: Router,
+    public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
     public eventService: EventService,
     public accountService: AccountService,
@@ -40,15 +41,26 @@ export class OptionPage implements OnInit {
 
     this.updating = true;
 
-    this.authService.candidate_job_search_status = params.job_search_status;
-
-    this.accountService.updateJobSearchStatus(params).subscribe(data => {
+    this.accountService.updateJobSearchStatus(params).subscribe(async data => {
 
       this.updating = false;
 
       if (data.operation != 'success') {
-        this.authService.candidate_job_search_status = !params.job_search_status; // back to old status
+
+        let alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: data.message,
+          buttons: [this.translateService.transform('Okay')],
+        });
+        return alert.present();
       }
+
+      this.authService.candidate_job_search_status = params.job_search_status;
+
+      this.router.navigate(['/']);
+
+      this.dismiss();
+
     }, () => {
       this.updating = false;
     });
