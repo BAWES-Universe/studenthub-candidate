@@ -11,7 +11,6 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 // pages
-import { OptionPage } from '../option/option.page';
 import { UpdateBankPage } from '../update-bank/update-bank.page';
 
 
@@ -88,18 +87,6 @@ export class PaymentsPage implements OnInit {
     this.candidateService.workHistory().subscribe(response => {
       this.workHistory = response;
     });
-  }
-
-  /**
-   * Display Popover with Additional Actions (Change Password and Logout)
-   * @param e
-   */
-  async openPopover(e) {
-    const popover = await this.popoverCtrl.create({
-      component: OptionPage,
-      event: e
-    });
-    popover.present();
   }
 
   /**

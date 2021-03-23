@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { InvitationPageRoutingModule } from './invitation-routing.module';
 
-import { DashboardPage } from './dashboard.page';
+import { InvitationPage } from './invitation.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
-import { SplitPipe } from 'src/app/pipes/split.pipe';
 import { InvitationModule } from 'src/app/components/invitation/invitation.module';
 
 @NgModule({
@@ -19,11 +18,10 @@ import { InvitationModule } from 'src/app/components/invitation/invitation.modul
     TranslateModule.forChild(),
     LoadingModalModule,
     InvitationModule,
-    DashboardPageRoutingModule
+    InvitationPageRoutingModule
   ],
   declarations: [
-    SplitPipe,
-    DashboardPage
+    InvitationPage
   ]
 })
-export class DashboardPageModule {}
+export class InvitationPageModule {}

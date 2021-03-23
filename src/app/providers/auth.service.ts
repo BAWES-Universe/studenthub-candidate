@@ -11,6 +11,9 @@ import { NavController } from '@ionic/angular';
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
 import { SentryErrorhandlerService } from './sentry.errorhandler.service';
+//models
+import { Company } from 'src/app/models/company';
+import { Store } from 'src/app/models/store';
 
 
 declare var navigator;
@@ -39,6 +42,14 @@ export class AuthService {
     name: 'English'
   };
 
+  public store: Store;
+
+  public company: Company;
+
+  public candidate_job_search_status;
+  
+  public loadingJobSearchStatus: boolean = false; 
+  
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
   public _urlRegistration = '/auth/register';
