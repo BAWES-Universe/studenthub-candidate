@@ -1,4 +1,9 @@
+
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+
+  <div class="brand" *ngIf="platform.is('mobile')">
+    <img src="assets/logo.svg">
+  </div>
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
 
