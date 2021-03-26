@@ -88,8 +88,8 @@ export class InvitationFeedbackPage implements OnInit {
   dismiss() {
     this.modalCtrl.getTop().then(overlay => {
       if(overlay) {
-        overlay.dismiss();
+        overlay.dismiss( { refresh: false });
       }
-    })
+    });
   }
 }
