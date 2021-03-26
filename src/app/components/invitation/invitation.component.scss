@@ -1,13 +1,117 @@
 
 .card-invitation {
-    margin: 15px 0 15px 0;
-    padding: 23px 31px 22px 27px;
+    padding: 22px 0 0 26px;
     border-radius: 8px;
-    border: solid 1px #d7d3d3;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #ffffff;
-    --box-shadow: none;
-    box-shadow: none;
+
+    //margin: 15px 0 15px 0;
+    //padding: 23px 31px 22px 27px;
+    //border-radius: 8px;
+    //border: solid 1px #d7d3d3;
+    //background-color: #ffffff;
+    //--box-shadow: none;
+    //box-shadow: none;
+    .time {
+        margin: 0 29px 12px 0;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+
+    .company {
+        margin: 12px 153.5px 5px 0;
+        font-family: 'EffraMedium';
+        font-size: 21px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+    .job-type {
+        margin: 5px 0 41px;
+        font-family: 'Effra';
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+    .txt-position-title {
+        margin: 32px 16px 11px 0;
+        font-family: 'EffraMedium';
+        font-size: 27px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+    .tell-me-more-btn {
+        width: 168px;
+        height: 42px;
+        margin: 11px 58px 22px 0;
+        border-radius: 5px;
+        background-color: #4c5df2;
+        --background: #4c5df2;
+    }
+    .pending-img {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .msg {
+        margin: 17px 26px 24px 2px;
+        padding: 16px 21px 18px 23px;
+        border-radius: 5px;
+        background-color: #fff8ea;
+        img {
+            width: 19px!important;
+            height: 28.2px!important;
+            max-width: 19px !important;
+        }
+        .txt {
+            font-family: 'EffraMedium';
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: left;
+            color: #000;
+        }
+        //.img{
+        //    float: left;
+        //    width: 6%;
+        //}
+        //.text  {
+        //    float: left;
+        //    width: 90%;
+        //}
+
+    }
+    .request-completed {
+        background: #f2ffea!important;
+    }
+    .request-cancelled {
+        background: #ffeaea!important;
+    }
 }
+
 
 .card-invitation[dir="ltr"] {
     font-family: 'Inter', sans-serif !important;
@@ -26,17 +130,6 @@
     margin-bottom: 7px;
 }
 
-.company {
-    margin: 0 0 17px 0;
-    font-family: 'Inter';
-    font-size: 15px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.65;
-    letter-spacing: normal;
-    color: #000;
-}
 
 .txt-wrorking-as {
     margin: 0 0 6px 0;

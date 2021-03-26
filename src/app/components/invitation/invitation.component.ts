@@ -22,7 +22,9 @@ export class InvitationComponent implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService
-  ) { }
+  ) {
+    console.log(this.model);
+  }
 
   ngOnInit() {
   }

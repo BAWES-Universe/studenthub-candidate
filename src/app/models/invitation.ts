@@ -14,4 +14,5 @@ export class Invitation {
     candidate: Candidate;
     request: Request;
     company: Company;
+    note: any;
 }

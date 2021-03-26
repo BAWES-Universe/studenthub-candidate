@@ -18,7 +18,7 @@ export class InvitationService {
    * @returns {Observable<any>}
    */
   list(page: number): Observable<any>{
-    const url = this._endpoint + '?page=' + page + '&expand=request,company';
+    const url = this._endpoint + '?page=' + page + '&expand=request,company,note';
     return this._authhttp.get(url);
   }
 
