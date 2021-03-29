@@ -100,31 +100,6 @@ export class DashboardPage implements OnInit {
   }
 
   /**
-   * update job search status
-   */
-  updateJobSearchStatus() {
-
-    const params = {
-      job_search_status: this.authService.candidate_job_search_status == 1 ? 0 : 1
-    };
-
-    this.updating = true;
-
-    this.authService.candidate_job_search_status = params.job_search_status;
-
-    this.accountService.updateJobSearchStatus(params).subscribe(data => {
-
-      this.updating = false;
-
-      if (data.operation != 'success') {
-        this.authService.candidate_job_search_status = !params.job_search_status; // back to old status
-      }
-    }, () => {
-      this.updating = false;
-    });
-  }
-
-  /**
    * load candidate profile
    */
   loadProfile() {
@@ -141,28 +116,6 @@ export class DashboardPage implements OnInit {
       this.loadingProfile = false
       this.updating = false;
     });
-  }
-
-  /**
-   * show popup for company details
-   */
-  async viewCompanyDetails() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyPage,
-      componentProps: {
-        company: this.authService.company,
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-    modal.present();
   }
 
   async updateBank($e) {

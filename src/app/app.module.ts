@@ -63,6 +63,7 @@ import { ModalPopPageModule } from './pages/start-pages/modal-pop/modal-pop.modu
 import { ForgotPasswordPageModule } from './pages/start-pages/forgot-password/forgot-password.module';
 import { InvitationFeedbackPageModule } from './pages/logged-in/invitation-feedback/invitation-feedback.module';
 import { InvitationModule } from './components/invitation/invitation.module';
+import {AccountStatusModule} from "./components/account-status/account-status.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -94,6 +95,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CacheModule.forRoot({ keyPrefix: '__payroll_candidate_cache' }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
     UpdateAlertModule,
+    AccountStatusModule,
     OptionPageModule,
     NamePageModule,
     NameArPageModule,

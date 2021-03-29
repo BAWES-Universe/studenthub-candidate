@@ -10,17 +10,19 @@ import { DashboardPage } from './dashboard.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { SplitPipe } from 'src/app/pipes/split.pipe';
 import { InvitationModule } from 'src/app/components/invitation/invitation.module';
+import {AccountStatusModule} from "../../../components/account-status/account-status.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TranslateModule.forChild(),
-    LoadingModalModule,
-    InvitationModule,
-    DashboardPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TranslateModule.forChild(),
+        LoadingModalModule,
+        InvitationModule,
+        DashboardPageRoutingModule,
+        AccountStatusModule
+    ],
   declarations: [
     SplitPipe,
     DashboardPage
