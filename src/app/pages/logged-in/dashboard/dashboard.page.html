@@ -58,16 +58,16 @@
           </ion-card-content>
         </ion-card>
 
-        <ion-card class="card-bank-details" tappable
-          *ngIf="!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank"
-          (click)="updateBank($event)">
+<!--        <ion-card class="card-bank-details" tappable-->
+<!--          *ngIf="!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank"-->
+<!--          (click)="updateBank($event)">-->
+          <ion-card class="card-bank-details">
           <ion-card-header class="white-bg">
-            <ion-card-title>
-              {{ "Enter your banking details" | translate }}
-            </ion-card-title>
+            <ion-card-title [innerHTML]="'urgent_bank_detail' | translate"></ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ "Enter your banking details for faster bank transfers once we match you" | translate }}
+            <p>{{ "You won’t be able to receive payments until we have your bank information to process your transfers." | translate }}</p>
+            <ion-button (click)="updateBank($event)" class="btn-bank-detail">{{"Enter my bank information" | translate }}</ion-button>
           </ion-card-content>
         </ion-card>
 

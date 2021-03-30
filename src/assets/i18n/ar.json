@@ -308,5 +308,8 @@
     "This means that we’ll keep you updated regarding every payment made to you.": "هذا يعني أننا سنبقيك على اطلاع دائم بكل دفعة يتم إجراؤها لك.",
     "Accepted": "",
     "Rejected": "",
-    "This job has been already filled or cancelled before you had the chance to respond": ""
+    "This job has been already filled or cancelled before you had the chance to respond": "",
+    "urgent_bank_detail": "<span class='urgent-txt'>Urgent!</span> We need your bank info?",
+    "You won’t be able to receive payments until we have your bank information to process your transfers.": "",
+    "Enter my bank information" : ""
 }
