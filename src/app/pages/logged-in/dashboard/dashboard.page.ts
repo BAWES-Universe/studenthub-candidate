@@ -10,6 +10,7 @@ import { Candidate } from '../../../models/candidate';
 //pages
 import { UpdateBankPage } from "../update-bank/update-bank.page";
 import { CompanyPage } from '../company/company.page';
+import {UploadVideoPage} from "../upload-video/upload-video.page";
 
 
 declare var window;
@@ -24,7 +25,7 @@ export class DashboardPage implements OnInit {
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public candidate: Candidate;
-
+  public videoInterval;
   public loadingProfile: boolean = false; 
 
   public updating = false;
@@ -135,6 +136,75 @@ export class DashboardPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+  async updateVideo() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: UploadVideoPage,
+      componentProps: {
+        candidate: Object.assign({}, this.candidate),
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.candidate_video) {
+
+        if(this.candidate) {
+          this.candidate.candidate_video = e.data.candidate_video;
+          this.candidate.candidate_video_processed = e.data.candidate_video_processed;
+        }
+
+        if(!e.data.candidate_video_processed) {
+          this.setVideoStatusSubsciption();
+        }
+      }
+
+      if(e.data && e.data.remove_candidate_video) {
+        this.candidate.candidate_video = null;
+      }
+    });
+    modal.present();
+  }
+
+  setVideoStatusSubsciption() {
+
+    this.videoInterval = setInterval(() => {
+      this.checkVideoStatus();
+    }, 5 * 1000);//every 5 second
+  }
+
+  /**
+   * check video status on cloudinary
+   */
+  checkVideoStatus() {
+    this.accountService.checkVideoStatus().subscribe(response => {
+
+      if(response.candidate_video_processed) {
+
+        clearInterval(this.videoInterval);
+
+        this.videoInterval = null;
+
+        if(this.candidate) {
+          this.candidate.candidate_video_processed = true;
+          this.candidate.candidate_video = response.candidate_video;
+        }
+
+        //fire event to update video reference when available
+
+        this.eventService.candidateVideoProcessed$.next({
+          candidate_video: response.candidate_video,
+          candidate_video_processed: response.candidate_video_processed
+        });
+      }
+    })
   }
 }
 

@@ -58,16 +58,23 @@
           </ion-card-content>
         </ion-card>
 
-<!--        <ion-card class="card-bank-details" tappable-->
-<!--          *ngIf="!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank"-->
-<!--          (click)="updateBank($event)">-->
-          <ion-card class="card-bank-details">
+        <ion-card class="card-bank-details">
           <ion-card-header class="white-bg">
             <ion-card-title [innerHTML]="'urgent_bank_detail' | translate"></ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <p>{{ "You won’t be able to receive payments until we have your bank information to process your transfers." | translate }}</p>
             <ion-button (click)="updateBank($event)" class="btn-bank-detail">{{"Enter my bank information" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card-bank-details" *ngIf="candidate.candidate_job_search_status && !candidate.candidate_video">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{"Increase your chances of landing a job by recording an intro video" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ "While optional, an intro video makes your profile stand out to employers. It shows that you have the confidence required for the job and gives them the first impression they need to see you as something more than just a paper CV." | translate }}</p>
+            <ion-button  (click)="updateVideo($event)" fill="outline" class="btn-video-recording">{{"I’d like to start recording" | translate }}</ion-button>
           </ion-card-content>
         </ion-card>
 
