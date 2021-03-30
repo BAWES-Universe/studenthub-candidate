@@ -138,7 +138,7 @@ export class DashboardPage implements OnInit {
     modal.present();
   }
 
-  async updateVideo() {
+  async updateVideo(event) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
