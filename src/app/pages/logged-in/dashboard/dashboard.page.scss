@@ -46,35 +46,34 @@ h4 {
     margin-bottom: 15px;
 }
 
-ion-button {
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.65;
-    letter-spacing: normal;
-    color: #000000;
-    height: 43px;
-    text-transform: none;
-    min-width: 212px;
-    margin: 5px 0;
-    --border-radius: 22px;
-    --border-color: #3b4a90;
-    --border-width: 2px;
-    --border-style: solid;
-}
+//ion-button {
+//    font-size: 14px;
+//    font-weight: normal;
+//    font-stretch: normal;
+//    font-style: normal;
+//    line-height: 1.65;
+//    letter-spacing: normal;
+//    color: #000000;
+//    height: 43px;
+//    text-transform: none;
+//    min-width: 212px;
+//    margin: 5px 0;
+//    --border-radius: 22px;
+//    --border-color: #3b4a90;
+//    --border-width: 2px;
+//    --border-style: solid;
+//}
 
 ion-card {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    margin-left: 0;
-    margin-right: 0;
-    padding-inline-start: 46px;
-    padding-bottom: 5px;
+    margin: 15px 0;
+    //padding-inline-start: 46px;
+    //padding-bottom: 5px;
     background-position: 15px 14px;
     background-repeat: no-repeat;
 
     ion-card-title {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 500;
         font-stretch: normal;
         font-style: normal;
@@ -98,15 +97,15 @@ ion-card {
 }
 
 .disabled-feature {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
+    text-align: left;
     color: #eb5757;
-    margin: 0;
-    padding: 0;
+    margin: 10px 0;
 }
 
 .pushNotificationAvailable {
@@ -119,14 +118,6 @@ ion-card {
 
 [dir="rtl"] ion-card {
     background-position: calc(100% - 15px) 14px;
-}
-
-.card-notification {
-    background-image: url(src/assets/images/ic_alerts.svg);
-
-    ion-icon {
-        display: none;
-    }
 }
 
 [dir="rtl"] .card-notification {
@@ -147,11 +138,6 @@ ion-card {
 .profile-card {
     background-image: url(src/assets/images/ic_profile.svg);
 }
-
-.card-bank-details {
-    background-image: url(src/assets/images/ic_payment.svg);
-}
-
 .card-job-status {
     cursor: pointer;
     background-color: #eb5757;
@@ -204,4 +190,84 @@ ion-card {
 
 app-invitation:last-child {
     margin-bottom: 10px;
+}
+.btn-bank-detail {
+    width: 215px;
+    height: 39px;
+    flex-grow: 0;
+    border-radius: 5px;
+    text-transform: inherit;
+    box-shadow: none;
+    background-color: #4c5df2;
+    --background: #4c5df2;
+    margin-top: 11px;
+}
+
+.btn-video-recording {
+    height: 39px;
+    text-transform: inherit;
+    margin-top: 11px;
+    color: #4c5df2;
+    border-color: #4c5df2;
+    --border-color:#4c5df2;
+    --border-radius:5px;
+}
+
+.card-work-details {
+
+    ion-card-title {
+        font-size: 18px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+
+    h2 {
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+        font-family: 'effra';
+    }
+    h5 {
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+        font-family: 'effra';
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+        font-family: 'effra';
+    }
+    .history {
+        margin-bottom: 16px;
+    }
+}
+.download-btn {
+    --border-radius: 5px;
+    --border-color: #4c5df2;
+    --color: #4c5df2;
+    height: 39px;
+    margin-top:10px;
 }

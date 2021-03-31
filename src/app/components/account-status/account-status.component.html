@@ -1,0 +1,35 @@
+<ion-card class="account-status">
+
+        <ion-card-header class="white-bg">
+            <ion-card-title>
+                {{ transform(translateService.langContent(candidate.candidate_name, candidate.candidate_name_ar)) }},
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ng-container  *ngIf="authService.store">
+                <p class="txt-job-status"
+                   [innerHtml]="'txt_assigned' | translate : { company: authService.company.company_name, store: authService.store.store_name }">
+                </p>
+                <ion-button fill="outline"  (click)="viewCompanyDetails()" class="btn-learn-more">
+                    {{ "txt_learn_more" | translate : { company: authService.company.company_name } }}
+                </ion-button>
+            </ng-container>
+            <ng-container  *ngIf="!authService.store && authService.candidate_job_search_status">
+                <p class="txt-job-status">{{ "We’re currently looking for a job for you. We’ll notify you when we find an open position." | translate }}</p>
+                <p class="txt-job-status">{{ "The more attractive your profile, the easier it is for us to find you a job." | translate }}</p>
+                <ion-button fill="outline" class="btn-view-profile" tappable [routerLink]="['/view/profile']">
+                    {{ "View my profile" | translate }}
+                </ion-button>
+            </ng-container>
+
+            <ng-container  *ngIf="!authService.store && !authService.candidate_job_search_status">
+                <p class="txt-job-status" >
+                    {{ "You told us you’re not looking for a job, so we’re not going to bother you about it" | translate }}
+                </p>
+                <ion-button class="btn-toggle-job"
+                            [disabled]="updating" (click)="updateJobSearchStatus()">
+                    {{ "I want a job. Sign me up again." | translate }}
+                </ion-button>
+            </ng-container>
+        </ion-card-content>
+</ion-card>

@@ -16,7 +16,16 @@ export class CandidateService {
    * @param candidate
    */
   workHistory(): Observable<any> {
-    const url = this._candidateEndpoint + '/work-history?expand=store';
+    const url = this._candidateEndpoint + '/work-history?expand=store,company';
     return this._authhttp.get(url);
+  }
+
+  /**
+   * download candidate appreciation certificate
+   * @param workHistoryID
+   */
+  downloadCertificate(workHistoryID): Observable<any> {
+    let url = `${this._candidateEndpoint}/appreciation-certificate/${workHistoryID}`;
+    return this._authhttp.pdfget(url, 'appreciation-certification-' + workHistoryID + '.pdf');
   }
 }

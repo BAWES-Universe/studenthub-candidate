@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
 import {TranslateLabelService} from '../translate-label.service';
-
+import { saveAs } from 'file-saver';
 
 /**
  * Handles all Authorized HTTP functions with Bearer Token
@@ -107,6 +107,32 @@ export class AuthHttpService {
         take(1),
         map((res) => res)
       );
+  }
+
+  /**
+   * Requests via PDF GET verb
+   * @param {string} endpointUrl
+   * @param {string} filename
+   * @returns {Observable<any>}
+   */
+  pdfget(endpointUrl: string, filename: string): Observable<any> {
+    const url = environment.apiEndpoint + endpointUrl;
+    const bearerToken = this._auth.getAccessToken();
+
+    return this._http.get(url, {
+      responseType: 'blob', // ResponseContentType.Blob,  https://github.com/angular/angular/issues/18654#issuecomment-321947661
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ' + bearerToken
+      })
+    }).pipe(
+        retryWhen(genericRetryStrategy()),
+        map((response) => { // download file
+          var blob = new Blob([response], { type: 'application/pdf' });
+          // file name to dowanload/generate invoice
+          saveAs(blob, filename);
+        })
+    );
   }
 
   /**
