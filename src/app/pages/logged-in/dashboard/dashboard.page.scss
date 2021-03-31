@@ -74,7 +74,7 @@ ion-card {
     background-repeat: no-repeat;
 
     ion-card-title {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 500;
         font-stretch: normal;
         font-style: normal;
@@ -235,4 +235,64 @@ app-invitation:last-child {
     border-color: #4c5df2;
     --border-color:#4c5df2;
     --border-radius:5px;
+}
+
+.card-work-details {
+    padding:26px;
+    ion-card-header {
+        background: #fff;
+        padding: 0 0 10px 0;
+        margin: 0;
+    }
+    ion-card-content {
+        padding: 0;
+    }
+    ion-card-title {
+        font-size: 18px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+
+    h2 {
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+        font-family: 'effra';
+    }
+    h5 {
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+        font-family: 'effra';
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+        font-family: 'effra';
+    }
+    .history {
+        margin-bottom: 16px;
+    }
 }

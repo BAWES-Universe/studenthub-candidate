@@ -1,0 +1,28 @@
+<ion-content [attr.dir]="translateService.direction()">
+  <div class="max-width">
+    <ion-progress-bar *ngIf="downloading" type="indeterminate"></ion-progress-bar>
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Certificates" | translate }}</h3>
+    <p>{{"You can download the following certificates as proof of the experience you’ve accumulated through StudentHub."}}</p>
+
+    <ion-list *ngIf="workHistory.length > 0" lines="none">
+      <ion-item *ngFor="let history of workHistory">
+        <ion-label>
+          <h2>{{ history.company.company_name }}</h2>
+          <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
+          <p>
+            {{ toDate(history.start_date) | date }} to
+            <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
+            <ng-container *ngIf="!history.end_date">now</ng-container>
+          </p>
+        </ion-label>
+        <ion-button fill="outline" class="btn-download" (click)="download(history)" slot="end"><ion-icon name="arrow-down-outline"></ion-icon></ion-button>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+</ion-content>

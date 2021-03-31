@@ -78,6 +78,26 @@
           </ion-card-content>
         </ion-card>
 
+        <ion-card class="card-work-details" *ngIf="workHistory.length > 0">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+              <div *ngFor="let history of workHistory" class="history">
+                <ng-container *ngIf="history.store" tappable >
+                  <h2>{{ history.company.company_name }}</h2>
+                  <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
+                  <p>
+                    {{ toDate(history.start_date) | date }} to
+                    <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
+                    <ng-container *ngIf="!history.end_date">now</ng-container>
+                  </p>
+                </ng-container>
+              </div>
+            <ion-button slot="end" (click)="downloadCertificate($event)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button>
+          </ion-card-content>
+        </ion-card>
+
       </div>
     </ng-container>
   </div>

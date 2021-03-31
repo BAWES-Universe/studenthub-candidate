@@ -64,6 +64,7 @@ import { ForgotPasswordPageModule } from './pages/start-pages/forgot-password/fo
 import { InvitationFeedbackPageModule } from './pages/logged-in/invitation-feedback/invitation-feedback.module';
 import { InvitationModule } from './components/invitation/invitation.module';
 import {AccountStatusModule} from "./components/account-status/account-status.module";
+import {WorkHistoryPageModule} from "./pages/logged-in/work-history/work-history.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -127,7 +128,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModalPopPageModule,
     ForgotPasswordPageModule,
     InvitationFeedbackPageModule,
-    InvitationModule
+    InvitationModule,
+    WorkHistoryPageModule
   ],
   providers: [
     {
