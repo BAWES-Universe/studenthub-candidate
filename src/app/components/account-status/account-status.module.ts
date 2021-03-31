@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { AccountStatusComponent } from './account-status.component';
 import { TranslateModule } from '@ngx-translate/core';
-import {RouterModule} from "@angular/router";
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({

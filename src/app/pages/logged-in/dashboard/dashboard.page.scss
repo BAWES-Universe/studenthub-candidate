@@ -66,10 +66,9 @@ h4 {
 
 ion-card {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    margin-left: 0;
-    margin-right: 0;
-    padding-inline-start: 46px;
-    padding-bottom: 5px;
+    margin: 15px 0;
+    //padding-inline-start: 46px;
+    //padding-bottom: 5px;
     background-position: 15px 14px;
     background-repeat: no-repeat;
 
@@ -98,15 +97,15 @@ ion-card {
 }
 
 .disabled-feature {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
+    text-align: left;
     color: #eb5757;
-    margin: 0;
-    padding: 0;
+    margin: 10px 0;
 }
 
 .pushNotificationAvailable {
@@ -119,14 +118,6 @@ ion-card {
 
 [dir="rtl"] ion-card {
     background-position: calc(100% - 15px) 14px;
-}
-
-.card-notification {
-    background-image: url(src/assets/images/ic_alerts.svg);
-
-    ion-icon {
-        display: none;
-    }
 }
 
 [dir="rtl"] .card-notification {
@@ -211,21 +202,6 @@ app-invitation:last-child {
     --background: #4c5df2;
     margin-top: 11px;
 }
-.card-bank-details {
-    padding:26px;
-    ion-card-header {
-        margin-top: 0;
-        padding-top: 0;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    ion-card-content {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
 
 .btn-video-recording {
     height: 39px;
@@ -238,15 +214,7 @@ app-invitation:last-child {
 }
 
 .card-work-details {
-    padding:26px;
-    ion-card-header {
-        background: #fff;
-        padding: 0 0 10px 0;
-        margin: 0;
-    }
-    ion-card-content {
-        padding: 0;
-    }
+
     ion-card-title {
         font-size: 18px;
         font-weight: 500;
@@ -295,4 +263,11 @@ app-invitation:last-child {
     .history {
         margin-bottom: 16px;
     }
+}
+.download-btn {
+    --border-radius: 5px;
+    --border-color: #4c5df2;
+    --color: #4c5df2;
+    height: 39px;
+    margin-top:10px;
 }

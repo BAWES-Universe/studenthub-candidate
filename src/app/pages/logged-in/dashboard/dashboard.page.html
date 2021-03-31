@@ -7,43 +7,23 @@
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width" *ngIf="!loadingProfile && !loading && candidate">
+      <student-account-status [candidate]="candidate"></student-account-status>
 
-    <h3>
-      {{ 
-        "txt_greeting" | translate : { 
-          customer: translateService.langContent(candidate.candidate_name, candidate.candidate_name_ar) | split: ' '
-        } 
-      }}
-    </h3>
-
-    <ng-container>
-      <student-account-status></student-account-status>
-
-      <div *ngIf="candidate && authService.candidate_job_search_status">
-
-        <h4 *ngIf="
-        authService.showOneSignalPrompt || 
-        !authService.store || 
-        (
-          !candidate.bank_account_name || 
-          !candidate.candidate_iban || 
-          !candidate.bank
-        )">{{ "What now?" | translate }}
-          <ion-icon class="icon-dude" src="assets/images/dude.svg"></ion-icon>
-        </h4>
+      <div *ngIf="candidate">
 
         <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
-          *ngIf="authService.showOneSignalPrompt" (click)="pushNotificationAvailable && setSubscription()">
+          *ngIf="authService.showOneSignalPrompt">
           <ion-card-header class="white-bg">
             <ion-card-title>
-              {{ "Enable notifications" | translate }}
-              <p class="disabled-feature">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
-
-              <ion-icon src="assets/images/ic_alerts.svg"></ion-icon>
+              {{ "Receive faster updates by enabling push notifications" | translate }}
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account" | translate }}
+            {{ "We’ll still email you important updates. This is cool if you aren’t an email person or would like to receive faster updates." | translate }}
+            <ion-button slot="end" class="download-btn" *ngIf="pushNotificationAvailable" (click)="pushNotificationAvailable && setSubscription()" fill="outline"> {{"Enable notifications"| translate}}</ion-button>
+
+            <p class="disabled-feature" *ngIf="!pushNotificationAvailable">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
+
           </ion-card-content>
         </ion-card>
 
@@ -94,12 +74,10 @@
                   </p>
                 </ng-container>
               </div>
-            <ion-button slot="end" (click)="downloadCertificate($event)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button>
+            <ion-button slot="end" class="download-btn" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificate"| translate}}</ion-button>
           </ion-card-content>
         </ion-card>
-
       </div>
-    </ng-container>
   </div>
 
 </ion-content>

@@ -1,9 +1,11 @@
-import {Component, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, Output, EventEmitter, OnInit, Input} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 
 import {AuthService} from '../../providers/auth.service';
 import {AccountService} from '../../providers/logged-in/account.service';
 import {CompanyPage} from '../../pages/logged-in/company/company.page';
+import {Candidate} from '../../models/candidate';
+import {TranslateLabelService} from 'src/app/providers/translate-label.service';
 
 /**
  * Display alert message to update app on new version availability
@@ -18,16 +20,21 @@ export class AccountStatusComponent implements OnInit {
   @Output() onRefresh: EventEmitter<any> = new EventEmitter();
   @Output() onClose: EventEmitter<any> = new EventEmitter();
 
+  @Input() candidate: Candidate;
+
   public updating = false;
 
   constructor(
       public modalCtrl: ModalController,
       public authService: AuthService,
       public accountService: AccountService,
+      public translateService: TranslateLabelService,
       ) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log(this.candidate);
+  }
 
   /**
    * Reload app
@@ -88,5 +95,10 @@ export class AccountStatusComponent implements OnInit {
       }
     });
     modal.present();
+  }
+
+  transform(val:string):string {
+    if(val)
+      return val.split(' ')[0];
   }
 }
