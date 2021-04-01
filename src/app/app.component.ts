@@ -54,7 +54,6 @@ export class AppComponent implements OnInit, OnDestroy {
     public accountService: AccountService,
     public invitationService: InvitationService,
   ) {
-    this.initializeApp();
   }
 
   initializeApp() {
@@ -108,7 +107,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this._includeOneSignalJs();
     }
 
-    this.setInvitationSubscription();
+    if(this.authService.isLogin) {
+      this.setInvitationSubscription();
+    }
   }
 
   /**
@@ -119,7 +120,10 @@ export class AppComponent implements OnInit, OnDestroy {
       clearInterval(this.invitationInterval);
     }
   }
+
   async ngOnInit() {
+
+    this.initializeApp();
 
     this.eventService.kuwaitiNationl$.subscribe(candidate => {
       this.candidate = candidate;
@@ -192,6 +196,9 @@ export class AppComponent implements OnInit, OnDestroy {
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
       this.loadCandidateProfile();
+      
+      this.setInvitationSubscription();
+
       if(data['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
       } else {
@@ -676,15 +683,16 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.authService.isLogin && navigator.onLine) {
         this.loadInvitations();
       }
-    }, 1000 * 60); // every min
+    }, 1000 * 30); // every 30 second
   }
 
   /**
    * load invitations for request
    */
   loadInvitations() {
-    this.invitationService.count().subscribe(data => {
-      this.eventService.invitations$.next(data);
+
+    this.invitationService.count().subscribe((count: any) => {
+      this.authService.invitationCount = parseInt(count);
     });
   }
 }
