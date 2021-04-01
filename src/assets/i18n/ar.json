@@ -309,7 +309,7 @@
     "Accepted": "",
     "Rejected": "",
     "This job has been already filled or cancelled before you had the chance to respond": "",
-    "urgent_bank_detail": "<span class='urgent-txt'>Urgent!</span> We need your bank info?",
+    "urgent_bank_detail": "<span class='urgent-txt'>Urgent!</span> We need your bank info",
     "You won’t be able to receive payments until we have your bank information to process your transfers.": "",
     "Enter my bank information" : "",
     "Increase your chances of landing a job by recording an intro video" : "",

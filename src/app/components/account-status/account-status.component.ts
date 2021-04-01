@@ -33,7 +33,6 @@ export class AccountStatusComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.candidate);
   }
 
   /**
