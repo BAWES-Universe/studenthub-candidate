@@ -46,23 +46,12 @@ h4 {
     margin-bottom: 15px;
 }
 
-//ion-button {
-//    font-size: 14px;
-//    font-weight: normal;
-//    font-stretch: normal;
-//    font-style: normal;
-//    line-height: 1.65;
-//    letter-spacing: normal;
-//    color: #000000;
-//    height: 43px;
-//    text-transform: none;
-//    min-width: 212px;
-//    margin: 5px 0;
-//    --border-radius: 22px;
-//    --border-color: #3b4a90;
-//    --border-width: 2px;
-//    --border-style: solid;
-//}
+ion-button {
+    --border-width:1px;
+    --border-radius: 5px;
+    --border-color: #4c5df2;
+    text-transform: inherit;
+}
 
 ion-card {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
@@ -89,6 +78,9 @@ ion-card {
         line-height: normal;
         letter-spacing: normal;
         color: #000000;
+        p {
+            line-height: normal;
+        }
     }
 }
 
@@ -200,13 +192,13 @@ app-invitation:last-child {
     box-shadow: none;
     background-color: #4c5df2;
     --background: #4c5df2;
-    margin-top: 11px;
+    margin-top: 14px;
 }
 
 .btn-video-recording {
     height: 39px;
     text-transform: inherit;
-    margin-top: 11px;
+    margin-top: 14px;
     color: #4c5df2;
     border-color: #4c5df2;
     --border-color:#4c5df2;
@@ -247,6 +239,7 @@ app-invitation:last-child {
         text-align: left;
         color: #000;
         font-family: 'effra';
+        text-transform: capitalize;
     }
 
     p {
@@ -264,10 +257,13 @@ app-invitation:last-child {
         margin-bottom: 16px;
     }
 }
+
 .download-btn {
-    --border-radius: 5px;
-    --border-color: #4c5df2;
     --color: #4c5df2;
     height: 39px;
-    margin-top:10px;
+    margin-top:15px;
+}
+
+.certificate {
+    margin-top: 0;
 }

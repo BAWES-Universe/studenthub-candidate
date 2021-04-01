@@ -19,22 +19,10 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ "We’ll still email you important updates. This is cool if you aren’t an email person or would like to receive faster updates." | translate }}
-            <ion-button slot="end" class="download-btn" *ngIf="pushNotificationAvailable" (click)="pushNotificationAvailable && setSubscription()" fill="outline"> {{"Enable notifications"| translate}}</ion-button>
-
+            <p>{{ "We’ll still email you important updates. This is cool if you aren’t an email person or would like to receive faster updates." | translate }}</p>
+            <ion-button class="download-btn" (click)="pushNotificationAvailable && setSubscription()" fill="outline"> {{"Enable notifications"| translate}}</ion-button>
             <p class="disabled-feature" *ngIf="!pushNotificationAvailable">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
 
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="profile-card" *ngIf="!authService.store" tappable [routerLink]="['/view/profile']">
-          <ion-card-header class="white-bg">
-            <ion-card-title>
-              {{ "Improve your profile" | translate }}
-            </ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            {{ "The more attractive your profile, the easier it is for us to find you a job" | translate }}
           </ion-card-content>
         </ion-card>
 
@@ -64,7 +52,7 @@
           </ion-card-header>
           <ion-card-content>
               <div *ngFor="let history of workHistory" class="history">
-                <ng-container *ngIf="history.store" tappable >
+                <ng-container *ngIf="history.store" >
                   <h2>{{ history.company.company_name }}</h2>
                   <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
                   <p>
@@ -74,7 +62,7 @@
                   </p>
                 </ng-container>
               </div>
-            <ion-button slot="end" class="download-btn" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificate"| translate}}</ion-button>
+            <ion-button slot="end" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificates"| translate}}</ion-button>
           </ion-card-content>
         </ion-card>
       </div>

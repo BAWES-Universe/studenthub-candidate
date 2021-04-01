@@ -35,7 +35,7 @@
     --border-radius: 5px;
     --border-color: #4c5df2;
     --color: #4c5df2;
-    margin-top: 10px;
+    margin-top: 14px;
 
 }
 .btn-toggle-job {
@@ -53,7 +53,7 @@
     border-color: #4c5df2;
     --border-color:#4c5df2;
     background-color: #ffffff;
-    margin-top: 10px;
+    margin-top: 14px;
     --border-radius: 5px;
     --color: #4c5df2;
 }
@@ -67,4 +67,11 @@ h3{
     letter-spacing: normal;
     text-align: left;
     color: #000;
+}
+
+ion-button {
+    --border-width:1px;
+    --border-radius: 5px;
+    --border-color: #4c5df2;
+    text-transform: inherit;
 }
