@@ -22,5 +22,6 @@
     "txt_file_uploaded": "{{ extension }} file uploaded",
     "txt_born_on": "Born on <b>{{ date }}</b>",
     "txt_lives_in": "Lives in <b>{{area}}</b>",
-    "txt_add_univerity": "No Search results found. Want us to add \"{{ query }}\"?"
+    "txt_add_univerity": "No Search results found. Want us to add \"{{ query }}\"?",
+    "urgent_bank_detail": "<span class='urgent-txt'>Urgent!</span> We need your bank info"
 }

@@ -235,6 +235,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/personal-info/personal-info.module').then( m => m.PersonalInfoPageModule)
   },
   {
+    path: 'invitation-detail',
+    loadChildren: () => import('./pages/logged-in/invitation-detail/invitation-detail.module').then( m => m.InvitationDetailPageModule),
+    data: {
+      name: 'InvitationDetailPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },

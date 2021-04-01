@@ -1,0 +1,38 @@
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+  <div class="max-width" *ngIf="model">
+
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <p class="job-type" *ngIf="model.request.request_position_type == 1">
+      {{ "You’d be working full-time as a" | translate }}
+    </p>
+
+    <p class="job-type" *ngIf="model.request.request_position_type == 2">
+      {{"You’d be working part-time as a" | translate }}
+    </p>
+
+    <p class="txt-position-title">{{ model.request.request_position_title }}</p>
+
+    <p class="company" *ngIf="translateService.currentLang == 'en'">At <span>{{ model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name }}</span>,</p>
+
+    <p class="company" *ngIf="translateService.currentLang != 'en'">At <span>{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</span>,</p>
+
+    <p class="job-desc">{{ model.request.request_job_description }}</p>
+
+    <h2>Addition Detail</h2>
+    <p class="job-location">{{model.request.request_additional_info}}</p>
+
+    <h2>Job location</h2>
+    <p class="job-location">{{model.request.request_location}}</p>
+
+    <h2>Compensation</h2>
+    <p class="job-compensation">{{model.request.request_compensation}}</p>
+    <ion-button class="btn-apply" (click)="accept($event)">I’d like to apply</ion-button> <ion-button class="btn-reject" (click)="reject($event)">Reject</ion-button>
+  </div>
+
+</ion-content>
