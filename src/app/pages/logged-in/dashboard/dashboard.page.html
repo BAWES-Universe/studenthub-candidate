@@ -53,7 +53,8 @@
           <ion-card-content>
               <div *ngFor="let history of workHistory" class="history">
                 <ng-container *ngIf="history.store" >
-                  <h2>{{ history.company.company_name }}</h2>
+                  <h2 *ngIf="history.company.parentCompany">{{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
+                  <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
                   <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
                   <p>
                     {{ toDate(history.start_date) | date }} to

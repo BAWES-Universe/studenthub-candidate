@@ -16,7 +16,7 @@ export class CandidateService {
    * @param candidate
    */
   workHistory(): Observable<any> {
-    const url = this._candidateEndpoint + '/work-history?expand=store,company';
+    const url = this._candidateEndpoint + '/work-history?expand=store,company,company.parentCompany';
     return this._authhttp.get(url);
   }
 
