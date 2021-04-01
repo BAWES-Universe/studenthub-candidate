@@ -20,7 +20,7 @@
       <ion-tab-button tab="invitations" layout="icon-start">
         <ion-icon name="mail-open-outline"></ion-icon>
         <ion-label>{{ 'Invitation' | translate }}</ion-label>
-        <ion-badge *ngIf="invitationCount != '0'">{{ invitationCount }}</ion-badge>
+        <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments" layout="icon-start">
@@ -45,7 +45,7 @@
       <ion-tab-button tab="invitations">
         <ion-icon name="mail-open-outline"></ion-icon>
         <ion-label>{{ 'Invitation' | translate }}</ion-label>
-        <ion-badge *ngIf="invitationCount != '0'">{{ invitationCount }}</ion-badge>
+        <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments">

@@ -1,6 +1,6 @@
 <ion-card class="card-invitation" [attr.dir]="translateService.direction()">
 
-  <p class="time">{{"As of" | translate}}  {{model.invitation_created_at | date }}</p>
+  <p class="time">{{"As of" | translate}}  {{ toDate(model.invitation_created_at) | date }}</p>
 
   <p class="company" *ngIf="translateService.currentLang == 'en'">{{ model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name }}</p>
 
