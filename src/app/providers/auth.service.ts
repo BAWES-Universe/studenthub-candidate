@@ -27,6 +27,8 @@ export class AuthService {
 
   public isLogin = false;
 
+  public invitationCount = 0;
+
   public showOneSignalPrompt = true;
 
   // Logged in agent details

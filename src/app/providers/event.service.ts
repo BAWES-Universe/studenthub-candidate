@@ -27,7 +27,6 @@ export class EventService {
   public candidateVideoProcessed$ = new Subject();
 
   public tabScrolled$ = new Subject();
-  public invitations$ = new Subject();
 
   constructor() { }
 }
