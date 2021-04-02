@@ -692,7 +692,11 @@ export class AppComponent implements OnInit, OnDestroy {
   loadInvitations() {
 
     this.invitationService.count().subscribe((count: any) => {
-      this.authService.invitationCount = parseInt(count);
+      const total = parseInt(count);
+      if (this.authService.invitationCount != total) {
+        this.eventService.requestUpdated$.next();
+      }
+      this.authService.invitationCount = total;
     });
   }
 }

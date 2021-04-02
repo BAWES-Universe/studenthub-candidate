@@ -39,6 +39,11 @@ export class InvitationPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.eventService.requestUpdated$.subscribe(_ => {
+      this.loadInvitations();
+    });
+  }
+  ionViewWillEnter() {
     this.loadInvitations();
   }
 
