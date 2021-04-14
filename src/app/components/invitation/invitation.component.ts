@@ -23,7 +23,6 @@ export class InvitationComponent implements OnInit {
     public navCtrl: NavController,
     public translateService: TranslateLabelService
   ) {
-    console.log(this.model);
   }
 
   ngOnInit() {

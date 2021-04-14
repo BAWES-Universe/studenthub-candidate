@@ -51,8 +51,11 @@ export class InvitationDetailPage implements OnInit {
     }
 
     this.invitation_uuid = this.activateRoute.snapshot.paramMap.get('invitation_uuid');
-    console.log(this.invitation_uuid);
     this.loadInvitationDetail();
+
+    this.eventService.requestUpdated$.subscribe(_ => {
+      this.loadInvitationDetail();
+    });
   }
 
   ionViewWillLeave() {

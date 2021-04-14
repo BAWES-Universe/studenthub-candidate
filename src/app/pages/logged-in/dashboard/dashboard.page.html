@@ -26,7 +26,7 @@
           </ion-card-content>
         </ion-card>
 
-        <ion-card class="card-bank-details">
+        <ion-card class="card-bank-details" *ngIf="candidate.bank_account_needed" (click)="updateBank($event)">
           <ion-card-header class="white-bg">
             <ion-card-title [innerHTML]="'urgent_bank_detail' | translate"></ion-card-title>
           </ion-card-header>

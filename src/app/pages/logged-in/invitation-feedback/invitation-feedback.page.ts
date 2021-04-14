@@ -6,6 +6,7 @@ import { Invitation } from 'src/app/models/invitation';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
+import {EventService} from "../../../providers/event.service";
 
 
 @Component({
@@ -28,7 +29,8 @@ export class InvitationFeedbackPage implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public translateLabelService: TranslateLabelService,
-    public invitationService: InvitationService
+    public invitationService: InvitationService,
+    public eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -61,6 +63,7 @@ export class InvitationFeedbackPage implements OnInit {
     }
 
     action.subscribe(response => {
+      this.eventService.requestUpdated$.next();
 
       this.loading = false;
 

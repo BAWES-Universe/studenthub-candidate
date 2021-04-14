@@ -24,7 +24,7 @@
       <img src="assets/images/eggy.svg" class="pending-img"/>
     </ng-container>
 
-    <div *ngIf="model.invitation_status == 2">
+    <div *ngIf="model.invitation_status == 3">
         <h3>
           {{"You applied for it with the message:" | translate}}
         </h3>
@@ -42,7 +42,7 @@
     </ion-grid>
     </div>
 
-    <div *ngIf="model.invitation_status == 3">
+    <div *ngIf="model.invitation_status == 2">
       <h3>
         {{"You rejected it with the message:" | translate}}
       </h3>
@@ -69,7 +69,7 @@
 
     <div *ngIf="model.invitation_status == 2">
       <h3>
-        {{"You applied for it with the message:" | translate}}
+        {{"You rejected it with the message:" | translate}}
       </h3>
       <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
     </div>
