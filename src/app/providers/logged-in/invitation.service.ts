@@ -40,6 +40,15 @@ export class InvitationService {
   }
 
   /**
+   * mark all invitaions as viewed
+   * @returns 
+   */
+  markAsViewed(): Observable<any>{
+    const url = this._endpoint + '/log-viewed';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * accept invitation for request
    * @param invitation_uuid
    * @param reason

@@ -43,8 +43,12 @@ export class InvitationPage implements OnInit {
       this.loadInvitations();
     });
   }
+
   ionViewWillEnter() {
     this.loadInvitations();
+
+    //mark invitations as viewed 
+    this.invitationService.markAsViewed().subscribe();
   }
 
   ionViewWillLeave() {
