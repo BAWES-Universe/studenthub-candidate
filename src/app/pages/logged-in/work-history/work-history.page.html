@@ -17,7 +17,9 @@
           <p>
             {{ toDate(history.start_date) | date }} to
             <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-            <ng-container *ngIf="!history.end_date">now</ng-container>
+            <ng-container *ngIf="!history.end_date">
+              {{ "now" | translate }}
+            </ng-container>
           </p>
         </ion-label>
         <ion-button fill="outline" class="btn-download" (click)="download(history)" slot="end"><ion-icon name="arrow-down-outline"></ion-icon></ion-button>
