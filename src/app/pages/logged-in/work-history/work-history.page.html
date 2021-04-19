@@ -9,7 +9,8 @@
     <p>{{"You can download the following certificates as proof of the experience you’ve accumulated through StudentHub."}}</p>
 
     <ion-list *ngIf="workHistory.length > 0" lines="none">
-      <ion-item *ngFor="let history of workHistory">
+      <ng-container  *ngFor="let history of workHistory">
+        <ion-item  *ngIf="history.store">
         <ion-label>
           <h2 *ngIf="history.company.parentCompany">{{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
           <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
@@ -24,6 +25,7 @@
         </ion-label>
         <ion-button fill="outline" class="btn-download" (click)="download(history)" slot="end"><ion-icon name="arrow-down-outline"></ion-icon></ion-button>
       </ion-item>
+      </ng-container>
     </ion-list>
 
   </div>
