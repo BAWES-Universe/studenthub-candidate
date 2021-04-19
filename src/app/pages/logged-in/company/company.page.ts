@@ -61,4 +61,8 @@ export class CompanyPage implements OnInit {
       }
     });
   }
+
+  setNull() {
+    this.company.company_logo = null;
+  }
 }

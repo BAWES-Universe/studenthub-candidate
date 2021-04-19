@@ -77,6 +77,7 @@ h2 {
     --color:#fff;
     background-color: #219653;
     --background: #219653;
+    text-transform: inherit;
 }
 .btn-reject {
     width: 104px;
@@ -87,6 +88,7 @@ h2 {
     --color:#fff;
     background-color: #eb5757;
     --background: #eb5757;
+    text-transform: inherit;
 }
 ion-content .max-width {
     padding: 23px;
@@ -135,4 +137,10 @@ ion-toolbar {
 }
 .request-cancelled {
     background: #ffeaea!important;
+}
+
+.more-info {
+    width: 321px;
+    background-color: #4c5df2;
+    --background: #4c5df2;
 }
