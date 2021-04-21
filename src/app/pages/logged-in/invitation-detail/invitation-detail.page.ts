@@ -10,6 +10,7 @@ import { Invitation } from 'src/app/models/invitation';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 
 import {InvitationFeedbackPage} from '../invitation-feedback/invitation-feedback.page';
+import {CompanyPage} from "../company/company.page";
 
 
 declare var window;
@@ -49,6 +50,7 @@ export class InvitationDetailPage implements OnInit {
     if (window.history.state) {
       this.model = window.history.state.invitation;
     }
+    console.log(this.model);
 
     this.invitation_uuid = this.activateRoute.snapshot.paramMap.get('invitation_uuid');
     this.loadInvitationDetail();
@@ -147,6 +149,30 @@ export class InvitationDetailPage implements OnInit {
   }
   dismiss() {
     this.navCtrl.back();
+  }
+
+  /**
+   * open popup to accept invitation with reason
+   * @param $event
+   */
+  async companyDetailPage($event) {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyPage,
+      componentProps: {
+        company: this.model.company
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
   }
 }
 

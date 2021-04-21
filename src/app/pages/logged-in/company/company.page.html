@@ -5,12 +5,16 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
+    <ion-item lines="none" *ngIf="company.company_logo">
+      <div tabindex="0"></div>
+      <ion-thumbnail slot="start" >
+        <ion-img [src]="awsService.cloudinaryUrl + company.company_logo" (ionError)="setNull()"></ion-img>
+      </ion-thumbnail>
+    </ion-item>
+
     <ion-item lines="none">
       <div tabindex="0"></div>
-      <ion-thumbnail slot="start" *ngIf="company.company_logo">
-        <ion-img [src]="awsService.cloudinaryUrl + company.company_logo"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
+      <ion-label class="ion-text-wrap">
         <h3 *ngIf="translateService.currentLang == 'en'">
           {{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
         </h3>
@@ -23,10 +27,7 @@
     <ion-item lines="none" *ngIf="company.company_website">
       <div tabindex="0"></div>
       <ion-label>
-        <h5>
-          {{ "Website" | translate }}
-        </h5>
-        <a target="_blank" href="{{ company.company_website }}">
+        <a target="_blank" class="website" href="{{ company.company_website }}">
           {{ company.company_website }}
         </a>
       </ion-label>
@@ -34,11 +35,8 @@
 
     <ion-item lines="none" *ngIf="company.company_description_en">
       <div tabindex="0"></div>
-      <ion-label>
-        <h5>
-          {{ "Description" | translate }}
-        </h5>
-        <p>
+      <ion-label class="ion-text-wrap">
+        <p class="desc">
           {{ translateService.langContent(company.company_description_en, company.company_description_ar) }}
         </p>
       </ion-label>

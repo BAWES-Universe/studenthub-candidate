@@ -15,7 +15,6 @@ ion-content {
 }
 
 h3 {
-    font-size: 42px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
@@ -24,6 +23,8 @@ h3 {
     color: #000000;
     margin-top: 45px;
     margin-bottom: 45px;
+    font-size: 27px;
+    text-align: left;
 }
 
 ion-slides {
@@ -51,5 +52,28 @@ ion-slides {
         }
     }
 }
+.website{
+    font-weight: bold;
+    font-size: 16px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4c5df2;
+}
 
-
+.desc {
+    margin: 0 0 0 6px;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000;
+}
+ion-item {
+    --padding-start: 0;
+}

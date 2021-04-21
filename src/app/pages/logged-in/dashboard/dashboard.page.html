@@ -51,8 +51,8 @@
             <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-              <div *ngFor="let history of workHistory" class="history">
-                <ng-container *ngIf="history.store" >
+            <ng-container *ngFor="let history of workHistory" >
+              <div class="history" *ngIf="history.store">
                   <h2 *ngIf="history.company.parentCompany">{{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
                   <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
                   <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
@@ -61,9 +61,9 @@
                     <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
                     <ng-container *ngIf="!history.end_date">now</ng-container>
                   </p>
-                </ng-container>
               </div>
-            <ion-button slot="end" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificates"| translate}}</ion-button>
+              <ion-button slot="end" *ngIf="history.store" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificates"| translate}}</ion-button>
+            </ng-container>
           </ion-card-content>
         </ion-card>
       </div>
