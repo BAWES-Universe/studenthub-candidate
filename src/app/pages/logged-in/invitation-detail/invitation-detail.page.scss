@@ -140,7 +140,8 @@ ion-toolbar {
 }
 
 .more-info {
-    width: 321px;
+    width: auto;
+    min-width: 321px;
     background-color: #4c5df2;
     --background: #4c5df2;
 }
