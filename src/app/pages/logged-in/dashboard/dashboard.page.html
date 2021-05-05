@@ -51,7 +51,7 @@
             <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ng-container *ngFor="let history of workHistory" >
+            <ng-container *ngFor="let history of workHistory | slice:0:1" >
               <div class="history" *ngIf="history.store">
                   <h2 *ngIf="history.company.parentCompany">{{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
                   <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
