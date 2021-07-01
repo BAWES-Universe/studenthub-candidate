@@ -7,7 +7,10 @@ export class Salary {
 	candidate_bonus: number;
 	tc_created_at: string;
 	status: string;
-	total: number;
+
+	candidate_total: number;
+	total: number;//candidate_total - dynamically calculated
+
 	company_name: string;
 	store_name: string;
 	transfer_benef_name: string;
