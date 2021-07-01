@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import { AuthService } from './providers/auth.service';
-import { LoginGuard } from "./providers/guards/login-guard.service";
+import { LoginGuard } from './providers/guards/login-guard.service';
 import { CompleteProfileGuard } from './providers/guards/complete-profile-guard.service';
 
 
@@ -39,7 +39,7 @@ const routes: Routes = [
     canActivate: [AuthService],
     data: {
       name: 'ChangePasswordPage'
-    } 
+    }
   },
   {
     path: 'landing',
@@ -47,7 +47,7 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     data: {
       name: 'LandingPage'
-    } 
+    }
   },
   {
     path: 'email',
@@ -55,7 +55,7 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     data: {
       name: 'EmailPage'
-    } 
+    }
   },
   {
     path: 'password',
@@ -63,7 +63,7 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     data: {
       name: 'PasswordPage'
-    } 
+    }
   },
   {
     path: 'register',
@@ -71,14 +71,14 @@ const routes: Routes = [
     canActivate: [LoginGuard],
     data: {
       name: 'RegisterPage'
-    } 
+    }
   },
   {
     path: 'verify-email',
     loadChildren: () => import('./pages/start-pages/verify-email/verify-email.module').then(m => m.VerifyEmailPageModule),
     data: {
       name: 'VerifyEmailPage'
-    } 
+    }
   },
   {
     path: 'complete-profile',
@@ -235,6 +235,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/personal-info/personal-info.module').then( m => m.PersonalInfoPageModule)
   },
   {
+    path: 'invitation-detail',
+    loadChildren: () => import('./pages/logged-in/invitation-detail/invitation-detail.module').then( m => m.InvitationDetailPageModule),
+    data: {
+      name: 'InvitationDetailPage'
+    }
+  },
+  {
+    path: 'app-error',
+    loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   }
@@ -242,9 +253,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { 
-      enableTracing: false,  
-      preloadingStrategy: SelectiveLoadingStrategy//PreloadAllModules
+    RouterModule.forRoot(routes, {
+      enableTracing: false,
+      preloadingStrategy: SelectiveLoadingStrategy// PreloadAllModules
     })
   ],
   exports: [RouterModule]

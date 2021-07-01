@@ -1,93 +1,72 @@
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
-  <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
-  
-  <div class="max-width" *ngIf="!loadingProfile && !loading">
-
-    <h3>
-      {{ 
-        "txt_greeting" | translate : { 
-          customer: translateService.langContent(this.candidate.candidate_name, this.candidate.candidate_name_ar) | split: ' '
-        } 
-      }}
-    </h3>
-
-    <p class="txt-job-status" *ngIf="store" [innerHtml]="'txt_assigned' | translate : { company: company.company_name, store: store.store_name }">
-    </p> 
-
-    <p class="txt-job-status" *ngIf="!store && candidate_job_search_status">
-      {{ "We’re currently looking for a job for you. We’ll notify you when we find an open position." | translate }}
-    </p>
-
-    <p class="txt-job-status" *ngIf="!store && !candidate_job_search_status">
-      {{ "You’re not looking for a job, and we’re not gonna bother you about it" | translate }}
-    </p>
-
-    <ion-button *ngIf="store" fill="outline" (click)="viewCompanyDetails()" class="btn-learn-more">
-      {{ "txt_learn_more" | translate : { company: company.company_name } }}
-    </ion-button>
-
-    <ion-button *ngIf="!store && !candidate_job_search_status" fill="outline" class="btn-toggle-job" [disabled]="updating" (click)="updateJobSearchStatus()">
-      {{ "Find me a job" | translate }}
-    </ion-button>
- 
-    <div *ngIf="candidate_job_search_status">
-      
-      <h4 *ngIf="authService.showOneSignalPrompt || !store || (!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank)">{{ "What now?" | translate }}
-        <ion-icon src="assets/images/dude.svg"></ion-icon>
-      </h4>
-
-      <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
-        *ngIf="authService.showOneSignalPrompt" (click)="pushNotificationAvailable && setSubscription()">
-        <ion-card-header class="white-bg">
-          <ion-card-title>
-            {{ "Enable notifications" | translate }}
-            <p class="disabled-feature">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          {{ "Notifications would give you updates on job offers, upcoming interviews, and payments being transferred to your account" | translate }}
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="profile-card" *ngIf="!store" tappable [routerLink]="['/view/profile']">
-        <ion-card-header class="white-bg">
-          <ion-card-title>
-            {{ "Improve your profile" | translate }}
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          {{ "The more attractive your profile, the easier it is for us to find you a job" | translate }}
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="card-bank-details" tappable 
-        *ngIf="!candidate.bank_account_name || !candidate.candidate_iban || !candidate.bank" 
-        (click)="updateBank($event)">
-        <ion-card-header class="white-bg">
-          <ion-card-title>
-            {{ "Enter your banking details" | translate }}
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          {{ "Enter your banking details for faster bank transfers once we match you" | translate }}
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="card-job-status" *ngIf="!store" (click)="updateJobSearchStatus()">
-        <ion-card-header>
-          <ion-card-title>
-            {{ "I don’t want a job anymore" | translate }}
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          {{ "Click this button if you no longer want us to look for jobs for you" | translate }}
-        </ion-card-content>
-      </ion-card>
-
-    </div>
-    
+  <div class="brand" *ngIf="platform.is('mobile')">
+    <img src="assets/logo.svg">
   </div>
 
+  <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
+
+  <div class="max-width" *ngIf="!loadingProfile && !loading && candidate">
+      <student-account-status [candidate]="candidate"></student-account-status>
+
+      <div *ngIf="candidate">
+
+        <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
+          *ngIf="authService.showOneSignalPrompt">
+          <ion-card-header class="white-bg">
+            <ion-card-title>
+              {{ "Receive faster updates by enabling push notifications" | translate }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ "We’ll still email you important updates. This is cool if you aren’t an email person or would like to receive faster updates." | translate }}</p>
+            <ion-button class="download-btn" (click)="pushNotificationAvailable && setSubscription()" fill="outline"> {{"Enable notifications"| translate}}</ion-button>
+            <p class="disabled-feature" *ngIf="!pushNotificationAvailable">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
+
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card-bank-details" *ngIf="candidate.bank_account_needed" (click)="updateBank($event)">
+          <ion-card-header class="white-bg">
+            <ion-card-title [innerHTML]="'urgent_bank_detail' | translate"></ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ "You won’t be able to receive payments until we have your bank information to process your transfers." | translate }}</p>
+            <ion-button (click)="updateBank($event)" class="btn-bank-detail">{{"Enter my bank information" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card-bank-details" *ngIf="candidate.candidate_job_search_status && !candidate.candidate_video">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{"Increase your chances of landing a job by recording an intro video" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ "While optional, an intro video makes your profile stand out to employers. It shows that you have the confidence required for the job and gives them the first impression they need to see you as something more than just a paper CV." | translate }}</p>
+            <ion-button  (click)="updateVideo($event)" fill="outline" class="btn-video-recording">{{"I’d like to start recording" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card-work-details" *ngIf="workHistory.length > 0">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ng-container *ngFor="let history of workHistory | slice:0:1" >
+              <div class="history" *ngIf="history.store">
+                  <h2 *ngIf="history.company.parentCompany">{{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
+                  <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
+                  <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
+                  <p>
+                    {{ toDate(history.start_date) | date }} to
+                    <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
+                    <ng-container *ngIf="!history.end_date">now</ng-container>
+                  </p>
+              </div>
+              <ion-button slot="end" *ngIf="history.store" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificates"| translate}}</ion-button>
+            </ng-container>
+          </ion-card-content>
+        </ion-card>
+      </div>
+  </div>
 
 </ion-content>

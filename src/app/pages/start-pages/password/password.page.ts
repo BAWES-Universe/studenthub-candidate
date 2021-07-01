@@ -6,7 +6,8 @@ import { AlertController, IonNav, ModalController, NavController } from '@ionic/
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
-
+import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
+import { RegisterPage } from '../register/register.page';
 
 const { Storage } = Plugins;
 
@@ -18,6 +19,7 @@ const { Storage } = Plugins;
 export class PasswordPage implements OnInit {
 
   @ViewChild('passwordInput') passwordInput;
+  @ViewChild('emailInput') emailInput;
 
   public loginForm: FormGroup;
 
@@ -35,6 +37,7 @@ export class PasswordPage implements OnInit {
   public type = 'password';
 
   public showPass = false;
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
@@ -43,14 +46,13 @@ export class PasswordPage implements OnInit {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
-    // @Optional() public nav: IonNav // for testing perpose
-  ) { 
-  }
+    @Optional() public nav: IonNav // for testing perpose
+  ) { }
 
   ionViewDidEnter() {
     setTimeout(() => {
-      if(this.passwordInput)
-        this.passwordInput.setFocus();
+      if(this.emailInput)
+        this.emailInput.setFocus();
     }, 300);
   }
 
@@ -58,12 +60,8 @@ export class PasswordPage implements OnInit {
 
     if (window.history.state.email) {
       this.email = window.history.state.email;
-    } 
-    
-    if(!this.email) {
-      this.navCtrl.navigateRoot(['/']);
     }
-
+    
     // Initialize the Login Form
     this.loginForm = this.fb.group({
       email: [this.email, [Validators.required]],
@@ -71,12 +69,46 @@ export class PasswordPage implements OnInit {
     });
   }
 
+  /**
+   * move to previous page if can or close popup
+   */
   dismiss() {
-    this.modalCtrl.dismiss({});
+    if (this.nav) {
+      this.nav.canGoBack().then(canGoBack => {
+        if(canGoBack) {
+          this.nav.pop();
+        } else {
+          this.dismissModal();
+        }
+      });
+    } else  {
+      this.dismissModal();
+    }
   }
 
-  back() {
-    this.navCtrl.back();
+  dismissModal(data = {}) {
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.modalCtrl.dismiss(data);
+      }
+    });
+  }
+
+  /**
+   * open register page
+   */
+  openRegisterPage() {
+    if (this.nav) {
+      this.nav.canGoBack().then(canGoBack => {
+        if (canGoBack) {
+          this.nav.pop();
+        } else {
+          this.nav.push(RegisterPage);
+        }
+      });
+    } else  {
+      this.nav.push(RegisterPage);
+    }
   }
 
   /**
@@ -100,8 +132,13 @@ export class PasswordPage implements OnInit {
       if (res.operation == 'success') {
         // Successfully logged in, set the access token within AuthService
         this.authService.setAccessToken(res);
-        // this.dismiss();
+        this.dismiss();
+
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
+        
+        this.dismissModal({
+          from: 'native-back-btn'
+        });
 
         Storage.set({
           key: 'unVerifiedToken',
@@ -166,14 +203,7 @@ export class PasswordPage implements OnInit {
    * reset password
    */
   resetPasswordRequest() {
-    this.resettingPassword = true;
-    this.authService.resetPasswordRequest(this.email).subscribe( res => {
-      this.resettingPassword = false;
-      this.alertCtrl.create({
-        message: res.message,
-        buttons: [this.translateService.transform('Okay')]
-      }).then(alert => alert.present());
-    });
+    this.nav.push(ForgotPasswordPage);
   }
 
   showPassword() {

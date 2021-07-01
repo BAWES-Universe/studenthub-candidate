@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
+import {Component, OnInit, ApplicationRef, OnDestroy} from '@angular/core';
 import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
@@ -14,6 +14,8 @@ import { LanguageService } from './providers/language.service';
 import {KuwaitiNationalPage} from "./pages/logged-in/kuwaiti-national/kuwaiti-national.page";
 import {AccountService} from "./providers/logged-in/account.service";
 import {Candidate} from "./models/candidate";
+import {Invitation} from "./models/invitation";
+import {InvitationService} from "./providers/logged-in/invitation.service";
 
 
 const { App, StatusBar, SplashScreen, Storage } = Plugins;
@@ -25,12 +27,17 @@ declare var window;
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   public updatesAvailable: boolean = false;
 
   public notificationScriptLoaded: boolean = false;
   public candidate: any;
+
+  public invitations: Invitation[] = [];
+
+  public invitationInterval;
+
   constructor(
     public updates: SwUpdate,
     public oneSignal: OneSignal,
@@ -44,9 +51,9 @@ export class AppComponent implements OnInit {
     public translateService: TranslateLabelService,
     public authService: AuthService,
     public eventService: EventService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public invitationService: InvitationService,
   ) {
-    this.initializeApp();
   }
 
   initializeApp() {
@@ -94,18 +101,29 @@ export class AppComponent implements OnInit {
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
       this._initOneSignal();
 
-    //only when notification api available 
+    // only when notification api available
 
     } else if(window && window.Notification) {
       this._includeOneSignalJs();
     }
 
+    if(this.authService.isLogin) {
+      this.setInvitationSubscription();
+    }
   }
 
   /**
    * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
    */
+  async ngOnDestroy() {
+    if (this.invitationInterval) {
+      clearInterval(this.invitationInterval);
+    }
+  }
+
   async ngOnInit() {
+
+    this.initializeApp();
 
     this.eventService.kuwaitiNationl$.subscribe(candidate => {
       this.candidate = candidate;
@@ -171,9 +189,16 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateRoot(['/not-found']);
     });
 
+    this.eventService.errorStorage$.subscribe(() => {
+      this.navCtrl.navigateRoot(['/app-error']);
+    });
+
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
       this.loadCandidateProfile();
+      
+      this.setInvitationSubscription();
+
       if(data['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
       } else {
@@ -195,6 +220,8 @@ export class AppComponent implements OnInit {
         Storage.set({
           key: 'oneSignal',
           value: JSON.stringify(userEventData)
+        }).catch(r => {
+          this.eventService.errorStorage$.next();
         });
       }
     });
@@ -259,31 +286,34 @@ export class AppComponent implements OnInit {
 
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
 
-      const { value } = await Storage.get({ key: 'oneSignal' });
+      Storage.get({ key: 'oneSignal' }).then(ret => {
 
-      let data = JSON.parse(value);
-      
-      // set default value if not set
-      if (!data) {
-        data = {
-          setSubscription: true,
-          enableVibrate: true,
-          enableSound: true
-        };
-      }
+        let data = JSON.parse(ret.value);
+        
+        // set default value if not set
+        if (!data) {
+          data = {
+            setSubscription: true,
+            enableVibrate: true,
+            enableSound: true
+          };
+        }
 
-      if (this.oneSignal) {
-        this.oneSignal.setSubscription(data.setSubscription);
+        if (this.oneSignal) {
+          this.oneSignal.setSubscription(data.setSubscription);
 
-        //this.oneSignal.enableVibrate(data.enableVibrate);
-        //this.oneSignal.enableSound(data.enableSound);
+          //this.oneSignal.enableVibrate(data.enableVibrate);
+          //this.oneSignal.enableSound(data.enableSound);
 
-        this.oneSignal.sendTags({
-          'candidate_id': this.authService.id + '',
-          'name': this.authService.name,
-          'email': this.authService.email
-        });
-      }
+          this.oneSignal.sendTags({
+            'candidate_id': this.authService.id + '',
+            'name': this.authService.name,
+            'email': this.authService.email
+          });
+        }
+      }).catch(r => {
+        this.eventService.errorStorage$.next();
+      });
     } 
     else if(window && window.Notification && window.OneSignal) 
     {
@@ -308,6 +338,8 @@ export class AppComponent implements OnInit {
     Storage.set({ 
       'key': 'oneSignalStatus', 
       'value': '1' 
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -316,14 +348,17 @@ export class AppComponent implements OnInit {
    */
   async oneSignalActionBasedOnStatus() {
 
-    const { value } = await Storage.get({ 'key': 'oneSignalStatus' });
-    
-    if (value === '1') { // already accepted
-      this.setOneSignalSubscription();
-    } else { // not sure
-      this.checkOneSignalStatus();
-    }
-    // if status == 2, ignore - user not want notifications 
+    Storage.get({ 'key': 'oneSignalStatus' }).then(data => {
+      
+      if (data.value === '1') { // already accepted
+        this.setOneSignalSubscription();
+      } else { // not sure
+        this.checkOneSignalStatus();
+      }
+      // if status == 2, ignore - user not want notifications 
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
   }
 
   /**
@@ -638,6 +673,30 @@ export class AppComponent implements OnInit {
   async loadCandidateProfile() {
     this.accountService.profile().subscribe(res => {
       this.candidate = res;
+    });
+  }
+
+  setInvitationSubscription() {
+    this.loadInvitations();
+
+    this.invitationInterval = setInterval(() => {
+      if (this.authService.isLogin && navigator.onLine) {
+        this.loadInvitations();
+      }
+    }, 1000 * 30); // every 30 second
+  }
+
+  /**
+   * load invitations for request
+   */
+  loadInvitations() {
+
+    this.invitationService.count().subscribe((count: any) => {
+      const total = parseInt(count);
+      if (this.authService.invitationCount != total) {
+        this.eventService.requestUpdated$.next();
+      }
+      this.authService.invitationCount = total;
     });
   }
 }

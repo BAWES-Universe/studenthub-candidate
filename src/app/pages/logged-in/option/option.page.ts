@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, PopoverController } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -14,9 +15,13 @@ import { AccountService } from "../../../providers/logged-in/account.service";
 })
 export class OptionPage implements OnInit {
 
+  public updating = false;
+
   constructor(
     public translateService: TranslateLabelService,
     public authService: AuthService,
+    public router: Router,
+    public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
     public eventService: EventService,
     public accountService: AccountService,
@@ -26,10 +31,50 @@ export class OptionPage implements OnInit {
   }
 
   /**
+   * update job search status
+   */
+   updateJobSearchStatus() {
+
+    const params = {
+      job_search_status: this.authService.candidate_job_search_status == 1 ? 0 : 1
+    };
+
+    this.updating = true;
+
+    this.accountService.updateJobSearchStatus(params).subscribe(async data => {
+
+      this.updating = false;
+
+      if (data.operation != 'success') {
+
+        let alert = await this.alertCtrl.create({
+          header: this.translateService.transform('Error'),
+          message: data.message,
+          buttons: [this.translateService.transform('Okay')],
+        });
+        return alert.present();
+      }
+
+      this.authService.candidate_job_search_status = params.job_search_status;
+
+      this.router.navigate(['/']);
+
+      this.dismiss();
+
+    }, () => {
+      this.updating = false;
+    });
+  }
+
+  /**
    * close popup
    */
   dismiss() {
-    this.popoverCtrl.dismiss();
+    this.popoverCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.popoverCtrl.dismiss();
+      }
+    });
   }
 
   /**
@@ -37,7 +82,7 @@ export class OptionPage implements OnInit {
    */
   logout() {
     this.authService.logout();
-    this.popoverCtrl.dismiss();
+    this.dismiss();
   }
 
   translate() {
@@ -50,6 +95,6 @@ export class OptionPage implements OnInit {
       this.accountService.setLanguagePref(code).subscribe();
     }
 
-    this.popoverCtrl.dismiss();
+    this.dismiss();
   }
 }

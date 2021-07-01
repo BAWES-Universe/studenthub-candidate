@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController, NavController, ToastController, IonContent } from '@ionic/angular';
+import { ModalController, NavController, ToastController, IonContent, PopoverController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -30,6 +30,7 @@ import { CivilIdFrontPage } from '../civil-id-front/civil-id-front.page';
 import { CivilIdBackPage } from '../civil-id-back/civil-id-back.page';
 import { UploadVideoPage } from '../upload-video/upload-video.page';
 import { LocationPage } from '../location/location.page';
+import { OptionPage } from '../option/option.page';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class ProfilePage implements OnInit {
     public eventService: EventService,
     public awsService: AwsService,
     public translateService: TranslateLabelService,
+    public popoverCtrl: PopoverController,
     public toastCtrl: ToastController,
   ) {
     this.update = location.href.indexOf('view/profile') > -1;
@@ -162,7 +164,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      this.loadData();
+      
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -504,7 +506,6 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      this.loadData();
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -633,7 +634,23 @@ export class ProfilePage implements OnInit {
    * @param country 
    */
   area(area, country) {
-    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+    if(this.translateService.currentLang == 'en')
+      return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ', ' + 
+        this.translateService.langContent(country.country_name_en, country.country_name_ar);
+      
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ، ' + 
       this.translateService.langContent(country.country_name_en, country.country_name_ar);
+  }
+
+  /**
+   * Display Popover with Additional Actions (Change Password and Logout)
+   * @param e
+   */
+   async openPopover(e) {
+    const popover = await this.popoverCtrl.create({
+      component: OptionPage,
+      event: e
+    });
+    popover.present();
   }
 }

@@ -10,6 +10,7 @@ export class EventService {
   public internetOffline$ = new Subject();
   public error404$ = new Subject();
   public error500$ = new Subject();
+  public errorStorage$ = new Subject();
   
   public userLogout$ = new Subject();
   public userLogin$ = new Subject();
@@ -26,6 +27,7 @@ export class EventService {
   public candidateVideoProcessed$ = new Subject();
 
   public tabScrolled$ = new Subject();
-  
+  public requestUpdated$ = new Subject();
+
   constructor() { }
 }

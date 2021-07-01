@@ -47,6 +47,7 @@ export class Candidate {
     pendingField: any[];
 
     tempLocation: any; //temp profile photo location while photo upload 
+    bank_account_needed: number; //temp profile photo location while photo upload
 
     store: Store;
     company: Company;

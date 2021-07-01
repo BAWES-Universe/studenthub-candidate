@@ -1,27 +1,11 @@
-<ion-header mode="md" [class.mobile-tab]="platform.is('mobile')" class="clear-header" [class.add-border]="showHeader" [class.browser-tab]="!platform.is('mobile')">
-  
+<ion-header mode="md" *ngIf="!platform.is('mobile')" class="browser-tab clear-header" [class.add-border]="showHeader">
   <ion-toolbar class="main-toolbar">
-
-    <!--class="ion-no-border" to fix: https://www.pivotaltracker.com/story/show/170232399 -->
-
-    <ion-buttons slot="start" class="dummy-btn-wrapper">
-      <ion-button>
-        <ion-icon name="options-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
     <div class="brand">
       <img src="assets/logo.svg">
     </div>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="openPopover($event)">
-        <ion-icon name="options-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
 
   <ion-tabs #tabRef [attr.dir]="this.translateService.direction()">
@@ -31,6 +15,12 @@
       <ion-tab-button tab="dashboard" layout="icon-start">
         <ion-icon src="assets/images/ic_home.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="invitations" layout="icon-start">
+        <ion-icon name="mail-open-outline"></ion-icon>
+        <ion-label>{{ 'Invitation' | translate }}</ion-label>
+        <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments" layout="icon-start">
@@ -50,6 +40,12 @@
       <ion-tab-button tab="dashboard">
         <ion-icon src="assets/images/ic_home.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="invitations">
+        <ion-icon name="mail-open-outline"></ion-icon>
+        <ion-label>{{ 'Invitation' | translate }}</ion-label>
+        <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments">

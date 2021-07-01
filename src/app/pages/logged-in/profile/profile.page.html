@@ -1,5 +1,5 @@
 
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [class.inTabs]="update"  [attr.dir]="translateService.direction()">
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [class.inTabs]="update" [attr.dir]="translateService.direction()">
 
   <div class="max-width">
 
@@ -10,6 +10,13 @@
         <img (error)="onPhotoError()" *ngIf="candidate.candidate_personal_photo" src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
       </ion-thumbnail>
 
+      <ion-button class="btn-settings" (click)="openPopover($event)">
+        <ion-icon name="options-outline"></ion-icon>
+        {{ "Settings" | translate }}
+      </ion-button>
+
+      <div class="clearfix"></div>
+      
       <h2 class="candidate-name" tappable (click)="updateName()"*ngIf="candidate.candidate_name">{{ candidate.candidate_name }}</h2>
 
       <h4 class="candidate-name" tappable (click)="updateNameArabic()" *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</h4>
@@ -20,9 +27,14 @@
 
           <b>{{ candidate.candidate_birth_date | age }}</b> <br />
 
-          <span class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
-                date: toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang 
+          <span *ngIf="translateService.currentLang != 'ar'" class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
+            date: toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang 
+          }"></span>
+          
+          <span *ngIf="translateService.currentLang == 'ar'" class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
+                date: toDate(candidate.candidate_birth_date) | date :'MMMM d ، y': undefined: translateService.currentLang 
               }"></span>
+
         </span>
 
         <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
@@ -176,7 +188,8 @@
         <ion-label>
           <div *ngIf="candidate.candidate_civil_expiry_date">
             <span>{{ "Civil ID" | translate }} <b>{{ candidate.candidate_civil_id | translate }}</b></span><br />
-            <span class="txt-expiring-on"> {{ "Expiring on" | translate }} {{ toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang }}</span>
+            <span class="txt-expiring-on" *ngIf="translateService.currentLang != 'ar'"> {{ "Expiring on" | translate }} {{ toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang }}</span>
+            <span class="txt-expiring-on" *ngIf="translateService.currentLang == 'ar'"> {{ "Expiring on" | translate }} {{ toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d ، y': undefined: translateService.currentLang }}</span>
           </div>
           <span *ngIf="!candidate.candidate_civil_expiry_date || !candidate.candidate_civil_id">{{ "The details of your civil id card." | translate }}
           </span>

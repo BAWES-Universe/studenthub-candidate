@@ -17,8 +17,9 @@ export class AgePipe implements PipeTransform {
     
 	transform(value: string) {
 		
-		let d = (value) ? new Date(value.replace(/-/g, '/') + ' UTC'):new Date();
+		let d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT+03:00'):new Date();
 		let now = new Date();
+		
 		let seconds = Math.round(Math.abs((now.getTime() - d.getTime())/1000));
 		
 		let minutes = Math.round(Math.abs(seconds / 60));
