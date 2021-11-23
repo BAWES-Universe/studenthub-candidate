@@ -20,6 +20,7 @@ import { UniversityPage } from '../university/university.page';
 import { UpdateEmailPage } from '../update-email/update-email.page';
 import {LocationPage} from "../location/location.page";
 import {EventService} from "../../../providers/event.service";
+import { PreferredTimePage } from '../preferred-time/preferred-time.page';
 
 
 @Component({
@@ -162,6 +163,25 @@ export class PersonalInfoPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: PhonePage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async updatePreferredTime() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: PreferredTimePage,
       componentProps: {
         candidate: this.candidate,
       }

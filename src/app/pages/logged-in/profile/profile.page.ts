@@ -31,6 +31,7 @@ import { CivilIdBackPage } from '../civil-id-back/civil-id-back.page';
 import { UploadVideoPage } from '../upload-video/upload-video.page';
 import { LocationPage } from '../location/location.page';
 import { OptionPage } from '../option/option.page';
+import { PreferredTimePage } from '../preferred-time/preferred-time.page';
 
 
 @Component({
@@ -268,6 +269,25 @@ export class ProfilePage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: PhonePage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async updatePreferredTime() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: PreferredTimePage,
       componentProps: {
         candidate: this.candidate,
       }

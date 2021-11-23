@@ -1,0 +1,23 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Preferred time" | translate }}</h3>
+
+    <form [formGroup]="form" *ngIf="form">
+
+      <ion-list>
+        <ion-input #inpt formControlName="preferred_time" maxlength="100"
+            placeholder="{{ 'Enter preferred time to contact' | translate }}"></ion-input>
+      </ion-list>
+
+      <ion-button (click)="submit()" class="btn-submit" [disabled]="!form.valid || isLoading" type="submit">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">{{ "Submit" | translate }}</span>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
