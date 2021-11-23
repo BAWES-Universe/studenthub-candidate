@@ -44,6 +44,7 @@ export class Candidate {
     age: string;
     candidate_job_search_status: any;
     candidate_mom_kuwaiti: any;
+    candidate_preferred_time: string;
     pendingField: any[];
 
     tempLocation: any; //temp profile photo location while photo upload 

@@ -248,7 +248,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'preferred-time',
+    loadChildren: () => import('./pages/logged-in/preferred-time/preferred-time.module').then( m => m.PreferredTimePageModule)
   }
+
 ];
 
 @NgModule({

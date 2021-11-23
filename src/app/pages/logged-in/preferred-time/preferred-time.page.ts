@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController, IonInput, AlertController } from '@ionic/angular';
-// models
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AlertController, IonInput, ModalController } from '@ionic/angular';
+//models
 import { Candidate } from 'src/app/models/candidate';
-// services
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+//services
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
-  selector: 'app-phone',
-  templateUrl: './phone.page.html',
-  styleUrls: ['./phone.page.scss'],
+  selector: 'app-preferred-time',
+  templateUrl: './preferred-time.page.html',
+  styleUrls: ['./preferred-time.page.scss'],
 })
-export class PhonePage implements OnInit {
+export class PreferredTimePage implements OnInit {
 
-  @ViewChild('inptPhone', { static: false }) inptPhone: IonInput;
+  @ViewChild('inpt', { static: false }) inpt: IonInput;
 
   public isLoading = false;
 
@@ -35,8 +35,8 @@ export class PhonePage implements OnInit {
     this._initForm();
 
     setTimeout(() => {
-      if(this.inptPhone)
-        this.inptPhone.setFocus();
+      if(this.inpt)
+        this.inpt.setFocus();
     }, 500);
   }
 
@@ -45,7 +45,7 @@ export class PhonePage implements OnInit {
    */
   async _initForm() {
     this.form = this.fb.group({
-      phone: [this.candidate.candidate_phone, [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+      preferred_time: [this.candidate.candidate_preferred_time],
     });
   }
 
@@ -55,13 +55,13 @@ export class PhonePage implements OnInit {
   submit() {
     // this.isLoading = true;
 
-    this.accountService.updatePhoneDetail(this.form.value).subscribe(res => {
+    this.accountService.updatePreferredTime(this.form.value).subscribe(res => {
 
       // this.isLoading = false;
 
       if (res.operation == 'success') {
 
-        this.candidate.candidate_phone = this.form.value.phone;
+        this.candidate.candidate_preferred_time = this.form.value.preferred_time;
       } 
       else 
       {
