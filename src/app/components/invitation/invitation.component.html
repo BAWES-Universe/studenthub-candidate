@@ -31,12 +31,20 @@
         <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
 
       <ion-grid  class="msg">
-      <ion-row>
+      <ion-row  *ngIf="!this.model.suggestion">
         <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
           <img src="assets/images/applied.svg"/>
         </ion-col>
         <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
           <span class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row  *ngIf="this.model.suggestion && this.model.suggestion.suggestion_status">
+        <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
+          <img src="assets/images/eggy.svg"/>
+        </ion-col>
+        <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
+          <span class="txt">{{"Congratulation, You profile has been shortlisted by Client" | translate }}</span>
         </ion-col>
       </ion-row>
     </ion-grid>

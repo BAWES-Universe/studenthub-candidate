@@ -1,6 +1,7 @@
 import { Candidate } from './candidate';
 import { Company } from './company';
 import { Request } from './request';
+import {Suggestion} from "./suggestion";
 
 export class Invitation {
     invitation_uuid: string;
@@ -16,5 +17,6 @@ export class Invitation {
     candidate: Candidate;
     request: Request;
     company: Company;
+    suggestion: Suggestion;
     note: any;
 }

@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {ModalController, NavController} from '@ionic/angular';
 //models
 import { Invitation } from 'src/app/models/invitation';
-//pages
-import { InvitationFeedbackPage } from 'src/app/pages/logged-in/invitation-feedback/invitation-feedback.page';
+
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
