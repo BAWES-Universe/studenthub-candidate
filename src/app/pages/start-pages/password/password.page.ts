@@ -107,7 +107,7 @@ export class PasswordPage implements OnInit {
         }
       });
     } else  {
-      this.nav.push(RegisterPage);
+      this.navCtrl.navigateForward(['register']);
     }
   }
 
