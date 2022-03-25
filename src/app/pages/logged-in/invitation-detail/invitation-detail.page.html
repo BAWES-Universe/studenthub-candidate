@@ -27,7 +27,7 @@
     <h2>Job location</h2>
     <p class="job-location">{{model.request.request_location}}</p>
 
-    <ng-container *ngIf="model.request.request_status == 'started'">
+    <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work'">
 
       <ng-container *ngIf="model.invitation_status == 1">
         <div>

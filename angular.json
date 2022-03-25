@@ -146,6 +146,17 @@
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             },
+            "saoud": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.saoud.ts"
+                }
+              ],
+              "aot": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
+            },
             "ci": {
               "progress": false
             }
@@ -177,6 +188,9 @@
             },
             "krushn": {
               "browserTarget": "app:build:krushn"
+            },
+            "saoud": {
+              "browserTarget": "app:build:saoud"
             },
             "ci": {
               "progress": false
