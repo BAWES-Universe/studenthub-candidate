@@ -35,7 +35,7 @@ export class InvitationService {
    * @param invitation_uuid
    */
   detail(invitation_uuid): Observable<any>{
-    const url = this._endpoint + '/' + invitation_uuid + '?expand=request,company,note';
+    const url = this._endpoint + '/' + invitation_uuid + '?expand=request,request.location,company,note';
     return this._authhttp.get(url);
   }
 
