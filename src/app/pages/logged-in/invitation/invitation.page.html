@@ -8,6 +8,7 @@
 
     <app-invitation [model]="invitation" *ngFor="let invitation of invitations" (onUpdate)="loadInvitations()">
     </app-invitation>
+    
     <p *ngIf="invitations.length ==0 && !loading"> {{"~ No invitation found ~"}}</p>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
