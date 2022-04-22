@@ -28,7 +28,7 @@
         <h3>
           {{"You applied for it with the message:" | translate}}
         </h3>
-        <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+        <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
 
       <ion-grid  class="msg">
       <ion-row  *ngIf="!this.model.suggestion">
@@ -54,7 +54,7 @@
       <h3>
         {{"You rejected it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
       <ion-grid class="msg">
         <ion-row>
           <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
@@ -79,13 +79,13 @@
       <h3>
         {{"You rejected it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
     <div *ngIf="model.invitation_status == 3">
       <h3>
         {{"You applied for it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
     <ion-grid class="msg request-completed">
       <ion-row>
@@ -110,13 +110,13 @@
       <h3>
         {{"You applied for it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
     <div *ngIf="model.invitation_status == 3">
       <h3>
         {{"You applied for it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
 
     <ion-grid class="msg request-cancelled">
