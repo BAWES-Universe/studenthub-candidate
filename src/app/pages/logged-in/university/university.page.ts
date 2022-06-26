@@ -49,6 +49,8 @@ export class UniversityPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('University Page');
+
     this.loadData(this.currentPage);
   }
 

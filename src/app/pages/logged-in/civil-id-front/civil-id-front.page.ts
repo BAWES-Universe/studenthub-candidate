@@ -73,6 +73,8 @@ export class CivilIdFrontPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Civil ID Front page');
+
     this._initForm();
   }
 

@@ -32,6 +32,8 @@ export class ObjectivePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Objective page');
+
     this._initForm();
   }
 

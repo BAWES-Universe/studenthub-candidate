@@ -41,6 +41,8 @@ export class WorkHistoryPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Work History Page');
+
     // Initialize the Login Form
 
   }

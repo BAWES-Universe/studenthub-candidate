@@ -52,6 +52,7 @@ export class CompanyPage implements OnInit {
   ) { }
 
   ngOnInit() { 
+    window.analytics.page('Company page');
   } 
 
   dismiss() {

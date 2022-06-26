@@ -42,7 +42,7 @@ export class LandingPage implements OnInit {
   }
 
   ngOnInit() {
-
+    window.analytics.page('Landing Page');
   }
 
   translate() {

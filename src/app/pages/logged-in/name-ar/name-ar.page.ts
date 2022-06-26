@@ -34,6 +34,8 @@ export class NameArPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Arabic Name page');
+
     this._initForm();
 
     setTimeout(() => {

@@ -22,7 +22,8 @@ export class AppErrorPage implements OnInit {
     public translateService: TranslateLabelService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {    
+    window.analytics.page('App Error page');
   }
 
   ionViewWillEnter() {
