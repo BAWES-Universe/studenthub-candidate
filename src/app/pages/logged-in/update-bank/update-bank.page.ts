@@ -46,6 +46,8 @@ export class UpdateBankPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Update Bank Page');
+
     this.form = this.fb.group({
       benef_name: [this.candidate.bank_account_name, [Validators.required]],
       iban: [this.candidate.candidate_iban, [Validators.required]]
@@ -73,9 +75,7 @@ export class UpdateBankPage implements OnInit {
       return false;
     }
 
-    const benef_name = this.form.value.benef_name.split(' ').length;
-
-    if (benef_name == 1) {
+    if (this.form.value.benef_name.split(' ').length == 1) {
       const prompt = await this.alertCtrl.create({
         message: this.translateService.transform('Please specify your full name'),
         buttons: [this.translateService.transform('Okay')]
@@ -84,9 +84,18 @@ export class UpdateBankPage implements OnInit {
       return false;
     }
 
+    // to remove spaces
+    let benefName = this.form.value.benef_name.trim();
+
+    //its keep adding . at the end with space to remove that
+    benefName = benefName.replace('.', '');
+    const param = {
+      benef_name: benefName,
+      iban: this.form.value.iban
+    };
     this.isLoading = true;
 
-    this.accountService.updateBankDetail(this.form.value).subscribe(async res => {
+    this.accountService.updateBankDetail(param).subscribe(async res => {
       this.isLoading = false;
 
       if (res.operation == 'success') {

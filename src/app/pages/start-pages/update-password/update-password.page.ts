@@ -40,6 +40,8 @@ export class UpdatePasswordPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Update Password Page');
+
     // Initialize the Login Form
     this.passwordForm = this._fb.group({
       newPassword: ['', Validators.required]

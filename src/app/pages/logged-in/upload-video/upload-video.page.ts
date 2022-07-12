@@ -89,6 +89,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    window.analytics.page('Upload Video Page');
+
     //handle event to mark video processed
     
     this.eventService.candidateVideoProcessed$.subscribe((data : any) => {

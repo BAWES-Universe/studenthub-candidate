@@ -57,6 +57,7 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
+    window.analytics.page('Password Page');
 
     if (window.history.state.email) {
       this.email = window.history.state.email;
@@ -107,7 +108,7 @@ export class PasswordPage implements OnInit {
         }
       });
     } else  {
-      this.nav.push(RegisterPage);
+      this.navCtrl.navigateForward(['register']);
     }
   }
 

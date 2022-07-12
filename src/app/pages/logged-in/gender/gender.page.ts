@@ -26,6 +26,7 @@ export class GenderPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Gender page');
   }
 
   /**

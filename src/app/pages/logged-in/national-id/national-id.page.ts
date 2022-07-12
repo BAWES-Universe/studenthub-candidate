@@ -32,6 +32,7 @@ export class NationalIdPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('National ID Page');
   }
 
   ionViewWillEnter() {

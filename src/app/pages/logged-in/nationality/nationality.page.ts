@@ -49,6 +49,8 @@ export class NationalityPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Nationality page');
+
     this.loadData(this.currentPage);
   }
 

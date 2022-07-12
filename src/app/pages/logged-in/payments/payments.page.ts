@@ -47,6 +47,7 @@ export class PaymentsPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Payments page');
   }
 
   ionViewWillEnter() {

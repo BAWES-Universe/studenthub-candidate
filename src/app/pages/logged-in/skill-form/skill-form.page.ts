@@ -32,6 +32,8 @@ export class SkillFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Skill form Page');
+
     this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
   }
 

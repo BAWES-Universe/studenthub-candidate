@@ -42,6 +42,8 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    window.analytics.page('Forgot Password Page');
+
     this.resetForm = this._fb.group({
       email: ['', [Validators.required, CustomValidator.emailValidator]],
     });

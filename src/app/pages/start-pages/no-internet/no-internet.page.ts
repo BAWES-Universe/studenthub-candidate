@@ -24,6 +24,7 @@ export class NoInternetPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('No Internet Page');
 
     if (navigator.onLine) {
       return this.refresh();

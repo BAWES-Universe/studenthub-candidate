@@ -28,6 +28,7 @@ export class OptionPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Option page');
   }
 
   /**
