@@ -39,6 +39,8 @@ export class InvitationPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Invitation List page');
+
     this.eventService.requestUpdated$.subscribe(_ => {
       this.loadInvitations();
     });

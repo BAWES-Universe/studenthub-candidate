@@ -75,6 +75,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
 }
 
+declare global {
+  interface Window { analytics: any; }
+}
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

@@ -37,6 +37,7 @@ export class FirstImpressionPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('First Impression page');
   }
 
   ionViewWillEnter() {

@@ -44,6 +44,7 @@ export class PersonalInfoPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Personal Info page');
   }
 
   ionViewWillEnter() {

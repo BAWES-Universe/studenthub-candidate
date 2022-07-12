@@ -66,6 +66,8 @@ export class ProfilePhotoPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Profile Photo Page');
+
     this._initForm();
   }
 

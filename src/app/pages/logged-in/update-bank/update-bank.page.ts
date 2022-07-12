@@ -46,6 +46,8 @@ export class UpdateBankPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Update Bank Page');
+
     this.form = this.fb.group({
       benef_name: [this.candidate.bank_account_name, [Validators.required]],
       iban: [this.candidate.candidate_iban, [Validators.required]]

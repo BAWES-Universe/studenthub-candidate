@@ -71,6 +71,7 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Profile page');
   }
 
   ionViewWillEnter() {

@@ -54,6 +54,8 @@ export class RegisterPage implements OnInit {
   }
 
   async ngOnInit() {
+    window.analytics.page('Register Page');
+
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],
       email: [this.email, [Validators.required, CustomValidator.emailValidator]],

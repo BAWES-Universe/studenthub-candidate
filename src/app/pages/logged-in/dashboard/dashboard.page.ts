@@ -49,6 +49,8 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
 
+    window.analytics.page('Dashboard page');
+
     /**
      * https://sentry.io/organizations/pogi/issues/1843000885/?project=5339282&referrer=slack
      * Cannot read property 'pushNotification' of undefined

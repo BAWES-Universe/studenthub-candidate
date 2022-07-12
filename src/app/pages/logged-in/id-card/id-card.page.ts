@@ -38,6 +38,8 @@ export class IdCardPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('ID Card page');
+
     const today = new Date();
     // var dd = today.getDate();
     const mm = today.getMonth() + 1; // 0 is January, so we must add 1

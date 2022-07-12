@@ -32,6 +32,8 @@ export class PhonePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Phone page');
+
     this._initForm();
 
     setTimeout(() => {

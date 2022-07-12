@@ -20,6 +20,7 @@ export class ServerErrorPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Server Error page');
   }
 
   ionViewWillEnter() {

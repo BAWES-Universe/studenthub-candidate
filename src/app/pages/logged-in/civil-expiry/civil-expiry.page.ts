@@ -36,6 +36,8 @@ export class CivilExpiryPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Civil Expiry page');
+
     const today = new Date();
     // var dd = today.getDate();
     const mm = today.getMonth() + 1; // 0 is January, so we must add 1

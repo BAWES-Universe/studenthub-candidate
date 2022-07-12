@@ -41,6 +41,8 @@ export class EmailPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Email Page');
+
     // Initialize the Login Form
     this.registerMobileForm = this.fb.group({
       email: ['', [Validators.required, , CustomValidator.emailValidator]],

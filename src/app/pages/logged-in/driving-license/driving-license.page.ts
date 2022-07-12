@@ -26,6 +26,7 @@ export class DrivingLicensePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Driving License page');
   }
 
   /**
