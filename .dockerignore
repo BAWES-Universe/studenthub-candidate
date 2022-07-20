@@ -1,0 +1,5 @@
+.circleci
+.gradle
+android
+ios
+node_modules

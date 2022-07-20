@@ -112,7 +112,7 @@ export class InvitationDetailPage implements OnInit {
         window.history.back();
       }
 
-      if (e.data.refresh) {
+      if (e.data && e.data.refresh) {
         this.onUpdate.emit();
       }
     });
@@ -144,7 +144,7 @@ export class InvitationDetailPage implements OnInit {
         window.history.back();
       }
 
-      if (e.data.refresh) {
+      if (e.data && e.data.refresh) {
         this.onUpdate.emit();
       }
     });
