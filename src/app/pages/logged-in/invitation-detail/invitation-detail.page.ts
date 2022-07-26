@@ -46,6 +46,8 @@ export class InvitationDetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Invitation Detail page');
+
     // Load the passed model if available
     if (window.history.state) {
       this.model = window.history.state.invitation;
@@ -110,7 +112,7 @@ export class InvitationDetailPage implements OnInit {
         window.history.back();
       }
 
-      if (e.data.refresh) {
+      if (e.data && e.data.refresh) {
         this.onUpdate.emit();
       }
     });
@@ -142,7 +144,7 @@ export class InvitationDetailPage implements OnInit {
         window.history.back();
       }
 
-      if (e.data.refresh) {
+      if (e.data && e.data.refresh) {
         this.onUpdate.emit();
       }
     });

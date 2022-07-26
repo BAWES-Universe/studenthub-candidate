@@ -25,7 +25,9 @@ export class KuwaitiNationalPage implements OnInit {
     public accountService: AccountService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    window.analytics.page('Kuwaiti National page');
+  }
 
   /**
    * save arabic name

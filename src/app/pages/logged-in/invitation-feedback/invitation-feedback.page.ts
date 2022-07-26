@@ -34,6 +34,8 @@ export class InvitationFeedbackPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Invitation Feebback page');
+
     this.initForm();
   }
 

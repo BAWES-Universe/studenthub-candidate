@@ -36,6 +36,8 @@ export class DateOfBirthPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Date of birth page');
+
     this.min = '1930/01/01';
 
     let d = new Date();

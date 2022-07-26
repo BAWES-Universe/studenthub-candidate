@@ -32,6 +32,8 @@ export class ExperienceFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Experience Form page');
+
     this.addToExperienceList(JSON.parse(JSON.stringify(this.candidate.candidateExperiences)));
   }
 

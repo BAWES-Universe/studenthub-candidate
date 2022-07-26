@@ -48,6 +48,7 @@ export class CivilIdBackPage implements OnInit {
   public candidate: Candidate;
   public cloudinaryUrl;
   public interval;
+
   constructor(
     private _ngzone: NgZone,
     private _fb: FormBuilder,
@@ -66,6 +67,8 @@ export class CivilIdBackPage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Civil ID Back page');
+
     this._initForm();
   }
 

@@ -34,6 +34,8 @@ export class NamePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Name page');
+
     this._initForm();
 
     setTimeout(() => {

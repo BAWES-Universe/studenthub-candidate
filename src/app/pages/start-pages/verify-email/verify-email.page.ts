@@ -61,6 +61,8 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    window.analytics.page('Verify Email Page');
+
     if (window.history.state.newUser) {
       this.runTimer = true ;
     }

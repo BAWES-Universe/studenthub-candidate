@@ -17,7 +17,7 @@
   <p class="txt-position-title">{{ model.request.request_position_title }}</p>
 
 
-  <ng-container *ngIf="model.request.request_status == 'started'">
+  <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work'">
 
     <ng-container *ngIf="model.invitation_status == 1">
       <ion-button (click)="invitationDetail(model)" class="tell-me-more-btn">{{"Tell me more" | translate }}</ion-button>
@@ -28,7 +28,7 @@
         <h3>
           {{"You applied for it with the message:" | translate}}
         </h3>
-        <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+        <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
 
       <ion-grid  class="msg">
       <ion-row>
@@ -46,7 +46,7 @@
       <h3>
         {{"You rejected it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
       <ion-grid class="msg">
         <ion-row>
           <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
@@ -71,13 +71,13 @@
       <h3>
         {{"You rejected it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
     <div *ngIf="model.invitation_status == 3">
       <h3>
         {{"You applied for it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
     <ion-grid class="msg request-completed">
       <ion-row>
@@ -102,13 +102,13 @@
       <h3>
         {{"You applied for it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
     <div *ngIf="model.invitation_status == 3">
       <h3>
         {{"You applied for it with the message:" | translate}}
       </h3>
-      <p class="application-msg" *ngIf="model.note"> "{{model.note.note_text}}"</p>
+      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
     </div>
 
     <ion-grid class="msg request-cancelled">

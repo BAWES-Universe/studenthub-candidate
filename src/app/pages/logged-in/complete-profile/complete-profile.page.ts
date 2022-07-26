@@ -40,6 +40,7 @@ export class CompleteProfilePage implements OnInit {
   }
 
   ngOnInit() {
+    window.analytics.page('Complete Profile page');
   }
 
   ionViewWillEnter() {
