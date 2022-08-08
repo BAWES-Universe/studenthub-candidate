@@ -16,6 +16,7 @@ h2.candidate-name {
     line-height: normal;
     letter-spacing: normal;
     color: black;
+    position: relative;
 }
 
 h4.candidate-name {
@@ -325,4 +326,6 @@ ion-item {
 }
 .verified {
     font-size: 20px;
+    position: absolute;
+    top: 20px;
 }
