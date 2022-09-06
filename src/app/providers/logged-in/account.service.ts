@@ -367,4 +367,8 @@ export class AccountService {
   updatePhoneDetail(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-phone', params);
   }
+
+  updatePreferredTime(params): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/update-preferred-time', params);
+  }
 }

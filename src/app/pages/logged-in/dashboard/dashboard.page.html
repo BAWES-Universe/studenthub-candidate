@@ -12,7 +12,7 @@
       <div *ngIf="candidate">
 
         <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
-          *ngIf="authService.showOneSignalPrompt">
+          *ngIf="authService.showOneSignalPrompt && pushNotificationAvailable">
           <ion-card-header class="white-bg">
             <ion-card-title>
               {{ "Receive faster updates by enabling push notifications" | translate }}

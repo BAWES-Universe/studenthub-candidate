@@ -114,7 +114,15 @@
       <ion-item tappable class="phone" (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
         <div tabindex="0"></div>
         <ion-label>
-          <b *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</b>
+          <b *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</b> 
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updatePreferredTime()">
+        <div tabindex="0"></div>
+        <ion-label>
+          <b>{{ "Preferred time" | translate }}</b>
+          <p *ngIf="candidate.candidate_preferred_time"> {{ candidate.candidate_preferred_time }}</p>
         </ion-label>
       </ion-item>
 

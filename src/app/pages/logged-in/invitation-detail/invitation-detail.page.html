@@ -22,7 +22,7 @@
 
     <p class="company" *ngIf="translateService.currentLang != 'en'">At <span>{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</span>,</p>
 
-    <p class="job-desc" [innerHTML]="model.request.request_job_description "></p>
+    <p class="job-desc" [innerHTML]="model.request.request_job_description"></p>
 
     <h2>Job location</h2>
     

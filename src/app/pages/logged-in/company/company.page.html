@@ -36,8 +36,7 @@
     <ion-item lines="none" *ngIf="company.company_description_en">
       <div tabindex="0"></div>
       <ion-label class="ion-text-wrap">
-        <p class="desc">
-          {{ translateService.langContent(company.company_description_en, company.company_description_ar) }}
+        <p class="desc" [innerHTML]="translateService.langContent(company.company_description_en, company.company_description_ar)">
         </p>
       </ion-label>
     </ion-item>

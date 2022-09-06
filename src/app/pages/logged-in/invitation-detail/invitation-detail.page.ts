@@ -52,7 +52,6 @@ export class InvitationDetailPage implements OnInit {
     if (window.history.state) {
       this.model = window.history.state.invitation;
     }
-    console.log(this.model);
 
     this.invitation_uuid = this.activateRoute.snapshot.paramMap.get('invitation_uuid');
     this.loadInvitationDetail();

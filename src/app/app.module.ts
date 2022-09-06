@@ -49,7 +49,7 @@ import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-
 import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
-import {KuwaitiNationalPageModule} from './pages/logged-in/kuwaiti-national/kuwaiti-national.module';
+import { KuwaitiNationalPageModule } from './pages/logged-in/kuwaiti-national/kuwaiti-national.module';
 
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as Cloudinary from 'cloudinary-core';
@@ -63,8 +63,9 @@ import { ModalPopPageModule } from './pages/start-pages/modal-pop/modal-pop.modu
 import { ForgotPasswordPageModule } from './pages/start-pages/forgot-password/forgot-password.module';
 import { InvitationFeedbackPageModule } from './pages/logged-in/invitation-feedback/invitation-feedback.module';
 import { InvitationModule } from './components/invitation/invitation.module';
-import {AccountStatusModule} from "./components/account-status/account-status.module";
-import {WorkHistoryPageModule} from "./pages/logged-in/work-history/work-history.module";
+import { AccountStatusModule } from "./components/account-status/account-status.module";
+import { WorkHistoryPageModule } from "./pages/logged-in/work-history/work-history.module";
+import { PreferredTimePageModule } from './pages/logged-in/preferred-time/preferred-time.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -106,6 +107,7 @@ declare global {
     NameArPageModule,
     EmailPageModule,
     PhonePageModule,
+    PreferredTimePageModule,
     ProfilePhotoPageModule,
     UploadVideoPageModule,
     ObjectivePageModule,
