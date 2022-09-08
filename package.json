@@ -14,7 +14,8 @@
     "build:devserver:mobile": "ng build --configuration=dev-mobile",
     "build:production": "ng build --configuration=production --prod",
     "build:production:mobile": "ng build --configuration=production-mobile --prod",
-    "ionic:serve:khalid": "ionic serve --configuration=khalid"
+    "ionic:serve:khalid": "ionic serve --configuration=khalid",
+    "serve-kk": "ionic serve --configuration=krushn"
   },
   "private": true,
   "dependencies": {
