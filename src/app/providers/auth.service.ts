@@ -6,7 +6,7 @@ import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
@@ -52,6 +52,7 @@ export class AuthService {
   
   public loadingJobSearchStatus: boolean = false; 
   
+  public _urlLoginAuth0 = '/auth/login-auth0';
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
   public _urlRegistration = '/auth/register';
@@ -65,6 +66,8 @@ export class AuthService {
   constructor(
     public http: HttpClient,
     public router: Router,
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
     public navCtrl: NavController,
     public translate: TranslateLabelService,
     public sentryService: SentryErrorhandlerService,
@@ -202,6 +205,64 @@ export class AuthService {
     }).catch(r => {
       this.eventService.errorStorage$.next();
     });
+  }
+
+  /**
+   * Login by Auth0 accessToken
+   */
+  async useTokenForAuth(accessToken, showLoader = true) {
+
+    let loading;
+
+    if (showLoader) {
+      loading = await this.loadingCtrl.create({
+        spinner: 'crescent',
+        message: this.translate.transform('Logging in...')
+      });
+      loading.present();
+    }
+
+    const url = environment.apiEndpoint + this._urlLoginAuth0;
+
+    const headers = this._buildAuthHeaders();
+
+    return this.http.post(url, {
+      accessToken: accessToken,
+    }, {
+      headers: headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.setAccessToken(response);
+
+        } else if (response.operation == 'error') {
+          const alert = await this.alertCtrl.create({
+            message: this.translate.transform('Error getting login by Auth0 API'), // JSON.stringify(err)
+            buttons: [this.translate.transform('Ok')]
+          });
+          await alert.present();
+
+        }
+
+        //this.eventService.googleLoginFinished$.next();
+
+      }, err => {
+
+        //this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
   }
 
   /**

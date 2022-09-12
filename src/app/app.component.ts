@@ -1,4 +1,4 @@
-import {Component, OnInit, ApplicationRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, ApplicationRef, OnDestroy, Inject} from '@angular/core';
 import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
@@ -16,7 +16,8 @@ import {AccountService} from "./providers/logged-in/account.service";
 import {Candidate} from "./models/candidate";
 import {Invitation} from "./models/invitation";
 import {InvitationService} from "./providers/logged-in/invitation.service";
-
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 
 const { App, StatusBar, SplashScreen, Storage } = Plugins;
 
@@ -53,6 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     public accountService: AccountService,
     public invitationService: InvitationService,
+    public auth: Auth0Service,
+    @Inject(DOCUMENT) public document: Document,
   ) {
   }
 
@@ -96,6 +99,19 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       this.setServiceWorker();
+      
+      /**
+       * when user comming back from auth0
+       */
+       this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+        
+        if(!isAuthenticated || this.authService.isLogin) return null;
+      
+        //this.auth.idTokenClaims$.subscribe(r => {
+        this.auth.getAccessTokenSilently().subscribe(r => {  
+          this.authService.useTokenForAuth(r).then();
+        });
+      });
     });
 
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
@@ -235,6 +251,12 @@ export class AppComponent implements OnInit, OnDestroy {
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/landing']);
 
+      this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+        if(isAuthenticated) {
+          this.auth.logout({ returnTo: document.location.origin });
+        }
+      })
+      
       // unsubscribe from oneSignal
 
       if (this.platform.is('capacitor') && this.platform.is('mobile')) {
