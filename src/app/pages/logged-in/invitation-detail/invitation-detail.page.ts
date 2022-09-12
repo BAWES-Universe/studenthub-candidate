@@ -23,6 +23,7 @@ declare var window;
 export class InvitationDetailPage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
+  
   @Output() onUpdate: EventEmitter<any> = new EventEmitter();
 
   public loading = false;

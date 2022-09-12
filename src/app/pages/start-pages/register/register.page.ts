@@ -9,6 +9,7 @@ import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 const { Storage } = Plugins;
 
@@ -40,6 +41,7 @@ export class RegisterPage implements OnInit {
     public alertCtrl: AlertController,
     public authService: AuthService,
     public translateService: TranslateLabelService,
+    public auth: Auth0Service,
     @Optional() public nav: IonNav, // for testing perpose
     public navCtrl: NavController,
     public modal: ModalController

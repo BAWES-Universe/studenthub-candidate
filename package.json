@@ -14,7 +14,8 @@
     "build:devserver:mobile": "ng build --configuration=dev-mobile",
     "build:production": "ng build --configuration=production --prod",
     "build:production:mobile": "ng build --configuration=production-mobile --prod",
-    "ionic:serve:khalid": "ionic serve --configuration=khalid"
+    "ionic:serve:khalid": "ionic serve --configuration=khalid",
+    "serve-kk": "ionic serve --configuration=krushn"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^9.1.12",
     "@angular/router": "^9.1.12",
     "@angular/service-worker": "^9.1.12",
+    "@auth0/auth0-angular": "^1.10.1",
     "@capacitor/android": "^2.4.2",
     "@capacitor/core": "2.2.0",
     "@capacitor/ios": "^2.4.2",
