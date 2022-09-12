@@ -66,6 +66,8 @@ import { InvitationModule } from './components/invitation/invitation.module';
 import { AccountStatusModule } from "./components/account-status/account-status.module";
 import { WorkHistoryPageModule } from "./pages/logged-in/work-history/work-history.module";
 import { PreferredTimePageModule } from './pages/logged-in/preferred-time/preferred-time.module';
+import { AuthModule } from '@auth0/auth0-angular';
+
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -90,6 +92,10 @@ declare global {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
+    }),
+    AuthModule.forRoot({
+      domain: 'bawes.us.auth0.com',
+      clientId: 'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e'
     }),
     CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
     BrowserModule,

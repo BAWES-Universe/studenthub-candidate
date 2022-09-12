@@ -84,11 +84,16 @@
         <ion-button class="btn-sign-up" (click)="registerPage()" color="dark">
           {{ "Create account" | translate }}
         </ion-button>
+
         <div class="ion-text-center">
           <ion-button class="btn-login" (click)="loginPage()" expand="full" fill="clear">
             {{ "Already joined?" | translate }}&nbsp;&nbsp;&nbsp;<span>{{ "Sign In" | translate }}</span>
           </ion-button>
         </div>
+            
+        <ion-button class="btn-login-bawes" (click)="auth.loginWithRedirect()">
+          {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+        </ion-button>
       </div>
   </div>
 </ion-content>

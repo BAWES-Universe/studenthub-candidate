@@ -1,17 +1,18 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {IonSlides, ModalController, NavController} from '@ionic/angular';
+import { Router } from "@angular/router";
 import { PreLoad } from 'src/app/util/preLoad';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 // pages
 import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
-import { ChangeDetectorRef } from '@angular/core';
-import {Route, Router} from "@angular/router";
+
 
 @Component({
   selector: 'app-landing',
@@ -32,6 +33,7 @@ export class LandingPage implements OnInit {
     public authService: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
+    public auth: Auth0Service,
     public modalCtrl: ModalController,
     public route: Router
   ) {
