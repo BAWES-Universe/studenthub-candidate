@@ -9,6 +9,7 @@ import { PaymentsPageRoutingModule } from './payments-routing.module';
 import { PaymentsPage } from './payments.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { TranslateModule } from '@ngx-translate/core';
+import {WorkingCounterModule} from "../../../components/working-counter/working-counter.module";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     TranslateModule.forChild(),
     LoadingModalModule,
-    PaymentsPageRoutingModule
+    PaymentsPageRoutingModule,
+    WorkingCounterModule
   ],
   declarations: [PaymentsPage]
 })

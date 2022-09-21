@@ -1,0 +1,27 @@
+
+.timer {
+    padding: 8px;
+    /* height: 18px; */
+    font-size: 29px;
+    color:#333333;
+}
+.stop-work-btn {
+    color:red;
+    font-size: 30px;
+}
+.start-work-btn {
+    color:blue;
+    font-size: 30px;
+}
+.container{
+    display: flex;
+}
+.fixed{
+    width: 200px;
+}
+.flex-item{
+    flex-grow: 1;
+}
+.ion-text-right {
+    padding: 8px;
+}

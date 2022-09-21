@@ -1,0 +1,196 @@
+h3 {
+    font-size: 36px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: capitalize;
+    color: #000000;
+    margin-top: 28px;
+}
+
+h4 {
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 25px;
+    margin-top: 55px;
+    position: relative;
+}
+
+.txt-job-status {
+    font-family: EffraLight, 'Droid Arabic Kufi';
+    font-size: 22px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+ion-button {
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000000;
+    height: 43px;
+    text-transform: none;
+    min-width: 212px;
+    margin: 5px 0;
+    --border-radius: 22px;
+    --border-color: #3b4a90;
+    --border-width: 2px;
+    --border-style: solid;
+}
+
+ion-card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    margin-left: 0;
+    margin-right: 0;
+    padding-inline-start: 46px;
+    padding-bottom: 5px;
+    background-position: 15px 14px;
+    background-repeat: no-repeat;
+
+    ion-card-title {
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+    }
+
+    ion-card-content {
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000000;
+    }
+}
+
+[dir="rtl"] ion-card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), -2px 0 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.disabled-feature {
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #eb5757;
+    margin: 0;
+    padding: 0;
+}
+
+.pushNotificationAvailable {
+    cursor: pointer;
+
+    .disabled-feature {
+        display: none;
+    }
+}
+
+[dir="rtl"] ion-card {
+    background-position: calc(100% - 15px) 14px;
+}
+
+.card-notification {
+    background-image: url(src/assets/images/ic_alerts.svg);
+
+    ion-icon {
+        display: none;
+    }
+}
+
+[dir="rtl"] .card-notification {
+    background-image: none;
+
+    ion-icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        top: -2px;
+        right: -47px;
+    }
+}
+
+.profile-card {
+    background-image: url(src/assets/images/ic_profile.svg);
+}
+
+.card-bank-details {
+    background-image: url(src/assets/images/ic_payment.svg);
+}
+
+.card-job-status {
+    cursor: pointer;
+    background-color: #eb5757;
+    background-image: url(src/assets/images/ic_delete.svg);
+
+    ion-card-title,
+    ion-card-content {
+        color: #fff;
+        --color: #fff;
+    }
+}
+
+@media only screen and (max-width: 860px) {
+    ion-content .max-width {
+        padding: 30px;
+    }
+}
+
+.icon-dude {
+    font-size: 100px;
+    position: absolute;
+    bottom: -49px;
+    z-index: 999;
+}
+
+[dir="ltr"] .icon-dude {
+    right: 7px;
+}
+
+[dir="rtl"] .icon-dude {
+    left: 7px;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+}
+
+.white-bg {
+    background: #fff;
+}
+
+.txt-invitation {
+    margin: 15px 0 24px 0;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+app-invitation:last-child {
+    margin-bottom: 10px;
+}

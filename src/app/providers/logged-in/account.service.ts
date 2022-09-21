@@ -371,4 +371,12 @@ export class AccountService {
   updatePreferredTime(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-preferred-time', params);
   }
+
+  startWork(): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/start-time', {});
+  }
+
+  stopWork(): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/stop-time', {});
+  }
 }

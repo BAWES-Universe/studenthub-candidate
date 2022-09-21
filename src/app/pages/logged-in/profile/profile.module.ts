@@ -9,7 +9,8 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { AgePipe } from 'src/app/pipes/age.pipe';
+import {WorkingCounterModule} from "../../../components/working-counter/working-counter.module";
+import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
   imports: [
@@ -18,11 +19,12 @@ import { AgePipe } from 'src/app/pipes/age.pipe';
     IonicModule,
     TranslateModule.forChild(),
     LoadingModalModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    WorkingCounterModule,
+    PipesModule
   ],
   declarations: [
-    ProfilePage,
-    AgePipe
+    ProfilePage
   ]
 })
 export class ProfilePageModule {}

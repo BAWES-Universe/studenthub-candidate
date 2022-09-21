@@ -14,6 +14,7 @@ import { SentryErrorhandlerService } from './sentry.errorhandler.service';
 //models
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
+import {Candidate} from "../models/candidate";
 
 
 declare var navigator;
@@ -47,6 +48,7 @@ export class AuthService {
   public store: Store;
 
   public company: Company;
+  public candidate: Candidate;
 
   public candidate_job_search_status;
   
@@ -174,6 +176,7 @@ export class AuthService {
         this._accessToken = loggedInUser.token;
         this.id = loggedInUser.id;
         this.name = loggedInUser.name;
+        this.candidate = loggedInUser.candidate;
         this.email = loggedInUser.email;
         this.isProfileCompleted = loggedInUser.isProfileCompleted;
         this.language_pref = loggedInUser.language_pref;
@@ -238,6 +241,7 @@ export class AuthService {
         id: this.id,
         name: this.name,
         email: this.email,
+        candidate: this.candidate,
         token: this._accessToken,
         isProfileCompleted: this.isProfileCompleted,
         language_pref: this.language_pref
@@ -258,6 +262,7 @@ export class AuthService {
     this.id = null;
     this.name = null;
     this.email = null;
+    this.candidate = null;
     this.isProfileCompleted = null;
 
     this.isLogin = false;

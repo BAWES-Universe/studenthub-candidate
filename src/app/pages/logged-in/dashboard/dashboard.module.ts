@@ -8,9 +8,10 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
-import { SplitPipe } from 'src/app/pipes/split.pipe';
 import { InvitationModule } from 'src/app/components/invitation/invitation.module';
 import {AccountStatusModule} from 'src/app/components/account-status/account-status.module';
+import {WorkingCounterModule} from "../../../components/working-counter/working-counter.module";
+import {PipesModule} from "../../../pipes/pipes.module";
 
 @NgModule({
     imports: [
@@ -21,10 +22,11 @@ import {AccountStatusModule} from 'src/app/components/account-status/account-sta
         LoadingModalModule,
         InvitationModule,
         DashboardPageRoutingModule,
-        AccountStatusModule
+        AccountStatusModule,
+        WorkingCounterModule,
+        PipesModule
     ],
     declarations: [
-        SplitPipe,
         DashboardPage
     ]
 })

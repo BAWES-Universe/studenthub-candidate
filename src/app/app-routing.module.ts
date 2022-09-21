@@ -242,13 +242,28 @@ const routes: Routes = [
     }
   },
   {
+    path: 'log-date-list',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/log-date-list/log-date-list.module').then( m => m.LogDateListPageModule),
+    data: {
+      name: 'LogDateListPage'
+    }
+  },
+  {
+    path: 'log-hour-list',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/log-hour-list/log-hour-list.module').then( m => m.LogHourListPageModule),
+    data: {
+      name: 'LogHourListPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
   {
     path: '**',
     redirectTo: 'not-found'
-  },  {
+  },
+  {
     path: 'preferred-time',
     loadChildren: () => import('./pages/logged-in/preferred-time/preferred-time.module').then( m => m.PreferredTimePageModule)
   }
