@@ -1,12 +1,12 @@
 import {Component, Output, EventEmitter, OnInit, Input} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 
 import {AuthService} from '../../providers/auth.service';
 import {AccountService} from '../../providers/logged-in/account.service';
 import {CompanyPage} from '../../pages/logged-in/company/company.page';
 import {Candidate} from '../../models/candidate';
 import {TranslateLabelService} from 'src/app/providers/translate-label.service';
-
+import { EventService } from 'src/app/providers/event.service';
 /**
  * Display alert message to update app on new version availability
  */
@@ -28,11 +28,21 @@ export class AccountStatusComponent implements OnInit {
       public modalCtrl: ModalController,
       public authService: AuthService,
       public accountService: AccountService,
+      public toastCtrl: ToastController,
+      public eventService: EventService,
       public translateService: TranslateLabelService,
       ) {
   }
 
   ngOnInit() {
+
+    this.eventService.startWork$.subscribe( () => {
+      this.startWorking();
+    });
+
+    this.eventService.stopWork$.subscribe( () => {
+      this.stopWorking();
+    });
   }
 
   /**
@@ -99,5 +109,37 @@ export class AccountStatusComponent implements OnInit {
   transform(val:string):string {
     if(val)
       return val.split(' ')[0];
+  }
+
+  startWorking() {
+    this.accountService.startWork().subscribe(data => {
+
+      if (data.operation == "success") {
+        this.candidate.isWorking = data.data;
+        this.authService.candidate.isWorking = data.data;
+        this.authService.saveLoggedInUser();
+      }
+      this.toastCtrl.create({
+        message: this.authService.errorMessage(data.message),
+        duration: 1500
+      }).then(toast => toast.present());
+    }, () => {
+      this.updating = false;
+    });
+  }
+
+  stopWorking() {
+    this.accountService.stopWork().subscribe(data => {
+      this.authService.candidate.isWorking = null;
+      this.authService.saveLoggedInUser();
+      this.candidate.isWorking = null;
+      this.toastCtrl.create({
+        message: this.authService.errorMessage(data.message),
+        duration: 1500
+      }).then(toast => toast.present());
+
+    }, () => {
+      this.updating = false;
+    });
   }
 }

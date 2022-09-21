@@ -43,9 +43,11 @@ export class Candidate {
     isProfileCompleted: number;
     age: string;
     candidate_job_search_status: any;
+    working_hour_count: any;
     candidate_mom_kuwaiti: any;
     candidate_preferred_time: string;
     pendingField: any[];
+    isWorking: CandidateWorkingHour;
 
     tempLocation: any; //temp profile photo location while photo upload 
     bank_account_needed: number; //temp profile photo location while photo upload
@@ -59,4 +61,19 @@ export class Candidate {
     bank: Bank;
     candidateExperiences: CandidateExperience[];
     candidateSkills: CandidateSkill[];
+}
+export class CandidateWorkingHour {
+    candidate_working_hour_uuid: string;
+    candidate_id: number;
+    store_id: number;
+    date: string;
+    start_time: string;
+    end_time: string;
+    total_time: number;
+    start_location_lat: string;
+    start_location_long: string;
+    end_location_lat: string;
+    end_location_long: string;
+    created_at: string;
+    updated_at: string;
 }

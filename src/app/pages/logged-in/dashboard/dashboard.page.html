@@ -45,6 +45,14 @@
             <ion-button  (click)="updateVideo($event)" fill="outline" class="btn-video-recording">{{"I’d like to start recording" | translate }}</ion-button>
           </ion-card-content>
         </ion-card>
+        <ion-card class="card-bank-details" *ngIf="candidate.working_hour_count && candidate.working_hour_count > 0">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{"Working logs" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button [routerLink]="'/log-date-list'" fill="outline" class="btn-video-recording">{{"Click here to view your working logs" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
 
         <ion-card class="card-work-details" *ngIf="workHistory.length > 0">
           <ion-card-header class="white-bg">
@@ -70,3 +78,6 @@
   </div>
 
 </ion-content>
+<ion-footer>
+  <app-working-counter></app-working-counter>
+</ion-footer>

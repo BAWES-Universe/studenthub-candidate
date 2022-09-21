@@ -12,7 +12,14 @@
                 </p>
                 <ion-button fill="outline"  (click)="viewCompanyDetails()" class="btn-learn-more">
                     {{ "txt_learn_more" | translate : { company: authService.company.company_name } }}
+                </ion-button><br/>
+                <ion-button fill="outline"  (click)="startWorking()" class="btn-learn-more" *ngIf="!authService.candidate.isWorking">
+                    {{ "Start Working" | translate}}
                 </ion-button>
+                <ion-button fill="outline"  (click)="stopWorking()" class="btn-learn-more"  *ngIf="authService.candidate.isWorking">
+                    {{ "Stop Working" | translate}}
+                </ion-button>
+
             </ng-container>
             <ng-container  *ngIf="!authService.store && authService.candidate_job_search_status">
                 <p class="txt-job-status">{{ "We’re currently looking for a job for you. We’ll notify you when we find an open position." | translate }}</p>

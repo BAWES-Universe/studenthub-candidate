@@ -1,0 +1,9 @@
+<div class="timer container ion-text-center" *ngIf="authService.candidate && authService.candidate.isWorking">
+    <div class="flex-item ion-text-right">{{ authService.candidate.isWorking.updated_at | timer }}</div>
+    <div class="flex-item ion-text-left"><ion-button fill="clear" (click)="stopWork()"><ion-icon class="stop-work-btn" name="stop-circle-outline"></ion-icon></ion-button></div>
+</div>
+
+<div class="timer container ion-text-center" *ngIf="authService.candidate && !authService.candidate.isWorking && authService.candidate.store_id">
+    <div class="flex-item ion-text-right">00:00:00</div>
+    <div class="flex-item ion-text-left"><ion-button fill="clear" (click)="startWork()" ><ion-icon class="start-work-btn" name="radio-button-on-outline"></ion-icon></ion-button></div>
+</div>

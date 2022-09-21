@@ -9,6 +9,7 @@ import { InvitationPageRoutingModule } from './invitation-routing.module';
 import { InvitationPage } from './invitation.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { InvitationModule } from 'src/app/components/invitation/invitation.module';
+import {WorkingCounterModule} from "../../../components/working-counter/working-counter.module";
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { InvitationModule } from 'src/app/components/invitation/invitation.modul
     TranslateModule.forChild(),
     LoadingModalModule,
     InvitationModule,
-    InvitationPageRoutingModule
+    InvitationPageRoutingModule,
+    WorkingCounterModule
   ],
   declarations: [
     InvitationPage

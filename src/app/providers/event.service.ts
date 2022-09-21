@@ -29,5 +29,8 @@ export class EventService {
   public tabScrolled$ = new Subject();
   public requestUpdated$ = new Subject();
 
+  public startWork$ = new Subject();
+  public stopWork$ = new Subject();
+
   constructor() { }
 }
