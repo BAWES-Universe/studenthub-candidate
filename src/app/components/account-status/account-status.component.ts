@@ -137,7 +137,7 @@ export class AccountStatusComponent implements OnInit {
           }
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
-            duration: 1500
+            duration: 2000
           }).then(toast => toast.present());
         }, () => {
           this.updating = false;
@@ -145,9 +145,10 @@ export class AccountStatusComponent implements OnInit {
       }
 
     }).catch((error) => {
+      loading.dismiss();
       this.toastCtrl.create({
         message: this.authService.errorMessage('Location permission required to start the work'),
-        duration: 1500
+        duration: 2000
       }).then(toast => toast.present());
     });
 
@@ -173,7 +174,7 @@ export class AccountStatusComponent implements OnInit {
           this.candidate.isWorking = null;
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
-            duration: 1500
+            duration: 2000
           }).then(toast => toast.present());
 
         }, () => {
@@ -182,10 +183,11 @@ export class AccountStatusComponent implements OnInit {
       }
 
     }).catch((error) => {
+      loading.dismiss();
       console.log(error);
       this.toastCtrl.create({
         message: this.authService.errorMessage('Location permission required to start the work'),
-        duration: 1500
+        duration: 2000
       }).then(toast => toast.present());
     });
 
