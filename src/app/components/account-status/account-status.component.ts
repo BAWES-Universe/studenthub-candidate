@@ -1,5 +1,6 @@
 import {Component, Output, EventEmitter, OnInit, Input} from '@angular/core';
-import {ModalController, ToastController} from '@ionic/angular';
+import {LoadingController, ModalController, ToastController} from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 
 import {AuthService} from '../../providers/auth.service';
 import {AccountService} from '../../providers/logged-in/account.service';
@@ -7,6 +8,8 @@ import {CompanyPage} from '../../pages/logged-in/company/company.page';
 import {Candidate} from '../../models/candidate';
 import {TranslateLabelService} from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
+
+const { Geolocation } = Plugins;
 /**
  * Display alert message to update app on new version availability
  */
@@ -30,18 +33,58 @@ export class AccountStatusComponent implements OnInit {
       public accountService: AccountService,
       public toastCtrl: ToastController,
       public eventService: EventService,
+      public loadingCtrl: LoadingController,
       public translateService: TranslateLabelService,
       ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-    this.eventService.startWork$.subscribe( () => {
-      this.startWorking();
+    this.eventService.startWork$.subscribe( async () => {
+      let contentLbl = this.translateService.transform('Searching Location...');
+      let loading = await this.loadingCtrl.create({
+        message: contentLbl
+      });
+      await loading.present();
+      let locationOptions = { enableHighAccuracy: false, timeout: 5000, maximumAge: 1200 };
+
+      Geolocation.getCurrentPosition(locationOptions).then(resp => {
+        loading.dismiss();
+
+        if (resp && resp.coords) {
+          this.startWorking(resp.coords.latitude, resp.coords.longitude);
+        }
+
+      }).catch((error) => {
+        this.toastCtrl.create({
+          message: this.authService.errorMessage('Location permission required to start the work'),
+          duration: 1500
+        }).then(toast => toast.present());
+      });
     });
 
-    this.eventService.stopWork$.subscribe( () => {
-      this.stopWorking();
+    this.eventService.stopWork$.subscribe( async () => {
+      let contentLbl = this.translateService.transform('Searching Location...');
+      let loading = await this.loadingCtrl.create({
+        message: contentLbl
+      });
+      await loading.present();
+      let locationOptions = { enableHighAccuracy: false, timeout: 5000, maximumAge: 1200 };
+
+      Geolocation.getCurrentPosition(locationOptions).then(resp => {
+        loading.dismiss();
+
+        if (resp && resp.coords) {
+          this.stopWorking(resp.coords.latitude, resp.coords.longitude);
+        }
+
+      }).catch((error) => {
+        console.log(error);
+        this.toastCtrl.create({
+          message: this.authService.errorMessage('Location permission required to start the work'),
+          duration: 1500
+        }).then(toast => toast.present());
+      });
     });
   }
 
@@ -111,8 +154,8 @@ export class AccountStatusComponent implements OnInit {
       return val.split(' ')[0];
   }
 
-  startWorking() {
-    this.accountService.startWork().subscribe(data => {
+  startWorking(lat, long) {
+    this.accountService.startWork(lat, long).subscribe(data => {
 
       if (data.operation == "success") {
         this.candidate.isWorking = data.data;
@@ -128,8 +171,8 @@ export class AccountStatusComponent implements OnInit {
     });
   }
 
-  stopWorking() {
-    this.accountService.stopWork().subscribe(data => {
+  stopWorking(lat, long) {
+    this.accountService.stopWork(lat, long).subscribe(data => {
       this.authService.candidate.isWorking = null;
       this.authService.saveLoggedInUser();
       this.candidate.isWorking = null;

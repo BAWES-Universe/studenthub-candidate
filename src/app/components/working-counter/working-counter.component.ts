@@ -2,10 +2,13 @@ import {Component, OnInit} from '@angular/core';
 
 import {AuthService} from '../../providers/auth.service';
 import {EventService} from "../../providers/event.service";
+import {Plugins} from "@capacitor/core";
 
 /**
  * Display alert message to update app on new version availability
  */
+
+const { Geolocation } = Plugins;
 @Component({
   selector: 'app-working-counter',
   templateUrl: './working-counter.component.html',
@@ -27,6 +30,7 @@ export class WorkingCounterComponent implements OnInit {
   }
 
   startWork() {
+
     this.eventService.startWork$.next();
   }
 }
