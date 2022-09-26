@@ -41,50 +41,11 @@ export class AccountStatusComponent implements OnInit {
   async ngOnInit() {
 
     this.eventService.startWork$.subscribe( async () => {
-      let contentLbl = this.translateService.transform('Searching Location...');
-      let loading = await this.loadingCtrl.create({
-        message: contentLbl
-      });
-      await loading.present();
-      let locationOptions = { enableHighAccuracy: false, timeout: 5000, maximumAge: 1200 };
-
-      Geolocation.getCurrentPosition(locationOptions).then(resp => {
-        loading.dismiss();
-
-        if (resp && resp.coords) {
-          this.startWorking(resp.coords.latitude, resp.coords.longitude);
-        }
-
-      }).catch((error) => {
-        this.toastCtrl.create({
-          message: this.authService.errorMessage('Location permission required to start the work'),
-          duration: 1500
-        }).then(toast => toast.present());
-      });
+          this.startWorking();
     });
 
     this.eventService.stopWork$.subscribe( async () => {
-      let contentLbl = this.translateService.transform('Searching Location...');
-      let loading = await this.loadingCtrl.create({
-        message: contentLbl
-      });
-      await loading.present();
-      let locationOptions = { enableHighAccuracy: false, timeout: 5000, maximumAge: 1200 };
-
-      Geolocation.getCurrentPosition(locationOptions).then(resp => {
-        loading.dismiss();
-
-        if (resp && resp.coords) {
-          this.stopWorking(resp.coords.latitude, resp.coords.longitude);
-        }
-
-      }).catch((error) => {
-        console.log(error);
-        this.toastCtrl.create({
-          message: this.authService.errorMessage('Location permission required to start the work'),
-          duration: 1500
-        }).then(toast => toast.present());
-      });
+      this.stopWorking();
     });
   }
 
@@ -154,35 +115,79 @@ export class AccountStatusComponent implements OnInit {
       return val.split(' ')[0];
   }
 
-  startWorking(lat, long) {
-    this.accountService.startWork(lat, long).subscribe(data => {
+  async startWorking() {
 
-      if (data.operation == "success") {
-        this.candidate.isWorking = data.data;
-        this.authService.candidate.isWorking = data.data;
-        this.authService.saveLoggedInUser();
+    let contentLbl = this.translateService.transform('Starting Timer Please wait...');
+    let loading = await this.loadingCtrl.create({
+      message: contentLbl
+    });
+    await loading.present();
+    let locationOptions = { enableHighAccuracy: false, timeout: 5000, maximumAge: 1200 };
+
+    Geolocation.getCurrentPosition(locationOptions).then(resp => {
+      loading.dismiss();
+
+      if (resp && resp.coords) {
+        this.accountService.startWork(resp.coords.latitude, resp.coords.longitude).subscribe(data => {
+
+          if (data.operation == "success") {
+            this.candidate.isWorking = data.data;
+            this.authService.candidate.isWorking = data.data;
+            this.authService.saveLoggedInUser();
+          }
+          this.toastCtrl.create({
+            message: this.authService.errorMessage(data.message),
+            duration: 1500
+          }).then(toast => toast.present());
+        }, () => {
+          this.updating = false;
+        });
       }
+
+    }).catch((error) => {
       this.toastCtrl.create({
-        message: this.authService.errorMessage(data.message),
+        message: this.authService.errorMessage('Location permission required to start the work'),
         duration: 1500
       }).then(toast => toast.present());
-    }, () => {
-      this.updating = false;
     });
+
+
   }
 
-  stopWorking(lat, long) {
-    this.accountService.stopWork(lat, long).subscribe(data => {
-      this.authService.candidate.isWorking = null;
-      this.authService.saveLoggedInUser();
-      this.candidate.isWorking = null;
+  async stopWorking() {
+
+    let contentLbl = this.translateService.transform('Stopping Timer Please Wait...');
+    let loading = await this.loadingCtrl.create({
+      message: contentLbl
+    });
+    await loading.present();
+    let locationOptions = { enableHighAccuracy: false, timeout: 5000, maximumAge: 1200 };
+
+    Geolocation.getCurrentPosition(locationOptions).then(resp => {
+      loading.dismiss();
+
+      if (resp && resp.coords) {
+        this.accountService.stopWork(resp.coords.latitude, resp.coords.longitude).subscribe(data => {
+          this.authService.candidate.isWorking = null;
+          this.authService.saveLoggedInUser();
+          this.candidate.isWorking = null;
+          this.toastCtrl.create({
+            message: this.authService.errorMessage(data.message),
+            duration: 1500
+          }).then(toast => toast.present());
+
+        }, () => {
+          this.updating = false;
+        });
+      }
+
+    }).catch((error) => {
+      console.log(error);
       this.toastCtrl.create({
-        message: this.authService.errorMessage(data.message),
+        message: this.authService.errorMessage('Location permission required to start the work'),
         duration: 1500
       }).then(toast => toast.present());
-
-    }, () => {
-      this.updating = false;
     });
+
   }
 }
