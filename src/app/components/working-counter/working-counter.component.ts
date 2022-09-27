@@ -21,16 +21,21 @@ export class WorkingCounterComponent implements OnInit {
 
   ngOnInit() {
 
-    let d = Date.now();
-    d = new Date(d);
-    d = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+(d.getHours() > 12 ? d.getHours() - 12 : d.getHours())+':'+d.getMinutes()+' '+(d.getHours() >= 12 ? "PM" : "AM");
-    console.log(d);
+    let d = new Date(Date.now());
+
+    let year = d.getFullYear();
+    let month = (d.getMonth()+1);
+    let date = d.getDate();
+    let hour = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours());
+    let min = d.getMinutes();
+    let zone = d.getHours() >= 12 ? 'PM' : 'AM';
+    console.log(`${year}-${month}-${date} ${hour}:${min} ${zone}`);
     if (this.authService.candidate && this.authService.candidate.isWorking) {
       this.started = this.authService.candidate.isWorking.updated_at;
     }
 
     this.eventService.workStarted$.subscribe((data) => {
-      this.started = d;
+      this.started = `${year}-${month}-${date} ${hour}:${min} ${zone}`;
       this.eventService.loadProfile$.next();
     });
     this.eventService.workStopped$.subscribe((data) => {
