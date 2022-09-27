@@ -19,20 +19,33 @@ export class WorkingCounterComponent implements OnInit {
   public started = null;
   constructor(
       public authService: AuthService,
-      public eventService: EventService,
-      ) {
-    if (this.authService.candidate && authService.candidate.isWorking) {
-      this.started = authService.candidate.isWorking.updated_at;
+      public eventService: EventService
+  ) { }
+
+  ngOnInit() {
+
+    let d = new Date(Date.now());
+
+    let year = d.getFullYear();
+    let month = (d.getMonth()+1);
+    let date = d.getDate();
+    let hour = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours());
+    let min = d.getMinutes();
+    let zone = d.getHours() >= 12 ? 'PM' : 'AM';
+    console.log(`${year}-${month}-${date} ${hour}:${min} ${zone}`);
+    if (this.authService.candidate && this.authService.candidate.isWorking) {
+      this.started = this.authService.candidate.isWorking.updated_at;
     }
-    this.eventService.workStarted$.subscribe(data => {
-      this.started = data;
+
+    this.eventService.workStarted$.subscribe((data) => {
+      this.started = `${year}-${month}-${date} ${hour}:${min} ${zone}`;
+      this.eventService.loadProfile$.next();
     });
-    this.eventService.workStopped$.subscribe(data => {
+    this.eventService.workStopped$.subscribe((data) => {
+      this.eventService.loadProfile$.next();
       this.started = null;
     });
   }
-
-  ngOnInit() {}
 
   stopWork() {
     this.eventService.stopWork$.next();

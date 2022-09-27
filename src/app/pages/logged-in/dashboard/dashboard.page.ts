@@ -85,6 +85,10 @@ export class DashboardPage implements OnInit {
       }
     });
 
+    this.eventService.loadProfile$.subscribe(_ => {
+      this.loadProfile();
+    });
+
     this.loadWorkHistoryData();
   }
 

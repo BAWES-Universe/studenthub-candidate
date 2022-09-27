@@ -138,7 +138,7 @@ export class AccountStatusComponent implements OnInit {
           }
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
-            duration: 2000
+            duration: 1500
           }).then(toast => toast.present());
         }, () => {
           this.updating = false;
@@ -176,7 +176,7 @@ export class AccountStatusComponent implements OnInit {
           this.eventService.workStopped$.next();
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
-            duration: 2000
+            duration: 1500
           }).then(toast => toast.present());
 
         }, () => {

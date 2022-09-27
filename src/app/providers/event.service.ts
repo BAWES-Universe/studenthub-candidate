@@ -35,5 +35,7 @@ export class EventService {
   public workStarted$ = new Subject();
   public workStopped$ = new Subject();
 
+  public loadProfile$ = new Subject();
+
   constructor() { }
 }
