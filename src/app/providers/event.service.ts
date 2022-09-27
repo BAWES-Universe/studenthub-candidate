@@ -32,5 +32,8 @@ export class EventService {
   public startWork$ = new Subject();
   public stopWork$ = new Subject();
 
+  public workStarted$ = new Subject();
+  public workStopped$ = new Subject();
+
   constructor() { }
 }

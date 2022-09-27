@@ -134,6 +134,7 @@ export class AccountStatusComponent implements OnInit {
             this.candidate.isWorking = data.data;
             this.authService.candidate.isWorking = data.data;
             this.authService.saveLoggedInUser();
+            this.eventService.workStarted$.next({data : data.data});
           }
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
@@ -170,6 +171,7 @@ export class AccountStatusComponent implements OnInit {
           this.authService.candidate.isWorking = null;
           this.authService.saveLoggedInUser();
           this.candidate.isWorking = null;
+          this.eventService.workStopped$.next();
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
             duration: 2000
