@@ -22,7 +22,7 @@ export class WorkingCounterComponent implements OnInit {
       this.started = authService.candidate.isWorking.updated_at;
     }
     this.eventService.workStarted$.subscribe(data => {
-      this.started = data.data.updated_at;
+      this.started = data;
     });
     this.eventService.workStopped$.subscribe(data => {
       this.started = null;
