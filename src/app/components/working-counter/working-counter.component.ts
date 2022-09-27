@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {AuthService} from '../../providers/auth.service';
 import {EventService} from "../../providers/event.service";
+import {AccountService} from "../../providers/logged-in/account.service";
 
 /**
  * Display alert message to update app on new version availability
@@ -16,30 +17,25 @@ export class WorkingCounterComponent implements OnInit {
   public started = null;
   constructor(
       public authService: AuthService,
-      public eventService: EventService
+      public eventService: EventService,
+      public accountStatus: AccountService
   ) { }
 
   ngOnInit() {
 
-    let d = new Date(Date.now());
-
-    let year = d.getFullYear();
-    let month = (d.getMonth()+1);
-    let date = d.getDate();
-    let hour = (d.getHours() > 12 ? d.getHours() - 12 : d.getHours());
-    let min = d.getMinutes();
-    let zone = d.getHours() >= 12 ? 'PM' : 'AM';
-    console.log(`${year}-${month}-${date} ${hour}:${min} ${zone}`);
     if (this.authService.candidate && this.authService.candidate.isWorking) {
       this.started = this.authService.candidate.isWorking.updated_at;
     }
 
     this.eventService.workStarted$.subscribe(_ => {
-      this.started = `${year}-${month}-${date} ${hour}:${min} ${zone}`;
-      // this.eventService.loadProfile$.next();
+      this.accountStatus.checkWorkStatus().subscribe((data: any) => {
+        if (data) {
+          this.started = data.updated_at;
+        }
+      });
     });
+
     this.eventService.workStopped$.subscribe((data) => {
-      // this.eventService.loadProfile$.next();
       this.started = null;
     });
   }

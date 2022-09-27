@@ -379,4 +379,8 @@ export class AccountService {
   stopWork(lat, long): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/stop-time', {lat, long});
   }
+
+  checkWorkStatus(): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/current-status', {});
+  }
 }
