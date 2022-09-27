@@ -34,7 +34,7 @@ export class WorkingCounterComponent implements OnInit {
       this.started = this.authService.candidate.isWorking.updated_at;
     }
 
-    this.eventService.workStarted$.subscribe((data) => {
+    this.eventService.workStarted$.subscribe(_ => {
       this.started = `${year}-${month}-${date} ${hour}:${min} ${zone}`;
       this.eventService.loadProfile$.next();
     });
