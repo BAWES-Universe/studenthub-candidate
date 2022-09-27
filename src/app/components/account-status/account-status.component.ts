@@ -41,11 +41,7 @@ export class AccountStatusComponent implements OnInit {
   async ngOnInit() {
 
     this.eventService.startWork$.subscribe( async () => {
-<<<<<<< HEAD
-          this.startWorking();
-=======
-      this.startWorking();
->>>>>>> master
+        this.startWorking();
     });
 
     this.eventService.stopWork$.subscribe( async () => {
