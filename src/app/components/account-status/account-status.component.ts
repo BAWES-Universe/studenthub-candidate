@@ -41,6 +41,7 @@ export class AccountStatusComponent implements OnInit {
   ngOnInit() {
 
     this.eventService.startWork$.subscribe( async () => {
+      console.log('startWork');
       this.startWorking();
     });
 
@@ -131,6 +132,7 @@ export class AccountStatusComponent implements OnInit {
         this.accountService.startWork(resp.coords.latitude, resp.coords.longitude).subscribe(data => {
 
           if (data.operation == "success") {
+            console.log('started');
             this.candidate.isWorking = data.data;
             this.authService.candidate.isWorking = data.data;
             this.authService.saveLoggedInUser();

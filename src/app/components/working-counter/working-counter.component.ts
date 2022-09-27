@@ -36,10 +36,10 @@ export class WorkingCounterComponent implements OnInit {
 
     this.eventService.workStarted$.subscribe(_ => {
       this.started = `${year}-${month}-${date} ${hour}:${min} ${zone}`;
-      this.eventService.loadProfile$.next();
+      // this.eventService.loadProfile$.next();
     });
     this.eventService.workStopped$.subscribe((data) => {
-      this.eventService.loadProfile$.next();
+      // this.eventService.loadProfile$.next();
       this.started = null;
     });
   }
@@ -49,6 +49,7 @@ export class WorkingCounterComponent implements OnInit {
   }
 
   startWork() {
+    console.log('startWork');
     this.eventService.startWork$.next();
   }
 }
