@@ -16,14 +16,23 @@ const { Geolocation } = Plugins;
 })
 export class WorkingCounterComponent implements OnInit {
 
+  public started = null;
   constructor(
       public authService: AuthService,
       public eventService: EventService,
       ) {
+    if (this.authService.candidate && authService.candidate.isWorking) {
+      this.started = authService.candidate.isWorking.updated_at;
+    }
+    this.eventService.workStarted$.subscribe(data => {
+      this.started = data;
+    });
+    this.eventService.workStopped$.subscribe(data => {
+      this.started = null;
+    });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   stopWork() {
     this.eventService.stopWork$.next();
