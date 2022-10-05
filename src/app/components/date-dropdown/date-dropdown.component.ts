@@ -30,7 +30,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   @Input()
   set max(max) {
     this.maxDate = new Date(max);  // Maximal selectable date
-    this.maxYear = new Date(max).getFullYear();
+    this.maxYear = (new Date(max).getFullYear() - 15);
     this.maxDateString = this.dateString(this.maxDate);
   }
 
@@ -108,7 +108,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   dateString(d) {
     function pad(n) { return n < 10 ? '0' + n : n; }
 
-    return d.getFullYear() + '-'
+    return (d.getFullYear() - 15) + '-'
       + pad(d.getMonth() + 1) + '-'
       + pad(d.getDate());
 
@@ -212,7 +212,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
 
     if (range == 0) {
       return [{
-        year: this.maxYear,
+        year: (this.maxYear - 10),
         isSelected: true
       }];
     }
