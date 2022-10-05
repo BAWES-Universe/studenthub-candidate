@@ -46,11 +46,11 @@ export class DateOfBirthPage implements OnInit {
     //to fix: https://www.pivotaltracker.com/story/show/170663720
 
     if (this.platform.is('mobile') && !this.candidate.candidate_birth_date) {
-        this.max = d.getFullYear() + '-12-12';
+        this.max = (d.getFullYear() - 10) + '-12-12';
     } else {
         this.max = d;
     }
-    
+
     this._initForm();
   }
 
