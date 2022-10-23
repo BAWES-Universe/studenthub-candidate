@@ -2,11 +2,14 @@ import {Component, OnInit} from '@angular/core';
 
 import {AuthService} from '../../providers/auth.service';
 import {EventService} from "../../providers/event.service";
+import {Plugins} from "@capacitor/core";
 import {AccountService} from "../../providers/logged-in/account.service";
 
 /**
  * Display alert message to update app on new version availability
  */
+
+const { Geolocation } = Plugins;
 @Component({
   selector: 'app-working-counter',
   templateUrl: './working-counter.component.html',

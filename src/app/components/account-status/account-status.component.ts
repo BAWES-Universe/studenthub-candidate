@@ -38,7 +38,7 @@ export class AccountStatusComponent implements OnInit {
       ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.eventService.startWork$.subscribe( async () => {
       console.log('startWork');
@@ -154,6 +154,8 @@ export class AccountStatusComponent implements OnInit {
         duration: 2000
       }).then(toast => toast.present());
     });
+
+
   }
 
   async stopWorking() {
