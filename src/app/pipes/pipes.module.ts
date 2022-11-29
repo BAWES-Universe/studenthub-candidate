@@ -4,6 +4,7 @@ import { AgePipe } from './age.pipe';
 import {TimeSpentPipe} from './timespent.pipe';
 import { TimerPipe } from './timer.pipe';
 import {SplitPipe} from "./split.pipe";
+import {TimeAgoPipe} from "./timeago.pipe";
 
 
 // import custom pipes here
@@ -12,6 +13,7 @@ import {SplitPipe} from "./split.pipe";
         TimerPipe,
         AgePipe,
         SplitPipe,
+        TimeAgoPipe,
         TimeSpentPipe
     ],
     imports: [],
@@ -19,6 +21,7 @@ import {SplitPipe} from "./split.pipe";
         TimerPipe,
         AgePipe,
         SplitPipe,
+        TimeAgoPipe,
         TimeSpentPipe
     ]
 })

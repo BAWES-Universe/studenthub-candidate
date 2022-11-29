@@ -1,132 +1,41 @@
 <ion-card class="card-invitation" [attr.dir]="translateService.direction()" *ngIf="model.request && model.company">
+  <ion-card-header>
+      <div class="status request-pending" *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment'">
 
-  <p class="time">{{"As of" | translate}}  {{ toDate(model.invitation_created_at) | date }}</p>
+        <span *ngIf="model.invitation_status == 3 &&!this.model.suggestion" class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
+        <span *ngIf="model.invitation_status == 3 && this.model.suggestion && this.model.suggestion.suggestion_status" class="txt">{{"Congratulation, You profile has been shortlisted by Client" | translate }}</span>
+        <span *ngIf="model.invitation_status == 2" class="txt">{{"We’ll keep you updated on any other jobs that pop up." | translate }}</span>
+      </div>
 
-  <p class="company" *ngIf="translateService.currentLang == 'en'">{{ model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name }}</p>
+      <div class="status request-completed" *ngIf="model.request.request_status == 'delivered'">
+        <span *ngIf="model.invitation_status == 1">{{"You didn’t apply for it" | translate}}</span>
+        <span *ngIf="model.invitation_status == 2">{{"You rejected it" | translate}}</span>
+        <span *ngIf="model.invitation_status == 3">{{"You applied " | translate}}</span>
+        <span class="txt">{{"This job has filled up. If you didn’t make it, we’ll be working on finding you other jobs" | translate }}</span>
+      </div>
+      <div class="status request-cancelled" *ngIf="model.request.request_status == 'cancelled'">{{"This job was cancelled. They’ll hopefully have another opening soon." | translate }}</div>
+  </ion-card-header>
 
-  <p class="company" *ngIf="translateService.currentLang != 'en'">{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</p>
+  <ion-card-content>
+    <p class="txt-position-title">{{ model.request.request_position_title }}</p>
+    <p class="company" *ngIf="translateService.currentLang == 'en'">{{ model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name }}</p>
+    <p class="company" *ngIf="translateService.currentLang != 'en'">{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</p>
+    <small class="time-ago">{{ model.invitation_created_at | timeAgo }}</small>
 
-  <p class="job-type" *ngIf="model.request.request_position_type == 1">
-    {{ "is looking to hire a full-time" | translate }}
-  </p>
-  
-  <p class="job-type" *ngIf="model.request.request_position_type == 2">
-    {{"is looking to hire a part-time" | translate }}
-  </p>
+    <div class="badge">
+      <ion-badge *ngIf="model.request.request_position_type == 1">{{ "full-time" | translate }}</ion-badge>
+      <ion-badge *ngIf="model.request.request_position_type == 2">{{"part-time" | translate }}</ion-badge>
+    </div>
 
-  <p class="txt-position-title">{{ model.request.request_position_title }}</p>
-
-  <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment'">
-
-    <ng-container *ngIf="model.invitation_status == 1">
-      <ion-button (click)="invitationDetail(model)" class="tell-me-more-btn">{{"Tell me more" | translate }}</ion-button>
-      <img src="assets/images/eggy.svg" class="pending-img"/>
+    <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment' && model.invitation_status == 1">
+      <ion-button (click)="invitationDetail(model)" class="tell-me-more-btn">{{"View Details" | translate }}</ion-button>
     </ng-container>
 
-    <div *ngIf="model.invitation_status == 3">
-        <h3>
-          {{"You applied for it with the message:" | translate}}
-        </h3>
-        <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
-
-      <ion-grid  class="msg">
-      <ion-row  *ngIf="!this.model.suggestion">
-        <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
-          <img src="assets/images/applied.svg"/>
-        </ion-col>
-        <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-          <span class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
-        </ion-col>
-      </ion-row>
-      <ion-row  *ngIf="this.model.suggestion && this.model.suggestion.suggestion_status">
-        <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
-          <img src="assets/images/eggy.svg"/>
-        </ion-col>
-        <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-          <span class="txt">{{"Congratulation, You profile has been shortlisted by Client" | translate }}</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    </div>
-
-    <div *ngIf="model.invitation_status == 2">
-      <h3>
-        {{"You rejected it with the message:" | translate}}
-      </h3>
-      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
-      <ion-grid class="msg">
-        <ion-row>
-          <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
-            <img src="assets/images/applied.svg"/>
-          </ion-col>
-          <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-            <span class="txt">{{"We’ll keep you updated on any other jobs that pop up." | translate }}</span>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="model.request.request_status == 'delivered'">
-
-    <div *ngIf="model.invitation_status == 1">
-      <h3>
-        {{"You didn’t apply for it" | translate}}
-      </h3>
-    </div>
-
-    <div *ngIf="model.invitation_status == 2">
-      <h3>
-        {{"You rejected it with the message:" | translate}}
-      </h3>
-      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
-    </div>
-    <div *ngIf="model.invitation_status == 3">
-      <h3>
-        {{"You applied for it with the message:" | translate}}
-      </h3>
-      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
-    </div>
-    <ion-grid class="msg request-completed">
-      <ion-row>
-        <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
-          <img src="assets/images/request-completed.svg"/>
-        </ion-col>
-        <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-          <span class="txt">{{"This job has filled up. If you didn’t make it, we’ll be working on finding you other jobs" | translate }}</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ng-container>
-  <ng-container *ngIf="model.request.request_status == 'cancelled'">
-
-    <div *ngIf="model.invitation_status == 1">
-      <h3>
-        {{"You didn’t apply for it" | translate}}
-      </h3>
-    </div>
-
-    <div *ngIf="model.invitation_status == 2">
-      <h3>
-        {{"You applied for it with the message:" | translate}}
-      </h3>
-      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
-    </div>
-    <div *ngIf="model.invitation_status == 3">
-      <h3>
-        {{"You applied for it with the message:" | translate}}
-      </h3>
-      <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
-    </div>
-
-    <ion-grid class="msg request-cancelled">
-      <ion-row>
-        <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
-          <img src="assets/images/request-cancelled.svg"/>
-        </ion-col>
-        <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-          <span class="txt">{{"This job was cancelled. They’ll hopefully have another opening soon." | translate }}</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ng-container>
+  </ion-card-content>
+  <ion-card-content class="reply" *ngIf="model.reply">
+    <h3>
+      {{"You reply:" | translate}}
+    </h3>
+    <p class="application-msg"> "<span [innerHTML]="model.reply.note_text"></span>"</p>
+  </ion-card-content>
 </ion-card>

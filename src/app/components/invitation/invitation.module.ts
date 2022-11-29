@@ -4,14 +4,16 @@ import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { InvitationComponent } from './invitation.component';
+import {PipesModule} from '../../pipes/pipes.module';
 
 
 @NgModule({
   declarations: [InvitationComponent],
-  imports: [ 
+  imports: [
       CommonModule,
       IonicModule,
       RouterModule,
+      PipesModule,
       TranslateModule.forChild(),
   ],
   exports: [InvitationComponent]

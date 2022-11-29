@@ -13,23 +13,23 @@
     <ion-tab-bar slot="top" *ngIf="!platform.is('mobile')" [attr.dir]="this.translateService.direction()">
 
       <ion-tab-button tab="dashboard" layout="icon-start">
-        <ion-icon src="assets/images/ic_home.svg"></ion-icon>
+        <ion-icon src="assets/icons/home.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="invitations" layout="icon-start">
-        <ion-icon name="mail-open-outline"></ion-icon>
+        <ion-icon src="assets/icons/invitation-tab.svg"></ion-icon>
         <ion-label>{{ 'Invitation' | translate }}</ion-label>
         <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments" layout="icon-start">
-        <ion-icon src="assets/images/ic_payment.svg"></ion-icon>
+        <ion-icon src="assets/icons/payment-tab.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="profile" layout="icon-start">
-        <ion-icon src="assets/images/ic_profile.svg"></ion-icon>
+        <ion-icon src="assets/icons/profile-tab.svg"></ion-icon>
         <ion-label>{{ 'Profile' | translate }}</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
@@ -38,23 +38,26 @@
       [attr.dir]="this.translateService.direction()">
 
       <ion-tab-button tab="dashboard">
-        <ion-icon src="assets/images/ic_home.svg"></ion-icon>
+        <ion-icon class="not-current" src="assets/icons/home.svg"></ion-icon>
+        <ion-icon class="icon-selected" src="assets/icons/home-selected.svg"></ion-icon>
         <ion-label>{{ 'Home' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="invitations">
-        <ion-icon name="mail-open-outline"></ion-icon>
+        <ion-icon class="not-current" src="assets/icons/invitation-tab.svg"></ion-icon>
+        <ion-icon class="icon-selected" src="assets/icons/invitation-selected.svg"></ion-icon>
         <ion-label>{{ 'Invitation' | translate }}</ion-label>
         <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="payments">
-        <ion-icon src="assets/images/ic_payment.svg"></ion-icon>
+        <ion-icon class="not-current" src="assets/icons/payment-tab.svg"></ion-icon>
+        <ion-icon class="icon-selected" src="assets/icons/payment-selected.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="profile">
-        <ion-icon src="assets/images/ic_profile.svg"></ion-icon>
+        <ion-icon src="assets/icons/profile-tab.svg"></ion-icon>
         <ion-label>{{ 'Profile' | translate }}</ion-label>
       </ion-tab-button>
 
