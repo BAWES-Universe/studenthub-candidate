@@ -34,7 +34,7 @@ ion-tab-button ion-label {
 
 ion-tab-button:hover {
     ion-icon {
-        filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
+        //filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
     }
 
     ion-label {
@@ -45,7 +45,7 @@ ion-tab-button:hover {
 .tab-selected {
 
     ion-icon {
-        filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
+        //filter: invert(31%) sepia(32%) saturate(1523%) hue-rotate(196deg) brightness(94%) contrast(85%);
     }
 
     ion-label {
@@ -53,9 +53,24 @@ ion-tab-button:hover {
     }
 }
 
-.mobile ion-tab-button ion-label {
-    text-transform: uppercase;
-    font-size: 8px;
+.mobile {
+    padding: 3px;
+
+    ion-tab-button {
+        ion-icon {
+            width: 20px;
+        }
+
+        ion-label {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: center;
+            color: #7D7D8D;
+        }
+    }
 }
 
 ion-toolbar.main-toolbar {
@@ -161,5 +176,30 @@ ion-toolbar.main-toolbar {
             right: 42px;
             left: auto;
         }
+    }
+}
+.ion-selectable {
+    .icon-selected {
+        display: none;
+    }
+
+    .not-current {
+        display: inline-block;
+    }
+}
+.ion-selectable.tab-selected {
+    .icon-selected {
+        display:inline-block;
+        width:50px;
+    }
+    .not-current {
+        display:none;
+    }
+
+    ion-label {
+        font-weight: 700!important;
+        font-size: 12px!important;
+        line-height: 16px!important;
+        color: #4C70F2!important;
     }
 }
