@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PopoverController, IonContent, ModalController } from '@ionic/angular';
+import {PopoverController, IonContent, ModalController, Platform} from '@ionic/angular';
 // models
 import { Salary } from 'src/app/models/salary';
 import { Candidate } from '../../../models/candidate';
@@ -42,7 +42,8 @@ export class PaymentsPage implements OnInit {
     public popoverCtrl: PopoverController,
     public eventService: EventService,
     public accountService: AccountService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public platform: Platform
   ) {
   }
 

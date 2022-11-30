@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController, NavController, Platform, IonContent } from '@ionic/angular';
+import { NavController, Platform, IonContent } from '@ionic/angular';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
-import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
-import {CandidateWorkingHour} from "../../../../models/candidate";
-import {CandidateWorkingHourService} from "../../../../providers/logged-in/candidate-working-hour.service";
-import {ActivatedRoute} from "@angular/router";
+
+import {CandidateWorkingHour} from 'src/app/models/candidate';
+import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
+import {ActivatedRoute} from '@angular/router';
 
 
 declare var window;
@@ -29,7 +29,7 @@ export class LogHourListPage implements OnInit {
   public totalCount = 0;
   public totalHours = 0;
   public hour;
-  public candidateWorkingHourData: CandidateWorkingHour[];
+  public candidateWorkingHourData: CandidateWorkingHour;
 
   constructor(
     public platform: Platform,
@@ -63,14 +63,10 @@ export class LogHourListPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    const param = `&date=${this.hour}`;
-    this.candidateWorkingHour.listByHour(this.currentPage, param).subscribe(response => {
+    this.candidateWorkingHour.detail(this.hour).subscribe(response => {
       this.loading =  false;
-      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.candidateWorkingHourData = response.body;
-      this.countTotal();
+      this.candidateWorkingHourData = response;
+      // this.countTotal();
     });
   }
 
@@ -82,33 +78,24 @@ export class LogHourListPage implements OnInit {
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
   }
 
-  /**
-   * load more data on scroll to bottom
-   * @param event
-   */
-  doInfinite(event) {
-
-    this.loading = true;
-
-    this.currentPage++;
-    const param = `&date= ${this.hour}`;
-    this.candidateWorkingHour.listByHour(this.currentPage, param).subscribe(response => {
-
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-        this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
-        this.countTotal();
-        event.target.complete();
-    },
-    error => { },
-    () => {
-      this.loading = false;
-    });
+  getStartTime() {
+    return this.candidateWorkingHourData.dateListByCandidate[0].start_time;
   }
 
-  countTotal() {
-    this.totalHours = this.candidateWorkingHourData.reduce((partialSum, a) => partialSum + a.total_time, 0);
+  getEndTime() {
+    return this.candidateWorkingHourData.dateListByCandidate[this.candidateWorkingHourData.dateListByCandidate.length - 1].end_time;
+  }
+
+  secondsToTime(secs){
+    var h = Math.floor(secs / (60 * 60));
+
+    var divisor_for_minutes = secs % (60 * 60);
+    var m = Math.floor(divisor_for_minutes / 60);
+
+    var divisor_for_seconds = divisor_for_minutes % 60;
+    var s = Math.ceil(divisor_for_seconds);
+
+    return `${h?`${h}:`:""}${m?`${m}:${s}`:`${s}s`}`
   }
 
 }

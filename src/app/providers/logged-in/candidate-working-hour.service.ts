@@ -17,8 +17,17 @@ export class CandidateWorkingHourService {
    * @returns {Observable<any>}
    */
   list(page: number): Observable<any>{
-    const url = this._endpoint + '/date?page=' + page + '&expand=company';
+    const url = this._endpoint + '/date?page=' + page + '&expand=company,dateListByCandidate';
     return this._authhttp.get(url, true);
+  }
+
+  /**
+   * return detail
+   * @param date
+   */
+  detail(date): Observable<any>{
+    const url = `${this._endpoint}/date/${date}?expand=company,dateListByCandidate`;
+    return this._authhttp.get(url);
   }
 
   /**

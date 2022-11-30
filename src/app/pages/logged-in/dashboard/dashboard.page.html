@@ -1,8 +1,9 @@
+<ion-header class="clear-header" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title class="ion-text-start">Home</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
-
-  <div class="brand" *ngIf="platform.is('mobile')">
-    <img src="assets/logo.svg">
-  </div>
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
 
@@ -78,6 +79,4 @@
   </div>
 
 </ion-content>
-<ion-footer>
-  <app-working-counter></app-working-counter>
-</ion-footer>
+<app-working-counter></app-working-counter>
