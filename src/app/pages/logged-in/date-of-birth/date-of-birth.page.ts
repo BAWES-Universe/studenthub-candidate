@@ -38,7 +38,7 @@ export class DateOfBirthPage implements OnInit {
   ngOnInit() {
     window.analytics.page('Date of birth page');
 
-    this.min = '1930/01/01';
+    this.min = '1960/01/01';
 
     let d = new Date();
     //d.setMonth(d.getMonth() - 12 * 16);//atleast 16 years old 
@@ -46,7 +46,7 @@ export class DateOfBirthPage implements OnInit {
     //to fix: https://www.pivotaltracker.com/story/show/170663720
 
     if (this.platform.is('mobile') && !this.candidate.candidate_birth_date) {
-        this.max = (d.getFullYear() - 10) + '-12-12';
+        this.max = (d.getFullYear() - 16) + '-01-01';
     } else {
         this.max = d;
     }
