@@ -41,12 +41,14 @@ export class DateOfBirthPage implements OnInit {
     this.min = '1960/01/01';
 
     let d = new Date();
+    d.setFullYear(d.getFullYear() - 16);
     //d.setMonth(d.getMonth() - 12 * 16);//atleast 16 years old 
 
     //to fix: https://www.pivotaltracker.com/story/show/170663720
 
-    if (this.platform.is('mobile') && !this.candidate.candidate_birth_date) {
-        this.max = (d.getFullYear() - 16) + '-01-01';
+    if (this.platform.is('mobile') && !this.candidate.candidate_birth_date) {//
+        const day = d.getDate() > 9 ? d.getDate() : '0' + d.getDate();
+        this.max = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + day;
     } else {
         this.max = d;
     }
