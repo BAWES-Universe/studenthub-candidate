@@ -25,12 +25,13 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.minDate = new Date(min); // Minimal selectable date
     this.minYear = new Date(min).getFullYear();
     this.minDateString = this.dateString(this.minDate);
+
   }
 
   @Input()
   set max(max) {
     this.maxDate = new Date(max);  // Maximal selectable date
-    this.maxYear = (new Date(max).getFullYear() - 15);
+    this.maxYear = (new Date(max).getFullYear());
     this.maxDateString = this.dateString(this.maxDate);
   }
 
@@ -41,7 +42,8 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
   constructor(
     public translateLabel: TranslateLabelService,
     public platform: Platform
-  ) { }
+  ) { 
+  }
 
   /**
      * Getter for Value
