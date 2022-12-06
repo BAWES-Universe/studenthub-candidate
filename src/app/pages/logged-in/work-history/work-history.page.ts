@@ -68,6 +68,10 @@ export class WorkHistoryPage implements OnInit {
     }
   }
 
+  isFutureDate(date) {
+    return new Date(date) > new Date();
+  }
+  
   /**
    * download certificate
    * @param history
