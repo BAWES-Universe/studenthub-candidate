@@ -17,10 +17,10 @@
             <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
             <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
             <p>
-              {{ toDate(history.start_date) | date }} to
-              <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-              <ng-container *ngIf="!history.end_date">
-                {{ "now" | translate }}
+              {{ toDate(history.start_date) | date }}
+              <ng-container *ngIf="history.end_date"> to {{ toDate(history.end_date) | date }}</ng-container>
+              <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)">
+                to {{ "now" | translate }}
               </ng-container>
             </p>
           </ion-label>
