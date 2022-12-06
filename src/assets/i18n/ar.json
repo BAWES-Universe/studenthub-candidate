@@ -328,5 +328,8 @@
     "We’ll still email you important updates. This is cool if you aren’t an email person or would like to receive faster updates.": "سنستمر في إرسال تحديثات مهمة إليك عبر البريد الإلكتروني. يعد هذا أمرًا رائعًا إذا لم تكن بريدًا إلكترونيًا أو ترغب في تلقي تحديثات أسرع.",
     "I’d like to apply": "أود التقديم",
     "more_about_company" : "المزيد عن {{value}}",
-    "Current Address" : "العنوان الحالي"
+    "Current Address" : "العنوان الحالي",
+    "Track": "مسار",
+    "View Details" : "عرض التفاصيل",
+    "You reply" : "انت رد"
 }

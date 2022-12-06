@@ -19,4 +19,5 @@ export class Invitation {
     company: Company;
     suggestion: Suggestion;
     note: any;
+    reply: any;
 }

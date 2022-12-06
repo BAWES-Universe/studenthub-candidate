@@ -1,10 +1,14 @@
+<ion-header class="clear-header" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title class="ion-text-start">{{ "Invitations" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width">
-
-    <h3>{{ "Invitations" | translate }}</h3>
 
     <app-invitation [model]="invitation" *ngFor="let invitation of invitations" (onUpdate)="loadInvitations()">
     </app-invitation>

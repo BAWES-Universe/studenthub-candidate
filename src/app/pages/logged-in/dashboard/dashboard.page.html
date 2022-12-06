@@ -1,8 +1,9 @@
+<ion-header class="clear-header" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title class="ion-text-start">Home</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
-
-  <div class="brand" *ngIf="platform.is('mobile')">
-    <img src="assets/logo.svg">
-  </div>
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
 
@@ -54,6 +55,15 @@
           </ion-card-content>
         </ion-card>
 
+        <ion-card class="card-bank-details">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{"Wallet" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button [routerLink]="'/wallet-balance'" fill="outline" class="btn-video-recording">{{"Click here to view your wallet balance" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
+
         <ion-card class="card-work-details" *ngIf="workHistory.length > 0">
           <ion-card-header class="white-bg">
             <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
@@ -78,6 +88,4 @@
   </div>
 
 </ion-content>
-<ion-footer>
-  <app-working-counter></app-working-counter>
-</ion-footer>
+<app-working-counter></app-working-counter>

@@ -256,6 +256,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'wallet-balance',
+    loadChildren: () => import('./pages/logged-in/wallet/wallet-balance-list/wallet-balance-list.module').then( m => m.WalletBalanceListPageModule),
+    data: {
+      name: 'WalletBalanceListPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },

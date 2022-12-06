@@ -8,16 +8,17 @@ import { EventService } from 'src/app/providers/event.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import {CandidateWorkingHour} from "../../../../models/candidate";
 import {CandidateWorkingHourService} from "../../../../providers/logged-in/candidate-working-hour.service";
+import {BalanceService} from "../../../../providers/logged-in/balance.service";
 
 
 declare var window;
 
 @Component({
-  selector: 'app-log-date-list-page',
-  templateUrl: './log-date-list.page.html',
-  styleUrls: ['./log-date-list.page.scss'],
+  selector: 'app-wallet-balance-list-page',
+  templateUrl: './wallet-balance-list.page.html',
+  styleUrls: ['./wallet-balance-list.page.scss'],
 })
-export class LogDateListPage implements OnInit {
+export class WalletBalanceListPage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
@@ -27,7 +28,7 @@ export class LogDateListPage implements OnInit {
   public currentPage = 1;
   public totalCount = 0;
 
-  public candidateWorkingHourData: CandidateWorkingHour[];
+  public balances: any[];
 
   constructor(
     public platform: Platform,
@@ -36,7 +37,7 @@ export class LogDateListPage implements OnInit {
     public authService: AuthService,
     public candidateWorkingHour: CandidateWorkingHourService,
     public eventService: EventService,
-    public invitationService: InvitationService,
+    public balanceService: BalanceService,
     public translateService: TranslateLabelService,
   ) { }
 
@@ -57,16 +58,16 @@ export class LogDateListPage implements OnInit {
   }
 
   /**
-   * load invitations for request
+   * load balance
    */
   loadData() {
     this.loading = true;
-    this.candidateWorkingHour.list(this.currentPage).subscribe(response => {
+    this.balanceService.payableList(this.currentPage).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.candidateWorkingHourData = response.body;
+      this.balances = response.body;
     });
   }
 
@@ -88,12 +89,12 @@ export class LogDateListPage implements OnInit {
 
     this.currentPage++;
 
-    this.candidateWorkingHour.list(this.currentPage).subscribe(response => {
+    this.balanceService.payableList(this.currentPage).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-        this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
+        this.balances = this.balances.concat(response.body);
         event.target.complete();
     },
     error => { },
@@ -118,7 +119,15 @@ export class LogDateListPage implements OnInit {
     var divisor_for_seconds = divisor_for_minutes % 60;
     var s = Math.ceil(divisor_for_seconds);
 
-    return `${h?`${h}:`:""}${m?`${m}:${s}`:`${s}s`}`
+    return `${h?`${h}:`:""}${m?`${m}:${s}`:`${s}s`}`;
+  }
+
+  positive(value) {
+    return Math.abs(value);
+  }
+
+  walletUrl() {
+    window.location.href = 'https://wallet.bawes.net/';
   }
 }
 

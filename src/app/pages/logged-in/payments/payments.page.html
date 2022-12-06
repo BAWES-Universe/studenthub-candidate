@@ -1,6 +1,12 @@
+<ion-header class="clear-header" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title class="ion-text-start">{{ "Transfers" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
-  <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="loadData()">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>

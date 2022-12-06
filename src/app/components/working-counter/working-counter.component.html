@@ -1,9 +1,2 @@
-<div class="timer container ion-text-center" *ngIf="started">
-    <div class="flex-item ion-text-right">{{ started | timer }}</div>
-    <div class="flex-item ion-text-left"><ion-button fill="clear" (click)="stopWork()"><ion-icon class="stop-work-btn" name="stop-circle-outline"></ion-icon></ion-button></div>
-</div>
-
-<div class="timer container ion-text-center" *ngIf="!started && authService.candidate && authService.candidate.store_id">
-    <div class="flex-item ion-text-right">00:00:00</div>
-    <div class="flex-item ion-text-left"><ion-button fill="clear" (click)="startWork()" ><ion-icon class="start-work-btn" name="radio-button-on-outline"></ion-icon></ion-button></div>
-</div>
+<ion-button class="un-start" (click)="startWork()" shape="round" *ngIf="!started && authService.candidate && authService.candidate.store_id"><ion-icon slot="start" name="radio-button-on-outline"></ion-icon>&nbsp;{{"Track" | translate}}</ion-button>
+<ion-button class="started" color="danger" (click)="stopWork()" shape="round" *ngIf="started"><ion-icon slot="start" name="radio-button-on-outline"></ion-icon>&nbsp; {{ started | timer }}</ion-button>

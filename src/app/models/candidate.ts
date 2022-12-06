@@ -76,4 +76,5 @@ export class CandidateWorkingHour {
     end_location_long: string;
     created_at: string;
     updated_at: string;
+    dateListByCandidate: any[];
 }

@@ -79,7 +79,7 @@ ion-progress-bar {
   position: absolute;
   z-index: 9999;
 }
-
+//
 ion-header.add-border:after {
   display: inline!important;
 }
@@ -144,4 +144,39 @@ ion-header.add-border:after {
 .urgent-txt {
   font-weight: bold;
   color: #eb5757;
+}
+
+@media (max-width: 900px) {
+  ion-header {
+    box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+
+    ion-toolbar {
+      padding: 40px 0 20px 0 !important;
+
+      ion-title {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 48px;
+        letter-spacing: -0.5px;
+        color: #23233D;
+        padding: 24px;
+      }
+    }
+  }
+  .max-width {
+    background: #F7F8FA;
+  }
+  ion-content {
+    background: #F7F8FA;
+    --background: #F7F8FA;
+  }
+}
+app-working-counter {
+  background: transparent;
+  --background: transparent;
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
 }
