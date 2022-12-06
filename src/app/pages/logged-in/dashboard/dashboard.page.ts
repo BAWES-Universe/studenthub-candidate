@@ -250,6 +250,10 @@ export class DashboardPage implements OnInit {
     });
   }
 
+  isFutureDate(date) {
+    return new Date(date) > new Date();
+  }
+
   /**
    * Make date readable by Safari
    * @param date
@@ -259,6 +263,5 @@ export class DashboardPage implements OnInit {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-
 }
 
