@@ -13,7 +13,6 @@ import { TranslateLabelService } from './providers/translate-label.service';
 import { LanguageService } from './providers/language.service';
 import {KuwaitiNationalPage} from "./pages/logged-in/kuwaiti-national/kuwaiti-national.page";
 import {AccountService} from "./providers/logged-in/account.service";
-import {Candidate} from "./models/candidate";
 import {Invitation} from "./models/invitation";
 import {InvitationService} from "./providers/logged-in/invitation.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
@@ -47,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private platform: Platform,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
-    public _alertCtrl: AlertController,
+    public alertCtrl: AlertController,
     public languageService: LanguageService,
     public translateService: TranslateLabelService,
     public authService: AuthService,
@@ -186,7 +185,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Check for network connection
     this.eventService.internetOffline$.subscribe(async () => {
-      let alert = await this._alertCtrl.create({
+      let alert = await this.alertCtrl.create({
         header: 'No Internet Connection',
         subHeader: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
         buttons: ['Dismiss']

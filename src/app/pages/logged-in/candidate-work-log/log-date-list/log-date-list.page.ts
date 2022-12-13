@@ -118,7 +118,13 @@ export class LogDateListPage implements OnInit {
     var divisor_for_seconds = divisor_for_minutes % 60;
     var s = Math.ceil(divisor_for_seconds);
 
-    return `${h?`${h}:`:""}${m?`${m}:${s}`:`${s}s`}`
+    return `${h?`${h}:`:""}${m?`${m}:${s}`:`${s}s`}`;
+  }
+
+  toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
   }
 }
 
