@@ -19,8 +19,8 @@
           <h3>{{secondsToTime(candidateWorkingHourData.total_time)}}</h3>
           <ion-grid>
             <ion-row>
-              <ion-col><span>Start Time:</span> {{getStartTime() | date: "shortTime"}}</ion-col>
-              <ion-col><span>End Time:</span> {{getEndTime() | date: "shortTime"}}</ion-col>
+              <ion-col><span>Start Time:</span> {{toDate(getStartTime()) | date: "shortTime"}}</ion-col>
+              <ion-col><span>End Time:</span> {{toDate(getEndTime()) | date: "shortTime"}}</ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
@@ -32,7 +32,7 @@
         <ion-card class="sub-card">
           <ion-card-content>
             <h3>{{secondsToTime(hour.total_time)}}</h3>
-            <span>{{hour.start_time | date: "shortTime"}} -> {{hour.end_time | date: "shortTime"}}</span>
+            <span>{{toDate(hour.start_time) | date: "shortTime"}} -> {{toDate(hour.end_time) | date: "shortTime"}}</span>
           </ion-card-content>
         </ion-card>
       </ng-container>

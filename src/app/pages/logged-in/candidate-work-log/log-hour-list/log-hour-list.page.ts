@@ -98,5 +98,10 @@ export class LogHourListPage implements OnInit {
     return `${h?`${h}:`:""}${m?`${m}:${s}`:`${s}s`}`
   }
 
+  toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
 }
 
