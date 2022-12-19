@@ -89,6 +89,16 @@ export class LandingPage implements OnInit {
   }
 
   /**
+   * redirec to auth0
+   */
+  loginWithRedirect() {
+    console.log('login clicked');
+    const url = (this.platform.is('ios') && this.platform.is('capacitor')) ? `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`: null;
+    console.log(url);
+    this.auth.loginWithRedirect({ redirect_uri: url })
+  }
+
+  /**
    * show register form popup
    */
   async registerPage() {
@@ -139,10 +149,8 @@ export class LandingPage implements OnInit {
    */
   loginByApple() {
     if (this.platform.is('ios') && this.platform.is('capacitor')) {
-      console.log('mobile');
       this.authService.loginByApple();
     } else {
-      console.log('browser');
       this.authService.loginByAppleJs();
     }
   }
