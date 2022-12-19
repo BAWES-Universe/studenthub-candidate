@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {IonSlides, ModalController, NavController} from '@ionic/angular';
+import {IonSlides, ModalController, NavController, Platform} from '@ionic/angular';
 import { Router } from "@angular/router";
 import { PreLoad } from 'src/app/util/preLoad';
 // services
@@ -29,6 +29,7 @@ export class LandingPage implements OnInit {
   @ViewChild(IonSlides) ionSlides: IonSlides;
 
   constructor(
+    public platform: Platform,
     public accountService: AccountService,
     public authService: AuthService,
     public eventService: EventService,
@@ -80,6 +81,14 @@ export class LandingPage implements OnInit {
 
   visitWebsite() {
     window.location.href = 'https://studenthub.co';
+  }
+
+  /**
+   * redirec to auth0
+   */
+  loginWithRedirect() {
+    const url = this.platform.is('hybrid') ? `co.studenthub.candidate://view/dashboard`: null;
+    this.auth.loginWithRedirect({ redirect_uri: url })
   }
 
   /**

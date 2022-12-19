@@ -1,4 +1,4 @@
-import {Component, OnInit, ApplicationRef, OnDestroy, Inject} from '@angular/core';
+import {Component, OnInit, ApplicationRef, OnDestroy, Inject, NgZone} from '@angular/core';
 import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Plugins } from '@capacitor/core';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { URLOpenListenerEvent } from '@capacitor/app';
 //services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
@@ -17,6 +18,7 @@ import {Invitation} from "./models/invitation";
 import {InvitationService} from "./providers/logged-in/invitation.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
+import { Router } from '@angular/router';
 
 const { App, StatusBar, SplashScreen, Storage } = Plugins;
 
@@ -39,10 +41,12 @@ export class AppComponent implements OnInit, OnDestroy {
   public invitationInterval;
 
   constructor(
+    public zone: NgZone,
     public updates: SwUpdate,
     public oneSignal: OneSignal,
     public appRef: ApplicationRef,
     public navCtrl: NavController,
+    public router: Router,
     private platform: Platform,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
@@ -59,6 +63,39 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp() {
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+          // Example url: https://beerswift.app/tabs/tab2
+          // slug = /tabs/tab2
+         
+          // If no match, do nothing - let regular routing
+          // logic take over
+
+          //if (event.url?.startsWith(callbackUri)) {
+            // If the URL is an authentication callback URL..
+            if (
+              event.url.includes('state=') &&
+              (event.url.includes('error=') || event.url.includes('code='))
+            ) {
+              // Call handleRedirectCallback and close the browser
+              this.auth
+                .handleRedirectCallback(event.url)
+                //.pipe(mergeMap(() => Browser.close()))
+                .subscribe((result) => {
+                });
+            } else {
+              const slug = event.url.split(".co").pop();
+
+              if (slug) {
+                this.router.navigateByUrl(slug);
+              }
+
+              //Browser.close();
+            }
+          //}
+      });
+    });
+
     //to fix : https://www.pivotaltracker.com/story/show/172176267 
 
     if(this.platform.is('ios')) {
@@ -92,7 +129,7 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     this.platform.ready().then(() => {
-
+      
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
