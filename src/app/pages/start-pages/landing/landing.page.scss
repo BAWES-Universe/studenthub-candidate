@@ -170,7 +170,7 @@ ion-slides {
 .swiper-slide img {
   max-height: 50%;
   max-width: 80%;
-  margin: 33px 0 40px;
+  margin: 15px 0 0;
   pointer-events: none;
 }
 
@@ -179,9 +179,8 @@ b {
 }
 
 p {
-
-  margin: 24px 1px 37.9px 0;
-  font-size: 16px;
+  margin: 21px 1px 33.9px 0;
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -217,4 +216,62 @@ p b {
 .top-bar {
   height: 55px;
   margin-top: 24px;
+}
+.btn-apple {
+  background: url(../../../../assets/images/apple-logo.svg) no-repeat #fff;
+  background-size: auto;
+}
+
+.div-space {
+  border-radius: 4px !important;
+  background-color: #ffffff !important;
+  background-color: var(--white) !important;
+  border: solid 1px rgba(170, 170, 170, 0.3) !important;
+}
+
+.btn-apple,
+.btn-google,
+.button-outline-md:hover:not(.disable-hover) {
+  font-size: 21px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: black;
+  border-style: none !important;
+  border-radius: 4px !important;
+  --border-radius: 4px;
+  height: 50px;
+  text-transform: unset;
+  background-position: 36px 11px;
+  width: calc(100% - 2px);
+  border-radius: 4px !important;
+  background-color: #ffffff !important;
+  border: solid 1px black !important;
+  font-family: -apple-system,BlinkMacSystemFont;
+  --background-activated: #fff;
+  --background-focused: #fff;
+  --background-hover: #fff;
+  --color-activated: black;
+  --color-focused: black;
+  --color-hover: black;
+  outline: none;
+}
+
+[dir="ltr"] .btn-google {
+  background-position: 36px 13px;
+}
+
+[dir="rtl"] .btn-google {
+  background-position: calc(100% - 20px) 13px;
+}
+
+[dir="ltr"] .btn-apple {
+  background-position: 26px 3px;
+}
+
+[dir="rtl"] .btn-apple {
+  background-position: calc(100% - 10px) 3px;
 }

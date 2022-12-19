@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar class="max-width">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="candidateWorkingHourData">{{candidateWorkingHourData.date | date : 'mediumDate'}}</ion-title>
   </ion-toolbar>
@@ -15,18 +15,18 @@
 
       <ion-card class="main-card">
         <ion-card-content>
-          <h4>Total Time</h4>
+          <h4>{{"Total Time" | translate}}</h4>
           <h3>{{secondsToTime(candidateWorkingHourData.total_time)}}</h3>
           <ion-grid>
             <ion-row>
-              <ion-col><span>Start Time:</span> {{toDate(getStartTime()) | date: "shortTime"}}</ion-col>
-              <ion-col><span>End Time:</span> {{toDate(getEndTime()) | date: "shortTime"}}</ion-col>
+              <ion-col><span>{{"Start Time:" | translate}}</span> {{toDate(getStartTime()) | date: "shortTime"}}</ion-col>
+              <ion-col><span>{{"End Time:" | translate}}</span> {{toDate(getEndTime()) | date: "shortTime"}}</ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
 
-      <div class="lbl">Session ({{candidateWorkingHourData.dateListByCandidate.length}})</div>
+      <div class="lbl">{{"Session" | translate}} ({{candidateWorkingHourData.dateListByCandidate.length}})</div>
 
       <ng-container *ngFor="let hour of candidateWorkingHourData.dateListByCandidate">
         <ion-card class="sub-card">
@@ -37,6 +37,6 @@
         </ion-card>
       </ng-container>
     </ion-list>
-    <p *ngIf="!candidateWorkingHourData">No record found</p>
+    <p *ngIf="!candidateWorkingHourData">{{"No record found" | translate}}</p>
   </div>
 </ion-content>

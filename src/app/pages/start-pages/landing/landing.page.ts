@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {IonSlides, ModalController, NavController} from '@ionic/angular';
+import {IonSlides, ModalController, NavController, Platform} from '@ionic/angular';
 import { Router } from "@angular/router";
 import { PreLoad } from 'src/app/util/preLoad';
 // services
@@ -12,7 +12,7 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
-
+import {Plugins} from "@capacitor/core";
 
 @Component({
   selector: 'app-landing',
@@ -26,10 +26,13 @@ export class LandingPage implements OnInit {
 
   public slideOpts = {};
   public didInit: boolean = false;
+  public device;
+
   @ViewChild(IonSlides) ionSlides: IonSlides;
 
   constructor(
     public accountService: AccountService,
+    public platform: Platform,
     public authService: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
@@ -37,13 +40,16 @@ export class LandingPage implements OnInit {
     public modalCtrl: ModalController,
     public route: Router
   ) {
-  this.slideOpts = {
-      initialSlide: 0,
-      speed: 400
-    };
+    this.slideOpts = {
+        initialSlide: 0,
+        speed: 400
+      };
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const { Device } = Plugins;
+    this.device = await Device.getInfo();
+    console.log(this.device);
     window.analytics.page('Landing Page');
   }
 
@@ -126,5 +132,18 @@ export class LandingPage implements OnInit {
     });
 
     modal.present();
+  }
+
+  /**
+   * login by Apple API
+   */
+  loginByApple() {
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      console.log('mobile');
+      this.authService.loginByApple();
+    } else {
+      console.log('browser');
+      this.authService.loginByAppleJs();
+    }
   }
 }

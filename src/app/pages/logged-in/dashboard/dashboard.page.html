@@ -1,6 +1,6 @@
 <ion-header class="clear-header" *ngIf="platform.is('mobile')">
   <ion-toolbar>
-    <ion-title class="ion-text-start">Home</ion-title>
+    <ion-title class="ion-text-start">{{"Home" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">

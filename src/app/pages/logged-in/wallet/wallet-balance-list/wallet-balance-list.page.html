@@ -1,35 +1,36 @@
 <ion-header>
   <ion-toolbar class="max-width">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{"Wallet Balance" | translate}}</ion-title>
+    <ion-title>{{"Wallet" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   <div class="max-width">
-    <div *ngIf="balances">
+    <div *ngIf="balances && balances.length > 0">
+      <h2>{{"Wallet Balance" | translate}}</h2>
       <ng-container *ngFor="let balance of balances">
 
         <ion-card >
           <ion-item>
             <ion-label>
               <p>
-                <span *ngIf="balance.amount < 0"><strong>Debit: </strong> {{positive(balance.amount) | currency:'KWD'}}</span>
-                <span *ngIf="balance.amount > 0"><strong>Credit: </strong> {{positive(balance.amount) | currency:'KWD'}}</span>
+                <span *ngIf="balance.amount < 0"><strong>{{"Debit:" | translate}} </strong> {{positive(balance.amount) | currency:'KWD'}}</span>
+                <span *ngIf="balance.amount > 0"><strong>{{"Credit:" | translate}} </strong> {{positive(balance.amount) | currency:'KWD'}}</span>
               </p>
-              <p><strong>Balance: </strong> {{balance.balance | currency:'KWD'}}</p>
-              <p><strong>Note: </strong>{{balance.data}}</p>
-              <p><strong>Created At: </strong>{{balance.created_at | date}}</p>
-              <p><strong>Transaction time: </strong>{{balance.transaction_datetime | date}}</p>
+              <p><strong>{{"Balance:" | translate}} </strong> {{balance.balance | currency:'KWD'}}</p>
+              <p><strong>{{"Note:" | translate}} </strong>{{balance.data}}</p>
+              <p><strong>{{"Created At:" | translate}} </strong>{{balance.created_at | date}}</p>
+              <p><strong>{{"Transaction time:" | translate}} </strong>{{balance.transaction_datetime | date}}</p>
             </ion-label>
           </ion-item>
         </ion-card>
       </ng-container>
     </div>
-    <p class="ion-text-center" *ngIf="balances && balances.length == 0">No record found</p>
+    <p class="ion-text-center" *ngIf="balances && balances.length == 0">{{"No record found" | translate}}</p>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content>
