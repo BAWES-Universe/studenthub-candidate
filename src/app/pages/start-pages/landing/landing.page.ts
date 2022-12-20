@@ -12,7 +12,7 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
-
+import {Plugins} from "@capacitor/core";
 
 @Component({
   selector: 'app-landing',
@@ -26,11 +26,13 @@ export class LandingPage implements OnInit {
 
   public slideOpts = {};
   public didInit: boolean = false;
+  public device;
+
   @ViewChild(IonSlides) ionSlides: IonSlides;
 
   constructor(
-    public platform: Platform,
     public accountService: AccountService,
+    public platform: Platform,
     public authService: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
@@ -38,13 +40,16 @@ export class LandingPage implements OnInit {
     public modalCtrl: ModalController,
     public route: Router
   ) {
-  this.slideOpts = {
-      initialSlide: 0,
-      speed: 400
-    };
+    this.slideOpts = {
+        initialSlide: 0,
+        speed: 400
+      };
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const { Device } = Plugins;
+    this.device = await Device.getInfo();
+    console.log(this.device);
     window.analytics.page('Landing Page');
   }
 
@@ -87,7 +92,9 @@ export class LandingPage implements OnInit {
    * redirec to auth0
    */
   loginWithRedirect() {
-    const url = this.platform.is('hybrid') ? `co.studenthub.candidate://view/dashboard`: null;
+    console.log('login clicked');
+    const url = (this.platform.is('ios') && this.platform.is('capacitor')) ? `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`: null;
+    console.log(url);
     this.auth.loginWithRedirect({ redirect_uri: url })
   }
 
@@ -135,5 +142,16 @@ export class LandingPage implements OnInit {
     });
 
     modal.present();
+  }
+
+  /**
+   * login by Apple API
+   */
+  loginByApple() {
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.authService.loginByApple();
+    } else {
+      this.authService.loginByAppleJs();
+    }
   }
 }

@@ -5,10 +5,8 @@ import { Router } from '@angular/router';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
-import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 import {CandidateService} from "../../../providers/logged-in/candidate.service";
-
 
 @Component({
   selector: 'app-work-history',

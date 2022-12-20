@@ -1,14 +1,14 @@
 <ion-content [attr.dir]="translateService.direction()">
+  <div class="logout-btn clearfix">
+    <ion-button class="btn-logout" fill="clear" (click)="authService.logout()">
+      {{ "Logout" | translate }}
+    </ion-button>
 
-  <ion-button class="btn-logout" fill="clear" (click)="authService.logout()">
-    {{ "Logout" | translate }}
-  </ion-button>
-  
-  <ion-button class="translate-link" fill="clear" (click)="translate()">
-    <span *ngIf="translateService.currentLang != 'en'">English</span>
-    <span *ngIf="translateService.currentLang == 'en'">عربى</span>
-  </ion-button>
-
+    <ion-button class="translate-link" fill="clear" (click)="translate()">
+      <span *ngIf="translateService.currentLang != 'en'">English</span>
+      <span *ngIf="translateService.currentLang == 'en'">عربى</span>
+    </ion-button>
+  </div>
   <div class="max-width">
 
     <h3>

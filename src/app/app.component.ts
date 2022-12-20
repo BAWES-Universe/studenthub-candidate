@@ -6,7 +6,6 @@ import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Plugins } from '@capacitor/core';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
-import { URLOpenListenerEvent } from '@capacitor/app';
 //services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
@@ -63,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp() {
-    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+    App.addListener('appUrlOpen', (event) => {
       this.zone.run(() => {
           // Example url: https://beerswift.app/tabs/tab2
           // slug = /tabs/tab2

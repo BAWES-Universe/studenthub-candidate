@@ -90,7 +90,13 @@
             {{ "Already joined?" | translate }}&nbsp;&nbsp;&nbsp;<span>{{ "Sign In" | translate }}</span>
           </ion-button>
         </div>
-            
+
+        <ion-button *ngIf="device && device.platform === 'ios'" fill="clear" class="div-space btn-apple"
+                    [class.apple-logo]="!authService.appleAuthLoading" (click)="loginByApple()">
+          <span *ngIf="!authService.appleAuthLoading">{{ "Sign in with Apple" | translate }}</span>
+          <ion-spinner *ngIf="authService.appleAuthLoading"></ion-spinner>
+        </ion-button>
+
         <ion-button class="btn-login-bawes" (click)="loginWithRedirect()">
           {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
         </ion-button>

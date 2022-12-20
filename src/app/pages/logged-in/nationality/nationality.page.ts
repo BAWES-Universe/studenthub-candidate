@@ -70,6 +70,8 @@ export class NationalityPage implements OnInit {
       this.countries = this.countryList.filter(item => {
         return (
           item.country_name_en.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
+          item.country_nationality_name_en.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
+          item.country_nationality_name_ar.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
           item.country_name_ar.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1
         );
       });

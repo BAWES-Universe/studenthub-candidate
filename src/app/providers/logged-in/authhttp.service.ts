@@ -9,6 +9,10 @@ import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
 import {TranslateLabelService} from '../translate-label.service';
 import { saveAs } from 'file-saver';
+import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
+import {Platform} from "@ionic/angular";
+
+const { Filesystem } = Plugins;
 
 /**
  * Handles all Authorized HTTP functions with Bearer Token
@@ -20,6 +24,7 @@ export class AuthHttpService {
 
   constructor(
     public _http: HttpClient,
+    private platform: Platform,
     public _auth: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService
@@ -130,11 +135,29 @@ export class AuthHttpService {
         map((response) => { // download file
           var blob = new Blob([response], { type: 'application/pdf' });
           // file name to dowanload/generate invoice
-          saveAs(blob, filename);
+          if (this.platform.is('ios') && this.platform.is('capacitor')) {
+            this.fileWrite(blob, filename);
+          } else {
+            saveAs(blob, filename);
+          }
+
         })
     );
   }
 
+  async fileWrite(blob, filename) {
+    try {
+      const result = await Filesystem.writeFile({
+        path: filename,
+        data: blob,
+        directory: FilesystemDirectory.Documents,
+        encoding: FilesystemEncoding.UTF8
+      })
+      console.log('Wrote file', result);
+    } catch(e) {
+      console.error('Unable to write file', e);
+    }
+  }
   /**
    * Build the Auth Headers for All Verb Requests
    * @returns {HttpHeaders}

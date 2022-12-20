@@ -151,17 +151,18 @@ ion-header.add-border:after {
     box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
 
     ion-toolbar {
-      padding: 40px 0 20px 0 !important;
+      padding: 40px 0 13px 0 !important;
 
       ion-title {
         font-family: 'Inter';
         font-style: normal;
         font-weight: 700;
-        font-size: 32px;
+        font-size: 22px;
         line-height: 48px;
         letter-spacing: -0.5px;
         color: #23233D;
-        padding: 24px;
+        padding-left: 32px;
+        padding-right: 32px;
       }
     }
   }
@@ -179,4 +180,7 @@ app-working-counter {
   position: absolute;
   bottom: 12px;
   right: 16px;
+}
+ion-list {
+  background: #F7F8FA!important;
 }

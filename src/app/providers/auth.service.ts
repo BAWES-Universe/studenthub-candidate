@@ -6,20 +6,25 @@ import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import {AlertController, LoadingController, NavController} from '@ionic/angular';
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
 import { SentryErrorhandlerService } from './sentry.errorhandler.service';
-//models
+// models
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
-import {Candidate} from "../models/candidate";
+import { Candidate } from 'src/app/models/candidate';
 
 
 declare var navigator;
 
 const { Storage } = Plugins;
+
+const { SignInWithApple } = Plugins;
+
+declare var window;
+declare var AppleID;
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +36,8 @@ export class AuthService {
   public invitationCount = 0;
 
   public showOneSignalPrompt = true;
+
+  public appleAuthLoading: boolean = false;
 
   // Logged in agent details
   private _accessToken;
@@ -59,6 +66,7 @@ export class AuthService {
   public _urlEmailCheck = '/auth/email-check';
   public _urlRegistration = '/auth/register';
   public _urlresendVerificationEmail = '/auth/resend-verification-email';
+  public urlLoginByApple = '/auth/login-by-apple';
   public _urlUpdateCandidateEmail = '/auth/update-email';
   public _urlIsEmailVerified = '/auth/is-email-verified';
   public _urlVerifyEmail = '/auth/verify-email';
@@ -191,7 +199,7 @@ export class AuthService {
         window.analytics.identify(this.id, {
           name: this.name,
           email: this.email,
-        });        
+        });
       }
 
       /*else if (this.cookieService.get('otp')) {
@@ -230,9 +238,9 @@ export class AuthService {
     const headers = this._buildAuthHeaders();
 
     return this.http.post(url, {
-      accessToken: accessToken,
+      accessToken,
     }, {
-      headers: headers
+      headers
     })
       .pipe(
         retryWhen(genericRetryStrategy()),
@@ -685,4 +693,184 @@ export class AuthService {
 
     return throwError(errMsg);
   }
+
+  /**
+   * login with AppleJS for PWA
+   */
+  async loginByAppleJs() {
+    console.log('loginByAppleJs');
+    this.appleAuthLoading = true;
+
+    try {
+
+      const data = await AppleID.auth.signIn();
+
+      let params;
+
+      if (data.user && data.user.familyName) {
+
+        Storage.set({
+          key: 'appleUserDetail',
+          value: JSON.stringify({
+            email: data.user.email,
+            familyName: data.user.name.familyName,
+            givenName: data.user.name.givenName
+          })
+        }).catch(r => {
+          this.eventService.errorStorage$.next();
+        });
+
+        params = {
+          identityToken: data.authorization.id_token,
+          email: data.user.email,
+          familyName: data.user.name.familyName,
+          givenName: data.user.name.givenName
+        };
+      }
+      else
+      {
+        let oldData = await Storage.get({ key: 'appleUserDetail'});
+
+        params = Object.assign((oldData) ? oldData : {}, {
+          identityToken: data.authorization.id_token
+        });
+      }
+
+      this.handleAppleLoginResponse(params);
+
+    } catch (error) {
+      console.error(error);
+      // popup_closed_by_user
+      this.appleAuthLoading = false;
+    }
+  }
+
+  /**
+   * login by Apple sign in
+   */
+  loginByApple() {
+
+    this.appleAuthLoading = true;
+    console.log('loginByApple');
+    SignInWithApple.Authorize().then(async (res) => {
+      console.log(res);
+      this.handleAppleLoginResponse(res);
+    })
+      .catch((err) => {
+        // login/signup with private email
+        this.handleAppleLoginResponse(err);
+      });
+  }
+
+  /**
+   * handle response from apple login popup
+   * @param data
+   */
+  async handleAppleLoginResponse(data) {
+    console.log('response');
+    if (!data || !data.response || !data.response.identityToken) {
+      this.appleAuthLoading = false;
+
+      if(data.message && data.message.indexOf("AuthorizationError") == -1) {
+        this.showLoginError(this.translate.transform(data.message));
+      }
+
+      return null;
+    }
+    console.log('response', data);
+
+    let params;
+
+    // save user data in first request
+    console.log(data);
+    if (data.response.givenName) {
+
+      Storage.set({
+        key: 'appleUserDetail',
+        value: JSON.stringify({
+          email : data.response.email,
+          familyName : data.response.familyName,
+          user : data.response.user,
+          givenName : data.response.givenName
+        })
+      }).catch(r => {
+        this.eventService.errorStorage$.next();
+      });
+
+      params = data.response;
+    }
+    else {
+      let oldData = await Storage.get({ key : 'appleUserDetail'});
+
+      params = Object.assign((oldData) ? oldData : {}, data.response);
+    }
+
+    this.useAppleIdTokenForAuth(params);
+  }
+
+  /**
+   * login/sign up by apple auth code
+   * @param params
+   */
+  useAppleIdTokenForAuth(params) {
+
+    const url = environment.apiEndpoint + this.urlLoginByApple;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Language: this.translate.currentLang
+    });
+
+    this.http.post(url, params, {
+      headers
+    })
+        .pipe(
+            retryWhen(genericRetryStrategy()),
+            catchError(err => this._handleError(err)),
+            first(),
+            map((res: HttpResponse<any>) => res)
+        )
+        .subscribe(response => {
+          this.handleLogin(response, 'apple');
+
+          this.appleAuthLoading = false;
+
+        }, () => {
+          this.appleAuthLoading = false;
+        });
+  }
+
+  /**
+   * Handle response from api call to get login/register by google token or otp
+   * @param response
+   */
+  handleLogin(response, channel) {
+
+    if (response.operation === 'success') {
+
+      this.setAccessToken(response);
+
+    } else {
+
+      this.alertCtrl.create({
+        message: response.message,
+        buttons: [this.translate.transform('Ok')]
+      }).then(alert => {
+        alert.present();
+      });
+    }
+  }
+
+  /**
+   * show login error message
+   * @param message
+   */
+  async showLoginError(message = null) {
+    const alert = await this.alertCtrl.create({
+      message: message? message: this.translate.transform('Error getting login'),
+      buttons: [this.translate.transform('Ok')]
+    });
+    await alert.present();
+  }
+
 }

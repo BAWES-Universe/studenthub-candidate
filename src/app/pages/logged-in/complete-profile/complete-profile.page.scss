@@ -242,3 +242,14 @@ ion-label ion-item {
         top: calc(50% - 11px);
     }
 }
+.max-width {
+    margin-top: 27px;
+}
+.logout-btn {
+    margin-top: 39px;
+    position: relative;
+}
+ion-list, ion-footer {
+    background: #F7F8FA;
+    --background: #F7F8FA;
+}
