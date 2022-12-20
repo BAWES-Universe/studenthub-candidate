@@ -364,5 +364,8 @@
     "Balance:": "الرصيد:",
     "Note:": "ملحوظة:",
     "Created At:": "أنشئت في:",
-    "Transaction time:": "وقت المعاملة:"
+    "Transaction time:": "وقت المعاملة:",
+    "Delete Profile" : "حذف الملف الشخصي",
+    "Are you sure you want to delete your profile permanently." : "هل أنت متأكد أنك تريد حذف ملف التعريف الخاص بك بشكل دائم.",
+    "profile deleted successfully" : "تم حذف الملف الشخصي بنجاح"
 }

@@ -98,4 +98,42 @@ export class OptionPage implements OnInit {
 
     this.dismiss();
   }
+
+  async deleteProfile() {
+    let alert = await this.alertCtrl.create({
+      header: this.translateService.transform('Delete Profile'),
+      message: this.translateService.transform('Are you sure you want to delete your profile permanently.'),
+      buttons: [
+        {
+          text: this.translateService.transform('No'),
+          role: 'cancel'
+        },
+        {
+          text: this.translateService.transform('Yes'),
+          handler: async () => {
+            this.accountService.removeProfile().subscribe(async data => {
+
+              this.updating = false;
+
+              if (data.operation != 'success') {
+
+                let alert = await this.alertCtrl.create({
+                  header: this.translateService.transform('Error'),
+                  message: data.message,
+                  buttons: [this.translateService.transform('Okay')],
+                });
+                return alert.present();
+              }
+
+              this.logout();
+
+            }, () => {
+              this.updating = false;
+            });
+          }
+        }
+      ],
+    });
+    return alert.present();
+  }
 }

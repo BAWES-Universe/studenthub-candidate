@@ -383,4 +383,12 @@ export class AccountService {
   checkWorkStatus(): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/current-status', {});
   }
+
+  /**
+   * remove profile
+   */
+  removeProfile(): Observable<any> {
+    let url = this._accountEndpoint + '/remove-candidate-profile';
+    return this._authhttp.delete(url);
+  }
 }

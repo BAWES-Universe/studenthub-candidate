@@ -24,9 +24,15 @@
       </ion-label>
     </ion-item>
 
+    <ion-item tappable class="ion-activatable ion-focusable" (click)="deleteProfile()">
+      <div tabindex="0"></div>
+      <ion-icon slot="start" name="trash-outline"></ion-icon>
+      <ion-label>{{ "Delete Profile" | translate }}</ion-label>
+    </ion-item>
+
     <ion-item lines="none" tappable class="ion-activatable ion-focusable" (click)="logout()">
       <div tabindex="0"></div>
-      <ion-icon slot="start" name="log-out-outline"></ion-icon> 
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
       <ion-label>{{ "Logout" | translate }}</ion-label>
     </ion-item>
   </ion-list>
