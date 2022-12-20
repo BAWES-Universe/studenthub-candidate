@@ -67,6 +67,7 @@ import { AccountStatusModule } from "./components/account-status/account-status.
 import { WorkHistoryPageModule } from "./pages/logged-in/work-history/work-history.module";
 import { PreferredTimePageModule } from './pages/logged-in/preferred-time/preferred-time.module';
 import { AuthModule } from '@auth0/auth0-angular';
+import { FileOpener } from "@ionic-native/file-opener/ngx";
 
 
 export function startupServiceFactory(authService) {
@@ -159,6 +160,7 @@ declare global {
     MediaCapture,
     OneSignal,
     SwUpdate,
+    FileOpener,
     SelectiveLoadingStrategy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }

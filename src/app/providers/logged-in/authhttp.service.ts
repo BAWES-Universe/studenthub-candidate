@@ -7,12 +7,13 @@ import { environment } from 'src/environments/environment';
 // services
 import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
-import {TranslateLabelService} from '../translate-label.service';
+import { TranslateLabelService } from '../translate-label.service';
 import { saveAs } from 'file-saver';
 import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
-import {Platform} from "@ionic/angular";
+import { Platform } from "@ionic/angular";
+import { FileOpener } from "@ionic-native/file-opener/ngx";
 
-const { Filesystem } = Plugins;
+const { Filesystem, Storage } = Plugins;
 
 /**
  * Handles all Authorized HTTP functions with Bearer Token
@@ -27,7 +28,8 @@ export class AuthHttpService {
     private platform: Platform,
     public _auth: AuthService,
     public eventService: EventService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    private fileOpener: FileOpener
   ) { }
 
   /**
@@ -132,32 +134,100 @@ export class AuthHttpService {
       })
     }).pipe(
         retryWhen(genericRetryStrategy()),
-        map((response) => { // download file
+        map(async (response) => { // download file
           var blob = new Blob([response], { type: 'application/pdf' });
           // file name to dowanload/generate invoice
+
+          console.log('pdfget');
           if (this.platform.is('ios') && this.platform.is('capacitor')) {
-            this.fileWrite(blob, filename);
+            console.log('ios capacitor');
+            console.log('blob',blob);
+            console.log('response',response);
+
+            const base64 = await this.convertBlobToBase64(blob);
+            console.log('converted',base64);
+            await this.fileWrite(base64, filename)
+            console.log('fileWrite');
           } else {
             saveAs(blob, filename);
           }
-
         })
     );
   }
 
+  public convertBlobToBase64 = async (blob) => { // blob data
+    return await this.blobToBase64(blob);
+  }
+
+  public blobToBase64 = (blob:Blob) => new Promise((resolve, reject) => {
+    let reader = new FileReader();
+
+    if (blob instanceof Blob) {
+      const realFileReader = (reader as any)._realReader;
+      if (realFileReader) {
+        reader = realFileReader;
+      }
+    }
+
+    reader.readAsDataURL(blob);
+    reader.onload = async (data) => {
+      resolve(reader.result);
+    }
+    reader.onerror = error => {
+      console.log('error',error);
+      reject(error);
+    }
+  });
+
+  /**
+   * @param name
+   * @private
+   */
+  private getMimeType(name) {
+    if (name.indexOf('pdf') >= 0) {
+      return 'application/pdf';
+    } else if (name.indexOf('png') >= 0) {
+      return 'image/png';
+    } else if (name.indexOf('mp4') >= 0) {
+      return 'video/mp4';
+    }
+  }
+
   async fileWrite(blob, filename) {
+    console.log('fileWrite', filename);
     try {
-      const result = await Filesystem.writeFile({
+      const saveFile = await Filesystem.writeFile({
         path: filename,
         data: blob,
-        directory: FilesystemDirectory.Documents,
-        encoding: FilesystemEncoding.UTF8
+        directory: FilesystemDirectory.Documents
       })
-      console.log('Wrote file', result);
+      const path = saveFile.uri;
+      const mimeType = this.getMimeType(filename);
+      console.log('mimeType', mimeType);
+      console.log('Wrote file', saveFile);
+      this.fileOpener.open(path, mimeType)
+        .then(() => console.log('file is opened'))
+        .catch(err => console.error(err));
+
     } catch(e) {
       console.error('Unable to write file', e);
     }
   }
+
+  /**
+   * helper function to convert block into base64
+   * @param blob
+   */
+  private convertBlockToBase64 = async (blob: Blob) => new Promise((resolve, reject) => {
+    console.log(blob);
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      }
+      reader.readAsDataURL(blob);
+  });
+
   /**
    * Build the Auth Headers for All Verb Requests
    * @returns {HttpHeaders}
