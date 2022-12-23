@@ -1,0 +1,25 @@
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'co.studenthub.candidate',
+  appName: 'SH Candidate',
+  webDir: 'www',
+  bundledWebRuntime: false,
+  plugins: {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "showSpinner": false,
+      "launchShowDuration": 30000,
+      "backgroundColor": "#ffffffff",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "small",
+      "spinnerColor": "#f24459",
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
+  }
+};
+
+export default config;
