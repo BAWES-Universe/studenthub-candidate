@@ -5,9 +5,9 @@ jobs:
         docker:
           # specify the version you desire here
           - image: cimg/node:19.0.1
-              environment:
-                CHROME_BIN: /usr/bin/google-chrome
-                NODE_OPTIONS: --max_old_space_size=16000
+            environment:
+              CHROME_BIN: /usr/bin/google-chrome
+              NODE_OPTIONS: --max_old_space_size=16000
 
         # Specify Server Type. Keep it as small as possible to reduce costs
         resource_class: large
@@ -18,11 +18,11 @@ jobs:
           - checkout
 
           # Restore cached dependencies for node_modules
-#          - restore_cache:
-#              keys:
-#              - dependencies-v3-{{ checksum "package.json" }}
-#              # fallback to using the latest cache if no exact match is found
-#              - dependencies-v3-
+          #- restore_cache:
+              #keys:
+              #- dependencies-v3-{{ checksum "package.json" }}
+              # fallback to using the latest cache if no exact match is found
+              #- dependencies-v3-
 
           # Install NPM dependencies
           - run: npm install --force
@@ -62,9 +62,9 @@ jobs:
         docker:
           # specify the version you desire here
           - image: cimg/node:19.0.1
-              environment:
-                CHROME_BIN: /usr/bin/google-chrome
-                NODE_OPTIONS: --max_old_space_size=16000
+            environment:
+              CHROME_BIN: /usr/bin/google-chrome
+              NODE_OPTIONS: --max_old_space_size=16000
 
         # Specify Server Type. Keep it as small as possible to reduce costs
         resource_class: large
@@ -75,11 +75,11 @@ jobs:
           - checkout
 
           # Restore cached dependencies for node_modules
-          - restore_cache:
-              keys:
-              - dependencies-v3-{{ checksum "package.json" }}
+          #- restore_cache:
+              #keys:
+              #- dependencies-v3-{{ checksum "package.json" }}
               # fallback to using the latest cache if no exact match is found
-              - dependencies-v3-
+              #- dependencies-v3-
 
           # Install NPM dependencies
           - run: npm install
