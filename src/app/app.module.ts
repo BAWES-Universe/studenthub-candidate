@@ -66,8 +66,9 @@ import { InvitationModule } from './components/invitation/invitation.module';
 import { AccountStatusModule } from "./components/account-status/account-status.module";
 import { WorkHistoryPageModule } from "./pages/logged-in/work-history/work-history.module";
 import { PreferredTimePageModule } from './pages/logged-in/preferred-time/preferred-time.module';
-import { AuthModule } from '@auth0/auth0-angular';
-// import { FileOpener } from "@ionic-native/file-opener/ngx";
+import { AuthModule, AuthConfig } from '@auth0/auth0-angular';
+import { domain, clientId, callbackUri } from './auth.config';
+
 
 
 export function startupServiceFactory(authService) {
@@ -81,7 +82,12 @@ export function HttpLoaderFactory(http: HttpClient) {
 declare global {
   interface Window { analytics: any; }
 }
-const redirectUri = `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`;
+
+const config: AuthConfig = {
+  domain,
+  clientId,
+  redirectUri: callbackUri,
+};
 
 @NgModule({
   declarations: [AppComponent],
@@ -95,11 +101,7 @@ const redirectUri = `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.s
         deps: [HttpClient]
       }
     }),
-    AuthModule.forRoot({
-      domain: 'bawes.us.auth0.com',
-      clientId: 'iyNUKYtUrbL7QjbfRLrZnwLcwy6njH7b',
-      redirectUri
-    }),
+    AuthModule.forRoot(config),
     CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
     BrowserModule,
     IonicModule.forRoot(),

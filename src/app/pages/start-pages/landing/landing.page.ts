@@ -90,9 +90,7 @@ export class LandingPage implements OnInit {
    * redirec to auth0
    */
   loginWithRedirect() {
-    console.log('login clicked');
-    const url = (this.platform.is('ios') && this.platform.is('capacitor')) ? `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`: null;
-    console.log(url);
+    const url = null;
     this.auth.loginWithRedirect({ redirect_uri: url })
   }
 
@@ -146,18 +144,21 @@ export class LandingPage implements OnInit {
    * login by Apple API
    */
   loginByApple() {
-    this.authService.loginByApple();
-    // if (this.platform.is('ios') && this.platform.is('capacitor')) {
-    //   this.authService.loginByApple();
-    // } else {
-    //   this.authService.loginByAppleJs();
-    // }
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.authService.loginByApple();
+    } else {
+      this.authService.loginByAppleJs();
+    }
   }
 
   loginWithAuth0() {
-    this.auth
-      .buildAuthorizeUrl()
-      .pipe(mergeMap((url) => Browser.open({ url, windowName: '_self' })))
-      .subscribe();
+    if (this.platform.is('ios') && this.platform.is('capacitor')) {
+      this.loginWithRedirect();
+    } else {
+      this.auth
+          .buildAuthorizeUrl()
+          .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
+          .subscribe();
+    }
   }
 }
