@@ -8,8 +8,7 @@ import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
 import { RegisterPage } from '../register/register.page';
-
-const { Storage } = Plugins;
+import { Preferences as Storage } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-password',
@@ -57,12 +56,12 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
-    window.analytics.page('Password Page');
+    // window.analytics.page('Password Page');
 
     if (window.history.state.email) {
       this.email = window.history.state.email;
     }
-    
+
     // Initialize the Login Form
     this.loginForm = this.fb.group({
       email: [this.email, [Validators.required]],
@@ -136,7 +135,7 @@ export class PasswordPage implements OnInit {
         this.dismiss();
 
       } else if (res.operation == 'error' && res.errorType == 'email-not-verified') {
-        
+
         this.dismissModal({
           from: 'native-back-btn'
         });

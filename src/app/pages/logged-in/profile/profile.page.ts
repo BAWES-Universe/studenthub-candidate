@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController, NavController, ToastController, IonContent, PopoverController } from '@ionic/angular';
+import {ModalController, NavController, ToastController, IonContent, PopoverController, Platform} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -66,6 +66,7 @@ export class ProfilePage implements OnInit {
     public translateService: TranslateLabelService,
     public popoverCtrl: PopoverController,
     public toastCtrl: ToastController,
+    public platform: Platform,
   ) {
     this.update = location.href.indexOf('view/profile') > -1;
   }
@@ -86,10 +87,10 @@ export class ProfilePage implements OnInit {
     this.loading = true;
 
     this.accountService.profile().subscribe(res => {
-      
+
       this.candidate = res;
-  
-      //if video not processed keep pinging server 
+
+      //if video not processed keep pinging server
 
       if(!this.candidate.candidate_video_processed && !this.videoInterval) {
         this.setVideoStatusSubsciption();
@@ -146,8 +147,8 @@ export class ProfilePage implements OnInit {
           this.candidate.candidate_video = response.candidate_video;
         }
 
-        //fire event to update video reference when available 
-        
+        //fire event to update video reference when available
+
         this.eventService.candidateVideoProcessed$.next({
           candidate_video: response.candidate_video,
           candidate_video_processed: response.candidate_video_processed
@@ -166,7 +167,7 @@ export class ProfilePage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      
+
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
@@ -203,11 +204,11 @@ export class ProfilePage implements OnInit {
   onVideoError() {
     this.candidate.candidate_video = null;
   }
-  
+
   onCivilBackError() {
     this.candidate.candidate_civil_photo_back = null;
   }
-  
+
   onCivilFrontError() {
     this.candidate.candidate_civil_photo_front = null;
   }
@@ -218,7 +219,7 @@ export class ProfilePage implements OnInit {
 
   /**
    * broadcast scroll event
-   * @param e 
+   * @param e
    */
   logScrolling(e) {
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
@@ -362,7 +363,7 @@ export class ProfilePage implements OnInit {
 
   /**
    * cloudinary video thumbnail url
-   * @param candidate_video 
+   * @param candidate_video
    */
   thumbnailUrl(candidate_video) {
     return candidate_video.split('.')[0] + '.jpg';
@@ -390,12 +391,12 @@ export class ProfilePage implements OnInit {
           this.candidate.candidate_video = e.data.candidate_video;
           this.candidate.candidate_video_processed = e.data.candidate_video_processed;
         }
-        
+
         if(!e.data.candidate_video_processed) {
           this.setVideoStatusSubsciption();
         }
       }
-      
+
       if(e.data && e.data.remove_candidate_video) {
         this.candidate.candidate_video = null;
       }
@@ -617,7 +618,7 @@ export class ProfilePage implements OnInit {
 
   /**
    * convert mysql date to browser readable date format
-   * @param date 
+   * @param date
    */
   toDate(date) {
     if (date)
@@ -651,15 +652,15 @@ export class ProfilePage implements OnInit {
 
   /**
    * return area name
-   * @param area 
-   * @param country 
+   * @param area
+   * @param country
    */
   area(area, country) {
     if(this.translateService.currentLang == 'en')
-      return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ', ' + 
+      return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ', ' +
         this.translateService.langContent(country.country_name_en, country.country_name_ar);
-      
-    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ، ' + 
+
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ، ' +
       this.translateService.langContent(country.country_name_en, country.country_name_ar);
   }
 

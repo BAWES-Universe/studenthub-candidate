@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { first } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Plugins } from '@capacitor/core';
-import { OneSignal } from '@ionic-native/onesignal/ngx';
+import OneSignal from 'onesignal-cordova-plugin';
 //services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
@@ -18,8 +18,13 @@ import {InvitationService} from "./providers/logged-in/invitation.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
+import { Preferences as Storage } from '@capacitor/preferences';
 
-const { App, StatusBar, SplashScreen, Storage } = Plugins;
+const { SplashScreen} = Plugins;
+
+import { mergeMap } from 'rxjs/operators';
+import { Browser } from '@capacitor/browser';
+import { App } from '@capacitor/app';
 
 declare var window;
 
@@ -38,11 +43,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public invitations: Invitation[] = [];
 
   public invitationInterval;
+  public callbackUri = `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`;
 
   constructor(
     public zone: NgZone,
     public updates: SwUpdate,
-    public oneSignal: OneSignal,
     public appRef: ApplicationRef,
     public navCtrl: NavController,
     public router: Router,
@@ -62,43 +67,33 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp() {
-    App.addListener('appUrlOpen', (event) => {
+    // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
+    App.addListener('appUrlOpen', ({ url }) => {
+      // Must run inside an NgZone for Angular to pick up the changes
+      // https://capacitorjs.com/docs/guides/angular
       this.zone.run(() => {
-          // Example url: https://beerswift.app/tabs/tab2
-          // slug = /tabs/tab2
-         
-          // If no match, do nothing - let regular routing
-          // logic take over
-
-          //if (event.url?.startsWith(callbackUri)) {
-            // If the URL is an authentication callback URL..
-            if (
-              event.url.includes('state=') &&
-              (event.url.includes('error=') || event.url.includes('code='))
-            ) {
-              // Call handleRedirectCallback and close the browser
-              this.auth
-                .handleRedirectCallback(event.url)
-                //.pipe(mergeMap(() => Browser.close()))
-                .subscribe((result) => {
-                });
-            } else {
-              const slug = event.url.split(".co").pop();
-
-              if (slug) {
-                this.router.navigateByUrl(slug);
-              }
-
-              //Browser.close();
-            }
-          //}
+        if (url?.startsWith(this.callbackUri)) {
+          // If the URL is an authentication callback URL..
+          if (
+            url.includes('state=') &&
+            (url.includes('error=') || url.includes('code='))
+          ) {
+            // Call handleRedirectCallback and close the browser
+            this.auth
+              .handleRedirectCallback(url)
+              .pipe(mergeMap(() => Browser.close()))
+              .subscribe();
+          } else {
+            Browser.close();
+          }
+        }
       });
     });
 
-    //to fix : https://www.pivotaltracker.com/story/show/172176267 
+    //to fix : https://www.pivotaltracker.com/story/show/172176267
 
     if(this.platform.is('ios')) {
-      this.oneSignal.provideUserConsent(false);
+      // OneSignal.provideUserConsent(false);
     }
 
     window.onpopstate = e => {
@@ -109,7 +104,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       this.popoverCtrl.getTop().then(overlay => {
-        
+
         if (overlay) {
           this.popoverCtrl.dismiss({
             'from': 'native-back-btn'
@@ -128,22 +123,22 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     this.platform.ready().then(() => {
-      
+
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
 
       this.setServiceWorker();
-      
+
       /**
        * when user comming back from auth0
        */
-       this.auth.isAuthenticated$.subscribe(isAuthenticated => {
-        
+      this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+
         if(!isAuthenticated || this.authService.isLogin) return null;
-      
+
         //this.auth.idTokenClaims$.subscribe(r => {
-        this.auth.getAccessTokenSilently().subscribe(r => {  
+        this.auth.getAccessTokenSilently().subscribe(r => {
           this.authService.useTokenForAuth(r).then();
         });
       });
@@ -152,7 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
       this._initOneSignal();
 
-    // only when notification api available
+      // only when notification api available
 
     } else if(window && window.Notification) {
       this._includeOneSignalJs();
@@ -187,10 +182,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventService.setLanguagePref$.subscribe(language_pref => {
 
       /**
-       * changing status on `side` property change 
+       * changing status on `side` property change
        * https://github.com/ionic-team/ionic/blob/master/core/src/components/menu/menu.tsx
        *
-      if (language_pref == 'ar') {
+       if (language_pref == 'ar') {
         this.menuRTL.side = 'end';//changing english to arabic
       } else {
         this.menuLTR.side = 'end';//changing arabic to english
@@ -247,7 +242,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
       this.loadCandidateProfile();
-      
+
       this.setInvitationSubscription();
 
       if(data['isProfileCompleted']) {
@@ -255,7 +250,7 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         this.navCtrl.navigateRoot(['complete-profile']);
       }
-      
+
       this.oneSignalActionBasedOnStatus();
     });
 
@@ -265,14 +260,14 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     this.eventService.setOneSignalSubscription$.subscribe(userEventData => {
 
-      if (this.oneSignal) {
-        this.oneSignal.setSubscription(userEventData['setSubscription']);
+      if (OneSignal) {
+        // OneSignal.setSubscription(true);
 
         Storage.set({
           key: 'oneSignal',
           value: JSON.stringify(userEventData)
         }).catch(r => {
-          this.eventService.errorStorage$.next();
+          this.eventService.errorStorage$.next({});
         });
       }
     });
@@ -291,18 +286,18 @@ export class AppComponent implements OnInit, OnDestroy {
           this.auth.logout({ returnTo: document.location.origin });
         }
       })
-      
+
       // unsubscribe from oneSignal
 
       if (this.platform.is('capacitor') && this.platform.is('mobile')) {
 
-        this.oneSignal.getPermissionSubscriptionState().then(data => {
-          if (data.subscriptionStatus.subscribed) {
-            this.oneSignal.deleteTags(['name', 'email', 'candidate_id']);
-          }
-        });
-      } 
-      else if (window && window.Notification && window.OneSignal) 
+        // OneSignal.getPermissionSubscriptionState().then(data => {
+        //   if (data.subscriptionStatus.subscribed) {
+        //     OneSignal.deleteTags(['name', 'email', 'candidate_id']);
+        //   }
+        // });
+      }
+      else if (window && window.Notification && window.OneSignal)
       {
         const OneSignal = window.OneSignal;
 
@@ -346,7 +341,7 @@ export class AppComponent implements OnInit, OnDestroy {
       Storage.get({ key: 'oneSignal' }).then(ret => {
 
         let data = JSON.parse(ret.value);
-        
+
         // set default value if not set
         if (!data) {
           data = {
@@ -356,23 +351,24 @@ export class AppComponent implements OnInit, OnDestroy {
           };
         }
 
-        if (this.oneSignal) {
-          this.oneSignal.setSubscription(data.setSubscription);
+        if (window && window.OneSignal) {
+          const OneSignal = window.OneSignal || [];
+          OneSignal.setSubscription(true);
 
-          //this.oneSignal.enableVibrate(data.enableVibrate);
-          //this.oneSignal.enableSound(data.enableSound);
+          //OneSignal.enableVibrate(data.enableVibrate);
+          //OneSignal.enableSound(data.enableSound);
 
-          this.oneSignal.sendTags({
+          OneSignal.sendTags({
             'candidate_id': this.authService.id + '',
             'name': this.authService.name,
             'email': this.authService.email
           });
         }
       }).catch(r => {
-        this.eventService.errorStorage$.next();
+        this.eventService.errorStorage$.next({});
       });
-    } 
-    else if(window && window.Notification && window.OneSignal) 
+    }
+    else if(window && window.Notification && window.OneSignal)
     {
       const OneSignal = window.OneSignal || [];
 
@@ -392,11 +388,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.authService.showOneSignalPrompt = false;
 
-    Storage.set({ 
-      'key': 'oneSignalStatus', 
-      'value': '1' 
+    Storage.set({
+      'key': 'oneSignalStatus',
+      'value': '1'
     }).catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
   }
 
@@ -406,15 +402,15 @@ export class AppComponent implements OnInit, OnDestroy {
   async oneSignalActionBasedOnStatus() {
 
     Storage.get({ 'key': 'oneSignalStatus' }).then(data => {
-      
+
       if (data.value === '1') { // already accepted
         this.setOneSignalSubscription();
       } else { // not sure
         this.checkOneSignalStatus();
       }
-      // if status == 2, ignore - user not want notifications 
+      // if status == 2, ignore - user not want notifications
     }).catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
   }
 
@@ -425,37 +421,43 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
 
-      this.oneSignal.getPermissionSubscriptionState().then(state => {
-        this.authService.showOneSignalPrompt = !state.subscriptionStatus.subscribed;
-      });
+      // OneSignal.getPermissionSubscriptionState().then(state => {
+      //   this.authService.showOneSignalPrompt = !state.subscriptionStatus.subscribed;
+      // });
+      //
+      // OneSignal.addSubscriptionObserver().subscribe(state => {
+      //   if (state) {
+      //     // !state.from.subscribed &&
+      //     if (state.to.subscribed) {
+      //       this.authService.showOneSignalPrompt = false;
+      //       // Subscribed for OneSignal push notifications!
+      //       // get player ID
+      //       // state.to.userId
+      //     } else {
+      //       this.authService.showOneSignalPrompt = true;
+      //     }
+      //
+      //     // console.log('Push Subscription state changed: ' + JSON.stringify(state));
+      //   }
+      // });
+      //todo: check onesignal on new app install + after login tags + after logout tags + on permission denied
+      //+ on permission grant + send test notification + send order notif
 
-      this.oneSignal.addSubscriptionObserver().subscribe(state => {
-        if (state) {
-          // !state.from.subscribed &&
-          if (state.to.subscribed) {
-            this.authService.showOneSignalPrompt = false;
-            // Subscribed for OneSignal push notifications!
-            // get player ID
-            // state.to.userId
-          } else {
-            this.authService.showOneSignalPrompt = true;
-          }
+      //as we not have send tags
 
-         // console.log('Push Subscription state changed: ' + JSON.stringify(state));
-        }
-      });
+      this.authService.showOneSignalPrompt = true;
 
     } else if (window && window.OneSignal && window.Notification) {
 
-      const OneSignal = window.OneSignal || [];
+      const OneSignalw = window.OneSignal || [];
 
-      OneSignal.isPushNotificationsEnabled(isEnabled => {
+      OneSignalw.isPushNotificationsEnabled(isEnabled => {
 
         if (isEnabled) {
 
           // Automatically subscribe user if deleted cookies and browser shows "Allow"
 
-          OneSignal.getUserId().then(userId => {
+          OneSignalw.getUserId().then(userId => {
 
             // remove old user tag if any
 
@@ -467,13 +469,13 @@ export class AppComponent implements OnInit, OnDestroy {
                 'email'
               ];
 
-              OneSignal.deleteTags(tags);
+              OneSignalw.deleteTags(tags);
             }
 
             // if (!userId) {
 
-            OneSignal.setSubscription(true);
-            OneSignal.registerForPushNotifications();
+            OneSignalw.setSubscription(true);
+            OneSignalw.registerForPushNotifications();
 
             // send user tag, to target based on tags
 
@@ -481,10 +483,10 @@ export class AppComponent implements OnInit, OnDestroy {
               'candidate_id': this.authService.id + '',
               'name': this.authService.name,
               'email': this.authService.email
-            }; 
+            };
 
-            OneSignal.sendTags(tags);
-             
+            OneSignalw.sendTags(tags);
+
             // }
           });
         } else {
@@ -494,7 +496,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Occurs when the user's subscription changes to a new value.
 
-      OneSignal.on('subscriptionChange', isSubscribed => {
+      OneSignalw.on('subscriptionChange', isSubscribed => {
         this.authService.showOneSignalPrompt = !isSubscribed;
       });
     }
@@ -504,7 +506,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Include One signal to use stripe element in browser
    */
   async _includeOneSignalJs() {
-    
+
     if (this.platform.is('capacitor') || window.location.hostname == 'localhost' || !window.Notification) {
       return null; // only for browser
     }
@@ -513,7 +515,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * https://sentry.io/organizations/pogi/issues/1843000885/?project=5339282&referrer=slack
      * Cannot read property 'pushNotification' of undefined
      */
-    
+
     const agent = window.navigator.userAgent.toLowerCase();
 
     if(this.platform.is('ios') && agent.indexOf('safari') > -1 && (!window.safari || !window.safari.pushNotification)) {
@@ -573,40 +575,58 @@ export class AppComponent implements OnInit, OnDestroy {
     // to get notification when app not running in background
     // this.autostart.enable();
 
-    this.oneSignal.startInit(environment.oneSignalAppId, '32997776097');
+    OneSignal.setAppId(environment.oneSignalAppId);
 
-    //  this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
-    // this.oneSignal.setSubscription(true);
+    //  OneSignal.inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+    // OneSignal.setSubscription(true);
 
     // oneSignal.handleNotificationReceived().subscribe(() => {
     // // do something when notification is received
     // });
 
-    this.oneSignal.handleNotificationOpened().subscribe((data) => {
-      // When a Notification is Opened
-      if (data.notification.groupedNotifications) {
-        // Notification Grouped [on Android]
-        const firstNotificationData = data.notification.groupedNotifications[0].additionalData;
-        //this.eventService.notificationGrouped$.next(firstNotificationData);
-      } else if (data.notification.payload) {
-        // A single notification clicked
-        const notificationData = data.notification.payload.additionalData;
-        //this.eventService.notificationSingle$.next(notificationData);
+    // OneSignal.handleNotificationOpened().subscribe((data) => {
+    //   // When a Notification is Opened
+    //   if (data.notification.groupedNotifications) {
+    //     // Notification Grouped [on Android]
+    //     const firstNotificationData = data.notification.groupedNotifications[0].additionalData;
+    //     //this.eventService.notificationGrouped$.next(firstNotificationData);
+    //   } else if (data.notification.payload) {
+    //     // A single notification clicked
+    //     const notificationData = data.notification.payload.additionalData;
+    //     //this.eventService.notificationSingle$.next(notificationData);
+    //   }
+    // });
+
+    OneSignal.addSubscriptionObserver(state => {
+
+      if (state) {
+        // !state.from.subscribed &&
+        if (state.to.isSubscribed) {
+          // this.authService.showOneSignalPrompt = false;
+          // Subscribed for OneSignal push notifications!
+          // get player ID
+          // state.to.userId
+
+        } else {
+          this.authService.showOneSignalPrompt = true;
+        }
+
+        // console.log('Push Subscription state changed: ' + JSON.stringify(state));
       }
     });
 
     //this.setOneSignalSubscription();
     this.oneSignalActionBasedOnStatus();
 
-    this.oneSignal.provideUserConsent(true);
-    
-    this.oneSignal.endInit();
+    // OneSignal.provideUserConsent(true);
+
+    // OneSignal.endInit();
 
     // OneSignal.getIds().then(data => {
     //   // this gives you back the new userId and pushToken associated with the device. Helpful.
     // });
   }
-  
+
   /**
    * Load javascripts dynamically
    * @param url
@@ -626,7 +646,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     body.appendChild(script);
   }
-  
+
   /**
    * Change app language
    * @param language
@@ -658,7 +678,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Allow the app to stabilize first, before starting polling for updates with `interval()`.
         const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-        const updateInterval$ = interval(60 * 1000);// every minute 
+        const updateInterval$ = interval(60 * 1000);// every minute
         const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
         updateIntervalOnceAppIsStable$.subscribe(() => {
@@ -751,7 +771,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.invitationService.count().subscribe((count: any) => {
       const total = parseInt(count);
       if (this.authService.invitationCount != total) {
-        this.eventService.requestUpdated$.next();
+        this.eventService.requestUpdated$.next({});
       }
       this.authService.invitationCount = total;
     });

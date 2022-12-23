@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, LoadingController, ModalController, Platform, PopoverController } from '@ionic/angular';
-import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@awesome-cordova-plugins/media-capture/ngx';
+
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+
 // services
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -65,9 +67,9 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public recordedChunks = [];
 
-  public playingRecording: boolean = false; 
+  public playingRecording: boolean = false;
 
-  public havePermission = true; 
+  public havePermission = true;
 
   constructor(
     private _ngzone: NgZone,
@@ -84,7 +86,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     public awsService: AwsService
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -92,7 +94,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     window.analytics.page('Upload Video Page');
 
     //handle event to mark video processed
-    
+
     this.eventService.candidateVideoProcessed$.subscribe((data : any) => {
       if(this.candidate) {
         this.candidate.candidate_video_processed = data.candidate_video_processed;
@@ -174,8 +176,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * start camera in mobile app
    */
   startCamera(immediate = false) {
-    this.havePermission = true; 
-    
+    this.havePermission = true;
+
     if (typeof MediaRecorder == 'undefined' || this.cameras.length == 0) {
       this.fileInput.nativeElement.click();
     } else if (this.platform.is('hybrid')) {
@@ -202,24 +204,24 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       }
 
       if(this.platform.is('android')) {
-        
+
         this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE).then(result => {
-           
+
             if(result.hasPermission) {
               this.uploadFileViaNativeFilePath(data[0].fullPath);
             } else {
               this.requestVideoReadPermission(data[0].fullPath);
             }
           },
-          err => this.requestVideoReadPermission(data[0].fullPath)        
-        );              
+          err => this.requestVideoReadPermission(data[0].fullPath)
+        );
       } else {
-           
+
         this.uploadFileViaNativeFilePath(data[0].fullPath);
-      }  
+      }
     },
     async (err: CaptureError) => {
- 
+
       const alert = await this.alertCtrl.create({
         header: this.translateService.transform('Error'),
         message: this.translateService.transform('txt_recording_error', {
@@ -229,12 +231,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       });
 
       await alert.present();
-    }); 
+    });
   }
 
   /**
    * request storage permission
-   * @param fullPath 
+   * @param fullPath
    */
   requestVideoReadPermission(fullPath) {
 
@@ -253,7 +255,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         await alert.present();
       }
-    });     
+    });
   }
 
   /**
@@ -296,7 +298,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         });
 
         this.mediaRecorder.addEventListener('stop', () => {
- 
+
           //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
 
@@ -375,7 +377,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   async startRecording() {
 
-    //if had error on starting camera 
+    //if had error on starting camera
 
     if (!this.mediaRecorder) {
       //this.fileInput.nativeElement.click();
@@ -390,7 +392,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       await alert.present();
     }
 
-    //if already recording 
+    //if already recording
 
     if(this.mediaRecorder.state == 'recording') {
       return false;
@@ -433,7 +435,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     if (this.mediaRecorder && this.mediaRecorder.state != 'inactive') {
       this.mediaRecorder.stop();
-    } else { 
+    } else {
 
       this.recordedChunks = [];
 
@@ -449,7 +451,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
       this.shouldStop = true;
     }
 
-    // stop camera 
+    // stop camera
     if (this.stream) {
       this.stream.getTracks().forEach((track) => {
         track.stop();
@@ -523,7 +525,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         await alert.present();
       });
     }, () => {
-      
+
       this.progress = 0;
 
       this.uploading = false;
@@ -601,7 +603,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
       this._handleFileSuccess(event);
     }, async err => {
- 
+
       if (!err.message || !err.message.includes('aborted')) {
 
         // log to sentry
@@ -631,7 +633,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * Handle file upload success
    * @param event
    */
-  public _handleFileSuccess(event) { 
+  public _handleFileSuccess(event) {
 
     let count = 1;
 
@@ -733,11 +735,11 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
     const video = this.player.nativeElement;
 
-    if (video.paused == true) { 
-      
+    if (video.paused == true) {
+
       this.playingRecording = true;
       video.play();
-    } else { 
+    } else {
       video.pause();
       video.currentTime = 0;
       this.playingRecording = false;
@@ -749,7 +751,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   /**
-   * save recording 
+   * save recording
    */
   saveRecording() {
 
@@ -786,7 +788,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         if(this.candidate) {
           this.candidate.tempLocation = null;
           this.candidate.candidate_video_processed = res.candidate_video_processed;
-          this.candidate.candidate_video = res.candidate_video; 
+          this.candidate.candidate_video = res.candidate_video;
         }
 
         // this.loadVideo();

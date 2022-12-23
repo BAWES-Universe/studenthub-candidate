@@ -32,6 +32,7 @@
 .max-width {
   max-width: 800px;
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 .hidden {
@@ -58,8 +59,8 @@
 
   ion-label[position="floating"],
   ion-label[position="stacked"] {
-      transform-origin: left top;
-  //    transform: translate3d(0%, 40%, 0) scale(0.75) !important;
+    transform-origin: left top;
+    //    transform: translate3d(0%, 40%, 0) scale(0.75) !important;
   }
 }
 
@@ -69,8 +70,8 @@
 
   ion-label[position="floating"],
   ion-label[position="stacked"] {
-      transform-origin: right top;
-  //    transform: translate3d(0%, 30%, 0) scale(0.75) !important;
+    transform-origin: right top;
+    //    transform: translate3d(0%, 30%, 0) scale(0.75) !important;
   }
 }
 
@@ -104,24 +105,24 @@ ion-header.add-border:after {
  * animation scale-up-center
  * ----------------------------------------
  */
- @-webkit-keyframes scale-up-center {
+@-webkit-keyframes scale-up-center {
   0% {
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 @keyframes scale-up-center {
   0% {
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -148,10 +149,12 @@ ion-header.add-border:after {
 
 @media (max-width: 900px) {
   ion-header {
-    box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+    //box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+    background: #fff;
+    --background: #fff;
 
     ion-toolbar {
-      padding: 40px 0 13px 0 !important;
+      //padding: 40px 0 13px 0 !important;
 
       ion-title {
         font-family: 'Inter';
@@ -163,6 +166,7 @@ ion-header.add-border:after {
         color: #23233D;
         padding-left: 32px;
         padding-right: 32px;
+        align-items: center;
       }
     }
   }

@@ -111,7 +111,7 @@ ion-card {
 }
 
 .card-notification {
-    background-image: url(src/assets/images/ic_alerts.svg);
+    background-image: url('/assets/images/ic_alerts.svg');
 
     ion-icon {
         display: none;
@@ -134,17 +134,17 @@ ion-card {
 }
 
 .profile-card {
-    background-image: url(src/assets/images/ic_profile.svg);
+    background-image: url('/assets/images/ic_profile.svg');
 }
 
 .card-bank-details {
-    background-image: url(src/assets/images/ic_payment.svg);
+    background-image: url('/assets/images/ic_payment.svg');
 }
 
 .card-job-status {
     cursor: pointer;
     background-color: #eb5757;
-    background-image: url(src/assets/images/ic_delete.svg);
+    background-image: url('/assets/images/ic_delete.svg');
 
     ion-card-title,
     ion-card-content {

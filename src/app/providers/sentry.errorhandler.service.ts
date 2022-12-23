@@ -77,26 +77,26 @@ export class SentryErrorhandlerService extends ErrorHandler {
 		return null;
 	}
 
-	handleError(error) {
-		
+  override handleError(error) {
+
 		const chunkFailedMessage = /Loading chunk [\d]+ failed/;
 
 		if (chunkFailedMessage.test(error.message)) {
 			return window.location.reload();
 		}
-	
-		//don't log for storage error 
-	
+
+		//don't log for storage error
+
 		const storageError = 'Failed to access storage';
-	
+
 		if (error.message.includes(storageError)) {
 		  return super.handleError(error);
 		}
-		
+
 		//don't log for service worker error
-		
+
 		const serviceWorkerError = 'ServiceWorker';
-	
+
 		if (error.message.includes(serviceWorkerError)) {
 		  return super.handleError(error);
 		}
@@ -111,7 +111,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 		// Capture handled exception and send it to Sentry.
 		const eventId = Sentry.captureException(extractedError);
 		// When in development mode, log the error to console for immediate feedback.
-		
+
 		// Optionally show user dialog to provide details on what happened.
 		// Sentry.showReportDialog({ eventId });
 	}

@@ -10,8 +10,7 @@ import { CustomValidator } from 'src/app/validators/custom.validator';
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
-
-const { Storage } = Plugins;
+import { Preferences as Storage } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-register',
@@ -72,7 +71,7 @@ export class RegisterPage implements OnInit {
    * Then process his previous request
    */
   async onSubmit() {
-    
+
     if (!this.registerForm.valid) {
       return false;
     }

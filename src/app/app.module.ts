@@ -35,22 +35,22 @@ import { DrivingLicensePageModule } from './pages/logged-in/driving-license/driv
 import { UploadCvPageModule } from './pages/logged-in/upload-cv/upload-cv.module';
 import { PhotoActionModule } from './components/photo-action/photo-action.module';
 
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
-import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
-import { File } from '@ionic-native/file/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { DocumentPicker } from '@awesome-cordova-plugins/document-picker/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
-import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { OneSignal } from '@awesome-cordova-plugins/onesignal/ngx';//@ionic-native/onesignal/ngx
+import { FileChooser } from '@awesome-cordova-plugins/file-chooser/ngx';
+import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { UpdateBankPageModule } from './pages/logged-in/update-bank/update-bank.module';
 import { CompanyPageModule } from './pages/logged-in/company/company.module';
 import { CivilIdFrontPageModule } from './pages/logged-in/civil-id-front/civil-id-front.module';
 import { CivilIdBackPageModule } from './pages/logged-in/civil-id-back/civil-id-back.module';
 import { CivilExpiryPageModule } from './pages/logged-in/civil-expiry/civil-expiry.module';
-import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
 import { KuwaitiNationalPageModule } from './pages/logged-in/kuwaiti-national/kuwaiti-national.module';
-
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as Cloudinary from 'cloudinary-core';
 
@@ -67,7 +67,7 @@ import { AccountStatusModule } from "./components/account-status/account-status.
 import { WorkHistoryPageModule } from "./pages/logged-in/work-history/work-history.module";
 import { PreferredTimePageModule } from './pages/logged-in/preferred-time/preferred-time.module';
 import { AuthModule } from '@auth0/auth0-angular';
-import { FileOpener } from "@ionic-native/file-opener/ngx";
+// import { FileOpener } from "@ionic-native/file-opener/ngx";
 
 
 export function startupServiceFactory(authService) {
@@ -81,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 declare global {
   interface Window { analytics: any; }
 }
+const redirectUri = `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`;
 
 @NgModule({
   declarations: [AppComponent],
@@ -96,7 +97,8 @@ declare global {
     }),
     AuthModule.forRoot({
       domain: 'bawes.us.auth0.com',
-      clientId: 'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e'
+      clientId: 'iyNUKYtUrbL7QjbfRLrZnwLcwy6njH7b',
+      redirectUri
     }),
     CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
     BrowserModule,
@@ -155,7 +157,7 @@ declare global {
     File,
     FileChooser,
     FilePath,
-    IOSFilePicker,
+    DocumentPicker,
     AndroidPermissions,
     MediaCapture,
     OneSignal,

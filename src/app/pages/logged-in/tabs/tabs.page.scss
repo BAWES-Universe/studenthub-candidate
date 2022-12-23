@@ -1,5 +1,5 @@
 ion-tab-bar {
-    background: rgba(255, 255, 255, 0.9) !important;
+    //background: rgba(255, 255, 255, 0.9) !important;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -53,10 +53,12 @@ ion-tab-button:hover {
     }
 }
 
+.mobile.ios {
+  padding-bottom: 35px;
+}
+
 .mobile {
     padding: 3px;
-    padding-bottom: 35px;
-
     ion-tab-button {
         ion-icon {
             width: 20px;

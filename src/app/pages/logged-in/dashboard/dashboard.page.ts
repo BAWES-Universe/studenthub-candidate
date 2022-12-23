@@ -49,7 +49,7 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
 
-    window.analytics.page('Dashboard page');
+    // window.analytics.page('Dashboard page');
 
     /**
      * https://sentry.io/organizations/pogi/issues/1843000885/?project=5339282&referrer=slack
@@ -108,7 +108,7 @@ export class DashboardPage implements OnInit {
    * set oneSignal subscription
    */
   setSubscription() {
-    this.eventService.setOneSignal$.next();
+    this.eventService.setOneSignal$.next({});
   }
 
   /**

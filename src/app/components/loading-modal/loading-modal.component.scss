@@ -56,18 +56,18 @@
                 font-stretch: normal;
                 font-style: normal;
                 line-height: normal;
-                letter-spacing: normal; 
+                letter-spacing: normal;
                 color: #ffffff;
                 justify-content: center;
-                display: flex; 
+                display: flex;
                 align-items: center;
                 margin-inline-end: 25px;
-               
+
                 ion-skeleton-text {
                     border-radius: 100%;
                 }
             }
-    
+
             ion-label{
                 height: 14px;
 
@@ -102,7 +102,7 @@
 .first-impression,
 .national-id,
 .personal-info {
-    
+
     ion-skeleton-text {
         padding: 0;
         margin: 0;
@@ -168,7 +168,7 @@
                 width: 80%;
             }
         }
-        
+
         ion-item:nth-child(3) {
             small {
                 width: 40%;
@@ -178,7 +178,7 @@
                 width: 90%;
             }
         }
-        
+
         ion-item:nth-child(4) {
             small {
                 width: 30%;
@@ -188,7 +188,7 @@
                 width: 80%;
             }
         }
-        
+
         ion-item:nth-child(5) {
             small {
                 width: 24%;
@@ -198,7 +198,7 @@
                 width: 65%;
             }
         }
-        
+
         ion-item:nth-child(6) {
             small {
                 width: 44%;
@@ -208,7 +208,7 @@
                 width: 55%;
             }
         }
-        
+
         ion-item:nth-child(7) {
             small {
                 width: 71%;
@@ -218,7 +218,7 @@
                 width: 51%;
             }
         }
-        
+
         ion-item:nth-child(8) {
             small {
                 width: 47%;
@@ -228,7 +228,7 @@
                 width: 85%;
             }
         }
-        
+
         ion-item:nth-child(9) {
             small {
                 width: 33%;
@@ -238,7 +238,7 @@
                 width: 72%;
             }
         }
-        
+
         ion-item:nth-child(10) {
             small {
                 width: 70%;
@@ -248,7 +248,7 @@
                 width: 80%;
             }
         }
-        
+
         ion-item:nth-child(11) {
             small {
                 width: 49%;
@@ -267,7 +267,7 @@
                 width: 80%;
             }
         }
-        
+
         ion-item:nth-child(13) {
             small {
                 width: 70%;
@@ -277,7 +277,7 @@
                 width: 70%;
             }
         }
-        
+
 
         ion-item:nth-child(14) {
             small {
@@ -288,7 +288,7 @@
                 width: 80%;
             }
         }
-        
+
         ion-item:nth-child(15) {
             small {
                 width: 40%;
@@ -298,7 +298,7 @@
                 width: 90%;
             }
         }
-        
+
         ion-item:nth-child(16) {
             small {
                 width: 30%;
@@ -308,7 +308,7 @@
                 width: 80%;
             }
         }
-        
+
         ion-item:nth-child(17) {
             small {
                 width: 24%;
@@ -318,7 +318,7 @@
                 width: 65%;
             }
         }
-        
+
         ion-item:nth-child(18) {
             small {
                 width: 44%;
@@ -328,7 +328,7 @@
                 width: 55%;
             }
         }
-        
+
         ion-item:nth-child(19) {
             small {
                 width: 71%;
@@ -349,7 +349,7 @@
         ion-item {
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), -2px 0 4px 0 rgba(0, 0, 0, 0.12);
         }
-    }    
+    }
 }
 
 //------------------ profile --------------------
@@ -361,22 +361,22 @@
         --border-radius: 100%;
         margin: 38px 0 32px 0;
     }
-    
+
     h2.candidate-name {
         margin: 32px 0 25px 0;
         height: 35px;
         width: 240px;
     }
-    
+
     h4.candidate-name {
         margin: 5px 0 24px 0;
         height: 30px;
         width: 300px;
     }
-    
+
     .birth-date {
         margin: 11px 0 24px 0;
-        
+
         .txt-born-on {
             width: 95px;
             height: 22px;
@@ -389,159 +389,159 @@
             margin-top: 12px;
         }
     }
-    
+
     .objective {
         margin: 24px 0 40px 0;
         height: 22px;
         width: 95%;
     }
-    
+
     ion-item {
         --inner-border-width: 0;
         --padding-start: 58px;
         margin-bottom: 5px;
-    
+
         ion-label {
             margin-bottom: 5px;
         }
-    
+
         h5 {
             margin: 0 0 7px 0;
             height: 19px;
             width: 210px;
         }
-    
+
         p {
             margin: 3px 0 13px 0;
             height: 17px;
             width: 70%;
         }
-    
+
         .hint {
             margin: 7px 0 11px 0;
             height: 17px;
             width: 70%;
         }
     }
-    
+
     .skills,
     .experiences {
         p {
             margin-top: 10px;
         }
-    
+
         span {
             clear: both;
             display: block;
         }
     }
-    
+
     .no-logo {
         border: 1px solid #57CCC6;
     }
-    
+
     .video {
-        --background: url('src/assets/images/ic_video.svg') no-repeat 0px 11px;
-    
+        --background: url('/assets/images/ic_video.svg') no-repeat 0px 11px;
+
         img {
             width: 90px;
             margin-top: 5px;
         }
     }
-    
+
     .resume {
-        --background: url('src/assets/images/ic_ad.svg') no-repeat 0px 11px;
+        --background: url('/assets/images/ic_ad.svg') no-repeat 0px 11px;
     }
-    
+
     .skills {
-        --background: url('src/assets/images/ic_food_tools.svg') no-repeat 0px 11px;
+        --background: url('/assets/images/ic_food_tools.svg') no-repeat 0px 11px;
     }
-    
+
     .experiences {
-        --background: url('src/assets/images/ic_suitcase.svg') no-repeat 0px 11px;
+        --background: url('/assets/images/ic_suitcase.svg') no-repeat 0px 11px;
     }
-    
+
     .area {
-        --background: url('src/assets/images/ic_home_2.svg') no-repeat 0px 11px;
+        --background: url('/assets/images/ic_home_2.svg') no-repeat 0px 11px;
 
         ion-skeleton-text {
             width: 50%;
         }
     }
-    
+
     .phone {
-        --background: url('src/assets/images/ic_phone.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_phone.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 70%;
         }
     }
-    
+
     .email {
-        --background: url('src/assets/images/ic_message.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_message.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 55%;
         }
     }
-    
+
     .nationality {
-        --background: url('src/assets/images/ic_globe.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_globe.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 70%;
         }
     }
-    
+
     .gender {
-        --background: url('src/assets/images/ic_swipe.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_swipe.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 60%;
         }
     }
-    
+
     .university {
-        --background: url('src/assets/images/md-school.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/md-school.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 50%;
         }
     }
-    
+
     .driving-license {
-        --background: url('src/assets/images/ic_car.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_car.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 80%;
         }
     }
-    
+
     .mother-nationality {
-        --background: url('src/assets/images/ic_username.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_username.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 60%;
         }
     }
-    
+
     .id-number {
-        --background: url('src/assets/images/ic_feed.svg') no-repeat 0px 15px;
+        --background: url('/assets/images/ic_feed.svg') no-repeat 0px 15px;
 
         ion-skeleton-text {
             width: 70%;
         }
     }
-    
+
     .civil-front,
     .civil-back {
-        --background: url('src/assets/images/ic_profile_info.svg') no-repeat 0px 15px;
-    
+        --background: url('/assets/images/ic_profile_info.svg') no-repeat 0px 15px;
+
         p {
             margin-bottom: 7px;
         }
     }
-    
+
     .area,
     .phone,
     .email,
@@ -559,7 +559,7 @@
             height: 17px;
         }
     }
-    
+
     .civil-id-image {
         height: 200px !important;
         width: 150px;
@@ -568,72 +568,72 @@
     .txt-expiring-on {
         opacity: 0.85;
     }
-    
+
     @media only screen and (max-width: 750px) {
-        
+
         ion-thumbnail {
             margin: 8px 0 32px 0;
         }
     }
-    
+
 }
 
 [dir="rtl"] .profile {
 
     .video {
-        --background: url('src/assets/images/ic_video.svg') no-repeat 100% 11px;
+        --background: url('/assets/images/ic_video.svg') no-repeat 100% 11px;
     }
 
     .resume {
-        --background: url('src/assets/images/ic_ad.svg') no-repeat 100% 11px;
+        --background: url('/assets/images/ic_ad.svg') no-repeat 100% 11px;
     }
 
     .skills {
-        --background: url('src/assets/images/ic_food_tools.svg') no-repeat 100% 11px;
+        --background: url('/assets/images/ic_food_tools.svg') no-repeat 100% 11px;
     }
 
     .experiences {
-        --background: url('src/assets/images/ic_suitcase.svg') no-repeat 100% 11px;
+        --background: url('/assets/images/ic_suitcase.svg') no-repeat 100% 11px;
     }
 
     .area {
-        --background: url('src/assets/images/ic_home_2.svg') no-repeat 100% 11px;
+        --background: url('/assets/images/ic_home_2.svg') no-repeat 100% 11px;
     }
 
     .phone {
-        --background: url('src/assets/images/ic_phone.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_phone.svg') no-repeat 100% 15px;
     }
 
     .email {
-        --background: url('src/assets/images/ic_message.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_message.svg') no-repeat 100% 15px;
     }
 
     .nationality {
-        --background: url('src/assets/images/ic_globe.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_globe.svg') no-repeat 100% 15px;
     }
 
     .gender {
-        --background: url('src/assets/images/ic_swipe.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_swipe.svg') no-repeat 100% 15px;
     }
 
     .university {
-        --background: url('src/assets/images/md-school.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/md-school.svg') no-repeat 100% 15px;
     }
 
     .driving-license {
-        --background: url('src/assets/images/ic_car.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_car.svg') no-repeat 100% 15px;
     }
 
     .mother-nationality {
-        --background: url('src/assets/images/ic_username.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_username.svg') no-repeat 100% 15px;
     }
 
     .id-number {
-        --background: url('src/assets/images/ic_feed.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_feed.svg') no-repeat 100% 15px;
     }
 
     .civil-front,
     .civil-back {
-        --background: url('src/assets/images/ic_profile_info.svg') no-repeat 100% 15px;
+        --background: url('/assets/images/ic_profile_info.svg') no-repeat 100% 15px;
     }
 }

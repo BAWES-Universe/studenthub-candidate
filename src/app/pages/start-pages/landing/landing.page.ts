@@ -12,7 +12,9 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
-import {Plugins} from "@capacitor/core";
+
+import { Browser } from '@capacitor/browser';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing',
@@ -26,7 +28,6 @@ export class LandingPage implements OnInit {
 
   public slideOpts = {};
   public didInit: boolean = false;
-  public device;
 
   @ViewChild(IonSlides) ionSlides: IonSlides;
 
@@ -47,10 +48,7 @@ export class LandingPage implements OnInit {
   }
 
   async ngOnInit() {
-    const { Device } = Plugins;
-    this.device = await Device.getInfo();
-    console.log(this.device);
-    window.analytics.page('Landing Page');
+    // window.analytics.page('Landing Page');
   }
 
   translate() {
@@ -148,10 +146,18 @@ export class LandingPage implements OnInit {
    * login by Apple API
    */
   loginByApple() {
-    if (this.platform.is('ios') && this.platform.is('capacitor')) {
-      this.authService.loginByApple();
-    } else {
-      this.authService.loginByAppleJs();
-    }
+    this.authService.loginByApple();
+    // if (this.platform.is('ios') && this.platform.is('capacitor')) {
+    //   this.authService.loginByApple();
+    // } else {
+    //   this.authService.loginByAppleJs();
+    // }
+  }
+
+  loginWithAuth0() {
+    this.auth
+      .buildAuthorizeUrl()
+      .pipe(mergeMap((url) => Browser.open({ url, windowName: '_self' })))
+      .subscribe();
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { File as NativeFile, Entry, FileEntry } from '@ionic-native/file/ngx';
+import { File as NativeFile, Entry, FileEntry } from '@awesome-cordova-plugins/file/ngx';
 import { Observable, Observer } from 'rxjs';
 import * as AWS from 'aws-sdk';
 import { Plugins } from '@capacitor/core';
@@ -18,7 +18,7 @@ export class AwsService {
 
     public permanentBucketUrl = environment.permanentBucketUrl;
     public cloudinaryUrl = environment.cloudinaryUrl;
-    
+
     private _region = 'eu-west-2'; // London
     private _access_key_uuid = 'AKIAJXOMRCDE65WKBPUA';
     private _secret_access_key = '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';
@@ -73,7 +73,7 @@ export class AwsService {
                     let fileSize = file.size;
 
                     let fileLastModified = file.lastModifiedDate;
-                    
+
                     let fileReadResult;
 
                     try
@@ -184,7 +184,7 @@ export class AwsService {
             }
 
             const currUpload = s3.upload(params);
-            
+
             observer.next(currUpload);
 
             currUpload.on('httpUploadProgress', (progress: ProgressEvent) => {
@@ -192,7 +192,7 @@ export class AwsService {
             });
 
             currUpload.send((err, data) => {
-                if(err) { 
+                if(err) {
                     observer.error(err);
                 } else {
                     observer.next(data);

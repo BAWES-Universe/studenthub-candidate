@@ -9,11 +9,10 @@ import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
 import { TranslateLabelService } from '../translate-label.service';
 import { saveAs } from 'file-saver';
-import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
-import { Platform } from "@ionic/angular";
-import { FileOpener } from "@ionic-native/file-opener/ngx";
 
-const { Filesystem, Storage } = Plugins;
+import { Platform } from "@ionic/angular";
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 
 /**
  * Handles all Authorized HTTP functions with Bearer Token
@@ -29,7 +28,7 @@ export class AuthHttpService {
     public _auth: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
-    private fileOpener: FileOpener
+    public fileOpener: FileOpener
   ) { }
 
   /**
@@ -138,7 +137,6 @@ export class AuthHttpService {
           var blob = new Blob([response], { type: 'application/pdf' });
           // file name to dowanload/generate invoice
 
-          console.log('pdfget');
           if (this.platform.is('ios') && this.platform.is('capacitor')) {
             console.log('ios capacitor');
             console.log('blob',blob);
@@ -199,7 +197,7 @@ export class AuthHttpService {
       const saveFile = await Filesystem.writeFile({
         path: filename,
         data: blob,
-        directory: FilesystemDirectory.Documents
+        directory: Directory.Documents,
       })
       const path = saveFile.uri;
       const mimeType = this.getMimeType(filename);
@@ -213,20 +211,6 @@ export class AuthHttpService {
       console.error('Unable to write file', e);
     }
   }
-
-  /**
-   * helper function to convert block into base64
-   * @param blob
-   */
-  private convertBlockToBase64 = async (blob: Blob) => new Promise((resolve, reject) => {
-    console.log(blob);
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        resolve(reader.result);
-      }
-      reader.readAsDataURL(blob);
-  });
 
   /**
    * Build the Auth Headers for All Verb Requests
@@ -258,20 +242,20 @@ export class AuthHttpService {
     // This error usually appears when agent attempts to handle an
     // account that he's been removed from assigning
     if (error.status === 400) {
-      // this.eventService.agentRemoved$.next();
+      // this.eventService.agentRemoved$.next({});
       return empty();
     }
 
     // Handle No Internet Connection Error
 
     if (error.status == 0 || error.status == 504) {
-      this.eventService.internetOffline$.next();
+      this.eventService.internetOffline$.next({});
       // this._auth.logout("Unable to connect to Pogi servers. Please check your internet connection.");
       return empty();
     }
 
     if (!navigator.onLine) {
-      this.eventService.internetOffline$.next();
+      this.eventService.internetOffline$.next({});
       return empty();
     }
 
@@ -283,13 +267,13 @@ export class AuthHttpService {
 
     // Handle internal server error - 500
     if (error.status === 500) {
-      this.eventService.error500$.next();
+      this.eventService.error500$.next({});
       return empty();
     }
 
     // Handle page not found - 404 error
     if (error.status === 404) {
-      this.eventService.error404$.next();
+      this.eventService.error404$.next({});
       return empty();
     }
 

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Plugins } from '@capacitor/core';
 import { catchError, first, take, map, retryWhen } from 'rxjs/operators';
 import { Observable, empty, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -15,13 +14,16 @@ import { SentryErrorhandlerService } from './sentry.errorhandler.service';
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
 import { Candidate } from 'src/app/models/candidate';
-
+import { Preferences as Storage } from '@capacitor/preferences';
+import {
+  SignInWithApple,
+  SignInWithAppleResponse,
+  SignInWithAppleOptions,
+} from '@capacitor-community/apple-sign-in';
 
 declare var navigator;
 
-const { Storage } = Plugins;
 
-const { SignInWithApple } = Plugins;
 
 declare var window;
 declare var AppleID;
@@ -58,9 +60,9 @@ export class AuthService {
   public candidate: Candidate;
 
   public candidate_job_search_status;
-  
-  public loadingJobSearchStatus: boolean = false; 
-  
+
+  public loadingJobSearchStatus: boolean = false;
+
   public _urlLoginAuth0 = '/auth/login-auth0';
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
@@ -112,7 +114,7 @@ export class AuthService {
         }
 
       }).catch(r => {
-        this.eventService.errorStorage$.next();
+        this.eventService.errorStorage$.next({});
       });
     });
   }
@@ -195,7 +197,7 @@ export class AuthService {
         if (!this.isProfileCompleted) {
           //    this.navCtrl.navigateRoot(['complete-profile']);
         }
-          
+
         window.analytics.identify(this.id, {
           name: this.name,
           email: this.email,
@@ -214,7 +216,7 @@ export class AuthService {
       // this._platform.setDir('rtl', true);
       document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
     }).catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
   }
 
@@ -263,7 +265,7 @@ export class AuthService {
 
         }
 
-        //this.eventService.googleLoginFinished$.next();
+        //this.eventService.googleLoginFinished$.next({});
 
       }, err => {
 
@@ -282,7 +284,7 @@ export class AuthService {
   setLanguagePref(language_pref) {
 
     Storage.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
 
     this.language_pref = language_pref;
@@ -316,7 +318,7 @@ export class AuthService {
         language_pref: this.language_pref
       })
     }).catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
   }
 
@@ -337,7 +339,7 @@ export class AuthService {
     this.isLogin = false;
 
     Storage.clear().catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
 
     this.eventService.userLogout$.next(reason ? reason : false);
@@ -356,17 +358,17 @@ export class AuthService {
     this.email = data.email;
     this.isProfileCompleted = data.isProfileCompleted;
 
-    window.analytics.identify(this.id, {
-      name: this.name,
-      email: this.email,
-    });
-    
+    // window.analytics.identify(this.id, {
+    //   name: this.name,
+    //   email: this.email,
+    // });
+
     /*
     //to fix: https://www.pivotaltracker.com/story/show/174788568
 
-    this.language_pref = data.language_pref;      
+    this.language_pref = data.language_pref;
 
-    if(data.language_pref) {      
+    if(data.language_pref) {
       this.eventService.setLanguagePref$.next(data.language_pref);
     }*/
 
@@ -396,7 +398,7 @@ export class AuthService {
         this.setAccessToken(user);
       }
     }).catch(r => {
-      this.eventService.errorStorage$.next();
+      this.eventService.errorStorage$.next({});
     });
 
     return this._accessToken;
@@ -417,7 +419,7 @@ export class AuthService {
   }
 
   /**
-   * Update password by token got in email 
+   * Update password by token got in email
    * @param password
    * @param token
    */
@@ -637,7 +639,7 @@ export class AuthService {
 
     // log to slack/sentry to know how many user getting file upload error
 
-    //this.sentryService.handleError('Error on trying to find name for Civil Id ' + errMsg);  
+    //this.sentryService.handleError('Error on trying to find name for Civil Id ' + errMsg);
 
     return empty();
   }
@@ -661,13 +663,13 @@ export class AuthService {
     // Handle No Internet Connection Error
 
     if (error.status == 0 || error.status == 504) {
-      this.eventService.internetOffline$.next();
+      this.eventService.internetOffline$.next({});
       // this._auth.logout("Unable to connect to Pogi servers. Please check your internet connection.");
       return empty();
     }
 
     if (!navigator.onLine || error.status === 504) {
-      this.eventService.internetOffline$.next();
+      this.eventService.internetOffline$.next({});
       return empty();
     }
 
@@ -679,13 +681,13 @@ export class AuthService {
 
     // Handle internal server error - 500
     if (error.status === 500) {
-      this.eventService.error500$.next();
+      this.eventService.error500$.next({});
       return empty();
     }
 
     // Handle page not found - 404 error
     if (error.status === 404) {
-      this.eventService.error404$.next();
+      this.eventService.error404$.next({});
       return empty();
     }
 
@@ -717,7 +719,7 @@ export class AuthService {
             givenName: data.user.name.givenName
           })
         }).catch(r => {
-          this.eventService.errorStorage$.next();
+          this.eventService.errorStorage$.next({});
         });
 
         params = {
@@ -748,17 +750,25 @@ export class AuthService {
   /**
    * login by Apple sign in
    */
-  loginByApple() {
+  async loginByApple() {
 
     this.appleAuthLoading = true;
     console.log('loginByApple');
-    SignInWithApple.Authorize().then(async (res) => {
-      console.log(res);
-      this.handleAppleLoginResponse(res);
-    })
-      .catch((err) => {
-        // login/signup with private email
-        this.handleAppleLoginResponse(err);
+    let options: SignInWithAppleOptions = {
+      clientId: 'co.studenthub.candidate',
+      redirectURI: 'http://localhost:8100/landing',
+      scopes: 'email name',
+      state: '12345',
+      nonce: 'nonce',
+    };
+    SignInWithApple.authorize(options)
+      .then((result: SignInWithAppleResponse) => {
+        this.appleAuthLoading = false;
+        this.handleAppleLoginResponse(result);
+      })
+      .catch(error => {
+        this.appleAuthLoading = false;
+        this.handleAppleLoginResponse(error);
       });
   }
 
@@ -794,7 +804,7 @@ export class AuthService {
           givenName : data.response.givenName
         })
       }).catch(r => {
-        this.eventService.errorStorage$.next();
+        this.eventService.errorStorage$.next({});
       });
 
       params = data.response;

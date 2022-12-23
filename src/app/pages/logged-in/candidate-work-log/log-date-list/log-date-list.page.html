@@ -1,12 +1,32 @@
-<ion-header>
-  <ion-toolbar class="max-width">
-    <ion-buttons slot="start">
+<ion-header [translucent]="true" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-buttons [collapse]="true" slot="start">
       <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
     </ion-buttons>
     <ion-title>{{"Time Log" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  <ion-header collapse="condense" *ngIf="platform.is('mobile')">
+    <ion-toolbar>
+      <ion-buttons [collapse]="true" slot="start">
+        <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
+      </ion-buttons>
+      <ion-title size="large">{{"Time Log" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<!--<ion-header>-->
+<!--  <ion-toolbar class="max-width">-->
+<!--    <ion-buttons slot="start">-->
+<!--      <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>-->
+<!--    </ion-buttons>-->
+<!--    <ion-title>{{"Time Log" | translate}}</ion-title>-->
+<!--  </ion-toolbar>-->
+<!--</ion-header>-->
+
+
+<!--<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">-->
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 

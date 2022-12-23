@@ -65,15 +65,15 @@ export class InvitationFeedbackPage implements OnInit {
     }
 
     action.subscribe(response => {
-      this.eventService.requestUpdated$.next();
+      this.eventService.requestUpdated$.next({});
 
       this.loading = false;
 
-      if (response.operation == 'success') 
+      if (response.operation == 'success')
       {
         this.modalCtrl.dismiss({ refresh: true });
-      } 
-      else 
+      }
+      else
       {
         this.alertCtrl.create({
           message: this.translateLabelService.errorMessage(response.message),

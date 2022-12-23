@@ -9,8 +9,7 @@ import { TranslateLabelService } from '../../../providers/translate-label.servic
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 
-
-const { Storage } = Plugins;
+import { Preferences as Storage } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-update-email',
@@ -87,10 +86,10 @@ export class UpdateEmailPage implements OnInit {
         const { value } = await Storage.get({ key: 'loggedInUser' });
 
         Storage.set({
-          key: "unVerifiedToken", 
+          key: "unVerifiedToken",
           value: value
         }).catch(r => {
-          this.eventService.errorStorage$.next();
+          this.eventService.errorStorage$.next({});
         });
 
         /*this.eventService.verifyEmail$.next({
@@ -99,7 +98,7 @@ export class UpdateEmailPage implements OnInit {
         });*/
 
         this.dismiss({ email: this.form.controls.email.value });
-        
+
       }
       else if (res.operation == 'error') {
         this._handleError(res);

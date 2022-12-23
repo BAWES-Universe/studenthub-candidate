@@ -21,46 +21,46 @@
 
     <ion-list *ngIf="candidate">
 
-      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name || !candidate.candidate_area_uuid || 
+      <ion-item routerLink="/personal-info" [class.required]="!candidate.candidate_driving_license || !candidate.candidate_gender || !candidate.candidate_birth_date || !candidate.nationality || !candidate.university || (candidate.candidateSkills && candidate.candidateSkills.length == 0) || (candidate.candidateExperiences && candidate.candidateExperiences.length == 0) || !candidate.candidate_phone || !candidate.candidate_email || !candidate.candidate_name_ar || !candidate.candidate_name || !candidate.candidate_area_uuid ||
         (
           candidate.country && candidate.nationality &&
           candidate.country.country_nationality_name_en == 'Kuwaiti' &&
-          candidate.nationality.country_nationality_name_en != 'Kuwaiti' && 
+          candidate.nationality.country_nationality_name_en != 'Kuwaiti' &&
           !candidate.candidate_mom_kuwaiti
-        )">
+        )" detail="true" detail-icon="chevron-forward-outline">
         <div tabindex="0"></div>
-        
+
         <span slot="start" class="step">
           <ion-icon name="checkmark-outline"></ion-icon>
           <span class="count">1</span>
         </span>
-        
+
         <ion-label>
           {{ "Personal and contact info" | translate }}
         </ion-label>
       </ion-item>
 
-      <ion-item routerLink="/first-impression" [class.required]="!candidate.candidate_personal_photo || !candidate.candidate_objective">
+      <ion-item routerLink="/first-impression" [class.required]="!candidate.candidate_personal_photo || !candidate.candidate_objective" detail="true" detail-icon="chevron-forward-outline">
         <div tabindex="0"></div>
 
         <span slot="start" class="step">
           <span class="count">2</span>
           <ion-icon name="checkmark-outline"></ion-icon>
         </span>
-        
+
         <ion-label>
           {{ "Make a first impression" | translate }}
         </ion-label>
       </ion-item>
 
-      <ion-item routerLink="/national-id" [class.required]="!candidate.candidate_civil_id || !candidate.candidate_civil_expiry_date || !candidate.candidate_civil_photo_front || !candidate.candidate_civil_photo_back">
+      <ion-item routerLink="/national-id" [class.required]="!candidate.candidate_civil_id || !candidate.candidate_civil_expiry_date || !candidate.candidate_civil_photo_front || !candidate.candidate_civil_photo_back" detail="true" detail-icon="chevron-forward-outline">
         <div tabindex="0"></div>
 
         <span slot="start" class="step">
           <span class="count">3</span>
           <ion-icon name="checkmark-outline"></ion-icon>
         </span>
-        
+
         <ion-label>
           {{ "Your National / Civil ID" | translate }}
         </ion-label>
@@ -88,5 +88,5 @@ candidate.candidate_civil_expiry_date && !this.candidate.pendingField">
   </div>
 </ion-footer>
 
- 
+
 

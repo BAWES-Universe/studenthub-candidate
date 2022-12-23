@@ -8,9 +8,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
-
-
-const { Storage } = Plugins;
+import { Preferences as Storage } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-verify-email',
@@ -275,7 +273,7 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
 
     if (this.authService.isLogin) {
       // this.loader = false;
-      this.eventService.userUpdated$.next(); // email updated
+      this.eventService.userUpdated$.next({}); // email updated
 
       if (res.isProfileCompleted) {
         this.navCtrl.navigateRoot(['/']);

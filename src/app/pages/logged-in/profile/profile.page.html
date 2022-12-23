@@ -1,5 +1,14 @@
-
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [class.inTabs]="update" [attr.dir]="translateService.direction()">
+<ion-header [translucent]="true" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title>{{"Profile" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" [scrollEvents]="true" [class.inTabs]="update" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  <ion-header collapse="condense" *ngIf="platform.is('mobile')">
+    <ion-toolbar>
+      <ion-title size="large">{{"Profile" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
   <div class="max-width">
 
@@ -16,7 +25,7 @@
       </ion-button>
 
       <div class="clearfix"></div>
-      
+
       <h2 class="candidate-name" tappable (click)="updateName()"*ngIf="candidate.candidate_name">
         {{ candidate.candidate_name }}&nbsp;
         <ion-icon class="verified" src="../../../../assets/images/ic_verified.svg" *ngIf="candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
@@ -25,23 +34,23 @@
       <h4 class="candidate-name" tappable (click)="updateNameArabic()" *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</h4>
 
       <div class="birth-date" tappable (click)="updateDateOfBirth()" [class.required]="!candidate.candidate_birth_date">
-      
+
         <span *ngIf="candidate.candidate_birth_date">
 
           <b>{{ candidate.candidate_birth_date | age }}</b> <br />
 
           <span *ngIf="translateService.currentLang != 'ar'" class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
-            date: toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang 
+            date: toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang
           }"></span>
-          
+
           <span *ngIf="translateService.currentLang == 'ar'" class="txt-born-on" [innerHtml]="'txt_born_on' | translate : {
-                date: toDate(candidate.candidate_birth_date) | date :'MMMM d ، y': undefined: translateService.currentLang 
+                date: toDate(candidate.candidate_birth_date) | date :'MMMM d ، y': undefined: translateService.currentLang
               }"></span>
 
         </span>
 
         <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
-        
+
       </div>
 
       <div class="objective" tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
@@ -49,11 +58,11 @@
         <span *ngIf="!candidate.candidate_objective">
           {{ "Tell us more about yourself. What makes you special?" | translate }}</span>
       </div>
-      
+
       <ion-item tappable class="video" (click)="updateVideo()">
         <div tabindex="0"></div>
         <ion-label>
-          
+
           <div *ngIf="!candidate.candidate_video">
             <h5>{{ "Record an introductory video" | translate }}</h5>
             <div class="hint">{{ "It’s optional, but it’ll give a better impression of yourself and a higher chance of companies wanting to hire you." | translate }}</div>
@@ -79,7 +88,7 @@
             <h5>{{ "CV / Portfolio" | translate }}</h5>
             <p>{{ 'txt_file_uploaded' | translate: { extension: awsService.getFileExtension(candidate.candidate_resume).toUpperCase() } }}</p>
           </div>
-          
+
         </ion-label>
       </ion-item>
 
@@ -114,7 +123,7 @@
       <ion-item tappable class="phone" (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
         <div tabindex="0"></div>
         <ion-label>
-          <b *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</b> 
+          <b *ngIf="candidate.candidate_phone"> {{ candidate.candidate_phone }}</b>
         </ion-label>
       </ion-item>
 
@@ -153,7 +162,7 @@
           <b *ngIf="!candidate.nationality">{{ "Where are you from?" | translate }} </b>
         </ion-label>
       </ion-item>
-  
+
       <ion-item tappable class="gender" (click)="updateGender()" [class.required]="!candidate.candidate_gender">
         <div tabindex="0"></div>
         <ion-label>
@@ -182,7 +191,7 @@
         </ion-label>
       </ion-item>
 
-      <ion-item tappable class="mother-nationality" (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti" 
+      <ion-item tappable class="mother-nationality" (click)="updateKuwaitiNationalStatus()" [class.required]="!candidate.candidate_mom_kuwaiti"
         *ngIf="candidate.country && candidate.nationality &&
         candidate.country.country_nationality_name_en == 'Kuwaiti' &&
         candidate.nationality.country_nationality_name_en != 'Kuwaiti'">

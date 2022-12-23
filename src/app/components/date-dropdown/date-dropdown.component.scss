@@ -21,7 +21,7 @@ ion-datetime {
     --padding-top: 21px;
     --padding-start: 65px;
     --padding-end: 24px;
-    background: url('../../../assets/images/ic-calender.svg') no-repeat;
+    //background: url('../../../assets/images/ic-calender.svg') no-repeat;
     height: 73px;
     /* border-radius: 10px; */
     line-height: 1.65;
@@ -31,8 +31,8 @@ ion-datetime {
 [dir="ltr"] {
     ion-datetime {
         background-position: 16px 22px;
-    } 
-    
+    }
+
     ion-select:first-child {
         margin-left: 0;
     }
@@ -41,8 +41,8 @@ ion-datetime {
 [dir="rtl"] {
     ion-datetime {
         background-position: calc(100% - 16px) 22px;
-    } 
-    
+    }
+
     ion-select:first-child {
         margin-right: 0;
     }

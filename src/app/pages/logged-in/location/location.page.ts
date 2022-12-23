@@ -13,7 +13,7 @@ import { GoogleMapService } from 'src/app/providers/logged-in/google-map.service
 
 declare var google;
 
-const { Geolocation } = Plugins;
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-location',
@@ -82,14 +82,14 @@ export class LocationPage implements OnInit {
     }
   }
 
-  onCountryChange(event) {    
+  onCountryChange(event) {
     this.area = null;
     this.query = null;
 
     setTimeout(() => {
-      if(this.searchInput) 
+      if(this.searchInput)
         this.searchInput.setFocus();
-    }, 500);    
+    }, 500);
   }
 
   initMap(lat, long): void {
@@ -164,13 +164,13 @@ export class LocationPage implements OnInit {
     this.isLoading = true;
 
     this.googleMapService.placeDetail(place).subscribe(result => {
-      
+
       this.isLoading = false;
 
       if (result.operation == 'success') {
         this.setArea(result.country, result.area, result.area.area_latitude, result.area.area_longitude);
-      } 
-      else 
+      }
+      else
       {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(result.message),
@@ -233,9 +233,9 @@ export class LocationPage implements OnInit {
     Geolocation.getCurrentPosition(locationOptions).then((resp) => {
       if (resp && resp.coords) {
         this.areaByLocation(resp.coords.latitude, resp.coords.longitude);
-      } 
+      }
     }).catch((error) => {
-      
+
       this.alertCtrl.create({
         header: this.translateService.transform('Error'),
         message: this.translateService.transform('Getting location'),
@@ -253,9 +253,9 @@ export class LocationPage implements OnInit {
       this.isLoading = false;
 
       if (result.operation == 'success' && result.area) {
-            
+
         this.setArea(result.country, result.area, latitude, longitude);
-        
+
       } else {
 
         this.alertCtrl.create({
@@ -284,7 +284,7 @@ export class LocationPage implements OnInit {
 
     if (
         this.area.area_name_en &&
-        this.country.country_name_en) 
+        this.country.country_name_en)
     {
       this.selected = true;
     }
@@ -292,14 +292,14 @@ export class LocationPage implements OnInit {
     this.form.controls.area_uuid.setValue(area.area_uuid);
 
     this.form.controls.latitude.setValue(latitude);
-    
+
     this.form.controls.longitude.setValue(longitude);
 
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
 
-    //save changes 
-    
+    //save changes
+
     this.submit();
   }
 
@@ -307,7 +307,7 @@ export class LocationPage implements OnInit {
    * save location
    */
   submit() {
-    this.updating = true; 
+    this.updating = true;
 
     this.accountService.updateLocation(this.form.value).subscribe(res => {
 
@@ -321,7 +321,7 @@ export class LocationPage implements OnInit {
         this.candidate.candidate_area_uuid = this.form.value.area_uuid;
         this.candidate.candidate_latitude = this.form.value.latitude;
         this.candidate.candidate_longitude = this.form.value.longitude;
-        
+
         this.dismiss({ refresh: true });
 
       } else {
@@ -341,7 +341,7 @@ export class LocationPage implements OnInit {
 
     if (!this.marker) {
 
-      //add marker to map 
+      //add marker to map
 
       this.marker = this.addMarker(latitude, longitude);
 
@@ -356,7 +356,7 @@ export class LocationPage implements OnInit {
 
   /**
    * close modal
-   * @param data 
+   * @param data
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {

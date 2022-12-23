@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, LoadingController, ModalController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
-const { Storage } = Plugins;
+import { Preferences as Storage } from '@capacitor/preferences';
 
 @Component({
   selector: 'pogi-app-error',
@@ -22,7 +21,7 @@ export class AppErrorPage implements OnInit {
     public translateService: TranslateLabelService
   ) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     window.analytics.page('App Error page');
   }
 

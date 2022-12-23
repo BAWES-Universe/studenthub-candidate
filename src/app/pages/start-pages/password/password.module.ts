@@ -13,8 +13,8 @@ import {TranslateModule} from '@ngx-translate/core';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     IonicModule,
+    ReactiveFormsModule,
     PasswordPageRoutingModule,
     TranslateModule.forChild()
   ],

@@ -1,9 +1,14 @@
-<ion-header class="clear-header" *ngIf="platform.is('mobile')">
+<ion-header [translucent]="true" *ngIf="platform.is('mobile')">
   <ion-toolbar>
-    <ion-title class="ion-text-start">{{"Home" | translate}}</ion-title>
+    <ion-title>{{"Home" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  <ion-header collapse="condense" *ngIf="platform.is('mobile')">
+    <ion-toolbar>
+      <ion-title size="large">{{"Home" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
 

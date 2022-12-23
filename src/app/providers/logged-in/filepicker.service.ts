@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Observable, Observer } from "rxjs";
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
-import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
-
-
+import { FileChooser } from '@awesome-cordova-plugins/file-chooser/ngx';
+import { FilePath } from '@awesome-cordova-plugins/file-path/ngx';
+import { DocumentPicker } from '@awesome-cordova-plugins/document-picker/ngx';
 
 /**
- * Select plugins based on platform to select files to upload 
+ * Select plugins based on platform to select files to upload
  */
 @Injectable({
     providedIn: 'root'
@@ -16,7 +14,7 @@ import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
 export class FilepickerService {
 
     constructor(
-        private filePicker: IOSFilePicker,
+        private filePicker: DocumentPicker,
         public fileChooser: FileChooser,
         private filePath: FilePath,
         public platform: Platform
@@ -54,17 +52,16 @@ export class FilepickerService {
      * Open FilePicker for iOS
      */
     pickForIos(){
-
         return Observable.create((observer: Observer<any>) => {
 
-            this.filePicker.pickFile()
-                .then(uri => { 
+            this.filePicker.getFile()
+                .then(uri => {
                     observer.next(encodeURI("file://" + uri));
                     observer.complete();
                 })
                 .catch(err => {
-                    console.error('Error', err); 
-                }); 
+                    console.error('Error', err);
+                });
         });
     }
 }

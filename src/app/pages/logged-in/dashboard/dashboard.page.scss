@@ -1,4 +1,3 @@
-
 .brand {
     text-align: center;
 
@@ -128,12 +127,12 @@ ion-card {
 }
 
 .profile-card {
-    background-image: url(src/assets/images/ic_profile.svg);
+    background-image: url('/assets/images/ic_profile.svg');
 }
 .card-job-status {
     cursor: pointer;
     background-color: #eb5757;
-    background-image: url(src/assets/images/ic_delete.svg);
+    background-image: url('/assets/images/ic_delete.svg');
 
     ion-card-title,
     ion-card-content {
@@ -269,4 +268,9 @@ app-invitation:last-child {
 }
 .max-width {
     margin-bottom:50px;
+}
+
+ion-card ion-card-title {
+  font-size: 18px;
+  font-weight: 500;
 }

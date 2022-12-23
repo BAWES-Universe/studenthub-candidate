@@ -6,15 +6,15 @@
 
     <h3>{{ "Let’s make you an account" | translate }}</h3>
 
-    <form [formGroup]="registerForm" (keyup.enter)="onSubmit()" (submit)="onSubmit()">
+    <form *ngIf="registerForm" [formGroup]="registerForm" (keyup.enter)="onSubmit()" (submit)="onSubmit()">
 
-      <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name" 
+      <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name"
         placeholder="{{ 'Your name' | translate }}"></ion-input>
 
-      <ion-input type="email" inputmode="email" autocomplete="email" #nameInput formControlName="email" 
+      <ion-input type="email" inputmode="email" autocomplete="email" #nameInput formControlName="email"
         placeholder="{{ 'Your email' | translate }}"></ion-input>
 
-      <ion-input type="telephone" inputmode="tel" autocomplete="tel" #phoneInput 
+      <ion-input type="telephone" inputmode="tel" autocomplete="tel" #phoneInput
         formControlName="phone" maxlength="8" placeholder="{{ 'Your phone number' | translate }}"></ion-input>
 
       <div class="password_field">
@@ -34,7 +34,7 @@
     <ion-button (click)="openLoginPage()" class="btn-login">
       {{ "Already a member?" | translate }}&nbsp;<b>{{ "Login" | translate }}</b>
     </ion-button>
-      <!-- 
+      <!--
     <ion-button class="btn-login-bawes" (click)="auth.loginWithRedirect()">
       {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
     </ion-button> -->

@@ -9,7 +9,8 @@ import {Candidate} from '../../models/candidate';
 import {TranslateLabelService} from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
 
-const { Geolocation } = Plugins;
+import { Geolocation } from '@capacitor/geolocation';
+
 /**
  * Display alert message to update app on new version availability
  */
@@ -41,7 +42,6 @@ export class AccountStatusComponent implements OnInit {
   async ngOnInit() {
 
     this.eventService.startWork$.subscribe( async () => {
-      console.log('startWork');
       this.startWorking();
     });
 
@@ -118,7 +118,7 @@ export class AccountStatusComponent implements OnInit {
 
   async startWorking() {
 
-    let contentLbl = this.translateService.transform('Starting Timer Please wait...');
+    let contentLbl = this.translateService.transform('Starting Timer Please Wait');
     let loading = await this.loadingCtrl.create({
       message: contentLbl
     });
@@ -136,7 +136,7 @@ export class AccountStatusComponent implements OnInit {
             this.candidate.isWorking = data.data;
             this.authService.candidate.isWorking = data.data;
             this.authService.saveLoggedInUser();
-            this.eventService.workStarted$.next();
+            this.eventService.workStarted$.next({});
           }
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
@@ -160,7 +160,7 @@ export class AccountStatusComponent implements OnInit {
 
   async stopWorking() {
 
-    let contentLbl = this.translateService.transform('Stopping Timer Please Wait...');
+    let contentLbl = this.translateService.transform('Stopping Timer Please Wait');
     let loading = await this.loadingCtrl.create({
       message: contentLbl
     });
@@ -175,7 +175,7 @@ export class AccountStatusComponent implements OnInit {
           this.authService.candidate.isWorking = null;
           this.authService.saveLoggedInUser();
           this.candidate.isWorking = null;
-          this.eventService.workStopped$.next();
+          this.eventService.workStopped$.next({});
           this.toastCtrl.create({
             message: this.authService.errorMessage(data.message),
             duration: 1500

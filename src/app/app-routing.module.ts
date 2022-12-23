@@ -266,7 +266,7 @@ const routes: Routes = [
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
-  
+
   {
     path: 'preferred-time',
     loadChildren: () => import('./pages/logged-in/preferred-time/preferred-time.module').then( m => m.PreferredTimePageModule)
