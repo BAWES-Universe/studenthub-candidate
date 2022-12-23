@@ -33,3 +33,4 @@ npm-debug.log*
 out-tsc/*
 /.angular
 .angular/*
+*.angular
