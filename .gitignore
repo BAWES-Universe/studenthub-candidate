@@ -33,3 +33,5 @@ npm-debug.log*
 out-tsc/*
 /.angular
 /.angular/cache
+.angular
+.angular/*
