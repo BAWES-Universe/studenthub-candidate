@@ -100,6 +100,7 @@ export class OptionPage implements OnInit {
   }
 
   async deleteProfile() {
+    this.dismiss();
     let alert = await this.alertCtrl.create({
       header: this.translateService.transform('Delete Profile'),
       message: this.translateService.transform('Are you sure you want to delete your profile permanently.'),

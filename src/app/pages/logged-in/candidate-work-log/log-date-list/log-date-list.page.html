@@ -1,4 +1,4 @@
-<ion-header [translucent]="true" *ngIf="platform.is('mobile')">
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons [collapse]="true" slot="start">
       <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
-  <ion-header collapse="condense" *ngIf="platform.is('mobile')">
+  <ion-header collapse="condense">
     <ion-toolbar>
       <ion-buttons [collapse]="true" slot="start">
         <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
