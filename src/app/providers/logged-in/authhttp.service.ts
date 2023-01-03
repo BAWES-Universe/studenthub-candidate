@@ -137,15 +137,12 @@ export class AuthHttpService {
           var blob = new Blob([response], { type: 'application/pdf' });
           // file name to dowanload/generate invoice
 
-          if (this.platform.is('ios') && this.platform.is('capacitor')) {
-            console.log('ios capacitor');
-            console.log('blob',blob);
-            console.log('response',response);
-
+          if (this.platform.is('capacitor')) { //this.platform.is('ios') && 
+           
             const base64 = await this.convertBlobToBase64(blob);
-            console.log('converted',base64);
+            
             await this.fileWrite(base64, filename)
-            console.log('fileWrite');
+            
           } else {
             saveAs(blob, filename);
           }
@@ -192,7 +189,6 @@ export class AuthHttpService {
   }
 
   async fileWrite(blob, filename) {
-    console.log('fileWrite', filename);
     try {
       const saveFile = await Filesystem.writeFile({
         path: filename,
@@ -201,8 +197,7 @@ export class AuthHttpService {
       })
       const path = saveFile.uri;
       const mimeType = this.getMimeType(filename);
-      console.log('mimeType', mimeType);
-      console.log('Wrote file', saveFile);
+      
       this.fileOpener.open(path, mimeType)
         .then(() => console.log('file is opened'))
         .catch(err => console.error(err));

@@ -2,8 +2,16 @@
 
 Frontend app for the Candidate portal
 
+Bugs: 
+
+- missing translations (work history, invitation etc)
+- track button in arabic should on left 
+
 
 #app for first time
+
+ -- update super class to `androidx.core.content.FileProvider` in FileProvider file (`io.github.pwlin.cordova.plugins.fileopener2` package)
+
  -- add below in info.plist
 
     <key>UIBackgroundModes</key>

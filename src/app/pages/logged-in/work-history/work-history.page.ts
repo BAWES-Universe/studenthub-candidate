@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, ModalController } from '@ionic/angular';
+import { AlertController, NavController, ModalController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 // services
@@ -24,12 +24,14 @@ export class WorkHistoryPage implements OnInit {
 
   constructor(
     public router: Router,
+    public platform: Platform,
     public alertCtrl: AlertController,
     public authService: AuthService,
     public eventService: EventService,
     public candidateService: CandidateService,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
+    public toastCtrl: ToastController,
     public translateService: TranslateLabelService,
   ) {
   }
@@ -76,6 +78,14 @@ export class WorkHistoryPage implements OnInit {
   download(history) {
     this.downloading = true;
     this.candidateService.downloadCertificate(history.id).subscribe(data => {
+
+      /*if(this.platform.is('android') && this.platform.is('capacitor')) {
+        this.toastCtrl.create({
+          message: this.translateService.transform("File Saved!"),
+          duration: 1500
+        }).then(toast => toast.present());
+      }*/
+
     },error => {},
     () => {
           this.downloading = false;
