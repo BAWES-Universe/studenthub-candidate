@@ -617,15 +617,6 @@ export class ProfilePage implements OnInit {
   }
 
   /**
-   * convert mysql date to browser readable date format
-   * @param date
-   */
-  toDate(date) {
-    if (date)
-      return new Date(date.replace(/-/g, '/') + ' UTC');
-  }
-
-  /**
    * open dashboard
    */
   async submit() {

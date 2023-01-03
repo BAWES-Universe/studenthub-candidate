@@ -299,7 +299,7 @@ export class CivilIdBackPage implements OnInit {
     if (type != 'image') {
       this.alertCtrl.create({
         message: this.translateService.transform('Invalid File format'),
-        buttons: [this.translateService.transform('Ok')]
+        buttons: [this.translateService.transform('Okay')]
       }).then(alert => { alert.present(); });
     }
     else

@@ -37,6 +37,16 @@ export class TranslateLabelService extends TranslateService {
     }
 
     /**
+     * Make date readable by Safari
+     * @param date
+     */
+    toDate(date) {
+        if (date) {
+        return new Date(date.replace(/-/g, '/'));
+        }
+    }
+    
+    /**
      * Return content based on language selected
      * @param enContent
      * @param arContent

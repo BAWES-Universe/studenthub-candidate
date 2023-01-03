@@ -114,7 +114,7 @@ export class UpdateEmailPage implements OnInit {
    * @param res
    */
   async _handleError(res) {
-    const ok = this.translateService.transform('ok');
+    const ok = this.translateService.transform('Okay');
 
     const prompt = await this.alertCtrl.create({
       message: this.translateService.errorMessage(res.message),

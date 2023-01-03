@@ -190,15 +190,6 @@ export class FirstImpressionPage implements OnInit {
   onPhotoError() {
     this.candidate.candidate_personal_photo = null;
   }
-
-  /**
-   * convert mysql date to browser readable date format
-   * @param date 
-   */
-  toDate(date) {
-    if (date)
-      return new Date(date.replace(/-/g, '/') + ' UTC');
-  }
   
   dismiss() {
     this.navCtrl.back();

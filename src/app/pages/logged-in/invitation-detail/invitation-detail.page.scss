@@ -5,45 +5,47 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: left;
     color: #000;
 }
 
 .txt-position-title{
-    margin: 9px 26px 8px 6px;
+    margin: 9px auto 8px auto;
+    margin-inline-end: 26px;
+    margin-inline-start: 6px;
     font-size: 27px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: left;
     color: #000;
 }
 
 .company {
-    margin: 8px 0 24px 6px;
+    margin: 8px auto 24px auto;
+    margin-inline-end: 0;
+    margin-inline-start: 8px;
     font-size: 21.9px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: left;
     color: #000;
     span {
         color: #4c5df2;
     }
 }
 .job-desc {
-    margin: 24px 52px 15px 6px;
+    margin: 24px auto 15px auto;
+    margin-inline-end: 52px;
+    margin-inline-start: 6px;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    text-align: left;
     color: #000;
 }
 h2 {
@@ -54,24 +56,26 @@ h2 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: left;
     color: #000;
 }
 .job-location,.job-compensation {
-    margin: 2px 58px 6px 6px;
+    margin: 2px auto 6px auto;
+    margin-inline-end: 58px;
+    margin-inline-start: 6px;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    text-align: left;
     color: #000;
 }
 .btn-apply {
     width: 200px;
     height: 45px;
-    margin: 19px 9px 0 0;
+    margin: 19px auto 0 0;
+    margin-inline-end: 9px;
+    margin-inline-start: 0px;
     border-radius: 5px;
     color:#fff;
     --color:#fff;
@@ -82,7 +86,9 @@ h2 {
 .btn-reject {
     width: 104px;
     height: 45px;
-    margin: 19px 7px 0 9px;
+    margin: 19px auto 0 auto;
+    margin-inline-end: 7px;
+    margin-inline-start: 9px;
     border-radius: 5px;
     color:#fff;
     --color:#fff;
@@ -95,7 +101,8 @@ ion-content .max-width {
 }
 ion-toolbar {
     ion-buttons {
-        padding: 23px 0 0 23px;
+        padding: 23px 0 0 auto;
+        padding-inline-start: 23px;
     }
 }
 
@@ -110,8 +117,12 @@ ion-toolbar {
 
 
 .msg {
-    margin: 17px 26px 24px 2px;
-    padding: 16px 21px 18px 23px;
+    margin: 17px auto 24px auto;
+    margin-inline-end: 26px;
+    margin-inline-start: 2px;
+    padding: 16px auto 18px auto;
+    padding-inline-start: 23px;
+    padding-inline-end: 21px;
     border-radius: 5px;
     background-color: #fff8ea;
     img {
@@ -127,7 +138,6 @@ ion-toolbar {
         font-style: normal;
         line-height: normal;
         letter-spacing: normal;
-        text-align: left;
         color: #000;
     }
 

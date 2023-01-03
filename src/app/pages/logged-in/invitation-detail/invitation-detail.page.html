@@ -18,13 +18,13 @@
 
     <p class="txt-position-title">{{ model.request.request_position_title }}</p>
 
-    <p class="company" *ngIf="translateService.currentLang == 'en'">At <span>{{ model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name }}</span>,</p>
+    <p class="company" *ngIf="translateService.currentLang == 'en'">{{ "At" | translate }} <span>{{ model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name }}</span>,</p>
 
-    <p class="company" *ngIf="translateService.currentLang != 'en'">At <span>{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</span>,</p>
+    <p class="company" *ngIf="translateService.currentLang != 'en'">{{ "At" | translate }} <span>{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</span>,</p>
 
     <p class="job-desc" [innerHTML]="model.request.request_job_description"></p>
 
-    <h2>Job location</h2>
+    <h2>{{ "Job location" | translate }}</h2>
     
     <p class="job-location">{{model.request.request_location}}</p>
 
@@ -32,16 +32,21 @@
 
       <ng-container *ngIf="model.invitation_status == 1">
         <div>
-          <ion-button class="btn-apply more-info" (click)="companyDetailPage($event)">{{"more_about_company" | translate : {value : model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name } }}</ion-button>
+          <ion-button class="btn-apply more-info" (click)="companyDetailPage($event)">
+            {{"more_about_company" | translate : {value : model.company.company_common_name_en? model.company.company_common_name_en: model.company.company_name } }}
+          </ion-button>
         </div>
         <div>
-          <ion-button class="btn-apply" (click)="accept($event)">{{"I’d like to apply" | translate}}</ion-button> <ion-button class="btn-reject" (click)="reject($event)">{{"Reject" | translate}}</ion-button>
+          <ion-button class="btn-apply" (click)="accept($event)">
+            {{"I’d like to apply" | translate}}
+          </ion-button> 
+          <ion-button class="btn-reject" (click)="reject($event)">{{ "Reject" | translate}}</ion-button>
         </div>
       </ng-container>
 
       <div *ngIf="model.invitation_status == 3">
         <h3>
-          {{"You applied for it with the message:" | translate}}
+          {{ "You applied for it with the message:" | translate}}
         </h3>
         <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
 
@@ -51,7 +56,7 @@
               <img src="assets/images/applied.svg"/>
             </ion-col>
             <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-              <span class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
+              <span class="txt">{{ "We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -59,7 +64,7 @@
 
       <div *ngIf="model.invitation_status == 2">
         <h3>
-          {{"You rejected it with the message:" | translate}}
+          {{ "You rejected it with the message:" | translate}}
         </h3>
         <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
         <ion-grid class="msg">
@@ -68,7 +73,7 @@
               <img src="assets/images/applied.svg"/>
             </ion-col>
             <ion-col  size-sm="10" size-xs="10"  size-md="10" size-lg="10">
-              <span class="txt">{{"We’ll keep you updated on any other jobs that pop up." | translate }}</span>
+              <span class="txt">{{ "We’ll keep you updated on any other jobs that pop up." | translate }}</span>
             </ion-col>
           </ion-row>
         </ion-grid>

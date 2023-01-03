@@ -179,7 +179,7 @@ export class UniversityPage implements OnInit {
       } else {
         this.alertCtrl.create({
           message: this.translateService.errorMessage(response.message),
-          buttons: [this.translateService.transform('Ok')]
+          buttons: [this.translateService.transform('Okay')]
         }).then(prompt => prompt.present());
       }
     },() => {

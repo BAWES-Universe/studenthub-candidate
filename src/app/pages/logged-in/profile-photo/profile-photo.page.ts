@@ -300,12 +300,12 @@ export class ProfilePhotoPage implements OnInit {
     if (type != 'image') {
       this.alertCtrl.create({
         message: this.translateService.transform('Invalid File format'),
-        buttons: [this.translateService.transform('Ok')]
+        buttons: [this.translateService.transform('Okay')]
       }).then(alert => { alert.present(); });
     }else if (fileList[0].size > this.allowedImageSize) {
       this.alertCtrl.create({
         message: this.translateService.transform('Maximum 5mb Upload is allowed'),
-        buttons: [this.translateService.transform('Ok')]
+        buttons: [this.translateService.transform('Okay')]
       }).then(alert => { alert.present(); });
     } else {
 
