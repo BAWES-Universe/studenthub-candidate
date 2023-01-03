@@ -4,9 +4,8 @@ Frontend app for the Candidate portal
 
 Bugs: 
 
-- missing translations (work history, invitation etc)
 - track button in arabic should on left 
-
+- test onesignal implementation in android/ios
 
 #app for first time
 
