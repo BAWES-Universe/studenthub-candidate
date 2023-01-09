@@ -1,3 +1,6 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>
+<!-- service worker update message -->
+
+<update-alert  (onRefresh)="onUpdateAlertRefresh()" *ngIf="updatesAvailable" (onClose)="onUpdateAlertClose()"></update-alert>
