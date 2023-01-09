@@ -668,12 +668,14 @@ export class AppComponent implements OnInit, OnDestroy {
    * keep checking for service worker update
    */
   setServiceWorker() {
+    console.log('set service worker');
 
     // service worker watcher
+    // if (!this.platform.is('capacitor') && window.location.hostname != 'localhost') {
     if (!this.platform.is('capacitor') && window.location.hostname != 'localhost') {
-
+      console.log('ssw 1');
       if ('serviceWorker' in navigator && environment.serviceWorker) {
-
+        console.log('ssw 2');
         navigator.serviceWorker.register('./ngsw-worker.js');
 
         // Allow the app to stabilize first, before starting polling for updates with `interval()`.
@@ -683,6 +685,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         updateIntervalOnceAppIsStable$.subscribe(() => {
           this.updates.checkForUpdate().then((e) => {
+            console.log('checking for update');
           });
         });
 
