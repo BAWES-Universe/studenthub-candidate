@@ -1,5 +1,6 @@
 App/build
 App/Pods
+App/public
 App/Podfile.lock
 App/App/public
 DerivedData

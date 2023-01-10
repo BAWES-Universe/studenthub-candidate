@@ -10,8 +10,7 @@
     <form [formGroup]="form" *ngIf="form">
 
       <ion-list>
-        <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
-          placeholder="DD/MM/YYYY" formControlName="birth_date"></app-date-dropdown>
+        <app-date-dropdown [min]="min" [max]="max" presentation="date" formControlName="birth_date"></app-date-dropdown>
       </ion-list>
 
       <ion-button (click)="submit()" class="btn-submit" [disabled]="!form.valid || isLoading" type="submit">
