@@ -79,7 +79,6 @@ export class LandingPage implements OnInit {
 
   reload() {
     this.route.navigate(['/landing']);
-    console.log('reload');
   }
 
   visitWebsite() {

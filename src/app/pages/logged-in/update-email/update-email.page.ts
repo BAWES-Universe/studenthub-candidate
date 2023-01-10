@@ -89,7 +89,7 @@ export class UpdateEmailPage implements OnInit {
           key: "unVerifiedToken",
           value: value
         }).catch(r => {
-          this.eventService.errorStorage$.next({});
+          this.eventService.errorStorage$.next(r);
         });
 
         /*this.eventService.verifyEmail$.next({
