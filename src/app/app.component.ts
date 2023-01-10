@@ -241,7 +241,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot(['/not-found']);
     });
 
-    this.eventService.errorStorage$.subscribe(() => {
+    this.eventService.errorStorage$.subscribe((e) => {
+      console.error(e);
       this.navCtrl.navigateRoot(['/app-error']);
     });
 
@@ -273,7 +274,7 @@ export class AppComponent implements OnInit, OnDestroy {
           key: 'oneSignal',
           value: JSON.stringify(userEventData)
         }).catch(r => {
-          this.eventService.errorStorage$.next({});
+          this.eventService.errorStorage$.next(r);
         });
       }
     });
@@ -357,21 +358,21 @@ export class AppComponent implements OnInit, OnDestroy {
           };
         }
 
-        if (window && window.OneSignal) {
-          const OneSignal = window.OneSignal || [];
-          OneSignal.setSubscription(true);
+        //OneSignal.setSubscription(true);
 
-          //OneSignal.enableVibrate(data.enableVibrate);
-          //OneSignal.enableSound(data.enableSound);
+        //OneSignal.enableVibrate(data.enableVibrate);
+        //OneSignal.enableSound(data.enableSound);
 
-          OneSignal.sendTags({
-            'candidate_id': this.authService.id + '',
-            'name': this.authService.name,
-            'email': this.authService.email
-          });
-        }
+        OneSignal.setAppId(environment.oneSignalAppId);
+
+        OneSignal.sendTags({
+          'candidate_id': this.authService.id + '',
+          'name': this.authService.name,
+          'email': this.authService.email
+        });
+
       }).catch(r => {
-        this.eventService.errorStorage$.next({});
+        this.eventService.errorStorage$.next(r);
       });
     }
     else if(window && window.Notification && window.OneSignal)
@@ -398,7 +399,7 @@ export class AppComponent implements OnInit, OnDestroy {
       'key': 'oneSignalStatus',
       'value': '1'
     }).catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
   }
 
@@ -416,7 +417,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       // if status == 2, ignore - user not want notifications
     }).catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
   }
 
