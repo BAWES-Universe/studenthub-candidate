@@ -163,7 +163,6 @@ ion-slides {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  text-align: left;
   color: #000;
 }
 
@@ -179,20 +178,21 @@ b {
 }
 
 p {
-  margin: 21px 1px 33.9px 0;
+  margin: 21px auto 33.9px 0;
+  margin-inline-end: 1px;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  text-align: left;
   color: #000;
 }
 
 p b {
   color: var(--ion-text-color, #000000);
 }
+
 .margin-bottom-10 {
   margin-bottom: 10px;
 }
@@ -207,6 +207,7 @@ p b {
   letter-spacing: normal;
   text-align: center;
   color: #000;
+  
   span {
     font-weight: bold;
     color: #4354a4;

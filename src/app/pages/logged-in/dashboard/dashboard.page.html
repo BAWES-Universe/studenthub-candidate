@@ -76,17 +76,22 @@
           <ion-card-content>
             <ng-container *ngFor="let history of workHistory; let i = index;" >
               <div class="history" *ngIf="history.store">
-                  <h2 *ngIf="history.company.parentCompany">{{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
-                  <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
+                  <h2 *ngIf="history.company.parentCompany">
+                    {{ history.company.parentCompany.company_common_name_en? history.company.parentCompany.company_common_name_en: history.company.parentCompany.company_name }}</h2>
+                  <h2 *ngIf="!history.company.parentCompany">
+                    {{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
                   <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
                   <p>
-                    {{ toDate(history.start_date) | date }}
-                    <ng-container *ngIf="history.end_date"> to {{ toDate(history.end_date) | date }}</ng-container>
-                    <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)"> to now</ng-container>
+                    {{ translateService.toDate(history.start_date) | date :'mediumDate': undefined: translateService.currentLang }}
+                    <ng-container *ngIf="history.end_date"> 
+                      {{ "to" | traslate }} {{ translateService.toDate(history.end_date) | date :'mediumDate': undefined: translateService.currentLang }}</ng-container>
+                    <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)"> {{ "to" | translate }} {{ "now" | translate }}</ng-container>
                   </p>
               </div>
             </ng-container>
-            <ion-button slot="end" *ngIf="workHistory.length > 0" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> {{"Download Certificates"| translate}}</ion-button>
+            <ion-button slot="end" *ngIf="workHistory.length > 0" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> 
+              {{"Download Certificates"| translate}}
+            </ion-button>
           </ion-card-content>
         </ion-card>
       </div>

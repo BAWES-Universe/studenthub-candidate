@@ -131,15 +131,6 @@ export class NationalIdPage implements OnInit {
   onCivilFrontError() {
     this.candidate.candidate_civil_photo_front = null;
   }
-
-  /**
-   * convert mysql date to browser readable date format
-   * @param date 
-   */
-  toDate(date) {
-    if (date)
-      return new Date(date.replace(/-/g, '/') + ' UTC');
-  }
   
   dismiss() {
     this.navCtrl.back();

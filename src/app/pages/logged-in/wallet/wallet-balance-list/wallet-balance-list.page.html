@@ -23,8 +23,8 @@
               </p>
               <p><strong>{{"Balance:" | translate}} </strong> {{balance.balance | currency:'KWD'}}</p>
               <p><strong>{{"Note:" | translate}} </strong>{{balance.data}}</p>
-              <p><strong>{{"Created At:" | translate}} </strong>{{balance.created_at | date}}</p>
-              <p><strong>{{"Transaction time:" | translate}} </strong>{{balance.transaction_datetime | date}}</p>
+              <p><strong>{{"Created At:" | translate}} </strong>{{balance.created_at | date :'mediumDate': undefined: translateService.currentLang}}</p>
+              <p><strong>{{"Transaction time:" | translate}} </strong>{{balance.transaction_datetime | date :'mediumDate': undefined: translateService.currentLang }}</p>
             </ion-label>
           </ion-item>
         </ion-card>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, IonInput, AlertController } from '@ionic/angular';
+import {format, parseISO} from "date-fns";
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -74,7 +75,10 @@ export class IdCardPage implements OnInit {
    */
   submit() {
     this.isLoading = true;
-    this.accountService.updateCivilIdAndExpiryDate(this.form.value.civil_id, this.form.value.civil_expiry_date).subscribe(res => {
+
+    const date = format(parseISO(this.form.value.civil_expiry_date), 'yyyy-MM-dd');
+
+    this.accountService.updateCivilIdAndExpiryDate(this.form.value.civil_id, date).subscribe(res => {
 
       this.isLoading = false;
 

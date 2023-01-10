@@ -556,7 +556,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       this.alertCtrl.create({
         message: err,
-        buttons: [this.translateService.transform('Ok')]
+        buttons: [this.translateService.transform('Okay')]
       }).then(alert => { alert.present(); });
 
     });

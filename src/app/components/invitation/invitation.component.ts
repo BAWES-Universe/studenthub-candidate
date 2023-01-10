@@ -37,15 +37,4 @@ export class InvitationComponent implements OnInit {
       }
     });
   }
-
-  /**
-   * Make date readable by Safari
-   * @param date
-   */
-   toDate(date) {
-    if (date) {
-      return new Date(date.replace(/-/g, '/'));
-    }
-  }
-
 }

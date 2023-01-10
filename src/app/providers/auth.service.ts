@@ -258,8 +258,8 @@ export class AuthService {
 
         } else if (response.operation == 'error') {
           const alert = await this.alertCtrl.create({
-            message: this.translate.transform('Error getting login by Auth0 API'), // JSON.stringify(err)
-            buttons: [this.translate.transform('Ok')]
+            message: this.translate.transform('Error getting login'), // JSON.stringify(err)
+            buttons: [this.translate.transform('Okay')]
           });
           await alert.present();
 
@@ -864,7 +864,7 @@ export class AuthService {
 
       this.alertCtrl.create({
         message: response.message,
-        buttons: [this.translate.transform('Ok')]
+        buttons: [this.translate.transform('Okay')]
       }).then(alert => {
         alert.present();
       });
@@ -878,7 +878,7 @@ export class AuthService {
   async showLoginError(message = null) {
     const alert = await this.alertCtrl.create({
       message: message? message: this.translate.transform('Error getting login'),
-      buttons: [this.translate.transform('Ok')]
+      buttons: [this.translate.transform('Okay')]
     });
     await alert.present();
   }

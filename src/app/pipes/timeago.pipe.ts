@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { TranslateLabelService } from '../providers/translate-label.service';
 
 
 @Pipe({
@@ -11,7 +12,8 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    public translate: TranslateLabelService
   ) { }
 
   transform(value: string) {
@@ -43,32 +45,32 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     if (Number.isNaN(seconds)) {
       return '';
     } else if (seconds <= 45) {
-      return 'a few seconds ago';
+      return this.translate.transform('a few seconds ago');
     } else if (seconds <= 90) {
-      return 'a minute ago';
+      return this.translate.transform('a minute ago');
     } else if (minutes <= 45) {
-      return minutes + ' minutes ago';
+      return this.translate.transform('txt_minutes_ago', { value: minutes });
     } else if (minutes <= 90) {
-      return 'an hour ago';
+      return this.translate.transform('an hour ago');
     } else if (hours <= 22) {
       // return `
       // ${value} ==== ${d}<br/>
       // ${utcTimeNow.getHours()} ${d.getHours()} ${hours} hours ago<br/>
       // ${utcTimeNow}
       // `;
-      return `${hours} hours ago`;
+      return this.translate.transform('txt_hours_ago', { value: hours }); 
     } else if (hours <= 36) {
-      return 'a day ago';
+      return this.translate.transform('a day ago');
     } else if (days <= 25) {
-      return days + ' days ago';
+      return this.translate.transform('txt_days_ago', { value: days });  
     } else if (days <= 45) {
-      return 'a month ago';
+      return this.translate.transform('a month ago');
     } else if (days <= 345) {
-      return months + ' months ago';
+      return this.translate.transform('txt_months_ago', { value: months }); 
     } else if (days <= 545) {
-      return 'a year ago';
+      return this.translate.transform('a year ago');
     } else { // (days > 545)
-      return years + ' years ago';
+      return this.translate.transform('txt_years_ago', { value: years });  
     }
   }
 

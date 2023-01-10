@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, Platform, AlertController } from '@ionic/angular';
+import {format, parseISO} from "date-fns";
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -63,9 +64,14 @@ export class CivilExpiryPage implements OnInit {
    * save arabic name
    */
   submit() {
+
+    const date = format(parseISO(this.form.value.civil_expiry_date), 'yyyy-MM-dd');
+
     this.isLoading = true;
-    this.candidate.candidate_civil_expiry_date = this.form.value.civil_expiry_date;
-    this.accountService.updateCivilExpiryDate(this.form.value.civil_expiry_date).subscribe(res => {
+    
+    this.candidate.candidate_civil_expiry_date = date;
+
+    this.accountService.updateCivilExpiryDate(date).subscribe(res => {
 
       this.isLoading = false;
 
