@@ -24,7 +24,7 @@ const { SplashScreen} = Plugins;
 
 import { mergeMap } from 'rxjs/operators';
 import { Browser } from '@capacitor/browser';
-import { App } from '@capacitor/app';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
 
 declare var window;
 
@@ -68,25 +68,31 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeApp() {
     // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
-    App.addListener('appUrlOpen', ({ url }) => {
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Must run inside an NgZone for Angular to pick up the changes
       // https://capacitorjs.com/docs/guides/angular
       this.zone.run(() => {
-        if (url?.startsWith(this.callbackUri)) {
+        //if (url?.startsWith(this.callbackUri)) {
           // If the URL is an authentication callback URL..
           if (
-            url.includes('state=') &&
-            (url.includes('error=') || url.includes('code='))
+            event.url.includes('state=') &&
+            (event.url.includes('error=') || event.url.includes('code='))
           ) {
             // Call handleRedirectCallback and close the browser
             this.auth
-              .handleRedirectCallback(url)
-              .pipe(mergeMap(() => Browser.close()))
+              .handleRedirectCallback(event.url)
+              //.pipe(mergeMap(() => Browser.close()))
               .subscribe();
           } else {
-            Browser.close();
+            const slug = event.url.split(".co").pop();
+
+            if (slug) {
+              this.router.navigateByUrl(slug);
+            }
+            
+            //Browser.close();
           }
-        }
+        //}
       });
     });
 
