@@ -36,6 +36,8 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.maxDateString = this.dateString(this.maxDate);
   }
 
+  @Input() presentation;
+
   selectedDate = null;
   selectedMonth = null;
   selectedYear = null;
