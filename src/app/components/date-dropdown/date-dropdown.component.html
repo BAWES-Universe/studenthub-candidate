@@ -1,4 +1,4 @@
-<div [attr.dir]="translateLabel.direction()" *ngIf="!platform.is('mobile')" [class]="position">
+<div [attr.dir]="translateLabel.direction()" *ngIf="false && !platform.is('mobile')" [class]="position">
 
   <select  class="native-select" (change)="onDayChange($event)"
     *ngIf="pickerFormat && pickerFormat.indexOf('D') !== -1">
@@ -25,9 +25,8 @@
   </select>
 </div>
 
-<div [attr.dir]="translateLabel.direction()" *ngIf="platform.is('mobile')" >
-  <ion-datetime [min]="minDateString" [max]="maxDateString"
-    doneText="{{ 'Done' | translate }}" cancelText="{{ 'Cancel' | translate }}" placeholder="{{ placeholder }}"
-    pickerFormat="{{ pickerFormat }}" displayFormat="{{ displayFormat }}" [value]="value"
+<div [attr.dir]="translateLabel.direction()" *ngIf="true || platform.is('mobile')">
+  <ion-datetime [presentation]="presentation" [min]="minDateString" [max]="maxDateString"
+    doneText="{{ 'Done' | translate }}" cancelText="{{ 'Cancel' | translate }}" [value]="value"
     (ionChange)="onDateChange($event)"></ion-datetime>
-</div>
+</div> 

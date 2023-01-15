@@ -47,6 +47,7 @@ export class AppErrorPage implements OnInit {
     Storage.get({ key: 'loggedInUser' }).then(ret => {
 
       this.navCtrl.navigateRoot('/');
+      
     }).catch(r => {
 
       this.toastCtrl.create({

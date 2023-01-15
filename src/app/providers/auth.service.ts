@@ -114,7 +114,7 @@ export class AuthService {
         }
 
       }).catch(r => {
-        this.eventService.errorStorage$.next({});
+        this.eventService.errorStorage$.next(r);
       });
     });
   }
@@ -216,7 +216,7 @@ export class AuthService {
       // this._platform.setDir('rtl', true);
       document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
     }).catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
   }
 
@@ -284,7 +284,7 @@ export class AuthService {
   setLanguagePref(language_pref) {
 
     Storage.set({ 'key': 'language_pref', value: language_pref }).catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
 
     this.language_pref = language_pref;
@@ -318,7 +318,7 @@ export class AuthService {
         language_pref: this.language_pref
       })
     }).catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
   }
 
@@ -339,7 +339,7 @@ export class AuthService {
     this.isLogin = false;
 
     Storage.clear().catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
 
     this.eventService.userLogout$.next(reason ? reason : false);
@@ -398,7 +398,7 @@ export class AuthService {
         this.setAccessToken(user);
       }
     }).catch(r => {
-      this.eventService.errorStorage$.next({});
+      this.eventService.errorStorage$.next(r);
     });
 
     return this._accessToken;
@@ -719,7 +719,7 @@ export class AuthService {
             givenName: data.user.name.givenName
           })
         }).catch(r => {
-          this.eventService.errorStorage$.next({});
+          this.eventService.errorStorage$.next(r);
         });
 
         params = {
@@ -804,7 +804,7 @@ export class AuthService {
           givenName : data.response.givenName
         })
       }).catch(r => {
-        this.eventService.errorStorage$.next({});
+        this.eventService.errorStorage$.next(r);
       });
 
       params = data.response;

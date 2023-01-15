@@ -36,6 +36,8 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     this.maxDateString = this.dateString(this.maxDate);
   }
 
+  @Input() presentation;
+
   selectedDate = null;
   selectedMonth = null;
   selectedYear = null;
@@ -61,7 +63,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
 
     const month = date.getMonth() + 1;
 
-    this._value = date.getFullYear() + '/' + month + '/' + date.getDate();
+    this._value = val;// date.getFullYear() + '/' + month + '/' + date.getDate();
 
     // Notify of changes
 
@@ -376,10 +378,11 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
         this.selectedYear = date.getFullYear();
         this.selectedDate = date.getDate();
       }
-
+      
       this.init();
       this.initMonths();
       this.initYears();
+       
     }
   }
 }

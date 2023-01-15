@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, Platform, AlertController } from '@ionic/angular';
+import {format, parseISO} from "date-fns";
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -38,20 +39,14 @@ export class DateOfBirthPage implements OnInit {
   ngOnInit() {
     window.analytics.page('Date of birth page');
 
-    this.min = '1960/01/01';
+    this.min = '1980-01-01';
 
-    let d = new Date();
-    d.setFullYear(d.getFullYear() - 16);
-    //d.setMonth(d.getMonth() - 12 * 16);//atleast 16 years old 
+    const today = new Date();
+    // var dd = today.getDate();
+    const mm = today.getMonth() + 1; // 0 is January, so we must add 1
+    const yyyy = today.getFullYear();
 
-    //to fix: https://www.pivotaltracker.com/story/show/170663720
-
-    if (this.platform.is('mobile') && !this.candidate.candidate_birth_date) {//
-        const day = d.getDate() > 9 ? d.getDate() : '0' + d.getDate();
-        this.max = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + day;
-    } else {
-        this.max = d;
-    }
+    this.max = new Date((yyyy), mm).toISOString();
 
     this._initForm();
   }
@@ -70,9 +65,14 @@ export class DateOfBirthPage implements OnInit {
    * save arabic name
    */
   submit() {
+
+    const date = format(parseISO(this.form.value.birth_date), 'yyyy-MM-dd');
+
     this.isLoading = true;
-    this.candidate.candidate_birth_date = this.form.value.birth_date;
-    this.accountService.updateBirthDate(this.form.value.birth_date).subscribe(res => {
+    
+    this.candidate.candidate_birth_date = date;
+
+    this.accountService.updateBirthDate(date).subscribe(res => {
 
       this.isLoading = false;
 

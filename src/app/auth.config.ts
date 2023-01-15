@@ -2,7 +2,8 @@ import { isPlatform } from '@ionic/angular';
 import config from '../../capacitor.config';
 
 export const domain = 'bawes.us.auth0.com';
-export const clientId = (isPlatform('ios') || isPlatform('android')) ? 'iyNUKYtUrbL7QjbfRLrZnwLcwy6njH7b' :'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e';
+export const clientId = (isPlatform('ios') || isPlatform('android')) ? 
+    'iyNUKYtUrbL7QjbfRLrZnwLcwy6njH7b' :'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e';
 const { appId } = config;
 
 // Use `auth0Domain` in string interpolation below so that it doesn't
