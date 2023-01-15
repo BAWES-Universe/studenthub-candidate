@@ -6,6 +6,7 @@ Bugs:
 
 - track button in arabic should on left 
 - test onesignal implementation in android/ios
+- deeplinking in android/ios
 
 #app for first time
 
