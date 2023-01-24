@@ -14,11 +14,26 @@ Bugs:
 
  -- add below in info.plist
 
-    <key>UIBackgroundModes</key>
-         <array>
-         <string>remote-notification</string>
-         </array>
-    
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    	<string>Required to clock in and clock out time</string>
+    	<key>NSLocationWhenInUseUsageDescription</key>
+    	<string>Required to clock in and clock out time</string>
+    	<key>NSCameraUsageDescription</key>
+    	<string>$(PRODUCT_NAME) needs permission to Upload/Record introduction video </string>
+    	<key>NSPhotoLibraryUsageDescription</key>
+        <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+        <key>NSPhotoLibraryAddUsageDescription</key>
+        <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>$(PRODUCT_NAME) needs permission to access mic</string>
+        <key>UIBackgroundModes</key>
+        	<array>
+        		<string>remote-notification</string>
+        	</array>
+        <key>UIFileSharingEnabled</key>
+            <true/>
+            <key>LSSupportsOpeningDocumentsInPlace</key>
+            <true/>
  -- sync app then open in xcode
    - change assets folder for splash screen and icons
    - App
@@ -26,10 +41,15 @@ Bugs:
             - change Display Name
             - change App category
             - change build version if already has any (build version for development and version is for live)
-            - in framework/Liberaries Section: add OneSignal xcframework
-        - <b>Signing & capabilities Tab</b>
+            - in framework/libraries Section: add OneSignal xcframework
+            - <b>Signing & capabilities Tab</b>
             - select team in all debug and release tab
             - add capabilities: push notification and sign in with apple
         -<b>Info Tab</b>
             - add privacy - Location always and when in use usage... : with detail
    - Clear all issue and clear all build from product folder then run app on simulator or on live mobile for testing 
+
+ionic integrations enable cordova : in case to add config.xml file
+
+cmd  : ionic capacitor sync --configuration=production-mobile
+https://ionicframework.com/docs/v5/react/your-first-app/deploying-mobile

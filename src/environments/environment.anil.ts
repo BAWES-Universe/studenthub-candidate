@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serviceWorker: true,
+  serviceWorker: false,
   envName: 'anil',
   oneSignalAppId: 'c62352ca-2f6c-44a2-896c-84c2f17db9ac',
   oneSignalSafariAppId: '',

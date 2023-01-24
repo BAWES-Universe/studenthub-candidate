@@ -83,9 +83,10 @@ export class UploadCvPage implements OnInit {
    * Upload file in mobile device
    */
   mobileUpload() {
+    console.log('mobileUpload');
 
     this.filePickSubscription = this.filepickerService.pick().subscribe(async uri => {
-
+      console.log('filepickerService');
       //validate extension 
 
       /*let extension = uri.split('.').pop();
@@ -170,7 +171,7 @@ export class UploadCvPage implements OnInit {
    * @param event 
    */
   browserUpload(event) {
-
+    console.log('browserUpload');
     let fileList: FileList = event.target.files;
 
     if (fileList.length == 0) {

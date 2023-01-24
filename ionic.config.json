@@ -1,7 +1,8 @@
 {
   "name": "studenthub-candidate",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

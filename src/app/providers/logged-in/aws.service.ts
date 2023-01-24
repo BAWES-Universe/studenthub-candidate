@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { File as NativeFile, Entry, FileEntry } from '@awesome-cordova-plugins/file/ngx';
 import { Observable, Observer } from 'rxjs';
 import * as AWS from 'aws-sdk';
-import { Plugins } from '@capacitor/core';
 import { Platform, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 // services
 import { TranslateLabelService } from '../translate-label.service';
+import { Filesystem, Encoding } from '@capacitor/filesystem';
 
-
-const { Filesystem, FilesystemEncoding } = Plugins;
 
 @Injectable({
     providedIn: 'root'
@@ -57,8 +55,11 @@ export class AwsService {
     uploadNativePath(nativeFilePath): Promise<Observable<any>>{
         return new Promise((resolve, reject) => {
 
+            // need to ios video
+            // if (this.platform.is("mobile") && this.platform.is("ios")) {
+            //     nativeFilePath = 'file://' + nativeFilePath
+            // }
             // Resolve File Path on System
-
             this._file.resolveLocalFilesystemUrl(nativeFilePath).then((entry: Entry) => {
 
                 // Convert entry into File Entry which can output a JS File object
@@ -80,7 +81,7 @@ export class AwsService {
                     {
                         fileReadResult = await Filesystem.readFile({
                             path: nativeFilePath,
-                            //encoding: FilesystemEncoding.UTF8
+                            // encoding: Encoding.UTF8
                         });
                     }
                     catch(err)
@@ -150,7 +151,6 @@ export class AwsService {
      * @returns { Observable<any> }
      */
     uploadFile(file: File = null, metadata = {}): Observable<any> {
-
         let s3 = new AWS.S3({
             apiVersion: '2006-03-01'
         });
