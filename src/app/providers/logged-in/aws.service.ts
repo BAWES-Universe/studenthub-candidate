@@ -52,13 +52,16 @@ export class AwsService {
      * @param  { any } nativeFilePath
      * @returns Promise
      */
-    uploadNativePath(nativeFilePath): Promise<Observable<any>>{
+    uploadNativePath(nativeFilePath, type = null): Promise<Observable<any>>{
         return new Promise((resolve, reject) => {
 
-            // need to ios video
-            // if (this.platform.is("mobile") && this.platform.is("ios")) {
-            //     nativeFilePath = 'file://' + nativeFilePath
-            // }
+            if (type && type == 'video') {
+                // need to ios video
+                if (this.platform.is("mobile") && this.platform.is("ios")) {
+                    nativeFilePath = 'file://' + nativeFilePath
+                }
+            }
+
             // Resolve File Path on System
             this._file.resolveLocalFilesystemUrl(nativeFilePath).then((entry: Entry) => {
 

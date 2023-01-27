@@ -73,23 +73,25 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <edit-config file="App/App/Info.plist" mode="merge" target="NSCameraUsageDescription">
-            <string>$(PRODUCT_NAME) needs permission to Upload/Record introduction video</string>
+            <string>Candidate App needs permission to Upload/Record introduction video to build profile for job purpose</string>
         </edit-config>
         <edit-config file="App/App/Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
-            <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+            <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
         </edit-config>
         <edit-config file="App/App/Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
-            <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+            <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
         </edit-config>
         <edit-config file="App/App/Info.plist" mode="merge" target="NSMicrophoneUsageDescription">
-            <string>$(PRODUCT_NAME) needs permission to access mic</string>
+            <string>Candidate App needs permission to access mic to record voice for introduction video</string>
         </edit-config>
         <edit-config file="App/App/Info.plist" mode="merge" target="UIBackgroundModes">
             <array>
                 <string>remote-notification</string>
             </array>
         </edit-config>
-
+        <edit-config file="*-Info.plist" mode="merge" target="NSUserTrackingUsageDescription">
+            <string>To make your app experience better</string>
+        </edit-config>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />

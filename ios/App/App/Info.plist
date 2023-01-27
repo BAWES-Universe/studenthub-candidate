@@ -23,17 +23,17 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Required to clock in and clock out time</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Required to clock in and clock out time</string>
-	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs permission to Upload/Record introduction video </string>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+    <string>Required to clock in and clock out time</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Required to clock in and clock out time</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Candidate App needs permission to Upload/Record introduction video to build profile for job purpose</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+    <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>$(PRODUCT_NAME) needs permission to access mic</string>
+    <string>Candidate App needs permission to access mic to record voice for introduction video</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

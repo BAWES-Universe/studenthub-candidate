@@ -15,25 +15,20 @@ Bugs:
  -- add below in info.plist
 
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    	<string>Required to clock in and clock out time</string>
-    	<key>NSLocationWhenInUseUsageDescription</key>
-    	<string>Required to clock in and clock out time</string>
-    	<key>NSCameraUsageDescription</key>
-    	<string>$(PRODUCT_NAME) needs permission to Upload/Record introduction video </string>
-    	<key>NSPhotoLibraryUsageDescription</key>
-        <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+        <string>Required to clock in and clock out time</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>Required to clock in and clock out time</string>
+        <key>NSCameraUsageDescription</key>
+        <string>Candidate App needs permission to Upload/Record introduction video to build profile for job purpose</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
         <key>NSPhotoLibraryAddUsageDescription</key>
-        <string>$(PRODUCT_NAME) needs permission to access photos on your device</string>
+        <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
         <key>NSMicrophoneUsageDescription</key>
-        <string>$(PRODUCT_NAME) needs permission to access mic</string>
-        <key>UIBackgroundModes</key>
-        	<array>
-        		<string>remote-notification</string>
-        	</array>
-        <key>UIFileSharingEnabled</key>
-            <true/>
-            <key>LSSupportsOpeningDocumentsInPlace</key>
-            <true/>
+        <string>Candidate App needs permission to access mic to record voice for introduction video</string>
+        <key>NSUserTrackingUsageDescription</key>
+        <string>App would like to access IDFA for tracking purpose</string>
+        
  -- sync app then open in xcode
    - change assets folder for splash screen and icons
    - App

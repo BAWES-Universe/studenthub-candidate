@@ -7,7 +7,7 @@ import { TranslateLabelService } from '../providers/translate-label.service';
     name: 'timer',
     pure: false
 })
-export class TimerPipe implements PipeTransform {
+export class TimerPipe implements PipeTransform,OnDestroy {
     
     public timer: number;
 

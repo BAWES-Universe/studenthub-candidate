@@ -462,7 +462,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   async uploadFileViaNativeFilePath(uri) {
     this.uploading = true;
 
-    this.awsService.uploadNativePath(uri).then(o => {
+    this.awsService.uploadNativePath(uri, 'video').then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
