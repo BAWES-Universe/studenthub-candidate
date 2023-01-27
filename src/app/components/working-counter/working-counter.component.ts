@@ -8,7 +8,6 @@ import {AccountService} from "../../providers/logged-in/account.service";
  * Display alert message to update app on new version availability
  */
 
-import { Geolocation } from '@capacitor/geolocation';
 @Component({
   selector: 'app-working-counter',
   templateUrl: './working-counter.component.html',
@@ -25,7 +24,7 @@ export class WorkingCounterComponent implements OnInit {
 
   ngOnInit() {
 
-    if (this.authService.candidate && this.authService.candidate.isWorking) {
+    if (this.authService && this.authService.isLogin && this.authService.candidate && this.authService.candidate.isWorking) {
       this.started = this.authService.candidate.isWorking.updated_at;
     }
 
@@ -47,7 +46,6 @@ export class WorkingCounterComponent implements OnInit {
   }
 
   startWork() {
-    console.log('startWork');
     this.eventService.startWork$.next({});
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 //services
@@ -14,7 +14,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
   templateUrl: './upload-cv.page.html',
   styleUrls: ['./upload-cv.page.scss'],
 })
-export class UploadCvPage implements OnInit {
+export class UploadCvPage implements OnInit, OnDestroy {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
@@ -83,9 +83,7 @@ export class UploadCvPage implements OnInit {
    * Upload file in mobile device
    */
   mobileUpload() {
-
     this.filePickSubscription = this.filepickerService.pick().subscribe(async uri => {
-
       //validate extension 
 
       /*let extension = uri.split('.').pop();
@@ -103,7 +101,7 @@ export class UploadCvPage implements OnInit {
 
       this.uploadingCv = true;
 
-      this.awsService.uploadNativePath(uri).then(o => {
+      this.awsService.uploadNativePath(uri, 'doc').then(o => {
         o.subscribe(event => {
           this._handleFileSuccess(event);
         }, async err => {
@@ -170,7 +168,7 @@ export class UploadCvPage implements OnInit {
    * @param event 
    */
   browserUpload(event) {
-
+    console.log('browserUpload');
     let fileList: FileList = event.target.files;
 
     if (fileList.length == 0) {
