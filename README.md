@@ -33,3 +33,17 @@ Bugs:
         -<b>Info Tab</b>
             - add privacy - Location always and when in use usage... : with detail
    - Clear all issue and clear all build from product folder then run app on simulator or on live mobile for testing 
+
+# To Generate key
+
+`keytool -genkey -v -keystore android-release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000`
+
+## Password 
+
+Bawes@231!
+
+## List key 
+
+`keytool -list -v -keystore D:\xampp\htdocs\plugn-dashboard-ionic\android-release.keystore`
+
+65:61:CD:01:87:BB:88:54:19:73:4B:F7:8A:55:38:92:D5:01:33:E1:C3:E9:96:18:27:58:D8:8D:20:5A:F0:F6
