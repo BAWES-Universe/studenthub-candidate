@@ -53,10 +53,9 @@ export class FilepickerService {
      */
     pickForIos(){
         return Observable.create((observer: Observer<any>) => {
-
-            this.filePicker.getFile()
+            this.filePicker.getFile('all')
                 .then(uri => {
-                    observer.next(encodeURI("file://" + uri));
+                    observer.next(uri);
                     observer.complete();
                 })
                 .catch(err => {

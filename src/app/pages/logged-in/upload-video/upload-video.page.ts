@@ -191,14 +191,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * start recording in mobile apps
    */
   startCameraInMobile() {
-
     const options: CaptureVideoOptions = {
       limit: 1,
       duration: 30
     };
 
     this.mediaCapture.captureVideo(options).then((data: MediaFile[]) => {
-
       if (!data || !data[0]) {
         return false;
       }
@@ -425,7 +423,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * stop recording in mobile browser
    */
   stopRecording() {
-
     this.shouldStop = true;
 
     if (this.interval) {
@@ -463,10 +460,9 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * Upload video by native path
    */
   async uploadFileViaNativeFilePath(uri) {
-
     this.uploading = true;
 
-    this.awsService.uploadNativePath(uri).then(o => {
+    this.awsService.uploadNativePath(uri, 'video').then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
@@ -524,8 +520,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         await alert.present();
       });
-    }, () => {
-
+    },(err) => {
+      console.log(err);
       this.progress = 0;
 
       this.uploading = false;
@@ -549,7 +545,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     }
 
     this.validateVideoFile(fileList[0]).then(data => {
-
       this.uploadFile(fileList[0]);
 
     }, err => {
@@ -601,6 +596,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     this.uploading = true;
 
     this.browserUploadSubscription = this.awsService.uploadFile(file, metadata).subscribe(event => {
+
       this._handleFileSuccess(event);
     }, async err => {
 
@@ -634,7 +630,6 @@ export class UploadVideoPage implements OnInit, OnDestroy {
    * @param event
    */
   public _handleFileSuccess(event) {
-
     let count = 1;
 
     if (!this.progressInterval) {

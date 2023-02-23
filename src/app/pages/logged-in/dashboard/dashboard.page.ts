@@ -10,7 +10,6 @@ import {CandidateService} from '../../../providers/logged-in/candidate.service';
 import { Candidate } from '../../../models/candidate';
 // pages
 import { UpdateBankPage } from '../update-bank/update-bank.page';
-import { CompanyPage } from '../company/company.page';
 import {UploadVideoPage} from '../upload-video/upload-video.page';
 import {WorkHistoryPage} from "../work-history/work-history.page";
 
