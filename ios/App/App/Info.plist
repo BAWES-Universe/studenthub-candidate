@@ -23,11 +23,25 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Required to clockin and clock out time</string>
+    <string>Required to clock in and clock out time</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Required to clock in and clock out time</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Candidate App needs permission to Upload/Record introduction video to build profile for job purpose</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Candidate App needs permission to access photos on your device to show on profile for job purpose</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Candidate App needs permission to access mic to record voice for introduction video</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+    <true/>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

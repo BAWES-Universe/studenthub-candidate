@@ -86,7 +86,7 @@ export class LandingPage implements OnInit {
    */
   loginWithRedirect() {
     const url = null;
-    this.auth.loginWithRedirect({ redirect_uri: url })
+    // this.auth.loginWithRedirect({ redirect_uri: url })
   }
 
   /**
@@ -147,13 +147,14 @@ export class LandingPage implements OnInit {
   }
 
   loginWithAuth0() {
-    if (this.platform.is('ios') && this.platform.is('capacitor')) {
-      this.loginWithRedirect();
-    } else {
-      this.auth
-          .buildAuthorizeUrl()
-          .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
-          .subscribe();
-    }
+    return true;
+  //   if (this.platform.is('ios') && this.platform.is('capacitor')) {
+  //     this.loginWithRedirect();
+  //   } else {
+  //     this.auth
+  //         .buildAuthorizeUrl()
+  //         .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
+  //         .subscribe();
+  //   }
   }
 }

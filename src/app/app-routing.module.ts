@@ -216,27 +216,48 @@ const routes: Routes = [
   },
   {
     path: 'location',
-    loadChildren: () => import('./pages/logged-in/location/location.module').then( m => m.LocationPageModule)
+    loadChildren: () => import('./pages/logged-in/location/location.module').then( m => m.LocationPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'LocationPage'
+    }
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/logged-in/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/logged-in/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ProfilePage'
+    }
   },
   {
     path: 'national-id',
-    loadChildren: () => import('./pages/logged-in/national-id/national-id.module').then( m => m.NationalIdPageModule)
+    loadChildren: () => import('./pages/logged-in/national-id/national-id.module').then( m => m.NationalIdPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'NationalIdPage'
+    }
   },
   {
     path: 'first-impression',
-    loadChildren: () => import('./pages/logged-in/first-impression/first-impression.module').then( m => m.FirstImpressionPageModule)
+    loadChildren: () => import('./pages/logged-in/first-impression/first-impression.module').then( m => m.FirstImpressionPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'FirstImpressionPage'
+    }
   },
   {
     path: 'personal-info',
-    loadChildren: () => import('./pages/logged-in/personal-info/personal-info.module').then( m => m.PersonalInfoPageModule)
+    loadChildren: () => import('./pages/logged-in/personal-info/personal-info.module').then( m => m.PersonalInfoPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'PersonalInfoPage'
+    }
   },
   {
     path: 'invitation-detail',
     loadChildren: () => import('./pages/logged-in/invitation-detail/invitation-detail.module').then( m => m.InvitationDetailPageModule),
+    canActivate: [AuthService],
     data: {
       name: 'InvitationDetailPage'
     }
@@ -244,6 +265,7 @@ const routes: Routes = [
   {
     path: 'log-date-list',
     loadChildren: () => import('./pages/logged-in/candidate-work-log/log-date-list/log-date-list.module').then( m => m.LogDateListPageModule),
+    canActivate: [AuthService],
     data: {
       name: 'LogDateListPage'
     }
@@ -251,6 +273,7 @@ const routes: Routes = [
   {
     path: 'log-hour-list',
     loadChildren: () => import('./pages/logged-in/candidate-work-log/log-hour-list/log-hour-list.module').then( m => m.LogHourListPageModule),
+    canActivate: [AuthService],
     data: {
       name: 'LogHourListPage'
     }
@@ -258,18 +281,22 @@ const routes: Routes = [
   {
     path: 'wallet-balance',
     loadChildren: () => import('./pages/logged-in/wallet/wallet-balance-list/wallet-balance-list.module').then( m => m.WalletBalanceListPageModule),
+    canActivate: [AuthService],
     data: {
       name: 'WalletBalanceListPage'
     }
   },
   {
+    path: 'preferred-time',
+    loadChildren: () => import('./pages/logged-in/preferred-time/preferred-time.module').then( m => m.PreferredTimePageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'PreferredTimePage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
-  },
-
-  {
-    path: 'preferred-time',
-    loadChildren: () => import('./pages/logged-in/preferred-time/preferred-time.module').then( m => m.PreferredTimePageModule)
   },
   {
     path: '**',
