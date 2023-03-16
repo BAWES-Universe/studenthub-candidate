@@ -81,10 +81,6 @@ export class LandingPage implements OnInit {
     this.route.navigate(['/landing']);
   }
 
-  visitWebsite() {
-    window.location.href = 'https://studenthub.co';
-  }
-
   /**
    * redirec to auth0
    */

@@ -700,7 +700,7 @@ export class AuthService {
    * login with AppleJS for PWA
    */
   async loginByAppleJs() {
-    console.log('loginByAppleJs');
+    
     this.appleAuthLoading = true;
 
     try {
