@@ -1,8 +1,8 @@
 import {Component, OnInit, ApplicationRef, OnDestroy, Inject, NgZone} from '@angular/core';
 import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
-import { first } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Plugins } from '@capacitor/core';
 import OneSignal from 'onesignal-cordova-plugin';
@@ -675,36 +675,36 @@ export class AppComponent implements OnInit, OnDestroy {
    * keep checking for service worker update
    */
   setServiceWorker() {
-    console.log('set service worker');
 
-    // service worker watcher
-    // if (!this.platform.is('capacitor') && window.location.hostname != 'localhost') {
     if (!this.platform.is('capacitor') && window.location.hostname != 'localhost') {
-      console.log('ssw 1');
+       
       if ('serviceWorker' in navigator && environment.serviceWorker) {
-        console.log('ssw 2');
-        navigator.serviceWorker.register('./ngsw-worker.js');
-
+        
         // Allow the app to stabilize first, before starting polling for updates with `interval()`.
         const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-        const updateInterval$ = interval(60 * 1000);// every minute
+        const updateInterval$ = interval(24 * 60 * 60 * 1000);// 24 hour
         const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
         updateIntervalOnceAppIsStable$.subscribe(() => {
           this.updates.checkForUpdate().then((e) => {
-            console.log('checking for update');
+            console.log('checking for update...');
           });
         });
 
-        this.updates.available.subscribe((e) => {
+        const updatesAvailable = this.updates.versionUpdates.pipe(
+          filter((evt): evt is VersionReadyEvent => {
+            return evt.type === 'VERSION_READY';
+          }),
+          map(evt => ({
+            type: 'UPDATE_AVAILABLE',
+            current: evt.currentVersion,
+            available: evt.latestVersion,
+          })));
+   
+        updatesAvailable.subscribe(() => {
           this.updatesAvailable = true;
         });
-
-        this.updates.activated.subscribe((e) => {
-          this.updatesAvailable = false;
-        }, reason => {
-          console.error('service worker update activation failed', reason);
-        });
+        
       }
     }
   }

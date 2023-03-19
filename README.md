@@ -48,3 +48,11 @@ ionic integrations enable cordova : in case to add config.xml file
 
 cmd  : ionic capacitor sync --configuration=production-mobile
 https://ionicframework.com/docs/v5/react/your-first-app/deploying-mobile
+
+### Genrate ngsw.json
+
+`./node_modules/.bin/ngsw-config ./www/<project-name> ./src/ngsw-config.json [/base/href]`
+
+### Sample for localhost
+
+`./node_modules/.bin/ngsw-config ./www ./src/ngsw-config.json http://localhost/studenthub-candidate/www/`
