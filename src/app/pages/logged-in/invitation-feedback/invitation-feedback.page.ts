@@ -7,6 +7,7 @@ import { Invitation } from 'src/app/models/invitation';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import {EventService} from "../../../providers/event.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class InvitationFeedbackPage implements OnInit {
     public alertCtrl: AlertController,
     public translateLabelService: TranslateLabelService,
     public invitationService: InvitationService,
-    public eventService: EventService
+    public eventService: EventService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Invitation Feebback page');
+    this.analyticsService.page('Invitation Feebback page');
 
     this.initForm();
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { EventService } from 'src/app/providers/event.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
@@ -33,11 +34,12 @@ export class FirstImpressionPage implements OnInit {
     public translateService: TranslateLabelService,
     public accountService: AccountService,
     public eventService: EventService,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('First Impression page');
+    this.analyticsService.page('First Impression page');
   }
 
   ionViewWillEnter() {

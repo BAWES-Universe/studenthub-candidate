@@ -8,6 +8,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { University } from 'src/app/models/university';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -45,11 +46,12 @@ export class UniversityPage implements OnInit {
     public alertCtrl: AlertController,
     public universityService: UniversityService,
     public translateService: TranslateLabelService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('University Page');
+    this.analyticsService.page('University Page');
 
     this.loadData(this.currentPage);
   }

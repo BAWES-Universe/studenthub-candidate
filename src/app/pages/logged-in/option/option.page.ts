@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, PopoverController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -25,10 +26,11 @@ export class OptionPage implements OnInit {
     public popoverCtrl: PopoverController,
     public eventService: EventService,
     public accountService: AccountService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Option page');
+    this.analyticsService.page('Option page');
   }
 
   /**

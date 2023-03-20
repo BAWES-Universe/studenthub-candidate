@@ -7,6 +7,7 @@ import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class UpdateBankPage implements OnInit {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) {
   }
 
@@ -46,7 +48,7 @@ export class UpdateBankPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Update Bank Page');
+    this.analyticsService.page('Update Bank Page');
 
     this.form = this.fb.group({
       benef_name: [this.candidate.bank_account_name, [Validators.required]],

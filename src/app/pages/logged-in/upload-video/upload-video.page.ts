@@ -12,6 +12,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var MediaRecorder;
@@ -85,13 +86,14 @@ export class UploadVideoPage implements OnInit, OnDestroy {
     public eventService: EventService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public analyticsService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
 
-    window.analytics.page('Upload Video Page');
+    this.analyticsService.page('Upload Video Page');
 
     //handle event to mark video processed
 

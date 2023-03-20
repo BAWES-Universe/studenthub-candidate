@@ -5,6 +5,7 @@ import { Company } from 'src/app/models/company';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -48,11 +49,12 @@ export class CompanyPage implements OnInit {
   constructor(
     public awsService: AwsService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public modalCtrl: ModalController
   ) { }
 
   ngOnInit() { 
-    window.analytics.page('Company page');
+    this.analyticsService.page('Company page');
   } 
 
   dismiss() {

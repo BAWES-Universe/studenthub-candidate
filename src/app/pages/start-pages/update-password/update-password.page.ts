@@ -5,6 +5,7 @@ import { NavController, AlertController, IonInput, ModalController } from '@ioni
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class UpdatePasswordPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     private _fb: FormBuilder,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public authService: AuthService,
     private _alertCtrl: AlertController
   ) {
@@ -40,7 +42,7 @@ export class UpdatePasswordPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Update Password Page');
+    this.analyticsService.page('Update Password Page');
 
     // Initialize the Login Form
     this.passwordForm = this._fb.group({

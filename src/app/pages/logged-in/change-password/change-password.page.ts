@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController, AlertController, IonInput } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -32,12 +33,13 @@ export class ChangePasswordPage implements OnInit {
     private _fb: FormBuilder,
     public translateService: TranslateLabelService,
     public accountService: AccountService,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    public analyticsService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Chagne Password page');
+    this.analyticsService.page('Chagne Password page');
 
     // Initialize the Login Form
     this.passwordForm = this._fb.group({

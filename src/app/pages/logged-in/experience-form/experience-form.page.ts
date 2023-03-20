@@ -3,6 +3,7 @@ import { ModalController, ToastController, AlertController } from '@ionic/angula
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -28,11 +29,12 @@ export class ExperienceFormPage implements OnInit {
     public translateService: TranslateLabelService,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Experience Form page');
+    this.analyticsService.page('Experience Form page');
 
     this.addToExperienceList(JSON.parse(JSON.stringify(this.candidate.candidateExperiences)));
   }

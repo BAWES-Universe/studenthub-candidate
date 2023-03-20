@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 import { IonContent } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
@@ -20,11 +21,12 @@ export class NoInternetPage implements OnInit {
 
   constructor( 
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public router: Router
   ) { }
 
   ngOnInit() {
-    window.analytics.page('No Internet Page');
+    this.analyticsService.page('No Internet Page');
 
     if (navigator.onLine) {
       return this.refresh();

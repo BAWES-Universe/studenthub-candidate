@@ -7,6 +7,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class NamePage implements OnInit {
     public alertCtrl: AlertController,
     public accountService: AccountService,
     public eventService: EventService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Name page');
+    this.analyticsService.page('Name page');
 
     this._initForm();
 

@@ -8,6 +8,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -33,11 +34,13 @@ export class DateOfBirthPage implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public accountService: AccountService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Date of birth page');
+
+    this.analyticsService.page('Date of birth page');
 
     this.min = '1980-01-01';
 

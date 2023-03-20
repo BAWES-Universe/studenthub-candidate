@@ -7,6 +7,7 @@ import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
 import {CandidateService} from "../../../providers/logged-in/candidate.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-work-history',
@@ -33,6 +34,7 @@ export class WorkHistoryPage implements OnInit {
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) {
   }
 
@@ -40,7 +42,7 @@ export class WorkHistoryPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Work History Page');
+    this.analyticsService.page('Work History Page');
 
     // Initialize the Login Form
 

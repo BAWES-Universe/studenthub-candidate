@@ -21,6 +21,7 @@ import { UpdateEmailPage } from '../update-email/update-email.page';
 import {LocationPage} from "../location/location.page";
 import {EventService} from "../../../providers/event.service";
 import { PreferredTimePage } from '../preferred-time/preferred-time.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -40,11 +41,12 @@ export class PersonalInfoPage implements OnInit {
     public translateService: TranslateLabelService,
     public accountService: AccountService,
     public awsService: AwsService,
-    public eventService: EventService
+    public eventService: EventService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Personal Info page');
+    this.analyticsService.page('Personal Info page');
   }
 
   ionViewWillEnter() {

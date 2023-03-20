@@ -12,6 +12,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
 // pages
 import { UpdateBankPage } from '../update-bank/update-bank.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -42,13 +43,14 @@ export class PaymentsPage implements OnInit {
     public popoverCtrl: PopoverController,
     public eventService: EventService,
     public accountService: AccountService,
+    public analyticsService: AnalyticsService,
     public modalCtrl: ModalController,
     public platform: Platform
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Payments page');
+    this.analyticsService.page('Payments page');
   }
 
   ionViewWillEnter() {

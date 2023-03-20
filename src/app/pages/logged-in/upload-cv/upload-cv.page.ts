@@ -7,6 +7,7 @@ import { AwsService } from 'src/app/providers/logged-in/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -40,11 +41,12 @@ export class UploadCvPage implements OnInit, OnDestroy {
     public translateService: TranslateLabelService,
     public sentryService: SentryErrorhandlerService,
     public filepickerService: FilepickerService,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Upload CV Page');
+    this.analyticsService.page('Upload CV Page');
   }
 
   ngOnDestroy() {
