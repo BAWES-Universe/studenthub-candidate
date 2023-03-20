@@ -134,6 +134,8 @@ export class DashboardPage implements OnInit {
   }
 
   async updateBank($e) {
+    $e.preventDefault();
+    $e.stopPropagation();
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
