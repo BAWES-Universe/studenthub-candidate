@@ -3,6 +3,7 @@ import { ModalController, ToastController, AlertController, IonInput } from '@io
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -28,11 +29,12 @@ export class SkillFormPage implements OnInit {
     public translateService: TranslateLabelService,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Skill form Page');
+    this.analyticsService.page('Skill form Page');
 
     this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
   }

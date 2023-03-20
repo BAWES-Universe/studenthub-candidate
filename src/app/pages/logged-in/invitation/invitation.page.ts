@@ -7,6 +7,7 @@ import { EventService } from 'src/app/providers/event.service';
 // models
 import { Invitation } from 'src/app/models/invitation';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -36,10 +37,11 @@ export class InvitationPage implements OnInit {
     public eventService: EventService,
     public invitationService: InvitationService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Invitation List page');
+    this.analyticsService.page('Invitation List page');
 
     this.eventService.requestUpdated$.subscribe(_ => {
       this.loadInvitations();

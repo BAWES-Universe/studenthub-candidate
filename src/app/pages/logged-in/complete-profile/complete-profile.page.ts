@@ -7,6 +7,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 //models
 import { Candidate } from 'src/app/models/candidate';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -36,11 +37,12 @@ export class CompleteProfilePage implements OnInit {
     public eventService: EventService,
     public accountService: AccountService,  
     public translateService: TranslateLabelService, 
+    public analyticsService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Complete Profile page');
+    this.analyticsService.page('Complete Profile page');
   }
 
   ionViewWillEnter() {

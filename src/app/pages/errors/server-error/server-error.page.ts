@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
@@ -16,11 +17,12 @@ export class ServerErrorPage implements OnInit {
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     public translateService: TranslateLabelService,
-    public router: Router
+    public router: Router,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Server Error page');
+    this.analyticsService.page('Server Error page');
   }
 
   ionViewWillEnter() {

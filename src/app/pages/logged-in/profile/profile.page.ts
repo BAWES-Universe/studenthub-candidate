@@ -32,6 +32,7 @@ import { UploadVideoPage } from '../upload-video/upload-video.page';
 import { LocationPage } from '../location/location.page';
 import { OptionPage } from '../option/option.page';
 import { PreferredTimePage } from '../preferred-time/preferred-time.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -64,6 +65,7 @@ export class ProfilePage implements OnInit {
     public eventService: EventService,
     public awsService: AwsService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public popoverCtrl: PopoverController,
     public toastCtrl: ToastController,
     public platform: Platform,
@@ -72,7 +74,7 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Profile page');
+    this.analyticsService.page('Profile page');
   }
 
   ionViewWillEnter() {

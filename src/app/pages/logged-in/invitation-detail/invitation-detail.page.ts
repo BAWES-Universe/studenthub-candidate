@@ -11,6 +11,7 @@ import { InvitationService } from 'src/app/providers/logged-in/invitation.servic
 
 import {InvitationFeedbackPage} from '../invitation-feedback/invitation-feedback.page';
 import {CompanyPage} from "../company/company.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -43,11 +44,12 @@ export class InvitationDetailPage implements OnInit {
     public eventService: EventService,
     public invitationService: InvitationService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public activateRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Invitation Detail page');
+    this.analyticsService.page('Invitation Detail page');
 
     // Load the passed model if available
     if (window.history.state) {

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
 import { CustomValidator } from 'src/app/validators/custom.validator';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class EmailPage implements OnInit {
     // @Optional() public nav: IonNav, // for testing perpose
     public navCtrl: NavController,
     public translate: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) {
   }
 
@@ -41,7 +43,7 @@ export class EmailPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Email Page');
+    this.analyticsService.page('Email Page');
 
     // Initialize the Login Form
     this.registerMobileForm = this.fb.group({

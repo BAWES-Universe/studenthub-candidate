@@ -10,6 +10,7 @@ export const environment = {
   oneSignalSafariAppId: '',
   googleAPIKey: 'AIzaSyBSM8o4WSIIRn-sNhn-PvO2s0ovZuLDAaw',
   marker: null,//'assets/images/car.svg',
+  mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6',
   cloudinaryUrl: 'https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto:low/v1596525812/dev/',
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'http://localhost:8888/bawes/studenthub/studenthub/candidate/web/v1',

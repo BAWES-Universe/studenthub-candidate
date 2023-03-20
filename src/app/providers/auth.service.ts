@@ -20,6 +20,7 @@ import {
   SignInWithAppleResponse,
   SignInWithAppleOptions,
 } from '@capacitor-community/apple-sign-in';
+import { AnalyticsService } from './analytics.service';
 
 declare var navigator;
 
@@ -83,6 +84,7 @@ export class AuthService {
     public navCtrl: NavController,
     public translate: TranslateLabelService,
     public sentryService: SentryErrorhandlerService,
+    public analyticsService: AnalyticsService,
     private eventService: EventService
   ) { }
 
@@ -198,7 +200,7 @@ export class AuthService {
           //    this.navCtrl.navigateRoot(['complete-profile']);
         }
 
-        window.analytics.identify(this.id, {
+        this.analyticsService.user(this.id, {
           name: this.name,
           email: this.email,
         });
@@ -358,10 +360,10 @@ export class AuthService {
     this.email = data.email;
     this.isProfileCompleted = data.isProfileCompleted;
 
-    // window.analytics.identify(this.id, {
-    //   name: this.name,
-    //   email: this.email,
-    // });
+    /*this.analyticsService.user(this.id, {
+      name: this.name,
+      email: this.email,
+    });*/
 
     /*
     //to fix: https://www.pivotaltracker.com/story/show/174788568

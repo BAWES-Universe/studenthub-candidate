@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { AwsService } from 'src/app/providers/logged-in/aws.service';
@@ -28,11 +29,12 @@ export class NationalIdPage implements OnInit {
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
     public accountService: AccountService,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('National ID Page');
+    this.analyticsService.page('National ID Page');
   }
 
   ionViewWillEnter() {

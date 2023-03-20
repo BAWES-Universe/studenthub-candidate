@@ -56,7 +56,7 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
-    // window.analytics.page('Password Page');
+    // this.analyticsService.page('Password Page');
 
     if (window.history.state.email) {
       this.email = window.history.state.email;

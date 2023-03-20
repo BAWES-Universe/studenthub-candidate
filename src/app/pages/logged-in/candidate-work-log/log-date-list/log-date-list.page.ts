@@ -8,6 +8,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import {CandidateWorkingHour} from "../../../../models/candidate";
 import {CandidateWorkingHourService} from "../../../../providers/logged-in/candidate-working-hour.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -38,10 +39,11 @@ export class LogDateListPage implements OnInit {
     public eventService: EventService,
     public invitationService: InvitationService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Candidate Working Hours');
+    this.analyticsService.page('Candidate Working Hours');
 
     this.eventService.requestUpdated$.subscribe(_ => {
       this.loadData();

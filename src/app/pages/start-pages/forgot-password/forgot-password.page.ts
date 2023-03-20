@@ -8,6 +8,7 @@ import { CustomValidator } from '../../../validators/custom.validator';
 // services
 import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     public _fb: FormBuilder,
     public router: Router,
     public translate: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public _authService: AuthService,
     public _alertCtrl: AlertController,
     public modalCtrl: ModalController,
@@ -42,7 +44,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    window.analytics.page('Forgot Password Page');
+    this.analyticsService.page('Forgot Password Page');
 
     this.resetForm = this._fb.group({
       email: ['', [Validators.required, CustomValidator.emailValidator]],

@@ -5,6 +5,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 
 
 import { Preferences as Storage } from '@capacitor/preferences';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'pogi-app-error',
@@ -18,11 +19,12 @@ export class AppErrorPage implements OnInit {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('App Error page');
+    this.analyticsService.page('App Error page');
   }
 
   ionViewWillEnter() {

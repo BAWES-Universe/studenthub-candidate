@@ -11,6 +11,7 @@ import { AuthService } from '../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { Preferences as Storage } from '@capacitor/preferences';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-register',
@@ -40,6 +41,7 @@ export class RegisterPage implements OnInit {
     public alertCtrl: AlertController,
     public authService: AuthService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public auth: Auth0Service,
     @Optional() public nav: IonNav, // for testing perpose
     public navCtrl: NavController,
@@ -55,7 +57,7 @@ export class RegisterPage implements OnInit {
   }
 
   async ngOnInit() {
-    window.analytics.page('Register Page');
+    this.analyticsService.page('Register Page');
 
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],

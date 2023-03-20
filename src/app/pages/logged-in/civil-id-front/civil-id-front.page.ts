@@ -27,6 +27,7 @@ import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler
 import { CameraService } from 'src/app/providers/logged-in/camera.service';
 // components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -67,13 +68,14 @@ export class CivilIdFrontPage implements OnInit {
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
-    private _cameraService: CameraService
+    private _cameraService: CameraService,
+    public analyticsService: AnalyticsService
   ) {
     this.cloudinaryUrl = environment.cloudinaryUrl + 'candidate-photo/';
   }
 
   ngOnInit() {
-    window.analytics.page('Civil ID Front page');
+    this.analyticsService.page('Civil ID Front page');
 
     this._initForm();
   }

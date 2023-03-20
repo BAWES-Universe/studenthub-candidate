@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 import { Preferences as Storage } from '@capacitor/preferences';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -55,11 +56,12 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     public authService: AuthService,
     public eventService: EventService,
     public accountService: AccountService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Verify Email Page');
+    this.analyticsService.page('Verify Email Page');
 
     if (window.history.state.newUser) {
       this.runTimer = true ;
