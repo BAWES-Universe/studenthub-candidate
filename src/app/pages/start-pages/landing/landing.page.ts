@@ -13,8 +13,6 @@ import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
 
-import { Browser } from '@capacitor/browser';
-import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing',
@@ -48,7 +46,7 @@ export class LandingPage implements OnInit {
   }
 
   async ngOnInit() {
-    // window.analytics.page('Landing Page');
+    // this.analyticsService.page('Landing Page');
   }
 
   translate() {

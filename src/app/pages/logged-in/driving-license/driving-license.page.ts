@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -22,11 +23,12 @@ export class DrivingLicensePage implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public translateService: TranslateLabelService,
-    public accountService: AccountService
+    public accountService: AccountService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Driving License page');
+    this.analyticsService.page('Driving License page');
   }
 
   /**

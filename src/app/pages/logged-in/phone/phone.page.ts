@@ -6,6 +6,7 @@ import { Candidate } from 'src/app/models/candidate';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -28,11 +29,12 @@ export class PhonePage implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public accountService: AccountService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Phone page');
+    this.analyticsService.page('Phone page');
 
     this._initForm();
 

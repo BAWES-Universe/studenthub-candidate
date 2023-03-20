@@ -10,6 +10,7 @@ export const environment = {
   marker: null,//'assets/images/car.svg',
   oneSignalAppId: 'fe766231-6156-4537-8037-84e3fe1be5da',
   oneSignalSafariAppId: 'web.onesignal.auto.4b99c5db-a7c9-461a-8333-facb0838095d',
+  mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6',
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto:low/v1596453482/dev/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'https://student.api.dev.studenthub.co/v1'

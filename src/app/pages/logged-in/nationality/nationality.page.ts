@@ -8,6 +8,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 //models
 import { Candidate } from 'src/app/models/candidate';
 import { Country } from 'src/app/models/country';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -45,11 +46,12 @@ export class NationalityPage implements OnInit {
     public alertCtrl: AlertController,
     public countryService: CountryService,
     public accountService: AccountService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Nationality page');
+    this.analyticsService.page('Nationality page');
 
     this.loadData(this.currentPage);
   }

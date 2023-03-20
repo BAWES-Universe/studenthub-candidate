@@ -9,6 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 import {CandidateWorkingHour} from 'src/app/models/candidate';
 import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
 import {ActivatedRoute} from '@angular/router';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -39,11 +40,12 @@ export class LogHourListPage implements OnInit {
     public candidateWorkingHour: CandidateWorkingHourService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
     this.hour = this.activateRoute.snapshot.paramMap.get('hour');
-    window.analytics.page('Candidate Working Hours');
+    this.analyticsService.page('Candidate Working Hours');
 
     this.eventService.requestUpdated$.subscribe(_ => {
       this.loadData();

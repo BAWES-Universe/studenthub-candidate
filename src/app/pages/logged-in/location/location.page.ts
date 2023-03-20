@@ -14,6 +14,7 @@ import { GoogleMapService } from 'src/app/providers/logged-in/google-map.service
 declare var google;
 
 import { Geolocation } from '@capacitor/geolocation';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-location',
@@ -60,11 +61,12 @@ export class LocationPage implements OnInit {
     public alertCtrl: AlertController,
     public accountService: AccountService,
     public googleMapService: GoogleMapService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Location page');
+    this.analyticsService.page('Location page');
 
     this._initForm();
 

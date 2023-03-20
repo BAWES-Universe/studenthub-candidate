@@ -10,6 +10,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 
 import { Preferences as Storage } from '@capacitor/preferences';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-update-email',
@@ -37,6 +38,7 @@ export class UpdateEmailPage implements OnInit {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) {
   }
 
@@ -48,7 +50,7 @@ export class UpdateEmailPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Update Email Page');
+    this.analyticsService.page('Update Email Page');
 
     // Initialize the Login Form
     this.form = this.fb.group({

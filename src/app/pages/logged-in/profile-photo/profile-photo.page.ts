@@ -19,6 +19,7 @@ import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler
 import { CameraService } from 'src/app/providers/logged-in/camera.service';
 // components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -61,12 +62,13 @@ export class ProfilePhotoPage implements OnInit {
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     private _cameraService: CameraService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Profile Photo Page');
+    this.analyticsService.page('Profile Photo Page');
 
     this._initForm();
   }

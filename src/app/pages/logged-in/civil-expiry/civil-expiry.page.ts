@@ -8,6 +8,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -33,11 +34,12 @@ export class CivilExpiryPage implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public accountService: AccountService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Civil Expiry page');
+    this.analyticsService.page('Civil Expiry page');
 
     const today = new Date();
     // var dd = today.getDate();

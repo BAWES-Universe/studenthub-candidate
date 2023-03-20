@@ -12,6 +12,7 @@ import { Candidate } from '../../../models/candidate';
 import { UpdateBankPage } from '../update-bank/update-bank.page';
 import {UploadVideoPage} from '../upload-video/upload-video.page';
 import {WorkHistoryPage} from "../work-history/work-history.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -44,11 +45,12 @@ export class DashboardPage implements OnInit {
     public accountService: AccountService,
     public translateService: TranslateLabelService,
     public candidateService: CandidateService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
 
-    // window.analytics.page('Dashboard page');
+    //this.analyticsService.page('Dashboard page');
 
     /**
      * https://sentry.io/organizations/pogi/issues/1843000885/?project=5339282&referrer=slack

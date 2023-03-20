@@ -9,6 +9,7 @@ import { InvitationService } from 'src/app/providers/logged-in/invitation.servic
 import {CandidateWorkingHour} from "../../../../models/candidate";
 import {CandidateWorkingHourService} from "../../../../providers/logged-in/candidate-working-hour.service";
 import {BalanceService} from "../../../../providers/logged-in/balance.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -39,10 +40,11 @@ export class WalletBalanceListPage implements OnInit {
     public eventService: EventService,
     public balanceService: BalanceService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Candidate Working Hours');
+    this.analyticsService.page('Candidate Working Hours');
 
     this.eventService.requestUpdated$.subscribe(_ => {
       this.loadData();

@@ -9,6 +9,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -35,11 +36,12 @@ export class IdCardPage implements OnInit {
     public authService: AuthService,
     public accountService: AccountService,
     public sentryService: SentryErrorhandlerService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('ID Card page');
+    this.analyticsService.page('ID Card page');
 
     const today = new Date();
     // var dd = today.getDate();
