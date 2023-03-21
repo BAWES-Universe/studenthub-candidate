@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit,OnDestroy, ViewChild } from '@angular/core';
 import { ModalController, NavController, Platform, IonContent } from '@ionic/angular';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -13,6 +13,7 @@ import { UpdateBankPage } from '../update-bank/update-bank.page';
 import {UploadVideoPage} from '../upload-video/upload-video.page';
 import {WorkHistoryPage} from "../work-history/work-history.page";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import {InvitationService} from "src/app/providers/logged-in/invitation.service";
 
 
 declare var window;
@@ -22,7 +23,7 @@ declare var window;
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements OnInit, OnDestroy {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
@@ -35,6 +36,7 @@ export class DashboardPage implements OnInit {
   public loading = false;
 
   public pushNotificationAvailable = true;
+  public invitationInterval;
 
   constructor(
     public platform: Platform,
@@ -45,7 +47,8 @@ export class DashboardPage implements OnInit {
     public accountService: AccountService,
     public translateService: TranslateLabelService,
     public candidateService: CandidateService,
-    public analyticsService: AnalyticsService
+    public analyticsService: AnalyticsService,
+    public invitationService: InvitationService
   ) { }
 
   ngOnInit() {
@@ -90,6 +93,7 @@ export class DashboardPage implements OnInit {
       this.loadProfile();
     });
 
+    this.setInvitationSubscription();
     this.loadWorkHistoryData();
   }
 
@@ -255,6 +259,36 @@ export class DashboardPage implements OnInit {
 
   isFutureDate(date) {
     return new Date(date) > new Date();
+  }
+
+  setInvitationSubscription() {
+    this.loadInvitations();
+
+    this.invitationInterval = setInterval(() => {
+      if (this.authService.isLogin && navigator.onLine) {
+        this.loadInvitations();
+      }
+    }, 1000 * 30); // every 30 second
+  }
+
+  /**
+   * load invitations for request
+   */
+  loadInvitations() {
+
+    this.invitationService.count().subscribe((count: any) => {
+      const total = parseInt(count);
+      if (this.authService.invitationCount != total) {
+        this.eventService.requestUpdated$.next({});
+      }
+      this.authService.invitationCount = total;
+    });
+  }
+
+  async ngOnDestroy() {
+    if (this.invitationInterval) {
+      clearInterval(this.invitationInterval);
+    }
   }
 }
 

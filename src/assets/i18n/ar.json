@@ -392,5 +392,7 @@
     "profile deleted successfully" : "تم حذف الملف الشخصي بنجاح",
     "Starting Timer Please Wait" : "بدء تشغيل الموقت الرجاء الانتظار",
     "Stopping Timer Please Wait" : "إيقاف الموقت الرجاء الانتظار",
-    "Enter your login detail to sign in" : "أدخل تفاصيل تسجيل الدخول الخاصة بك لتسجيل الدخول"
+    "Enter your login detail to sign in" : "أدخل تفاصيل تسجيل الدخول الخاصة بك لتسجيل الدخول",
+    "New Job Invitation!" : "دعوة عمل جديدة!",
+    "View details & apply for job" : "عرض التفاصيل والتقدم للوظيفة"
 }

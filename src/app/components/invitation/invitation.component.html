@@ -2,7 +2,8 @@
   <ion-card-header>
       <div class="status request-pending" *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment'">
 
-        <span *ngIf="model.invitation_status == 3 &&!this.model.suggestion" class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
+        <span *ngIf="model.invitation_status == 1 && !this.model.suggestion" class="txt">{{"New Job Invitation!" | translate }}</span>
+        <span *ngIf="model.invitation_status == 3 && !this.model.suggestion" class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
         <span *ngIf="model.invitation_status == 3 && this.model.suggestion && this.model.suggestion.suggestion_status" class="txt">{{"Congratulation, You profile has been shortlisted by Client" | translate }}</span>
         <span *ngIf="model.invitation_status == 2" class="txt">{{"We’ll keep you updated on any other jobs that pop up." | translate }}</span>
       </div>
@@ -28,7 +29,7 @@
     </div>
 
     <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment' && model.invitation_status == 1">
-      <ion-button (click)="invitationDetail(model)" class="tell-me-more-btn">{{"View Details" | translate }}</ion-button>
+      <ion-button (click)="invitationDetail(model)" class="tell-me-more-btn">{{"View details & apply for job" | translate }}</ion-button>
     </ng-container>
 
   </ion-card-content>
