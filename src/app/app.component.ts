@@ -42,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public invitations: Invitation[] = [];
 
-  public invitationInterval;
   public callbackUri = `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`;
 
   constructor(
@@ -133,7 +132,6 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
-
       this.setServiceWorker();
 
       /**
@@ -148,33 +146,26 @@ export class AppComponent implements OnInit, OnDestroy {
           this.authService.useTokenForAuth(r).then();
         });
       });
+
+      if (this.platform.is('capacitor') && this.platform.is('mobile')) {
+        this._initOneSignal();
+
+        // only when notification api available
+
+      } else if(window && window.Notification) {
+        this._includeOneSignalJs();
+      }
     });
-
-    if (this.platform.is('capacitor') && this.platform.is('mobile')) {
-      this._initOneSignal();
-
-      // only when notification api available
-
-    } else if(window && window.Notification) {
-      this._includeOneSignalJs();
-    }
-
-    if(this.authService.isLogin) {
-      this.setInvitationSubscription();
-    }
   }
 
   /**
    * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
    */
   async ngOnDestroy() {
-    if (this.invitationInterval) {
-      clearInterval(this.invitationInterval);
-    }
+
   }
 
   async ngOnInit() {
-
     this.initializeApp();
 
     this.eventService.kuwaitiNationl$.subscribe(candidate => {
@@ -249,8 +240,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
       this.loadCandidateProfile();
-
-      this.setInvitationSubscription();
 
       if(data['isProfileCompleted']) {
         this.navCtrl.navigateRoot(['/']);
@@ -760,30 +749,6 @@ export class AppComponent implements OnInit, OnDestroy {
   async loadCandidateProfile() {
     this.accountService.profile().subscribe(res => {
       this.candidate = res;
-    });
-  }
-
-  setInvitationSubscription() {
-    this.loadInvitations();
-
-    this.invitationInterval = setInterval(() => {
-      if (this.authService.isLogin && navigator.onLine) {
-        this.loadInvitations();
-      }
-    }, 1000 * 30); // every 30 second
-  }
-
-  /**
-   * load invitations for request
-   */
-  loadInvitations() {
-
-    this.invitationService.count().subscribe((count: any) => {
-      const total = parseInt(count);
-      if (this.authService.invitationCount != total) {
-        this.eventService.requestUpdated$.next({});
-      }
-      this.authService.invitationCount = total;
     });
   }
 }
