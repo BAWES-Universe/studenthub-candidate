@@ -16,6 +16,7 @@ export class ChangePasswordPage implements OnInit {
 
   public oldPassword: string = '';
   public newPassword: string = '';
+  public validatingPassword = false;
 
   public passwordForm: FormGroup;
 
@@ -110,5 +111,33 @@ export class ChangePasswordPage implements OnInit {
    */
   togglePasswordVisibility() {
     this.type = this.type == 'text'? 'password': 'text';
+  }
+
+  /**
+   * validate password on type
+   * @param $event
+   */
+  async validateOldPassword($event) {
+    $event.stopPropagation();
+    this.validatingPassword = true;
+    let param = {
+      password: this.passwordForm.value.oldPassword
+    };
+    this.accountService.validatePassword(param).subscribe(async result => {
+      this.validatingPassword = false;
+      this.passwordForm.controls['oldPassword'].setErrors(null);
+      if (!result) {
+        this.passwordForm.controls['oldPassword'].setErrors({'incorrect': true});
+      }
+    }, async (err) => {
+
+      const prompt = await this._alertCtrl.create({
+        message: err,
+        buttons: ['Okay']
+      });
+      prompt.present();
+    }, () => {
+      this.validatingPassword = false;
+    });
   }
 }

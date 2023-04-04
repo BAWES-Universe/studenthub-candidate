@@ -391,4 +391,12 @@ export class AccountService {
     let url = this._accountEndpoint + '/remove-candidate-profile';
     return this._authhttp.delete(url);
   }
+
+  /**
+   * Update password
+   * @returns {Observable<any>}
+   */
+  validatePassword(params): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/validate-password', params);
+  }
 }
