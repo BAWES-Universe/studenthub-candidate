@@ -45,6 +45,7 @@ export class Candidate {
     candidate_job_search_status: any;
     working_hour_count: any;
     candidate_mom_kuwaiti: any;
+    profile_url: string;
     candidate_preferred_time: string;
     pendingField: any[];
     isWorking: CandidateWorkingHour;

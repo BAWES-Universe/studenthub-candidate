@@ -68,6 +68,7 @@ import { WorkHistoryPageModule } from "./pages/logged-in/work-history/work-histo
 import { PreferredTimePageModule } from './pages/logged-in/preferred-time/preferred-time.module';
 import { AuthModule, AuthConfig } from '@auth0/auth0-angular';
 import { domain, clientId, callbackUri } from './auth.config';
+import {ProfileUrlPageModule} from "src/app/pages/logged-in/profile-url/profile-url.module";
 
 
 
@@ -146,7 +147,8 @@ const config: AuthConfig = {
     ForgotPasswordPageModule,
     InvitationFeedbackPageModule,
     InvitationModule,
-    WorkHistoryPageModule
+    WorkHistoryPageModule,
+    ProfileUrlPageModule
   ],
   providers: [
     {

@@ -248,6 +248,14 @@
         </ion-label>
       </ion-item>
 
+      <ion-item tappable class="civil-back" (click)="profilePage()">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p>{{ "Profie Url" | translate }}</p>
+          <b *ngIf="candidate.profile_url">{{ candidate.profile_url}}</b>
+        </ion-label>
+      </ion-item>
+
     </div>
 
     <loading-modal type="profile" [loading]="!candidate"></loading-modal>
