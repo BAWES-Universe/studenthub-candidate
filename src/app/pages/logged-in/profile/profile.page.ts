@@ -33,6 +33,7 @@ import { LocationPage } from '../location/location.page';
 import { OptionPage } from '../option/option.page';
 import { PreferredTimePage } from '../preferred-time/preferred-time.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import {ProfileUrlPage} from "src/app/pages/logged-in/profile-url/profile-url.page";
 
 
 @Component({
@@ -613,6 +614,29 @@ export class ProfilePage implements OnInit {
 
       if (e.data && e.data.candidate_resume) {
         this.candidate.candidate_resume = e.data.candidate_resume;
+      }
+    });
+    modal.present();
+  }
+
+  async profilePage() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: ProfileUrlPage,
+      componentProps: {
+        candidate: Object.assign({}, this.candidate),
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.profile_url) {
+        this.candidate.profile_url = e.data.profile_url;
       }
     });
     modal.present();

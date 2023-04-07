@@ -372,6 +372,10 @@ export class AccountService {
     return this._authhttp.post(this._accountEndpoint + '/update-preferred-time', params);
   }
 
+  updateProfileUrl(params): Observable<any> {
+    return this._authhttp.post(this._accountEndpoint + '/update-profile-url', params);
+  }
+
   startWork(lat, long): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/start-time', {lat, long});
   }
