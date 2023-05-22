@@ -18,9 +18,19 @@
       <ion-item tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
         <div tabindex="0"></div>
         <ion-label>
-          <small>{{ "Brief Intro" | translate }}</small>
+          <small>{{ "Objective" | translate }}</small>
           <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
-          <span *ngIf="!candidate.candidate_objective">{{ "Tell us more about yourself. What makes you special?" | translate }}
+          <span *ngIf="!candidate.candidate_objective">{{ "Tell us what you are and what you want to become?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+      <ion-item tappable (click)="updateIntro()" [class.required]="!candidate.candidate_intro">
+        <div tabindex="0"></div>
+        <ion-label>
+          <small>{{ "Brief Intro" | translate }}</small>
+          <span *ngIf="candidate.candidate_intro">{{ candidate.candidate_intro }}</span>
+          <span *ngIf="!candidate.candidate_intro">{{ "Tell us more about yourself. What makes you special?" | translate }}
           </span>
         </ion-label>
       </ion-item>

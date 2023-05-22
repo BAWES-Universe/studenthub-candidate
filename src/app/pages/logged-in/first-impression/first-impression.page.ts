@@ -13,6 +13,7 @@ import { ObjectivePage } from '../objective/objective.page';
 import { ProfilePhotoPage } from '../profile-photo/profile-photo.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import { UploadVideoPage } from '../upload-video/upload-video.page';
+import { IntroductionPage } from '../introduction/introduction.page';
 
 
 @Component({
@@ -152,6 +153,25 @@ export class FirstImpressionPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: ProfilePhotoPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async updateIntro() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: IntroductionPage,
       componentProps: {
         candidate: this.candidate,
       }
