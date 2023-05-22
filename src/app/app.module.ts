@@ -69,6 +69,7 @@ import { PreferredTimePageModule } from './pages/logged-in/preferred-time/prefer
 import { AuthModule, AuthConfig } from '@auth0/auth0-angular';
 import { domain, clientId, callbackUri } from './auth.config';
 import {ProfileUrlPageModule} from "src/app/pages/logged-in/profile-url/profile-url.module";
+import { IntroductionPageModule } from './pages/logged-in/introduction/introduction.module';
 
 
 
@@ -123,6 +124,7 @@ const config: AuthConfig = {
     ProfilePhotoPageModule,
     UploadVideoPageModule,
     ObjectivePageModule,
+    IntroductionPageModule,
     SkillFormPageModule,
     ExperienceFormPageModule,
     IdCardPageModule,

@@ -5,13 +5,13 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3>{{ "Tell us more about yourself. What makes you special?" | translate }}</h3>
+    <h3>{{ "Write a short brief to introduce yourself" | translate }}</h3>
 
     <form [formGroup]="form" *ngIf="form">
 
       <ion-list>
-        <ion-textarea #inputToFocus maxlength=100 formControlName="objective" rows="5"
-          placeholder="{{ 'e.g. Open for an opportunity in social media warehouse in zara mall' | translate }}"></ion-textarea>
+        <ion-textarea #inputToFocus maxlength=100 formControlName="intro" rows="5"
+          placeholder="{{ 'e.g. Engineer with 3 years of work experience' | translate }}"></ion-textarea>
           
         <p [class.error]="inputToFocus.value.length == 100" class="txt-char-count">
           {{ "txt_char_left" | translate : { count : 100-inputToFocus.value.length } }}

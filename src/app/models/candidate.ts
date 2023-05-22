@@ -20,6 +20,7 @@ export class Candidate {
     candidate_name: string;
     candidate_name_ar: string;
     candidate_objective: string;
+    candidate_intro: string;
     candidate_gender: number;
     candidate_personal_photo: string;
     candidate_video: string;
