@@ -167,6 +167,13 @@ export class AccountService {
     return this._authhttp.get(url);
   }
 
+  updateIntro(intro: string): Observable<any> {
+    let url = `${this._accountEndpoint}` + '/update-intro';
+    return this._authhttp.post(url, {
+      intro: intro
+    });
+  }
+
   /**
    * update objective
    * @param objective string

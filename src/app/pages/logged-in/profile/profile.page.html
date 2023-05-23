@@ -56,7 +56,17 @@
       <div class="objective" tappable (click)="updateObjective()" [class.required]="!candidate.candidate_objective">
         <span *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</span>
         <span *ngIf="!candidate.candidate_objective">
-          {{ "Tell us more about yourself. What makes you special?" | translate }}</span>
+          {{ "Tell us more about yourself. What makes you special?" | translate }}
+          <ion-icon name="pencil-outline"></ion-icon>
+        </span>
+      </div>
+
+      <div class="introduction" tappable (click)="updateIntro()" [class.required]="!candidate.candidate_intro">
+        <span *ngIf="candidate.candidate_intro">{{ candidate.candidate_intro }}</span>
+        <span *ngIf="!candidate.candidate_intro">
+          {{ "Write a short brief to introduce yourself" | translate }} 
+          <ion-icon name="pencil-outline"></ion-icon>
+        </span>
       </div>
 
       <ion-item tappable class="video" (click)="updateVideo()">

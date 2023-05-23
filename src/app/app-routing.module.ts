@@ -176,6 +176,16 @@ const routes: Routes = [
       name: 'ObjectivePage'
     }
   },
+
+  {
+    path: 'introduction',
+    loadChildren: () => import('./pages/logged-in/introduction/introduction.module').then( m => m.IntroductionPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'IntroductionPage'
+    }
+  },
+
   {
     path: 'skill-form',
     loadChildren: () => import('./pages/logged-in/skill-form/skill-form.module').then( m => m.SkillFormPageModule),
@@ -302,7 +312,6 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'not-found'
   },
-
 ];
 
 @NgModule({

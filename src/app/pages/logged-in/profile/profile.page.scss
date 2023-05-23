@@ -81,6 +81,7 @@ h4.candidate-name {
     }
 }
 
+.introduction,
 .objective {
     margin: 24px 0 40px 0;
     font-size: 18px;
@@ -90,6 +91,10 @@ h4.candidate-name {
     line-height: normal;
     letter-spacing: normal;
     color: black;
+}
+
+.introduction {
+    font-size: 14px;
 }
 
 ion-item {

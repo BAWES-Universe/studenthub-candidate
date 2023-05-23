@@ -34,6 +34,7 @@ import { OptionPage } from '../option/option.page';
 import { PreferredTimePage } from '../preferred-time/preferred-time.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import {ProfileUrlPage} from "src/app/pages/logged-in/profile-url/profile-url.page";
+import { IntroductionPage } from '../introduction/introduction.page';
 
 
 @Component({
@@ -412,6 +413,25 @@ export class ProfilePage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: ProfilePhotoPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async updateIntro() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: IntroductionPage,
       componentProps: {
         candidate: this.candidate,
       }
