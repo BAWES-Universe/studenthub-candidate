@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,7 @@ export class LoginGuard implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    
     if (this.authService.isLogin && this.authService.id) {
       this.router.navigate(['/']);
     }

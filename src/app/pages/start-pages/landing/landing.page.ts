@@ -12,6 +12,8 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { RegisterPage } from '../register/register.page';
 import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
+import { mergeMap } from 'rxjs';
+import { Browser } from '@capacitor/browser';
 
 
 @Component({
@@ -145,14 +147,13 @@ export class LandingPage implements OnInit {
   }
 
   loginWithAuth0() {
-    return true;
-  //   if (this.platform.is('ios') && this.platform.is('capacitor')) {
-  //     this.loginWithRedirect();
-  //   } else {
-  //     this.auth
-  //         .buildAuthorizeUrl()
-  //         .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
-  //         .subscribe();
-  //   }
+     if (this.platform.is('ios') && this.platform.is('capacitor')) {
+       this.loginWithRedirect();
+     } else {
+       this.auth
+           .buildAuthorizeUrl()
+           .pipe(mergeMap((url) => Browser.open({url, windowName: '_self'})))
+           .subscribe();
+     }
   }
 }
