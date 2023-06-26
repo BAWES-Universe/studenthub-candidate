@@ -170,14 +170,17 @@ ion-header.add-border:after {
       }
     }
   }
+  
   .max-width {
     background: #F7F8FA;
   }
+
   ion-content {
     background: #F7F8FA;
     --background: #F7F8FA;
   }
 }
+
 app-working-counter {
   background: transparent;
   --background: transparent;
@@ -185,6 +188,7 @@ app-working-counter {
   bottom: 12px;
   right: 16px;
 }
+
 ion-list {
   background: #F7F8FA!important;
 }
