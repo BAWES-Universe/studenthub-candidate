@@ -29,6 +29,8 @@ export class LandingPage implements OnInit {
   public slideOpts = {};
   public didInit: boolean = false;
 
+  public loading = false; 
+  
   @ViewChild(IonSlides) ionSlides: IonSlides;
 
   constructor(
@@ -49,6 +51,16 @@ export class LandingPage implements OnInit {
 
   async ngOnInit() {
     // this.analyticsService.page('Landing Page');
+    
+    this.eventService.googleLoginFinished$.subscribe(() => {
+      this.loading = false;
+      
+      this.modalCtrl.getTop().then(model => {
+        if(model) {
+          this.modalCtrl.dismiss({ from: 'native-back-btn' });
+        }
+      });
+    }); 
   }
 
   translate() {
@@ -86,7 +98,7 @@ export class LandingPage implements OnInit {
    */
   loginWithRedirect() {
     const url = null;
-    // this.auth.loginWithRedirect({ redirect_uri: url })
+    this.auth.loginWithRedirect({ redirect_uri: url })
   }
 
   /**
@@ -134,6 +146,15 @@ export class LandingPage implements OnInit {
 
     modal.present();
   }
+
+  /**
+   * login by google on capacitor app 
+   */
+  loginByGoogle() {
+    this.loading = true; 
+
+    this.authService.loginByGoogle();
+  } 
 
   /**
    * login by Apple API

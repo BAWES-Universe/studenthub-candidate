@@ -38,5 +38,7 @@ export class EventService {
 
   public loadProfile$ = new Subject();
 
+  public googleLoginFinished$ = new Subject();
+  
   constructor() { }
 }
