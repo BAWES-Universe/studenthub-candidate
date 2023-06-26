@@ -6,7 +6,13 @@ const config: CapacitorConfig = {
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {
-    "SplashScreen": {
+    GoogleAuth: {
+      scopes: ['profile', 'email'],
+      serverClientId: '123188361193-od1ehqo4c35cle8mtplqetoenussu650.apps.googleusercontent.com',
+      //123188361193-ijgbu581g8sp4qag6gt4nia3410160qk.apps.googleusercontent.com',
+      forceCodeForRefreshToken: true,
+    },
+    SplashScreen: {
       "launchAutoHide": false,
       "showSpinner": false,
       "launchShowDuration": 30000,

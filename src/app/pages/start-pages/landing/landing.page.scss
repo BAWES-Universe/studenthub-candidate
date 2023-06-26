@@ -22,9 +22,10 @@ h3 {
   font-family: EffraLight;
 }
 
+.btn-login-google,
 .btn-login-bawes,
 .btn-sign-up {
-  --border-radius: 47px;
+  --border-radius: 4px;
   --box-shadow: none;
   height: 53px;
   font-weight: bold;
@@ -34,8 +35,20 @@ h3 {
   font-style: normal;
   line-height: 1.65;
   letter-spacing: normal;
-  color: #ffffff;
   width: 100%;
+}
+
+.btn-login-bawes,
+.btn-sign-up {
+  color: #ffffff;
+}
+
+.btn-login-bawes {
+  background: url(../../../../assets/images/icon-bawes.svg) no-repeat #fff; 
+}
+
+.google-logo {
+  background: url(../../../../assets/images/google.svg) no-repeat #fff;
 }
 
 .btn-sign-up {
@@ -230,8 +243,7 @@ p b {
   border: solid 1px rgba(170, 170, 170, 0.3) !important;
 }
 
-.btn-apple,
-.btn-google,
+.btn-apple, 
 .button-outline-md:hover:not(.disable-hover) {
   font-size: 21px;
   font-weight: normal;
@@ -261,11 +273,23 @@ p b {
   outline: none;
 }
 
-[dir="ltr"] .btn-google {
+[dir="ltr"] .btn-login-bawes ion-icon {
+  position: absolute;
+  left: 20px;
+}
+
+[dir="rtl"] .btn-login-bawes ion-icon {
+  position: absolute;
+  right: 10px;
+}
+
+[dir="ltr"] .btn-login-google,
+[dir="ltr"] .btn-login-bawes {
   background-position: 36px 13px;
 }
 
-[dir="rtl"] .btn-google {
+[dir="rtl"] .btn-login-google,
+[dir="rtl"] .btn-login-bawes {
   background-position: calc(100% - 20px) 13px;
 }
 

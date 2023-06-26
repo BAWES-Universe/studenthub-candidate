@@ -90,15 +90,22 @@
             {{ "Already joined?" | translate }}&nbsp;&nbsp;&nbsp;<span>{{ "Sign In" | translate }}</span>
           </ion-button>
         </div>
-
-        <ion-button *ngIf="(this.platform.is('ios') && this.platform.is('capacitor'))" fill="clear" class="div-space btn-apple"
+ 
+        <ion-button fill="clear" class="div-space btn-apple"  *ngIf="this.platform.is('ios') && this.platform.is('capacitor')"
                     [class.apple-logo]="!authService.appleAuthLoading" (click)="loginByApple()">
           <span *ngIf="!authService.appleAuthLoading">{{ "Sign in with Apple" | translate }}</span>
           <ion-spinner *ngIf="authService.appleAuthLoading"></ion-spinner>
         </ion-button>
 
         <ion-button class="btn-login-bawes" (click)="loginWithAuth0()">
-          {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/images/icon-bawes.svg"></ion-icon>
+          {{ "Log in with BAWES" | translate }} <ion-icon slot="start" src="assets/images/icon-bawes.svg"></ion-icon>
+        </ion-button>
+
+        <ion-button class="btn-login-google" fill="clear" [class.google-logo]="!loading" [disabled]="loading" (click)="loginByGoogle()">
+          <ion-spinner *ngIf="loading"></ion-spinner>
+          <span *ngIf="!loading"> 
+            {{ "Log in with Google" | translate }} 
+          </span>
         </ion-button>
       </div>
   </div>

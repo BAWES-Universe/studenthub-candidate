@@ -6,6 +6,7 @@ import { filter, first, map } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import { Plugins } from '@capacitor/core';
 import OneSignal from 'onesignal-cordova-plugin';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 //services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
@@ -133,6 +134,13 @@ export class AppComponent implements OnInit, OnDestroy {
         SplashScreen.hide();
       }
       this.setServiceWorker();
+
+      // use hook after platform dom ready
+      GoogleAuth.initialize({
+        clientId: '123188361193-od1ehqo4c35cle8mtplqetoenussu650.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+        grantOfflineAccess: true,
+      });
 
       /**
        * when user comming back from auth0

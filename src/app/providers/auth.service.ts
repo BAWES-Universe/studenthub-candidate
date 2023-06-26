@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { genericRetryStrategy } from '../util/genericRetryStrategy';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree, Router } from '@angular/router';
 import {AlertController, LoadingController, NavController} from '@ionic/angular';
+//import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // services
 import { EventService } from './event.service';
 import { TranslateLabelService } from './translate-label.service';
@@ -75,6 +77,7 @@ export class AuthService {
   public _urlVerifyEmail = '/auth/verify-email';
   public _urlUpdatePassword = '/auth/update-password';
   public resetPassRequest = '/auth/request-reset-password';
+  public _urlLoginByGoogle = '/auth/login-by-google';
 
   constructor(
     public http: HttpClient,
@@ -755,10 +758,10 @@ export class AuthService {
   async loginByApple() {
 
     this.appleAuthLoading = true;
-    console.log('loginByApple');
+     
     let options: SignInWithAppleOptions = {
       clientId: 'co.studenthub.candidate',
-      redirectURI: 'http://localhost:8100/landing',
+      redirectURI: window.location,
       scopes: 'email name',
       state: '12345',
       nonce: 'nonce',
@@ -775,11 +778,99 @@ export class AuthService {
   }
 
   /**
+   * Login by Google for mobile app
+   */
+  loginByGoogle() {
+
+    GoogleAuth.signIn().then(async googleUser => {
+
+      if (googleUser && googleUser.authentication && googleUser.authentication.idToken) {
+        this.useGoogleIdTokenForAuth(googleUser.authentication.idToken, false);
+      } else {
+        this.eventService.googleLoginFinished$.next({});
+
+        this.showLoginError('Error getting login by Google+ API');
+      }
+    }).catch(async err => {
+
+      this.eventService.googleLoginFinished$.next({});
+
+      if (err = 'popup_closed_by_user') {
+        return false;
+      }
+
+      this.showLoginError('Error getting login by Google+ API');
+
+    });
+  }
+  
+  /**
+   * Login by google idToken
+   */
+  async useGoogleIdTokenForAuth(idToken, showLoader = true) {
+
+    let loading;
+
+    if (showLoader) {
+      loading = await this.loadingCtrl.create({
+        spinner: 'crescent',
+        message: this.translate.transform('Logging in...')
+      });
+      loading.present();
+    }
+
+    const url = environment.apiEndpoint + this._urlLoginByGoogle;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Language: this.translate.currentLang
+    });
+    
+    return this.http.post(url, {
+      idToken: idToken,
+    }, {
+      headers: headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.handleLogin(response, 'google');
+
+        } else if (response.operation == 'error') {
+          const alert = await this.alertCtrl.create({
+            message: this.translate.transform('Error getting login by Google+ API'), // JSON.stringify(err)
+            buttons: [this.translate.transform('Ok')]
+          });
+          await alert.present();
+
+        }
+
+        this.eventService.googleLoginFinished$.next({});
+
+      }, err => {
+
+        this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
+  }
+
+  /**
    * handle response from apple login popup
    * @param data
    */
   async handleAppleLoginResponse(data) {
-    console.log('response');
+    
     if (!data || !data.response || !data.response.identityToken) {
       this.appleAuthLoading = false;
 
@@ -788,13 +879,12 @@ export class AuthService {
       }
 
       return null;
-    }
-    console.log('response', data);
+    } 
 
     let params;
 
     // save user data in first request
-    console.log(data);
+  
     if (data.response.givenName) {
 
       Storage.set({
