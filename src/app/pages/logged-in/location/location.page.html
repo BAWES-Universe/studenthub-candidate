@@ -13,6 +13,7 @@
 
     <ng-container *ngIf="!selected">
       
+      <!-- *ngIf="country_name"
       <ion-item lines="none" [class.country-wrapper]="!country_name">
         <div tabindex="0"></div>
         <ion-select #select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}"
@@ -23,11 +24,11 @@
           <ion-select-option value="United Arab Emirates">{{ translateService.langContent('United Arab Emirates', 'الإمارات العربية المتحدة') }}</ion-select-option>
           <ion-select-option value="Qatar">{{ translateService.langContent('Qatar', 'دولة قطر') }}</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item>-->
 
-      <ion-item lines="none" *ngIf="country_name">
+      <ion-item lines="none">
         <div tabindex="0"></div>
-        <ion-searchbar mode="md" debounce="100" placeholder="{{ placeholders[country_name] | translate }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
+        <ion-searchbar mode="md" debounce="100" placeholder="{{ 'Search your area' | translate }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
       </ion-item>
 
     </ng-container>

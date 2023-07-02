@@ -37,7 +37,7 @@ export class LocationPage implements OnInit {
 
   public area;
   public country;
-  public country_name;
+  public country_name = null;
 
   public query: string = '';
 
