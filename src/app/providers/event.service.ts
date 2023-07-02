@@ -40,5 +40,7 @@ export class EventService {
 
   public googleLoginFinished$ = new Subject();
   
+  public locationUpdated$ = new Subject();
+  
   constructor() { }
 }

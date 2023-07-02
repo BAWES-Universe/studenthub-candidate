@@ -133,6 +133,16 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
+
+      /*if (!this.authService.currentLocation) { 
+        this.authService.locate().subscribe(res => {
+          
+          this.authService.currentLocation = res; 
+
+          this.eventService.locationUpdated$.next(res);
+        });
+      }*/
+
       this.setServiceWorker();
 
       // use hook after platform dom ready
