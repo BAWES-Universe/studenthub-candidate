@@ -66,9 +66,12 @@ export class AuthService {
 
   public loadingJobSearchStatus: boolean = false;
 
+  public currentLocation;
+
   public _urlLoginAuth0 = '/auth/login-auth0';
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
+  public _urlLocate = '/auth/locate';
   public _urlRegistration = '/auth/register';
   public _urlresendVerificationEmail = '/auth/resend-verification-email';
   public urlLoginByApple = '/auth/login-by-apple';
@@ -124,6 +127,22 @@ export class AuthService {
     });
   }
 
+  /**
+   * return user location detail by user ip address
+   * @return Observable
+   */
+  locate(): Observable<any> {
+    const url = environment.apiEndpoint + this._urlLocate;
+    const headers = this._buildAuthHeaders();
+    return this.http.get(url, { headers: headers })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        take(1),
+        map((res) => res)
+      );
+  }
+  
   /**
    * Set initial config
    */
@@ -220,9 +239,18 @@ export class AuthService {
       // set direction based on language
       // this._platform.setDir('rtl', true);
       document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
+
     }).catch(r => {
       this.eventService.errorStorage$.next(r);
     });
+
+    //saved location 
+    
+    const { value } = await Storage.get({ key: 'currentLocation' });
+
+    if (value) {
+      this.currentLocation = value;
+    }
   }
 
   /**
