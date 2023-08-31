@@ -64,7 +64,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   public updateSubscription: Subscription;
   public deleteSubscription: Subscription;
 
-  public format = 'webm'; // webm
+  public format = 'mp4'; // webm
 
   public recordedChunks = [];
 
@@ -72,6 +72,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
   public havePermission = true;
 
+  public isSafari;
+   
   constructor(
     private _ngzone: NgZone,
     public platform: Platform,
@@ -92,6 +94,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     this.analyticsService.page('Upload Video Page');
 
@@ -272,8 +276,22 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         this.shouldStop = false;
 
-        const options = { mimeType: 'video/' + this.format };
+        let options;
 
+        /*if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
+            options = {mimeType: 'video/webm; codecs=vp9'};
+            this.format = "webm";
+        } else  */
+        if (MediaRecorder.isTypeSupported('video/mp4')) {
+          options = {mimeType: 'video/mp4', videoBitsPerSecond : 100000};
+          this.format = "mp4";
+        } else if (MediaRecorder.isTypeSupported('video/webm')) {
+          options = {mimeType: 'video/webm'};
+          this.format = "webm";
+        } else {
+          throw new Error("no suitable mimetype found for this device");
+        }
+        
         this.recordedChunks = [];
 
         this.mediaRecorder = new MediaRecorder(stream, options);
@@ -301,6 +319,8 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
           //this.candidate.tm = URL.createObjectURL(new Blob(recordedChunks));
           // downloadLink.download = 'acetest.webm';
+
+          //const blob = new Blob([recordedChunks], { type: 'video/' . this.format });
 
           if(this.player && this.player.nativeElement) {
             const player = this.player.nativeElement;
@@ -331,6 +351,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       })
       .catch(async (err) => {
+
+        /*if(this.format == "webm") {
+          this.format = "mp4";
+          this.startCameraInBrowser(immediate);
+          return;
+        }*/
 
         // in case error from recording
 
