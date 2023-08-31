@@ -272,8 +272,18 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
         this.shouldStop = false;
 
-        const options = { mimeType: 'video/' + this.format };
+        let options;
 
+        if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
+            options = {mimeType: 'video/webm; codecs=vp9'};
+        } else  if (MediaRecorder.isTypeSupported('video/webm')) {
+            options = {mimeType: 'video/webm'};
+        } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+            options = {mimeType: 'video/mp4', videoBitsPerSecond : 100000};
+        } else {
+            throw new Error("no suitable mimetype found for this device");
+        }
+        
         this.recordedChunks = [];
 
         this.mediaRecorder = new MediaRecorder(stream, options);
@@ -331,6 +341,12 @@ export class UploadVideoPage implements OnInit, OnDestroy {
 
       })
       .catch(async (err) => {
+
+        /*if(this.format == "webm") {
+          this.format = "mp4";
+          this.startCameraInBrowser(immediate);
+          return;
+        }*/
 
         // in case error from recording
 
