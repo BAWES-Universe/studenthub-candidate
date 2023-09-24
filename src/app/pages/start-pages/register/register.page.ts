@@ -116,9 +116,14 @@ export class RegisterPage implements OnInit {
           }, 100);
         });
 
-
-
       } else if (res.operation === 'error') {
+
+        //validation error 
+
+        if(res.code == 2 && res.message.candidate_email) {
+          this.openLoginPage();
+        }
+
         this.alertCtrl.create({
           message: this.authService.errorMessage(res.message),
           buttons: [this.translateService.transform('Okay')]
