@@ -4,6 +4,18 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 export class CustomValidator {
 
     /**
+     * Validates Phone number Input
+     * @param  {AbstractControl} control
+     * @returns any
+     */
+    static phoneNumberValidator(control: AbstractControl): {[key: string]: any}
+    {
+        const phoneReg = /^\d{8}$/
+        
+        return phoneReg.test(control.value) ? null : {'phoneNumberValidation': 'phone number is invalid.' };
+    }
+
+    /**
      * Validates Email Input
      * @param  {AbstractControl} control
      * @returns any

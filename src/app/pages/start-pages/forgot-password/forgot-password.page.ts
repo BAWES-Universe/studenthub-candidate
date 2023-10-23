@@ -23,6 +23,8 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   public scrollPosition: number = 0;
 
   resetForm: FormGroup;
+  smsForm: FormGroup;
+
   submitAttempt = false;
 
   public isLoading = false;
@@ -30,6 +32,8 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   public sendPasswordSubscription: Subscription;
 
   public borderLimit: boolean = false;
+
+  public segment = 'email';
 
   constructor(
     public _fb: FormBuilder,
@@ -48,6 +52,10 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
 
     this.resetForm = this._fb.group({
       email: ['', [Validators.required, CustomValidator.emailValidator]],
+    });
+
+    this.smsForm  = this._fb.group({
+      phone_number: ['', [Validators.required, CustomValidator.phoneNumberValidator]],
     });
   }
 
@@ -89,6 +97,51 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     });
   }
   
+  /**
+   * Request new password by sms link 
+   */
+  async sendSMS() {
+
+    this.submitAttempt = true;
+
+    if (!this.smsForm.valid) {
+
+      const alert = await this._alertCtrl.create({
+        message: this.translate.transform('Please enter valid phone number.'),
+        buttons: [this.translate.transform('Okay')]
+      });
+      await alert.present();
+
+      return false;
+    }
+
+    this.isLoading = true;
+
+    this.sendPasswordSubscription = this._authService.resetPasswordSMS(this.smsForm.value.phone_number)
+      .subscribe(async data => {
+
+        if(data.operation == 'success') {
+          const alert = await this._alertCtrl.create({
+            message: data.message,
+            buttons: [this.translate.transform('Okay')]
+          });
+          await alert.present();
+          this.loginPage();
+        } else {
+          const alert = await this._alertCtrl.create({
+            message: this._authService.errorMessage(data.message),
+            buttons: [this.translate.transform('Okay')]
+          });
+          await alert.present();
+        }
+
+      },
+      error => { },
+      () => {
+        this.isLoading = false;
+      });
+  }
+
   /**
    * Request new password
    */

@@ -1,4 +1,7 @@
 {
+    "Phone must be 8 digit number": "يجب أن يكون رقم الهاتف مكونًا من 8 أرقام",
+    "Please enter valid phone number.": "الرجاء إدخال رقم هاتف صحيح.",
+    "Enter your phone number to receive a password reset link.": "أدخل رقم هاتفك لتلقي رابط إعادة تعيين كلمة المرور.",
     "Search your area": "ابحث في منطقتك",
     "Tell us what you are and what you want to become?": "أخبرنا ما أنت وماذا تريد أن تصبح؟",
     "Objective": "موضوعي",

@@ -80,8 +80,9 @@ export class AuthService {
   public _urlVerifyEmail = '/auth/verify-email';
   public _urlUpdatePassword = '/auth/update-password';
   public resetPassRequest = '/auth/request-reset-password';
+  public _urlResetPassSMS = '/auth/sms-reset-password';
   public _urlLoginByGoogle = '/auth/login-by-google';
-
+   
   constructor(
     public http: HttpClient,
     public router: Router,
@@ -621,6 +622,21 @@ export class AuthService {
         first(),
         map((res: HttpResponse<any>) => res)
       );
+  }
+
+  /**
+   * reset password request to sms recovery link 
+   * @param email
+   */
+  resetPasswordSMS(email: string) {
+    const url = environment.apiEndpoint + this._urlResetPassSMS;
+    const headers = this._buildAuthHeaders();
+    return this.http.post(url, { email }, { headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
   }
 
   /**
