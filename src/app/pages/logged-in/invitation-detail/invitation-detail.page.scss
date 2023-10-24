@@ -36,11 +36,12 @@
         color: #4c5df2;
     }
 }
+
 .job-desc {
-    margin: 24px auto 15px auto;
+    margin: 0 auto 15px auto;
     margin-inline-end: 52px;
     margin-inline-start: 6px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -48,6 +49,7 @@
     letter-spacing: normal;
     color: #000;
 }
+
 h2 {
     margin: 22px 0 2px 6px;
     font-size: 18px;
@@ -57,12 +59,28 @@ h2 {
     line-height: normal;
     letter-spacing: normal;
     color: #000;
+    font-weight: bold;
 }
-.job-location,.job-compensation {
+
+h3 {
+    margin: 22px 0 0 6px;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+    font-weight: bold;
+}
+
+.job-location,
+.job-additional-info,
+.job-compensation {
     margin: 2px auto 6px auto;
     margin-inline-end: 58px;
     margin-inline-start: 6px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -70,6 +88,7 @@ h2 {
     letter-spacing: normal;
     color: #000;
 }
+
 .btn-apply {
     width: 200px;
     height: 45px;
