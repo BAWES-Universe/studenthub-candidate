@@ -23,6 +23,16 @@
     <p class="company" *ngIf="translateService.currentLang != 'en'">{{ "At" | translate }} <span>{{ model.company.company_common_name_ar? model.company.company_common_name_ar: model.company.company_name }}</span>,</p>
 
     <p class="job-desc" [innerHTML]="model.request.request_job_description"></p>
+ 
+    <ng-container *ngIf="model.request.request_additional_info">
+      <h3>{{ "Additional Info" | translate }}</h3>
+      <p class="job-additional-info" [innerHtml]="model.request.request_additional_info"></p>
+    </ng-container>
+
+    <ng-container *ngIf="model.request.request_compensation">
+      <h3>{{ "Compensation" | translate }}</h3>
+      <p class="job-compensation" [innerHtml]="model.request.request_compensation"></p>
+    </ng-container>
 
     <h2>{{ "Job location" | translate }}</h2>
     

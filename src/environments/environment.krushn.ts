@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serviceWorker: true,
+  serviceWorker: false,
   envName: 'krushn',
   googleAPIKey: 'AIzaSyBSM8o4WSIIRn-sNhn-PvO2s0ovZuLDAaw',
   marker: null,//'assets/images/car.svg',

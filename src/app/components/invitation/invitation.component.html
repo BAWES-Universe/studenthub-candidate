@@ -4,15 +4,15 @@
 
         <span *ngIf="model.invitation_status == 1 && !this.model.suggestion" class="txt">{{"New Job Invitation!" | translate }}</span>
         <span *ngIf="model.invitation_status == 3 && !this.model.suggestion" class="txt">{{"We're now working on convincing them to hire you. Check back here later to see if you made it." | translate }}</span>
-        <span *ngIf="model.invitation_status == 3 && this.model.suggestion && this.model.suggestion.suggestion_status" class="txt">{{"Congratulation, You profile has been shortlisted by Client" | translate }}</span>
-        <span *ngIf="model.invitation_status == 2" class="txt">{{"We’ll keep you updated on any other jobs that pop up." | translate }}</span>
+        <span *ngIf="model.invitation_status == 3 && this.model.suggestion && this.model.suggestion.suggestion_status" class="txt">{{"Congratulation, You profile has been shortlisted by Client." | translate }}</span>
+        <span *ngIf="model.invitation_status == 2" class="txt">{{ "We’ll keep you updated on any other jobs that pop up." | translate }}</span>
       </div>
 
       <div class="status request-completed" *ngIf="model.request.request_status == 'delivered'">
-        <span *ngIf="model.invitation_status == 1">{{"You didn’t apply for it" | translate}}</span>
-        <span *ngIf="model.invitation_status == 2">{{"You rejected it" | translate}}</span>
-        <span *ngIf="model.invitation_status == 3">{{"You applied " | translate}}</span>
-        <span class="txt">{{"This job has filled up. If you didn’t make it, we’ll be working on finding you other jobs" | translate }}</span>
+        <span *ngIf="model.invitation_status == 1">{{"You didn’t apply for it" | translate}}. </span>
+        <span *ngIf="model.invitation_status == 2">{{"You rejected it" | translate}}. </span>
+        <span *ngIf="model.invitation_status == 3">{{"You applied " | translate}}. </span>
+        <span class="txt">{{ "This job has filled up. If you didn’t make it, we’ll be working on finding you other jobs" | translate }}</span>
       </div>
       <div class="status request-cancelled" *ngIf="model.request.request_status == 'cancelled'">{{"This job was cancelled. They’ll hopefully have another opening soon." | translate }}</div>
   </ion-card-header>
