@@ -74,8 +74,11 @@ export class AppComponent implements OnInit, OnDestroy {
     const urlParams = new URLSearchParams(queryString);
     
     if(urlParams.get('utm_id')) {
+      
       this.authService.utm_uuid = urlParams.get('utm_id');
+
       Storage.set({ key: 'utm_uuid', value: this.authService.utm_uuid });
+      
       //this.campaignService.click(this.authService.utm_uuid).subscribe();
 
       //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
