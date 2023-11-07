@@ -26,6 +26,7 @@ const { SplashScreen} = Plugins;
 import { mergeMap } from 'rxjs/operators';
 import { Browser } from '@capacitor/browser';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { AnalyticsService } from './providers/analytics.service';
 
 declare var window;
 
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
+    public analyticsService: AnalyticsService,
     public languageService: LanguageService,
     public translateService: TranslateLabelService,
     public authService: AuthService,
@@ -67,6 +69,28 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp() {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    
+    if(urlParams.get('utm_id')) {
+      this.authService.utm_uuid = urlParams.get('utm_id');
+      Storage.set({ key: 'utm_uuid', value: this.authService.utm_uuid });
+      //this.campaignService.click(this.authService.utm_uuid).subscribe();
+
+      //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
+      window.localStorage.setItem("utm_uuid", this.authService.utm_uuid);
+
+      this.analyticsService.track("From Campaign", {
+        "utm_id": this.authService.utm_uuid,
+        "utm_source": urlParams.get('utm_source'),
+        "utm_medium": urlParams.get('utm_medium'),
+        "utm_campaign": urlParams.get('utm_campaign'),
+        "utm_term": urlParams.get('utm_term'),
+        "utm_content": urlParams.get('utm_content'),
+      });
+    }
+
     // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Must run inside an NgZone for Angular to pick up the changes

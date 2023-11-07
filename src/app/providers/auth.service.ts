@@ -52,6 +52,8 @@ export class AuthService {
   public isProfileCompleted: any;
   public language_pref: string;
 
+  public utm_uuid;
+
   public language = {
     code: 'en',
     name: 'English'
