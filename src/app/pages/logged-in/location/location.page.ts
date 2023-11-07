@@ -84,6 +84,12 @@ export class LocationPage implements OnInit {
     }
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Location page'
+    });
+  }
+  
   onCountryChange(event) {
     this.area = null;
     this.query = null;

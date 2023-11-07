@@ -48,6 +48,12 @@ export class WorkHistoryPage implements OnInit {
 
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Work History Page'
+    });
+  }
+
   /**
    * close popup modal
    */

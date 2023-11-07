@@ -74,6 +74,12 @@ export class CivilIdBackPage implements OnInit {
     this._initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Civil ID Back page'
+    });
+  }
+
   /**
    * initialize form
    */

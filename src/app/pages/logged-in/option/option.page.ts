@@ -33,6 +33,12 @@ export class OptionPage implements OnInit {
     this.analyticsService.page('Option page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Option page'
+    });
+  }
+  
   /**
    * update job search status
    */

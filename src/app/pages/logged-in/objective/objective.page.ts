@@ -39,6 +39,12 @@ export class ObjectivePage implements OnInit {
     this._initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Objective page'
+    });
+  }
+  
   /**
    * Initialise form
    */

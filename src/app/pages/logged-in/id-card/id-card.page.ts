@@ -59,6 +59,12 @@ export class IdCardPage implements OnInit {
     // }, 500);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'ID Card page'
+    });
+  }
+
   ionViewDidEnter() {
     this._initForm();
   }

@@ -54,6 +54,12 @@ export class ChangePasswordPage implements OnInit {
     }, 800);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Change Password page'
+    });
+  }
+
   /**
    * Attempts to login with the provided email and password
    */

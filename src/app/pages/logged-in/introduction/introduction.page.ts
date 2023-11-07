@@ -39,6 +39,12 @@ export class IntroductionPage implements OnInit {
     this._initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Introduction page'
+    });
+  }
+
   /**
    * Initialise form
    */

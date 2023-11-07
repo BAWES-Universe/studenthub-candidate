@@ -42,9 +42,15 @@ export class AnalyticsService {
     if(window.analytics)
       window.analytics.page(name);
 
-    mixpanel.track("Page View", {
+    /*mixpanel.track("Page View", {
       "name": name
-    });
+    });*/
+
+    mixpanel.track_pageview({"page": name});
+
+    // track the elapsed time between a page viewed and page exit
+    //call time_event with page_viewed event
+    mixpanel.time_event("page_exit");
   }
 
   /**

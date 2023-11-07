@@ -56,6 +56,10 @@ export class InvitationPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Invitation List page'
+    });
+  
     this.content.scrollToPoint(0, 0);
   }
 

@@ -55,6 +55,12 @@ export class UpdatePasswordPage implements OnInit {
     }, 800);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Update Password Page'
+    });
+  }
+
   /**
    * close page
    */

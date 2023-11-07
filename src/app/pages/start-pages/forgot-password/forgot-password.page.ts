@@ -70,6 +70,10 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Forgot Password Page'
+    });
+
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

@@ -44,7 +44,7 @@ export class WalletBalanceListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.analyticsService.page('Candidate Working Hours');
+    this.analyticsService.page('Wallet Balance List');
 
     this.eventService.requestUpdated$.subscribe(_ => {
       this.loadData();
@@ -56,6 +56,10 @@ export class WalletBalanceListPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Wallet Balance List'
+    });
+
     this.content.scrollToPoint(0, 0);
   }
 

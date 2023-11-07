@@ -202,6 +202,10 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Profile page'
+    });
+   
     this.content.scrollToPoint(0, 0);
   }
 

@@ -80,6 +80,12 @@ export class CivilIdFrontPage implements OnInit {
     this._initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Civil ID Front page'
+    });
+  }
+
   /**
    * initialize form
    */

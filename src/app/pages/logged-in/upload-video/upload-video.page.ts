@@ -173,6 +173,10 @@ export class UploadVideoPage implements OnInit, OnDestroy {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Upload Video Page'
+    });
+
     if (!this.shouldStop) {
       this.stopRecording();
     }

@@ -119,8 +119,12 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
     this.timer = null;
     this.timerInterval = null;
   }
-
+  
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Verify Email Page'
+    });
+ 
     this.clearVerifySubscription();
   }
 

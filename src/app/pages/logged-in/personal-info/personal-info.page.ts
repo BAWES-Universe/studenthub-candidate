@@ -47,8 +47,12 @@ export class PersonalInfoPage implements OnInit {
 
   ngOnInit() {
     this.analyticsService.page('Personal Info page');
+   
+    this.analyticsService.track('page_exit', {
+      'page': 'Personal Info page'
+    });
   }
-
+  
   ionViewWillEnter() {
     if(!this.candidate)
       this.loadData();
