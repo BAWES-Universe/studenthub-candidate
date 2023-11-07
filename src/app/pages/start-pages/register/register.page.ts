@@ -68,6 +68,12 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Register Page'
+    });
+  }
+
   /**
    * Attempts to register an account for the user
    * Then process his previous request

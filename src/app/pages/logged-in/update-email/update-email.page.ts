@@ -58,6 +58,12 @@ export class UpdateEmailPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Update Email Page'
+    });
+  }
+
   /**
    * close popup modal
    */

@@ -51,6 +51,11 @@ export class EmailPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Email Page'
+    });
+  }
 
   dismiss() {
     this.navCtrl.back();

@@ -27,6 +27,12 @@ export class AppErrorPage implements OnInit {
     this.analyticsService.page('App Error page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'App Error page'
+    });
+  }
+
   ionViewWillEnter() {
     this.modalCtrl.getTop().then(overlay => {
       if (overlay) {

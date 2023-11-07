@@ -44,6 +44,10 @@ export class NoInternetPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'No Internet Page'
+    });
+ 
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });

@@ -8,13 +8,13 @@
 
     <form *ngIf="registerForm" [formGroup]="registerForm" (keyup.enter)="onSubmit()" (submit)="onSubmit()">
 
-      <ion-input type="text" autocomplete="given-name" #nameInput formControlName="name"
+      <ion-input autocomplte="name" type="text" autocomplete="given-name" #nameInput formControlName="name"
         placeholder="{{ 'Your name' | translate }}"></ion-input>
 
-      <ion-input type="email" inputmode="email" autocomplete="email" #nameInput formControlName="email"
+      <ion-input autocomplte="email" type="email" inputmode="email" autocomplete="email" #nameInput formControlName="email"
         placeholder="{{ 'Your email' | translate }}"></ion-input>
 
-      <ion-input type="telephone" inputmode="tel" autocomplete="tel" #phoneInput
+      <ion-input autocomplte="phone" type="telephone" inputmode="tel" autocomplete="tel" #phoneInput
         formControlName="phone" maxlength="8" placeholder="{{ 'Your phone number' | translate }}"></ion-input>
 
       <div class="password_field">

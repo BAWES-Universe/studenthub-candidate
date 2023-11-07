@@ -73,6 +73,12 @@ export class ProfilePhotoPage implements OnInit {
     this._initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Profile Photo Page'
+    });
+  }
+  
   /**
    * initialize form
    */

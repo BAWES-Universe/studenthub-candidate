@@ -56,6 +56,12 @@ export class UpdateBankPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Update Bank Page'
+    });
+  }
+
   /**
    * close popup modal
    */

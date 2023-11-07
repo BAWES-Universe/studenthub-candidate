@@ -9,6 +9,7 @@ import { TranslateLabelService } from '../../../providers/translate-label.servic
 import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
 import { RegisterPage } from '../register/register.page';
 import { Preferences as Storage } from '@capacitor/preferences';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-password',
@@ -42,6 +43,7 @@ export class PasswordPage implements OnInit {
     public fb: FormBuilder,
     public alertCtrl: AlertController,
     public authService: AuthService,
+    public analyticsService: AnalyticsService,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
@@ -56,7 +58,8 @@ export class PasswordPage implements OnInit {
   }
 
   async ngOnInit() {
-    // this.analyticsService.page('Password Page');
+    
+    this.analyticsService.page('Password Page');
 
     if (window.history.state.email) {
       this.email = window.history.state.email;
@@ -66,6 +69,12 @@ export class PasswordPage implements OnInit {
     this.loginForm = this.fb.group({
       email: [this.email, [Validators.required]],
       password: ['', Validators.required]
+    });
+  }
+
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Password Page'
     });
   }
 

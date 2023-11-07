@@ -49,6 +49,12 @@ export class UploadCvPage implements OnInit, OnDestroy {
     this.analyticsService.page('Upload CV Page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Upload CV Page'
+    });
+  }
+
   ngOnDestroy() {
 
     if (!!this.uploadSubscription) {

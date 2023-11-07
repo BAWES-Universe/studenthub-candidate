@@ -31,6 +31,12 @@ export class KuwaitiNationalPage implements OnInit {
     this.analyticsService.page('Kuwaiti National page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Kuwaiti National page'
+    });
+  }
+  
   /**
    * save arabic name
    */
