@@ -18,7 +18,7 @@ import {Invitation} from "./models/invitation";
 import {InvitationService} from "./providers/logged-in/invitation.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterState } from '@angular/router';
 import { Preferences as Storage } from '@capacitor/preferences';
 
 const { SplashScreen} = Plugins;
@@ -68,6 +68,32 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
   }
 
+
+  getTitle(state: RouterState, parent: ActivatedRoute): string[] {
+    const data = [];
+    if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
+      data.push(parent.snapshot.data['title']);
+    }
+    if (state && parent && parent.firstChild) {
+      data.push(...this.getTitle(state, parent.firstChild));
+    }
+    return data;
+  }
+
+  handleRouteEvents() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        //const title = this.getTitle(this.router.routerState, this.router.routerState.root).join('-');
+        //this.titleService.setTitle(title);
+        gtag('event', 'page_view', {
+          //page_title: title,
+          page_path: event.urlAfterRedirects,
+          page_location: this.document.location.href
+        })
+      }
+    });
+  }
+
   initializeApp() {
 
     const queryString = window.location.search;
@@ -93,6 +119,8 @@ export class AppComponent implements OnInit, OnDestroy {
         "utm_content": urlParams.get('utm_content'),
       });
     }
+
+    this.handleRouteEvents();
 
     // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
