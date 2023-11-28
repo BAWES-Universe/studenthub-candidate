@@ -541,10 +541,10 @@ export class AuthService {
    * Resend verification email
    * @param email
    */
-  resendVerificationEmail(email: string) {
+  resendVerificationEmail(email: string, token: string = '') {
     const url = environment.apiEndpoint + this._urlresendVerificationEmail;
     const headers = this._buildAuthHeaders();
-    return this.http.post(url, { 'email': email }, { headers: headers }).pipe(
+    return this.http.post(url, { 'email': email, 'token': token }, { headers: headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -645,10 +645,10 @@ export class AuthService {
    * reset password request
    * @param email
    */
-  resetPasswordRequest(email: string) {
+  resetPasswordRequest(email: string, token: string = '') {
     const url = environment.apiEndpoint + this.resetPassRequest;
     const headers = this._buildAuthHeaders();
-    return this.http.post(url, { email }, { headers }).pipe(
+    return this.http.post(url, { 'email': email, 'token': token }, { headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),

@@ -11,6 +11,8 @@ import { EventService } from 'src/app/providers/event.service';
 import { Preferences as Storage } from '@capacitor/preferences';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
+declare let grecaptcha;
+
 @Component({
   selector: 'app-verify-email',
   templateUrl: './verify-email.page.html',
@@ -362,9 +364,19 @@ export class VerifyEmailPage implements OnInit, OnDestroy {
    * Request to resend verification mail
    */
   resendVerificationEmail() {
+    
+    grecaptcha.ready(() => {
+      grecaptcha.execute('6Lei9R4pAAAAAEJYoXxoIvP2Uu0oq8iXkCVfmy6V', {action: 'submit'}).then((token) => {
+         
+         this.onValidCaptcha(token);
+      });
+    });  
+  }
+
+  onValidCaptcha(token) {
     const ok = this.translateService.transform('Okay');
 
-    this.resendEmailSubscription = this.authService.resendVerificationEmail(this.email).subscribe(async res => {
+    this.resendEmailSubscription = this.authService.resendVerificationEmail(this.email, token).subscribe(async res => {
 
       // reset timer
       this.runTimer = true;
