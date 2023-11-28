@@ -100,3 +100,7 @@ For ionic serve command, replace port 3000 with 8100
 For more commands follow the link 
 
 https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet8.png
+
+# google analytics 
+
+https://www.ultimateakash.com/blog-details/Ii1DRGAKYAo=/How-To-Integrate-Google-Analytics-in-Angular-2022

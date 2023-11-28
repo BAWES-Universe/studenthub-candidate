@@ -196,3 +196,13 @@ ion-list {
 .text-warning {
   color: var(--ion-color-danger);
 }
+
+.popup-modal {
+  text-align: revert;
+  justify-content: flex-end;
+  --height: 100%;
+
+  .modal-wrapper {
+      height: 100%;
+  }
+}

@@ -120,7 +120,8 @@ export class LandingPage implements OnInit {
       component: ModalPopPage,
       componentProps: {
         activatedRoutePath: RegisterPage
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -143,7 +144,8 @@ export class LandingPage implements OnInit {
       component: ModalPopPage,
       componentProps: {
         activatedRoutePath: PasswordPage
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

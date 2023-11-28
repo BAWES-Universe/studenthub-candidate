@@ -11,6 +11,8 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
+declare let grecaptcha;
+
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.page.html',
@@ -151,8 +153,6 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
    */
   async sendPassword() {
 
-    this.submitAttempt = true;
-
     if (!this.resetForm.valid) {
 
       const alert = await this._alertCtrl.create({
@@ -164,9 +164,21 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
       return false;
     }
 
+    grecaptcha.ready(() => {
+      grecaptcha.execute('6Lei9R4pAAAAAEJYoXxoIvP2Uu0oq8iXkCVfmy6V', {action: 'submit'}).then((token) => {
+         
+         this.onValidCaptcha(token);
+      });
+    });  
+  }
+
+  onValidCaptcha(token) {
+
+    this.submitAttempt = true;
+
     this.isLoading = true;
 
-    this.sendPasswordSubscription = this._authService.resetPasswordRequest(this.resetForm.value.email)
+    this.sendPasswordSubscription = this._authService.resetPasswordRequest(this.resetForm.value.email, token)
       .subscribe(async data => {
 
         if(data.operation == 'success') {
