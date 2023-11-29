@@ -394,10 +394,10 @@ export class AuthService {
     this.email = data.email;
     this.isProfileCompleted = data.isProfileCompleted;
 
-    /*this.analyticsService.user(this.id, {
+    this.analyticsService.user(this.id, {
       name: this.name,
       email: this.email,
-    });*/
+    });
 
     /*
     //to fix: https://www.pivotaltracker.com/story/show/174788568
