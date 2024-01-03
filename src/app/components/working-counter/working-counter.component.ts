@@ -16,6 +16,7 @@ import {AccountService} from "../../providers/logged-in/account.service";
 export class WorkingCounterComponent implements OnInit {
 
   public started = null;
+
   constructor(
       public authService: AuthService,
       public eventService: EventService,
@@ -25,13 +26,13 @@ export class WorkingCounterComponent implements OnInit {
   ngOnInit() {
 
     if (this.authService && this.authService.isLogin && this.authService.candidate && this.authService.candidate.isWorking) {
-      this.started = this.authService.candidate.isWorking.updated_at;
+      this.started = this.authService.candidate.isWorking.start_time;
     }
 
     this.eventService.workStarted$.subscribe(_ => {
       this.accountStatus.checkWorkStatus().subscribe((data: any) => {
         if (data) {
-          this.started = data.updated_at;
+          this.started = data.start_time;
         }
       });
     });

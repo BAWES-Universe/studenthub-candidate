@@ -1,2 +1,4 @@
 <ion-button class="un-start" (click)="startWork()" shape="round" *ngIf="!started && authService.candidate && authService.candidate.store_id"><ion-icon slot="start" name="radio-button-on-outline"></ion-icon>&nbsp;{{"Track" | translate}}</ion-button>
-<ion-button class="started" color="danger" (click)="stopWork()" shape="round" *ngIf="started"><ion-icon slot="start" name="radio-button-on-outline"></ion-icon>&nbsp; {{ started | timer }}</ion-button>
+<ion-button class="started" color="danger" (click)="stopWork()" shape="round" *ngIf="started">
+    <ion-icon slot="start" name="radio-button-on-outline"></ion-icon>&nbsp; {{ started | timer }}
+</ion-button>
