@@ -22,8 +22,8 @@ export class TimerPipe implements PipeTransform,OnDestroy {
 
         const date1 = new Date(start.replace(/-/g, '/') + ' GMT+03:00');
 
-        const date2 = new Date();
-//(end) ? new Date(end.replace(/-/g, '/') + ' GMT+03:00') : 
+        const date2 = (end) ? new Date(end.replace(/-/g, '/') + ' GMT+03:00') : new Date();
+
         const diff = new Date(date2.getTime() - date1.getTime());
 
         const seconds = Math.round(Math.abs((date2.getTime() - date1.getTime()) / 1000));
