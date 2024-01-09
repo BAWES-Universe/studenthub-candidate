@@ -64,6 +64,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "sourceMap": true,
               "outputHashing": "all"
             },
             "production-mobile": {
@@ -85,6 +86,7 @@
                   "with": "src/environments/environment.prod.mobile.ts"
                 }
               ],
+              "sourceMap": true,
               "outputHashing": "all"
             },
             "development": {
@@ -134,20 +136,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.krushn.ts"
-                }
-              ],
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "anil": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.anil.ts"
                 }
               ],
               "buildOptimizer": false,

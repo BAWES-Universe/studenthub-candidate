@@ -35,3 +35,6 @@ out-tsc/*
 /.angular/cache
 .angular
 .angular/*
+
+# Sentry Config File
+.sentryclirc
