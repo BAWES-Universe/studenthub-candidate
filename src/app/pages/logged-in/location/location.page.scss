@@ -31,8 +31,9 @@ h3 {
     margin-bottom: 55px;
 }
 
+ion-select,
 ion-input {
-    height: 73px;
+    height: 66px;
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -98,7 +99,18 @@ p {
     }
 }
 
-.country-wrapper,
+.country-wrapper ion-icon {
+    z-index: 999;
+    top: 20px;
+    left: 26px;
+    position: absolute;
+}
+
+[dir="rtl"] .country-wrapper ion-icon {
+    left: auto; 
+    right: 26px;
+}
+
 ion-searchbar {
     border-radius: 10px;
     border: solid 4px #bdbdbd;
@@ -140,7 +152,8 @@ ion-searchbar {
     background-color: #ffffff;
     padding-top: 4px;
 }
+
 ion-select {
-    --padding-start: 12px;
+    --padding-start: 60px;
     width: 100%;
 }

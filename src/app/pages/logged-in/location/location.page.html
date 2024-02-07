@@ -13,9 +13,10 @@
 
     <ng-container *ngIf="!selected">
       
-      <!-- *ngIf="country_name"-->
-      <ion-item lines="none" [class.country-wrapper]="!country_name">
+      <!-- *ngIf="country_name" !country_name-->
+      <ion-item lines="none" class="country-wrapper">
         <div tabindex="0"></div>
+        <ion-icon name="earth-outline"></ion-icon>
         <ion-select #select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}"
           cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)" >
           <!-- interface="popover"-->
