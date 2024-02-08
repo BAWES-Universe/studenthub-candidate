@@ -18,8 +18,8 @@ export class AwsService {
     public cloudinaryUrl = environment.cloudinaryUrl;
 
     private _region = 'eu-west-2'; // London
-    private _access_key_uuid = 'AKIAJXOMRCDE65WKBPUA';
-    private _secret_access_key = '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';
+    private _access_key_uuid = 'AKIAWMITDJRKTSQ4T67K';
+    private _secret_access_key = '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';
     private _bucket_name = 'studenthub-public-anyone-can-upload-24hr-expiry';
 
     public maxUploadSize = 18874368; // 18 MB
