@@ -52,6 +52,8 @@ export class AuthService {
   public isProfileCompleted: any;
   public language_pref: string;
 
+  public utm_uuid;
+
   public language = {
     code: 'en',
     name: 'English'
@@ -66,9 +68,12 @@ export class AuthService {
 
   public loadingJobSearchStatus: boolean = false;
 
+  public currentLocation;
+
   public _urlLoginAuth0 = '/auth/login-auth0';
   public _urlBasicAuth = '/auth/login';
   public _urlEmailCheck = '/auth/email-check';
+  public _urlLocate = '/auth/locate';
   public _urlRegistration = '/auth/register';
   public _urlresendVerificationEmail = '/auth/resend-verification-email';
   public urlLoginByApple = '/auth/login-by-apple';
@@ -77,8 +82,9 @@ export class AuthService {
   public _urlVerifyEmail = '/auth/verify-email';
   public _urlUpdatePassword = '/auth/update-password';
   public resetPassRequest = '/auth/request-reset-password';
+  public _urlResetPassSMS = '/auth/sms-reset-password';
   public _urlLoginByGoogle = '/auth/login-by-google';
-
+   
   constructor(
     public http: HttpClient,
     public router: Router,
@@ -124,6 +130,22 @@ export class AuthService {
     });
   }
 
+  /**
+   * return user location detail by user ip address
+   * @return Observable
+   */
+  locate(): Observable<any> {
+    const url = environment.apiEndpoint + this._urlLocate;
+    const headers = this._buildAuthHeaders();
+    return this.http.get(url, { headers: headers })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        take(1),
+        map((res) => res)
+      );
+  }
+  
   /**
    * Set initial config
    */
@@ -220,9 +242,18 @@ export class AuthService {
       // set direction based on language
       // this._platform.setDir('rtl', true);
       document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
+
     }).catch(r => {
       this.eventService.errorStorage$.next(r);
     });
+
+    //saved location 
+    
+    const { value } = await Storage.get({ key: 'currentLocation' });
+
+    if (value) {
+      this.currentLocation = value;
+    }
   }
 
   /**
@@ -363,10 +394,10 @@ export class AuthService {
     this.email = data.email;
     this.isProfileCompleted = data.isProfileCompleted;
 
-    /*this.analyticsService.user(this.id, {
+    this.analyticsService.user(this.id, {
       name: this.name,
       email: this.email,
-    });*/
+    });
 
     /*
     //to fix: https://www.pivotaltracker.com/story/show/174788568
@@ -510,10 +541,10 @@ export class AuthService {
    * Resend verification email
    * @param email
    */
-  resendVerificationEmail(email: string) {
+  resendVerificationEmail(email: string, token: string = '') {
     const url = environment.apiEndpoint + this._urlresendVerificationEmail;
     const headers = this._buildAuthHeaders();
-    return this.http.post(url, { 'email': email }, { headers: headers }).pipe(
+    return this.http.post(url, { 'email': email, 'token': token }, { headers: headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),
@@ -596,13 +627,28 @@ export class AuthService {
   }
 
   /**
+   * reset password request to sms recovery link 
+   * @param email
+   */
+  resetPasswordSMS(email: string) {
+    const url = environment.apiEndpoint + this._urlResetPassSMS;
+    const headers = this._buildAuthHeaders();
+    return this.http.post(url, { email }, { headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+
+  /**
    * reset password request
    * @param email
    */
-  resetPasswordRequest(email: string) {
+  resetPasswordRequest(email: string, token: string = '') {
     const url = environment.apiEndpoint + this.resetPassRequest;
     const headers = this._buildAuthHeaders();
-    return this.http.post(url, { email }, { headers }).pipe(
+    return this.http.post(url, { 'email': email, 'token': token }, { headers }).pipe(
       retryWhen(genericRetryStrategy()),
       catchError((err) => this._handleError(err)),
       first(),

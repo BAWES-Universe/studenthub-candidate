@@ -37,6 +37,12 @@ export class NationalIdPage implements OnInit {
     this.analyticsService.page('National ID Page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'National ID Page'
+    });
+  }
+  
   ionViewWillEnter() {
     if(!this.candidate)
       this.loadData();

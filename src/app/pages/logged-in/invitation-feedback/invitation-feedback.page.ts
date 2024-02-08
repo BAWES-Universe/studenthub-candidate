@@ -41,6 +41,12 @@ export class InvitationFeedbackPage implements OnInit {
     this.initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Invitation Feedback page'
+    });
+  }
+  
   async initForm() {
     this.form = this._fb.group({
       reason: ['', [Validators.required]]

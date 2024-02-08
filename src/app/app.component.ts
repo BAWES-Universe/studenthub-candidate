@@ -18,7 +18,7 @@ import {Invitation} from "./models/invitation";
 import {InvitationService} from "./providers/logged-in/invitation.service";
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterState } from '@angular/router';
 import { Preferences as Storage } from '@capacitor/preferences';
 
 const { SplashScreen} = Plugins;
@@ -26,6 +26,7 @@ const { SplashScreen} = Plugins;
 import { mergeMap } from 'rxjs/operators';
 import { Browser } from '@capacitor/browser';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { AnalyticsService } from './providers/analytics.service';
 
 declare var window;
 
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
+    public analyticsService: AnalyticsService,
     public languageService: LanguageService,
     public translateService: TranslateLabelService,
     public authService: AuthService,
@@ -66,7 +68,60 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
   }
 
+
+  getTitle(state: RouterState, parent: ActivatedRoute): string[] {
+    const data = [];
+    if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
+      data.push(parent.snapshot.data['title']);
+    }
+    if (state && parent && parent.firstChild) {
+      data.push(...this.getTitle(state, parent.firstChild));
+    }
+    return data;
+  }
+
+  handleRouteEvents() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        //const title = this.getTitle(this.router.routerState, this.router.routerState.root).join('-');
+        //this.titleService.setTitle(title);
+        gtag('event', 'page_view', {
+          //page_title: title,
+          page_path: event.urlAfterRedirects,
+          page_location: this.document.location.href
+        })
+      }
+    });
+  }
+
   initializeApp() {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    
+    if(urlParams.get('utm_id')) {
+      
+      this.authService.utm_uuid = urlParams.get('utm_id');
+
+      Storage.set({ key: 'utm_uuid', value: this.authService.utm_uuid });
+      
+      //this.campaignService.click(this.authService.utm_uuid).subscribe();
+
+      //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
+      window.localStorage.setItem("utm_uuid", this.authService.utm_uuid);
+
+      this.analyticsService.track("From Campaign", {
+        "utm_id": this.authService.utm_uuid,
+        "utm_source": urlParams.get('utm_source'),
+        "utm_medium": urlParams.get('utm_medium'),
+        "utm_campaign": urlParams.get('utm_campaign'),
+        "utm_term": urlParams.get('utm_term'),
+        "utm_content": urlParams.get('utm_content'),
+      });
+    }
+
+    this.handleRouteEvents();
+
     // Use Capacitor's App plugin to subscribe to the `appUrlOpen` event
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Must run inside an NgZone for Angular to pick up the changes
@@ -133,6 +188,16 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
+
+      /*if (!this.authService.currentLocation) { 
+        this.authService.locate().subscribe(res => {
+          
+          this.authService.currentLocation = res; 
+
+          this.eventService.locationUpdated$.next(res);
+        });
+      }*/
+
       this.setServiceWorker();
 
       // use hook after platform dom ready

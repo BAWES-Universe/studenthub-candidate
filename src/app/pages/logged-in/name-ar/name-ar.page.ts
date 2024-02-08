@@ -46,6 +46,12 @@ export class NameArPage implements OnInit {
     }, 500);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Arabic Name page'
+    });
+  }
+  
   /**
    * Initialise form
    */

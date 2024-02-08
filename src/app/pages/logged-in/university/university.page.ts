@@ -56,6 +56,12 @@ export class UniversityPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'University Page'
+    });
+  }
+
   /**
    * @param ev
    */

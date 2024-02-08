@@ -73,6 +73,10 @@ export class PaymentsPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Payments page'
+    });
+   
     this.content.scrollToPoint(0, 0);
   }
 

@@ -14,6 +14,7 @@ import { PasswordPage } from '../password/password.page';
 import { ModalPopPage } from '../modal-pop/modal-pop.page';
 import { mergeMap } from 'rxjs';
 import { Browser } from '@capacitor/browser';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class LandingPage implements OnInit {
     public authService: AuthService,
     public eventService: EventService,
     public translateService: TranslateLabelService,
+    public analyticsService: AnalyticsService,
     public auth: Auth0Service,
     public modalCtrl: ModalController,
     public route: Router
@@ -50,7 +52,8 @@ export class LandingPage implements OnInit {
   }
 
   async ngOnInit() {
-    // this.analyticsService.page('Landing Page');
+    
+    this.analyticsService.page('Landing Page');
     
     this.eventService.googleLoginFinished$.subscribe(() => {
       this.loading = false;
@@ -61,6 +64,12 @@ export class LandingPage implements OnInit {
         }
       });
     }); 
+  }
+
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Landing Page'
+    });
   }
 
   translate() {
@@ -111,7 +120,8 @@ export class LandingPage implements OnInit {
       component: ModalPopPage,
       componentProps: {
         activatedRoutePath: RegisterPage
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -134,7 +144,8 @@ export class LandingPage implements OnInit {
       component: ModalPopPage,
       componentProps: {
         activatedRoutePath: PasswordPage
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

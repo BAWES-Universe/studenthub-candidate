@@ -56,6 +56,12 @@ export class NationalityPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Nationality page'
+    });
+  }
+  
   ionViewDidEnter() {
 
     setTimeout(() => {

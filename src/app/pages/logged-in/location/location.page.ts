@@ -37,7 +37,7 @@ export class LocationPage implements OnInit {
 
   public area;
   public country;
-  public country_name;
+  public country_name = null;
 
   public query: string = '';
 
@@ -84,6 +84,12 @@ export class LocationPage implements OnInit {
     }
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Location page'
+    });
+  }
+  
   onCountryChange(event) {
     this.area = null;
     this.query = null;

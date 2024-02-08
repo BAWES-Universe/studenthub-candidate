@@ -2,8 +2,6 @@ import { Component, OnInit, Optional, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
-
 // validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
@@ -12,13 +10,17 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { Preferences as Storage } from '@capacitor/preferences';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { EmailPage } from '../email/email.page';
+import { PasswordPage } from '../password/password.page';
+
+
+declare let grecaptcha;
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-
 export class RegisterPage implements OnInit {
 
   @ViewChild('nameInput') nameInput;
@@ -68,16 +70,24 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Register Page'
+    });
+  }
+
   /**
    * Attempts to register an account for the user
    * Then process his previous request
    */
   async onSubmit() {
 
+    //e.preventDefault();
+
     if (!this.registerForm.valid) {
       return false;
     }
-
+   
     const name_ar = this.registerForm.value.name.split(' ').length;
 
     if (name_ar == 1) {
@@ -89,9 +99,23 @@ export class RegisterPage implements OnInit {
       return false;
     }
 
+    grecaptcha.ready(() => {
+      grecaptcha.execute('6Lei9R4pAAAAAEJYoXxoIvP2Uu0oq8iXkCVfmy6V', {action: 'submit'}).then((token) => {
+         const params = {
+            ...this.registerForm.value, 
+            token: token
+         };
+
+         this.onValidCaptcha(params);
+      });
+    });  
+  }
+
+  onValidCaptcha(params) {
+
     this.isLoading = true;
 
-    this.authService.createAccount(this.registerForm.value).subscribe(res => {
+    this.authService.createAccount(params).subscribe(res => {
       this.isLoading = false;
 
       if (res.operation == 'success') {
@@ -116,9 +140,14 @@ export class RegisterPage implements OnInit {
           }, 100);
         });
 
-
-
       } else if (res.operation === 'error') {
+
+        //validation error 
+
+        if(res.code == 2 && res.message.candidate_email) {
+          this.openLoginPage();
+        }
+
         this.alertCtrl.create({
           message: this.authService.errorMessage(res.message),
           buttons: [this.translateService.transform('Okay')]
@@ -159,8 +188,8 @@ export class RegisterPage implements OnInit {
         if (canGoBack) {
           this.nav.pop();
         } else {
-          this.dismissModal();
-        }
+          this.nav.push(PasswordPage)
+;        }
       });
     } else  {
       this.dismissModal();

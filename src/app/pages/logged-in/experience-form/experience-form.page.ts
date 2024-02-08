@@ -39,6 +39,12 @@ export class ExperienceFormPage implements OnInit {
     this.addToExperienceList(JSON.parse(JSON.stringify(this.candidate.candidateExperiences)));
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Experience Form page'
+    });
+  }
+
   ionViewDidEnter() {
 
     setTimeout(() => {

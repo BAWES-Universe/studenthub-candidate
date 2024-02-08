@@ -46,6 +46,12 @@ export class ProfileUrlPage implements OnInit {
     }, 500);
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Profile Url Page'
+    });
+  }
+
   /**
    * Initialise form
    */

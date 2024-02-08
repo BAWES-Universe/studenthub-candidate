@@ -57,6 +57,12 @@ export class CompanyPage implements OnInit {
     this.analyticsService.page('Company page');
   } 
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Company page'
+    });
+  }
+
   dismiss() {
     this.modalCtrl.getTop().then(overlay => {
       if (overlay) {

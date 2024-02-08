@@ -31,6 +31,12 @@ export class GenderPage implements OnInit {
     this.analyticsService.page('Gender page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Gender page'
+    });
+  }
+
   /**
    * save arabic name
    */

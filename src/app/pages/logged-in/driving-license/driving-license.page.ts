@@ -31,6 +31,12 @@ export class DrivingLicensePage implements OnInit {
     this.analyticsService.page('Driving License page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Driving License page'
+    });
+  }
+
   /**
    * save arabic name
    */

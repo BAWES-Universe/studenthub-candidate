@@ -13,10 +13,13 @@
 
     <ng-container *ngIf="!selected">
       
-      <ion-item lines="none" [class.country-wrapper]="!country_name">
+      <!-- *ngIf="country_name" !country_name-->
+      <ion-item lines="none" class="country-wrapper">
         <div tabindex="0"></div>
+        <ion-icon name="earth-outline"></ion-icon>
         <ion-select #select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}"
-          cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)" interface="popover">
+          cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)" >
+          <!-- interface="popover"-->
           <ion-select-option value="Kuwait">{{ translateService.langContent('Kuwait', 'الكويت') }}</ion-select-option>
           <ion-select-option value="Bahrain">{{ translateService.langContent('Bahrain', 'البحرين') }}</ion-select-option>
           <ion-select-option value="Saudi Arabia">{{ translateService.langContent('Saudi Arabia', 'المملكة العربية السعودية') }}</ion-select-option>
@@ -25,9 +28,9 @@
         </ion-select>
       </ion-item>
 
-      <ion-item lines="none" *ngIf="country_name">
+      <ion-item lines="none">
         <div tabindex="0"></div>
-        <ion-searchbar mode="md" debounce="100" placeholder="{{ placeholders[country_name] | translate }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
+        <ion-searchbar mode="md" debounce="100" placeholder="{{ 'Search your area' | translate }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
       </ion-item>
 
     </ng-container>

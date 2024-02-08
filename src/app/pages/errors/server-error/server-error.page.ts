@@ -25,6 +25,12 @@ export class ServerErrorPage implements OnInit {
     this.analyticsService.page('Server Error page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Server Error page'
+    });
+  }
+
   ionViewWillEnter() {
     this.modalCtrl.getTop().then(overlay => {
       if(overlay) {

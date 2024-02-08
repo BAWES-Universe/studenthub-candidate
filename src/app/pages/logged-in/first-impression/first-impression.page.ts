@@ -43,6 +43,12 @@ export class FirstImpressionPage implements OnInit {
     this.analyticsService.page('First Impression page');
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'First Impression page'
+    });
+  }
+
   ionViewWillEnter() {
     if(!this.candidate)
       this.loadData();

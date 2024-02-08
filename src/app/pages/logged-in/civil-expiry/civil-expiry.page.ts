@@ -52,6 +52,12 @@ export class CivilExpiryPage implements OnInit {
     this._initForm();
   }
 
+  ionViewWillLeave() {
+    this.analyticsService.track('page_exit', {
+      'page': 'Civil Expiry page'
+    });
+  }
+
   /**
    * Initialise form
    */
