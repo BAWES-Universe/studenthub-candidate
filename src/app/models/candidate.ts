@@ -48,6 +48,7 @@ export class Candidate {
     candidate_mom_kuwaiti: any;
     profile_url: string;
     candidate_preferred_time: string;
+    currency_code: string;
     pendingField: any[];
     isWorking: CandidateWorkingHour;
 
