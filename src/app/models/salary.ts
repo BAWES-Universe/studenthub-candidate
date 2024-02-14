@@ -10,7 +10,8 @@ export class Salary {
 
 	candidate_total: number;
 	total: number;//candidate_total - dynamically calculated
-
+	currency_code: string;
+	
 	company_name: string;
 	store_name: string;
 	transfer_benef_name: string;
