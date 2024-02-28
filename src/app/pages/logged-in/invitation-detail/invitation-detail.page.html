@@ -24,10 +24,11 @@
 
     <p class="job-desc" [innerHTML]="model.request.request_job_description"></p>
  
+    <!--
     <ng-container *ngIf="model.request.request_additional_info">
       <h3>{{ "Additional Info" | translate }}</h3>
       <p class="job-additional-info" [innerHtml]="model.request.request_additional_info"></p>
-    </ng-container>
+    </ng-container>-->
 
     <ng-container *ngIf="model.request.request_compensation">
       <h3>{{ "Compensation" | translate }}</h3>
