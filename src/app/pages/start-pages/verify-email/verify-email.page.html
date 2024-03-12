@@ -11,6 +11,8 @@
 
       <p class="txt-email">{{ email }}</p>
 
+      <p class="txt-spam-folder">{{ "Email not found in inbox? Please check spam folder." | translate }} </p>
+
       <ion-button class="btn-change-email" *ngIf="unVerifiedToken" (click)="updateEmail()" fill="clear">
         {{ "Change my email address" | translate }}
       </ion-button>

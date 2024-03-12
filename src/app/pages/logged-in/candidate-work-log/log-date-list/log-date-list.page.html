@@ -33,12 +33,12 @@
   <div class="max-width">
     <div *ngIf="candidateWorkingHourData">
       <ng-container *ngFor="let hour of candidateWorkingHourData">
-        <h2>{{hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+        <h2>{{hour.date | date : 'mediumDate': '': translateService.currentLang == 'ar' ? 'ar-KW' : 'en-US' }}</h2>
         <ion-card [routerLink]="['/log-hour-list',hour.date]" >
           <ion-card-content>
             <h3>{{secondsToTime(hour.total_time)}}</h3>
-            <span>{{ translateService.toDate(getStartTime(hour)) | date: "shortTime": undefined: translateService.currentLang }} -> 
-              {{ translateService.toDate(getEndTime(hour)) | date: "shortTime": undefined: translateService.currentLang}}</span>
+            <span>{{ translateService.toDate(getStartTime(hour)) | date: "shortTime": '': translateService.currentLang == 'ar' ? 'ar-KW' : 'en-US' }} -> 
+              {{ translateService.toDate(getEndTime(hour)) | date: "shortTime": '': translateService.currentLang == 'ar' ? 'ar-KW' : 'en-US' }}</span>
           </ion-card-content>
         </ion-card>
       </ng-container>

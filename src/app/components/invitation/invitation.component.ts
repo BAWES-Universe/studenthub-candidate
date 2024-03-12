@@ -26,6 +26,11 @@ export class InvitationComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  ngOnDestroy() {
+
+  }
+  
   /**
    * invitation detail page
    * @param model

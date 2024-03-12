@@ -10,7 +10,8 @@
     <form [formGroup]="form" *ngIf="form">
 
       <ion-list>
-        <ion-input inputmode="tel" formControlName="phone" #inptPhone maxlength="8"
+        <!-- maxlength="8"-->
+        <ion-input inputmode="tel" formControlName="phone" #inptPhone 
           placeholder="{{ 'Enter Phone number' | translate }}"></ion-input>
       </ion-list>
 

@@ -57,6 +57,10 @@ export class CompanyPage implements OnInit {
     this.analyticsService.page('Company page');
   } 
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Company page'

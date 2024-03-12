@@ -41,6 +41,10 @@ export class InvitationFeedbackPage implements OnInit {
     this.initForm();
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Invitation Feedback page'

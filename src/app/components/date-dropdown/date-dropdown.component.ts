@@ -385,4 +385,8 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
        
     }
   }
+
+  ngOnDestroy() {
+    
+  }
 }

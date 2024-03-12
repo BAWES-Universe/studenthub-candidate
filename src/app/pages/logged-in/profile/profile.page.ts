@@ -79,6 +79,10 @@ export class ProfilePage implements OnInit {
     this.analyticsService.page('Profile page');
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillEnter() {
     this.loadData();
   }
