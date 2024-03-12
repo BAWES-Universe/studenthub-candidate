@@ -25,6 +25,10 @@ export class NotFoundPage implements OnInit {
     this.analyticsService.page('Not Found page');
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Not Found page'

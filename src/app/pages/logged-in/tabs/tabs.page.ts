@@ -35,6 +35,10 @@ export class TabsPage implements OnInit {
     this.loadJobSearchStatus();
   }
 
+  ngOnDestroy() {
+
+  }
+  
   /**
    * load job search status ,.
    */

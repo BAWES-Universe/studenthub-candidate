@@ -53,6 +53,10 @@ export class PersonalInfoPage implements OnInit {
     });
   }
   
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillEnter() {
     if(!this.candidate)
       this.loadData();

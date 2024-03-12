@@ -246,7 +246,7 @@ export class ProfilePhotoPage implements OnInit {
         if (
           err && (
             ignoreErrors.indexOf(err.message) > -1 ||
-            err.message.includes('aborted')
+            (err.message && err.message.includes('aborted'))
           )
         ) {
           return null;
@@ -394,11 +394,15 @@ export class ProfilePhotoPage implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+
+  }
+
   /**
    * trigger click event on change logo button
    */
-  triggerUpdatePhoto($event) {
-    $event.stopPropagation();
+  triggerUpdatePhoto(event) {
+    event.stopPropagation();
     document.getElementById('upload-pic').click();
     // this.fileInput.nativeElement.click();
   }

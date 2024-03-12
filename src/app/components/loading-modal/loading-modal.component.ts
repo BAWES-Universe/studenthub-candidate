@@ -20,4 +20,8 @@ export class LoadingModalComponent implements OnInit {
 
     ngOnInit() {
     }
+
+    ngOnDestroy() {
+        
+    }
 }

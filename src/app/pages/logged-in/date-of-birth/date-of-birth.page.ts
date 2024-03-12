@@ -54,6 +54,10 @@ export class DateOfBirthPage implements OnInit {
     this._initForm();
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Date of birth page'

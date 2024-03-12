@@ -25,6 +25,10 @@ export class ServerErrorPage implements OnInit {
     this.analyticsService.page('Server Error page');
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Server Error page'

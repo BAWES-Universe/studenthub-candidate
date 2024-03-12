@@ -46,6 +46,10 @@ export class NamePage implements OnInit {
     }, 500);
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Name page'

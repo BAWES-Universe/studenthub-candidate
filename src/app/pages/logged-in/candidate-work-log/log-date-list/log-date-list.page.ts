@@ -50,6 +50,10 @@ export class LogDateListPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+
+  }
+
   ionViewWillEnter() {
     this.loadData();
   }
@@ -100,6 +104,7 @@ export class LogDateListPage implements OnInit {
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
         this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
+        
         event.target.complete();
     },
     error => { },

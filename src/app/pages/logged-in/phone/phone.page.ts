@@ -44,6 +44,10 @@ export class PhonePage implements OnInit {
     }, 500);
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Phone page'

@@ -10,10 +10,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build:devserver": "ng build --configuration=dev",
-    "build:devserver:mobile": "ng build --configuration=dev-mobile",
+    "build:devserver": "ng build --configuration=dev && npm run sentry:sourcemaps",
+    "build:devserver:mobile": "ng build --configuration=dev-mobile && npm run sentry:sourcemaps",
     "build:production": "ng build --configuration=production && npm run sentry:sourcemaps",
-    "build:production:mobile": "ng build --configuration=production-mobile",
+    "build:production:mobile": "ng build --configuration=production-mobile && npm run sentry:sourcemaps",
     "ionic:serve:khalid": "ionic serve --configuration=khalid",
     "serve-kk": "ionic serve --configuration=krushn",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pogi --project sh-student-app ./www && sentry-cli sourcemaps upload --org pogi --project sh-student-app ./www"

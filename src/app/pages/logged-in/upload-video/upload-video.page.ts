@@ -511,7 +511,7 @@ export class UploadVideoPage implements OnInit, OnDestroy {
         if (
           err && (
             ignoreErrors.indexOf(err.message) > -1 ||
-            err.message.includes('aborted')
+            (err.message && err.message.includes('aborted'))
           )
         ) {
           return null;
