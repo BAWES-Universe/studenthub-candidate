@@ -188,4 +188,8 @@ export class LandingPage implements OnInit {
            .subscribe();
      }
   }
+
+  ngOnDestroy() {
+    
+  }
 }

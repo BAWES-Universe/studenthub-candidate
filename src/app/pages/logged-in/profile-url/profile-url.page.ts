@@ -46,6 +46,10 @@ export class ProfileUrlPage implements OnInit {
     }, 500);
   }
 
+  ngOnDestroy() {
+
+  }
+  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Profile Url Page'

@@ -40,6 +40,10 @@ export class PreferredTimePage implements OnInit {
     }, 500);
   }
 
+  ngOnDestroy() {
+
+  }
+  
   /**
    * Initialise form
    */

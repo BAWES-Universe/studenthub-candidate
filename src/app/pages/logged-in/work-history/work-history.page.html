@@ -17,9 +17,9 @@
             <h2 *ngIf="!history.company.parentCompany">{{ history.company.company_common_name_en? history.company.company_common_name_en: history.company.company_name }}</h2>
             <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
             <p>
-              {{ translateService.toDate(history.start_date) | date :'mediumDate': undefined: translateService.currentLang }}
+              {{ translateService.toDate(history.start_date) | date :'mediumDate': '': translateService.currentLang == 'ar' ? 'ar-KW' : 'en-US' }}
               <ng-container *ngIf="history.end_date"> 
-                {{ "to" | traslate }} {{ translateService.toDate(history.end_date) | date :'mediumDate': undefined: translateService.currentLang }}</ng-container>
+                {{ "to" | traslate }} {{ translateService.toDate(history.end_date) | date :'mediumDate': '': translateService.currentLang == 'ar' ? 'ar-KW' : 'en-US' }}</ng-container>
               <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)">
                 {{ "to" | traslate }} {{ "now" | translate }}
               </ng-container>

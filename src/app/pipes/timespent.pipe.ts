@@ -51,5 +51,9 @@ export class TimeSpentPipe implements PipeTransform {
       return seconds.toFixed(2) + ' seconds';
     }
   }
+  
+  async ngOnDestroy() {
+
+  }
 }
 

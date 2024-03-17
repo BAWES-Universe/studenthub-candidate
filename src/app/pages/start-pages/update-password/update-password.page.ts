@@ -111,6 +111,10 @@ export class UpdatePasswordPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+
+  }
+  
   showPassword() {
     this.type = this.type == 'password'? 'text': 'password';
   }

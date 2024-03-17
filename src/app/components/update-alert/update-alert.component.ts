@@ -31,4 +31,8 @@ export class UpdateAlertComponent implements OnInit {
   close() {
     this.onClose.emit();
   }
+
+  ngOnDestroy() {
+    
+  }
 }

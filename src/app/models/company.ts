@@ -14,6 +14,8 @@ export class Company{
     company_logo: string;
     company_status: number;
     total_candidates: number;
+    country_id: number;
+    currency_code: string;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];

@@ -74,6 +74,10 @@ export class CivilIdBackPage implements OnInit {
     this._initForm();
   }
 
+  ngOnDestroy() {
+
+  }
+
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Civil ID Back page'
@@ -244,7 +248,7 @@ export class CivilIdBackPage implements OnInit {
         if (
           err && (
             ignoreErrors.indexOf(err.message) > -1 ||
-            err.message.includes('aborted')
+            (err.message && err.message.includes('aborted'))
           ) 
         ) {
           return null;
@@ -410,8 +414,8 @@ export class CivilIdBackPage implements OnInit {
   /**
    * trigger click event on change logo button
    */
-  triggerUpdatePhoto($event) {
-    $event.stopPropagation();
+  triggerUpdatePhoto(event) {
+    event.stopPropagation();
     document.getElementById('upload-pic').click();
     // this.fileInput.nativeElement.click();
   }

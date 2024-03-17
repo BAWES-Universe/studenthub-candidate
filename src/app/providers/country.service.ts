@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'; 
 // Services
-import { CacheService } from "ionic-cache";
+//import { CacheService } from "ionic-cache";
 import { AuthHttpService } from './logged-in/authhttp.service';
 
 
@@ -17,7 +17,7 @@ export class CountryService {
 
   constructor(
     public _http: AuthHttpService,
-    public cache: CacheService
+   // public cache: CacheService
   ) { }
 
   /**

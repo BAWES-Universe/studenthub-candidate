@@ -84,6 +84,9 @@ export class LocationPage implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    
+  }
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Location page'
