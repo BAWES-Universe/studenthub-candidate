@@ -37,10 +37,6 @@ export class NationalIdPage implements OnInit {
     this.analyticsService.page('National ID Page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'National ID Page'

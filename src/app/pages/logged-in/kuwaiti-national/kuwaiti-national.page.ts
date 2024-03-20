@@ -31,10 +31,6 @@ export class KuwaitiNationalPage implements OnInit {
     this.analyticsService.page('Kuwaiti National page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Kuwaiti National page'

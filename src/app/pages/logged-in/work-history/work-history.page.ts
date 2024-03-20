@@ -45,10 +45,7 @@ export class WorkHistoryPage implements OnInit {
     this.analyticsService.page('Work History Page');
 
     // Initialize the Login Form
-  }
 
-  ngOnDestroy() {
-    
   }
 
   ionViewWillLeave() {

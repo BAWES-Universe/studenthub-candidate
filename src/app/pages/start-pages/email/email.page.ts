@@ -127,8 +127,4 @@ export class EmailPage implements OnInit {
       }
     );
   }
-
-  ngOnDestroy() {
-    
-  }
 }

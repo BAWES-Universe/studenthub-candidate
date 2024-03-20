@@ -58,10 +58,6 @@ export class UpdateEmailPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Update Email Page'

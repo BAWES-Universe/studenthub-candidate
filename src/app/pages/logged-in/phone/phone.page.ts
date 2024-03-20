@@ -44,10 +44,6 @@ export class PhonePage implements OnInit {
     }, 500);
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Phone page'
@@ -59,8 +55,7 @@ export class PhonePage implements OnInit {
    */
   async _initForm() {
     this.form = this.fb.group({
-      phone: [this.candidate.candidate_phone, [Validators.required]],
-      //Validators.pattern('^[0-9]{8}$')
+      phone: [this.candidate.candidate_phone, [Validators.required, Validators.pattern('^[0-9]{8}$')]],
     });
   }
 

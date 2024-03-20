@@ -42,10 +42,6 @@ export class WorkingCounterComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   stopWork() {
     this.eventService.stopWork$.next({});
   }

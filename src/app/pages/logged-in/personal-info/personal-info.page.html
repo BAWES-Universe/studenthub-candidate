@@ -60,7 +60,7 @@
         <ion-label>
           <small>{{ "Date of Birth" | translate }}</small>
           <span
-                  *ngIf="candidate.candidate_birth_date">{{ translateService.toDate(candidate.candidate_birth_date) | date :'dd/MM/yyyy': '': translateService.currentLang == 'ar' ? 'ar-KW' : 'en-US' }}</span>
+                  *ngIf="candidate.candidate_birth_date">{{ translateService.toDate(candidate.candidate_birth_date) | date :'dd/MM/yyyy': undefined: translateService.currentLang }}</span>
           <span *ngIf="!candidate.candidate_birth_date">{{ "How old are you?" | translate }} </span>
         </ion-label>
       </ion-item>

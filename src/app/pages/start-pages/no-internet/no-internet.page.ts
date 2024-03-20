@@ -39,10 +39,6 @@ export class NoInternetPage implements OnInit {
     window.addEventListener('online', this.handler);
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewDidEnter() {
     this.content.scrollToPoint(0, this.scrollPosition);
   }

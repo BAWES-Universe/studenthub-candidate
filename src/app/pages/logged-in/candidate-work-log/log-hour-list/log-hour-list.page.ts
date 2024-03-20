@@ -52,10 +52,6 @@ export class LogHourListPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillEnter() {
     this.loadData();
   }

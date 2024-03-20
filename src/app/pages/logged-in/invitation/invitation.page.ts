@@ -48,10 +48,6 @@ export class InvitationPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillEnter() {
     this.loadInvitations();
 

@@ -39,9 +39,7 @@
     
     <p class="job-location">{{model.request.request_location}}</p>
 
-    <ng-container *ngIf="model.request.request_status == 'started' || 
-      model.request.request_status == 're_work' || 
-      model.request.request_status == 'finished_by_recruitment'">
+    <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment'">
 
       <ng-container *ngIf="model.invitation_status == 1">
         <div>
@@ -53,9 +51,7 @@
           <ion-button class="btn-apply" (click)="accept($event)">
             {{"I’d like to apply" | translate}}
           </ion-button> 
-          <ion-button class="btn-reject" (click)="reject($event)">
-            {{ "Reject" | translate}}
-          </ion-button>
+          <ion-button class="btn-reject" (click)="reject($event)">{{ "Reject" | translate}}</ion-button>
         </div>
       </ng-container>
 
@@ -81,7 +77,6 @@
         <h3>
           {{ "You rejected it with the message:" | translate}}
         </h3>
-
         <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
         <ion-grid class="msg">
           <ion-row>
@@ -95,7 +90,6 @@
         </ion-grid>
       </div>
     </ng-container>
-
     <ng-container *ngIf="model.request.request_status == 'delivered'">
 
       <div *ngIf="model.invitation_status == 1">
@@ -110,14 +104,12 @@
         </h3>
         <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
       </div>
-
       <div *ngIf="model.invitation_status == 3">
         <h3>
           {{"You applied for it with the message:" | translate}}
         </h3>
         <p class="application-msg" *ngIf="model.note"> "<span [innerHTML]="model.note.note_text"></span>"</p>
       </div>
-
       <ion-grid class="msg request-completed">
         <ion-row>
           <ion-col size-sm="2" size-xs="2" size-md="1" size-lg="1">
@@ -129,7 +121,6 @@
         </ion-row>
       </ion-grid>
     </ng-container>
-
     <ng-container *ngIf="model.request.request_status == 'cancelled'">
 
       <div *ngIf="model.invitation_status == 1">

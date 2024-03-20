@@ -43,10 +43,6 @@ export class FirstImpressionPage implements OnInit {
     this.analyticsService.page('First Impression page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'First Impression page'

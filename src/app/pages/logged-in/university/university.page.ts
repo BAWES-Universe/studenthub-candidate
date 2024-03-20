@@ -56,10 +56,6 @@ export class UniversityPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'University Page'

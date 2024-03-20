@@ -39,10 +39,6 @@ export class SkillFormPage implements OnInit {
     this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Skill form Page'

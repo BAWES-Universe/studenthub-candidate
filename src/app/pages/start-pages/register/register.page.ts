@@ -64,16 +64,12 @@ export class RegisterPage implements OnInit {
     this.registerForm = this.fb.group({
       name: [null, [Validators.required]],
       email: [this.email, [Validators.required, CustomValidator.emailValidator]],
-      phone: [null, [Validators.required, Validators.maxLength(10)]],
+      phone: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.maxLength(30)]],
       lang : [this.translateService.currentLang]
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Register Page'

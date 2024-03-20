@@ -36,9 +36,5 @@ export class AgePipe implements PipeTransform {
 			return this.translate.transform('txt_years_old', { value: years });
 		}
     }
-	
-	async ngOnDestroy() {
-
-	}
 }
 

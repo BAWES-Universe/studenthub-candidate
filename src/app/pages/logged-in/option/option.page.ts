@@ -33,10 +33,6 @@ export class OptionPage implements OnInit {
     this.analyticsService.page('Option page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Option page'
