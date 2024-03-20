@@ -27,10 +27,6 @@ export class AppErrorPage implements OnInit {
     this.analyticsService.page('App Error page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'App Error page'

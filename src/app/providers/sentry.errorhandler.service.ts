@@ -89,7 +89,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 
 		const storageError = 'Failed to access storage';
 
-		if (error.message && error.message.includes(storageError)) {
+		if (error.message.includes(storageError)) {
 		  return super.handleError(error);
 		}
 
@@ -97,7 +97,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 
 		const serviceWorkerError = 'ServiceWorker';
 
-		if (error.message && error.message.includes(serviceWorkerError)) {
+		if (error.message.includes(serviceWorkerError)) {
 		  return super.handleError(error);
 		}
 

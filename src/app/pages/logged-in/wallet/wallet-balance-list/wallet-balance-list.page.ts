@@ -51,10 +51,6 @@ export class WalletBalanceListPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-
   ionViewWillEnter() {
     this.loadData();
   }
@@ -105,7 +101,6 @@ export class WalletBalanceListPage implements OnInit {
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
         this.balances = this.balances.concat(response.body);
-        
         event.target.complete();
     },
     error => { },

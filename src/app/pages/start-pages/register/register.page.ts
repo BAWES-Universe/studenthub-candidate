@@ -70,10 +70,6 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Register Page'

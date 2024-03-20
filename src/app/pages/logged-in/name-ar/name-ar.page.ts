@@ -46,10 +46,6 @@ export class NameArPage implements OnInit {
     }, 500);
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Arabic Name page'

@@ -224,8 +224,4 @@ export class PasswordPage implements OnInit {
       this.type = 'password';
     }
   }
-
-  ngOnDestroy() {
-    
-  }
 }

@@ -31,10 +31,6 @@ export class DrivingLicensePage implements OnInit {
     this.analyticsService.page('Driving License page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Driving License page'

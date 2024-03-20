@@ -56,10 +56,6 @@ export class UpdateBankPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    
-  }
-
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Update Bank Page'

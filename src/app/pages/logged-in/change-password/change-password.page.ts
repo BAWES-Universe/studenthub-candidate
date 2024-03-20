@@ -54,10 +54,6 @@ export class ChangePasswordPage implements OnInit {
     }, 800);
   }
 
-  ngOnDestroy() {
-    
-  }
-
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Change Password page'
@@ -125,12 +121,10 @@ export class ChangePasswordPage implements OnInit {
 
   /**
    * validate password on type
-   * @param event
+   * @param $event
    */
-  async validateOldPassword(event) {
-    
-    event.stopPropagation();
-
+  async validateOldPassword($event) {
+    $event.stopPropagation();
     this.validatingPassword = true;
     let param = {
       password: this.passwordForm.value.oldPassword

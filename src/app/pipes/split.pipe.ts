@@ -11,8 +11,4 @@ export class SplitPipe implements PipeTransform {
         if(val)
             return val.split(params)[0];
     }
-    
-    async ngOnDestroy() {
-
-    }
 }

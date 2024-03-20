@@ -64,10 +64,6 @@ export class InvitationDetailPage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Invitation Detail page'
@@ -98,9 +94,9 @@ export class InvitationDetailPage implements OnInit {
 
   /**
    * open popup to accept invitation with reason
-   * @param event
+   * @param $event
    */
-  async accept(event) {
+  async accept($event) {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -132,7 +128,7 @@ export class InvitationDetailPage implements OnInit {
    * open popup to reject invitation with reason
    * @param $event
    */
-  async reject(event) {
+  async reject($event) {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -165,9 +161,9 @@ export class InvitationDetailPage implements OnInit {
 
   /**
    * open popup to accept invitation with reason
-   * @param event
+   * @param $event
    */
-  async companyDetailPage(event) {
+  async companyDetailPage($event) {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 

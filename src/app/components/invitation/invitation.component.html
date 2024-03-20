@@ -28,10 +28,7 @@
       <ion-badge *ngIf="model.request.request_position_type == 2">{{"part-time" | translate }}</ion-badge>
     </div>
 
-    <ng-container *ngIf="(model.request.request_status == 'started' || 
-      model.request.request_status == 're_work' || 
-      model.request.request_status == 'finished_by_recruitment') && 
-      model.invitation_status == 1">
+    <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment' && model.invitation_status == 1">
       <ion-button (click)="invitationDetail(model)" class="tell-me-more-btn">{{"View details & apply for job" | translate }}</ion-button>
     </ng-container>
 

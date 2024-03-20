@@ -56,7 +56,6 @@ export class CivilIdFrontPage implements OnInit {
 
   public candidate: Candidate;
   public cloudinaryUrl;
-
   constructor(
     private _ngzone: NgZone,
     private _fb: FormBuilder,
@@ -79,10 +78,6 @@ export class CivilIdFrontPage implements OnInit {
     this.analyticsService.page('Civil ID Front page');
 
     this._initForm();
-  }
-
-  ngOnDestroy() {
-
   }
 
   ionViewWillLeave() {
@@ -254,7 +249,7 @@ export class CivilIdFrontPage implements OnInit {
         if (
           err && (
             ignoreErrors.indexOf(err.message) > -1 ||
-            (err.message && err.message.includes('aborted'))
+            err.message.includes('aborted')
           )
         ) {
           return null;
@@ -419,8 +414,8 @@ export class CivilIdFrontPage implements OnInit {
   /**
    * trigger click event on change logo button
    */
-  triggerUpdatePhoto(event) {
-    event.stopPropagation();
+  triggerUpdatePhoto($event) {
+    $event.stopPropagation();
     document.getElementById('upload-pic').click();
     // this.fileInput.nativeElement.click();
   }

@@ -53,10 +53,6 @@ export class PaymentsPage implements OnInit {
     this.analyticsService.page('Payments page');
   }
 
-  ngOnDestroy() {
-    
-  }
-
   ionViewWillEnter() {
     this.loadData();
     this.profile();
@@ -172,15 +168,14 @@ export class PaymentsPage implements OnInit {
   }
 
   /**
-   * @param event
+   * @param $event
    * @param candidate
    */
-  loadLogo(event, candidate) {
+  loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
   }
 
-  async updateBank(e) {
-
+  async updateBank($e) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({

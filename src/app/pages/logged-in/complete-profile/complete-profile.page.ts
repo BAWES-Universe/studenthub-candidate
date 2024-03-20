@@ -45,10 +45,6 @@ export class CompleteProfilePage implements OnInit {
     this.analyticsService.page('Complete Profile page');
   }
 
-  ngOnDestroy() {
-
-  }
-  
   ionViewWillLeave() {
     this.analyticsService.track('page_exit', {
       'page': 'Complete Profile page'
