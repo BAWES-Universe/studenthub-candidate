@@ -4,7 +4,6 @@ import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { filter, first, map } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
-import { Plugins } from '@capacitor/core';
 import OneSignal from 'onesignal-cordova-plugin';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 //services
@@ -20,13 +19,10 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterState } from '@angular/router';
 import { Preferences as Storage } from '@capacitor/preferences';
-
-const { SplashScreen} = Plugins;
-
-import { mergeMap } from 'rxjs/operators';
-import { Browser } from '@capacitor/browser';
+ 
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AnalyticsService } from './providers/analytics.service';
+import { CampaignService } from './providers/campaign.service';
 
 declare var window;
 
@@ -56,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
+    public campaignService: CampaignService,
     public analyticsService: AnalyticsService,
     public languageService: LanguageService,
     public translateService: TranslateLabelService,
@@ -68,7 +65,12 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
   }
 
-
+  /**
+   * html page title
+   * @param state 
+   * @param parent 
+   * @returns 
+   */
   getTitle(state: RouterState, parent: ActivatedRoute): string[] {
     const data = [];
     if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
@@ -105,7 +107,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       Storage.set({ key: 'utm_uuid', value: this.authService.utm_uuid });
       
-      //this.campaignService.click(this.authService.utm_uuid).subscribe();
+      this.campaignService.click(this.authService.utm_uuid).subscribe();
 
       //this.cookieService.set('utm_uuid', this.authService.utm_uuid, )
       window.localStorage.setItem("utm_uuid", this.authService.utm_uuid);
@@ -185,9 +187,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.platform.ready().then(() => {
 
-      if (this.platform.is('hybrid')) {
+      /*if (this.platform.is('hybrid')) {
         SplashScreen.hide();
-      }
+      }*/
 
       /*if (!this.authService.currentLocation) { 
         this.authService.locate().subscribe(res => {
