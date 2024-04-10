@@ -27,7 +27,7 @@
       <div class="clearfix"></div>
 
       <h2 class="candidate-name" tappable (click)="updateName()"*ngIf="candidate.candidate_name">
-        {{ candidate.candidate_name }}&nbsp;
+        {{ candidate.candidate_name }}
         <ion-icon class="verified" src="../../../../assets/images/ic_verified.svg" *ngIf="candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
       </h2>
 
