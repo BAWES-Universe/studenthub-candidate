@@ -10,6 +10,7 @@ import { InvitationPage } from './invitation.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { InvitationModule } from 'src/app/components/invitation/invitation.module';
 import {WorkingCounterModule} from "../../../components/working-counter/working-counter.module";
+import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {WorkingCounterModule} from "../../../components/working-counter/working-
     TranslateModule.forChild(),
     LoadingModalModule,
     InvitationModule,
+    NoItemsModule,
     InvitationPageRoutingModule,
     WorkingCounterModule
   ],
