@@ -16,8 +16,9 @@
 
     <app-invitation [model]="invitation" *ngFor="let invitation of invitations" (onUpdate)="loadInvitations()">
     </app-invitation>
-
-    <p *ngIf="invitations.length ==0 && !loading"> {{"No invitation found" | translate}}</p>
+ 
+    <no-items *ngIf="!loading && invitations.length == 0" 
+      message="~ No invitation yet ~"></no-items>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content>
