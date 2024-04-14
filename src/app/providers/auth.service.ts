@@ -243,6 +243,15 @@ export class AuthService {
       // this._platform.setDir('rtl', true);
       document.documentElement.dir = (this.language.code == 'ar') ? 'rtl' : 'ltr';
 
+      Storage.get({ key: 'utm_uuid' }).then(res => {
+         
+        if(res.value) {
+          this.utm_uuid = res.value;
+        } else {
+        //  this.utm_uuid = window.localStorage.getItem("utm_id");
+        }
+      });
+
     }).catch(r => {
       this.eventService.errorStorage$.next(r);
     });
@@ -277,6 +286,7 @@ export class AuthService {
 
     return this.http.post(url, {
       accessToken,
+      utm_uuid: this.utm_uuid
     }, {
       headers
     })
@@ -377,6 +387,10 @@ export class AuthService {
     Storage.clear().catch(r => {
       this.eventService.errorStorage$.next(r);
     });
+
+    if(this.utm_uuid) {
+      Storage.set({ key: 'utm_uuid', value: this.utm_uuid });
+    }
 
     this.eventService.userLogout$.next(reason ? reason : false);
   }
@@ -618,6 +632,8 @@ export class AuthService {
    * @param form
    */
   createAccount(form): Observable<any> {
+    form.utm_uuid = this.utm_uuid;
+
     const url = environment.apiEndpoint + this._urlRegistration;
     return this.http.post(url, JSON.stringify(form), this.setHeaders())
       .pipe(
@@ -874,6 +890,7 @@ export class AuthService {
     
     return this.http.post(url, {
       idToken: idToken,
+      utm_uuid: this.utm_uuid
     }, {
       headers: headers
     })
@@ -961,6 +978,8 @@ export class AuthService {
    * @param params
    */
   useAppleIdTokenForAuth(params) {
+
+    params.utm_uuid = this.utm_uuid;
 
     const url = environment.apiEndpoint + this.urlLoginByApple;
 

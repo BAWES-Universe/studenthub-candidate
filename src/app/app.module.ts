@@ -71,8 +71,6 @@ import { domain, clientId, callbackUri } from './auth.config';
 import {ProfileUrlPageModule} from "src/app/pages/logged-in/profile-url/profile-url.module";
 import { IntroductionPageModule } from './pages/logged-in/introduction/introduction.module';
 
-
-
 export function startupServiceFactory(authService) {
   return () => authService.load();
 }
