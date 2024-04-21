@@ -24,7 +24,14 @@ export class Request {
     contact: Contact;
     lastActivity: Note;*/
     company: Company;
+    requestSkills: RequestSkill[]
 }
+
+export class RequestSkill {
+    request_uuid: string;
+    skill: string;
+}
+
 /*
 enum Status {
     pending,
