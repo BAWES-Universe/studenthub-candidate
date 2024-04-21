@@ -84,6 +84,7 @@ export class AuthService {
   public resetPassRequest = '/auth/request-reset-password';
   public _urlResetPassSMS = '/auth/sms-reset-password';
   public _urlLoginByGoogle = '/auth/login-by-google';
+  public _urlLoginByKey = '/auth/login-by-key';
    
   constructor(
     public http: HttpClient,
@@ -263,6 +264,57 @@ export class AuthService {
     if (value) {
       this.currentLocation = value;
     }
+  }
+
+  async loginByKey(auth_key: string) {
+    
+    const loading = await this.loadingCtrl.create({
+      spinner: 'crescent',
+      message: this.translate.transform('Logging in...')
+    });
+    loading.present();
+
+    const url = environment.apiEndpoint + this._urlLoginByKey;
+
+    const headers = this._buildAuthHeaders();
+
+    return this.http.post(url, {
+      auth_key: auth_key
+    }, {
+      headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.setAccessToken(response);
+
+        } else if (response.operation == 'error') {
+          const alert = await this.alertCtrl.create({
+            message: this.translate.transform('Error getting login'), // JSON.stringify(err)
+            buttons: [this.translate.transform('Okay')]
+          });
+          await alert.present();
+
+        }
+
+        //this.eventService.googleLoginFinished$.next({});
+
+      }, err => {
+
+        //this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
   }
 
   /**

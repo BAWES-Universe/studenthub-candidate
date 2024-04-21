@@ -39,6 +39,11 @@
     
     <p class="job-location">{{model.request.request_location}}</p>
 
+    <ng-container *ngIf="model.request.requestSkills.length > 0">
+      <h2>{{ "Skills" | translate }}</h2>
+      <ion-badge *ngFor="let requestSkill of model.request.requestSkills">{{ requestSkill.skill }}</ion-badge>
+    </ng-container>
+    
     <ng-container *ngIf="model.request.request_status == 'started' || model.request.request_status == 're_work' || model.request.request_status == 'finished_by_recruitment'">
 
       <ng-container *ngIf="model.invitation_status == 1">
