@@ -1,0 +1,52 @@
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+  <div class="max-width" *ngIf="request">
+
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <p class="job-type" *ngIf="request.request_position_type == 1">
+      {{ "You’d be working full-time as a" | translate }}
+    </p>
+
+    <p class="job-type" *ngIf="request.request_position_type == 2">
+      {{"You’d be working part-time as a" | translate }}
+    </p>
+
+    <p class="txt-position-title">{{ request.request_position_title }}</p>
+
+    <p class="company" *ngIf="request.company && translateService.currentLang == 'en'">
+      {{ "At" | translate }} <span>{{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}</span>,</p>
+
+    <p class="company" *ngIf="request.company && translateService.currentLang != 'en'">
+      {{ "At" | translate }} <span>{{ request.company.company_common_name_ar? request.company.company_common_name_ar: request.company.company_name }}</span>,</p>
+
+    <p class="job-desc" [innerHTML]="request.request_job_description"></p>
+ 
+    <!--
+    <ng-container *ngIf="request.request_additional_info">
+      <h3>{{ "Additional Info" | translate }}</h3>
+      <p class="job-additional-info" [innerHtml]="request.request_additional_info"></p>
+    </ng-container>-->
+
+    <ng-container *ngIf="request.request_compensation">
+      <h3>{{ "Compensation" | translate }}</h3>
+      <p class="job-compensation" [innerHtml]="request.request_compensation"></p>
+    </ng-container>
+
+    <ng-container *ngIf="request.request_location">
+      <h2>{{ "Job location" | translate }}</h2>
+      
+      <p class="job-location">{{request.request_location}}</p>
+    </ng-container>
+    
+    <ng-container *ngIf="request.requestSkills.length > 0">
+      <h2>{{ "Skills" | translate }}</h2>
+      <ion-badge *ngFor="let requestSkill of request.requestSkills">{{ requestSkill.skill }}</ion-badge>
+    </ng-container>
+  </div>
+
+</ion-content>

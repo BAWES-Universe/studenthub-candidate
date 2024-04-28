@@ -70,6 +70,7 @@ import { AuthModule, AuthConfig } from '@auth0/auth0-angular';
 import { domain, clientId, callbackUri } from './auth.config';
 import {ProfileUrlPageModule} from "src/app/pages/logged-in/profile-url/profile-url.module";
 import { IntroductionPageModule } from './pages/logged-in/introduction/introduction.module';
+import { RequestViewPageModule } from './pages/logged-in/request/request-view/request-view.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -148,7 +149,8 @@ const config: AuthConfig = {
     InvitationFeedbackPageModule,
     InvitationModule,
     WorkHistoryPageModule,
-    ProfileUrlPageModule
+    ProfileUrlPageModule,
+    RequestViewPageModule
   ],
   providers: [
     {

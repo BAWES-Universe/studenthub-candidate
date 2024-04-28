@@ -5,13 +5,13 @@ import { ModalController, NavController, Platform, IonContent } from '@ionic/ang
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 // models
 import { Invitation } from 'src/app/models/invitation';
-import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
-
+//pages
 import {InvitationFeedbackPage} from '../invitation-feedback/invitation-feedback.page';
 import {CompanyPage} from "../company/company.page";
-import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -155,6 +155,7 @@ export class InvitationDetailPage implements OnInit {
       }
     });
   }
+
   dismiss() {
     this.navCtrl.back();
   }

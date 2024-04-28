@@ -33,6 +33,7 @@ ion-card {
     text-align: left;
     color: var(--ion-color-custom-34);
   }
+
   ion-icon[name='checkmark-outline'] {
     background: var(--ion-color-custom-29);
     color: var(--ion-card-background);
@@ -44,6 +45,7 @@ ion-card {
     color: var(--ion-card-background);
     border-radius: 50%;
   }
+
   .time {
     font-family: Inter;
     font-size: 12px;
@@ -55,13 +57,14 @@ ion-card {
     text-align: left;
     color: var(--ion-color-custom-7);
   }
+
   ion-badge {
     justify-content: center;
     align-items: center;
     padding: 6px 12px;
+    margin-top: 10px;
     margin-right: 10px;
     border-radius: 8px;
-    background-color: var(--ion-color-custom-8);
     font-family: Inter;
     font-size: 14px;
     font-weight: 500;
@@ -70,8 +73,8 @@ ion-card {
     line-height: 1.43;
     letter-spacing: normal;
     text-align: left;
-    color: var(--ion-color-custom-5);
   }
+
   .txt-additional-info {
     padding: 16px 0;
   }

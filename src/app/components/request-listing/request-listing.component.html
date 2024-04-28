@@ -6,23 +6,30 @@
 
       <h3 *ngIf="request.company">
         {{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}
-        <ion-icon name="checkmark-outline"  *ngIf="request.company && request.company.company_approved_to_hire"></ion-icon>
-        <ion-icon name="close-outline"  *ngIf="request.company && !request.company.company_approved_to_hire"></ion-icon>
       </h3>
 
       <small class="time">{{ request.request_created_datetime | timeAgo }} </small>
 
-      <p *ngIf="request.request_additional_info" class="txt-additional-info">{{request.request_additional_info.substr(0,85)}}...</p>
+      <!--
+      <p *ngIf="request.request_additional_info" class="txt-additional-info">
+        {{request.request_additional_info.substr(0,85)}}
+        <ng-container *ngIf="request.request_additional_info.length > 85">
+          ...
+        </ng-container>
+      </p>-->
 
       <div>
-        <ion-badge *ngIf="request.request_position_type == 1">Full-time</ion-badge>
-        <ion-badge *ngIf="request.request_position_type == 2">Part-time</ion-badge>
-        <ion-badge *ngIf="request.request_location">{{request.request_location.length > 30 ? request.request_location.substr(0,30)+'...' : request.request_location }}</ion-badge>
-  
-        <ng-container *ngIf="request.company">
-          <ion-badge *ngIf="request.company.country">{{ request.company.country.country_name_en }} </ion-badge>        
-        </ng-container>
+        <ion-badge color="primary" *ngFor="let requestSkill of request.requestSkills">
+          {{ requestSkill.skill }}
+        </ion-badge>
         
+        <ion-badge color="primary" *ngIf="request.request_position_type == 1">Full-time</ion-badge>
+        <ion-badge color="primary" *ngIf="request.request_position_type == 2">Part-time</ion-badge>
+        <ion-badge color="primary" *ngIf="request.request_location">{{request.request_location.length > 30 ? request.request_location.substr(0,30)+'...' : request.request_location }}</ion-badge>
+  
+        <ion-badge color="primary" *ngIf="request.company && request.company.country">
+          {{ request.company.country.country_name_en }} </ion-badge>        
+      
       </div>
 
     </div>

@@ -1,5 +1,6 @@
 import { Store } from './store';
 import { Brand } from './brand';
+import { Country } from './country';
 
 export class Company{
     company_id: number;
@@ -16,6 +17,7 @@ export class Company{
     total_candidates: number;
     country_id: number;
     currency_code: string;
+    country: Country;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];

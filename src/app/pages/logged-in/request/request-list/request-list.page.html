@@ -1,0 +1,32 @@
+<ion-header [translucent]="true" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title>{{ "Jobs" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  <ion-header collapse="condense" *ngIf="platform.is('mobile')">
+    <ion-toolbar>
+      <ion-title size="large">{{ "Jobs" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+  <div class="max-width">
+
+    <!-- [routerLink]="'/request-view/' + request.request_uuid"-->
+    <request-listing (click)="viewRequest($event, request)"  
+      [request]="request" *ngFor="let request of requests">
+    </request-listing>
+ 
+    <no-items *ngIf="!loading && requests.length == 0" 
+      message="~ No match found yet ~"></no-items>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+
+</ion-content> 

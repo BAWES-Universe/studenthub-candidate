@@ -8,7 +8,7 @@ import { AuthHttpService } from './authhttp.service';
 })
 export class RequestService {
   
-  private _endpoint = '/invitations';
+  private _endpoint = '/requests';
 
   constructor(private _authhttp: AuthHttpService) { }
 
@@ -48,7 +48,7 @@ export class RequestService {
    * @returns 
    */
   view(request_uuid: string): Observable<any> {
-    const url = this._endpoint + '/' + request_uuid;
+    const url = this._endpoint + '/' + request_uuid + '?expand=requestSkills';
     return this._authhttp.get(url);
   }
 }

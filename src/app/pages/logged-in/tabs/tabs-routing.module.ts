@@ -49,6 +49,19 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'requests',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../request/request-list/request-list.module').then(m => m.RequestListPageModule),
+            canActivate: [AuthService],
+            data: {
+              preload: true
+            }
+          },
+        ]
+      },
+      {
         path: 'invitations',
         children: [
           {
