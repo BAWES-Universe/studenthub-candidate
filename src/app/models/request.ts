@@ -1,3 +1,4 @@
+import { RequestApplication } from './candidate-application';
 import { Company } from './company';
 
 
@@ -24,7 +25,8 @@ export class Request {
     contact: Contact;
     lastActivity: Note;*/
     company: Company;
-    requestSkills: RequestSkill[]
+    requestSkills: RequestSkill[];
+    candidateApplication: RequestApplication
 }
 
 export class RequestSkill {

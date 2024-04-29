@@ -60,7 +60,7 @@ export class RequestListPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    this.requestService.list(this.currentPage, "&expand=requestSkills").subscribe(data => {
+    this.requestService.list(this.currentPage, "&expand=requestSkills,candidateApplication").subscribe(data => {
 
       this.loading =  false;
       this.requests = data.body;
@@ -88,7 +88,7 @@ export class RequestListPage implements OnInit {
 
     this.currentPage++;
 
-    this.requestService.list(this.currentPage, "&expand=requestSkills").subscribe(response => {
+    this.requestService.list(this.currentPage, "&expand=requestSkills,candidateApplication").subscribe(response => {
 
       this.requests = this.requests.concat(response.body);
 

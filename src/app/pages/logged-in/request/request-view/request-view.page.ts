@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 //models
 import { Request } from 'src/app/models/request';
+import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 //service
 import { RequestService } from 'src/app/providers/logged-in/request.service';
@@ -22,9 +23,14 @@ export class RequestViewPage implements OnInit {
 
   public loading: boolean = false; 
 
+  public applying: boolean = false; 
+  
   constructor(
+    public alertCtrl: AlertController,
+
     public modalCtrl: ModalController,
     public eventService: EventService,
+    public authService: AuthService,
     public translateService: TranslateLabelService,
     public requestService: RequestService,
     public activatedRoute: ActivatedRoute) { }
@@ -54,6 +60,27 @@ export class RequestViewPage implements OnInit {
    */
   logScrolling(e) {
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
+  }
+
+  apply() {
+    this.applying = true; 
+
+    this.requestService.apply(this.request_uuid).subscribe(res => {
+      if(res.operation == "success") {
+        this.request.candidateApplication = res.candidateApplication;
+        this.dismiss();
+      } else {
+        this.alertCtrl.create({
+          message: this.authService.errorMessage(res.message),
+          buttons: [this.translateService.transform('Okay')]
+        }).then(alert => {
+          alert.present();
+        });
+      }
+    }, () => {      
+    }, () => {
+      this.applying = false;
+    });
   }
 
   dismiss() {

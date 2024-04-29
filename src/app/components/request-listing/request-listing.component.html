@@ -32,6 +32,10 @@
       
       </div>
 
+      <p *ngIf="request.candidateApplication">
+        {{ "txt_applied_at" | translate : { value: translateService.toDate(request.candidateApplication.created_at) | date :'mediumDate': undefined: translateService.currentLang }  }} 
+       </p>
+       
     </div>
 
   </ion-card-content> 

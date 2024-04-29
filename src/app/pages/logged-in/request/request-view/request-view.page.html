@@ -47,6 +47,22 @@
       <h2>{{ "Skills" | translate }}</h2>
       <ion-badge *ngFor="let requestSkill of request.requestSkills">{{ requestSkill.skill }}</ion-badge>
     </ng-container>
+
+    <p *ngIf="request.candidateApplication">
+     {{ "txt_applied_at" | translate : { value: translateService.toDate(request.candidateApplication.created_at) | date :'mediumDate': undefined: translateService.currentLang }  }} 
+    </p>
+    
   </div>
 
 </ion-content>
+<ion-footer *ngIf="request && !request.candidateApplication">
+  <div class="max-width">
+    <ion-toolbar>
+      <ion-button (click)="apply()" [disabled]="applying">
+        <span *ngIf="!applying">{{ "Apply" | translate }}</span>
+        <ion-spinner *ngIf="applying"></ion-spinner>
+      </ion-button>
+    </ion-toolbar>
+  </div>
+
+</ion-footer>

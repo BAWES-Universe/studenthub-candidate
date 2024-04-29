@@ -1,5 +1,6 @@
 {
     "Welcome": "Welcome",
+    "txt_applied_at": "Applied at {{ value }}",
     "txt_minutes_ago": "{{ value }} minutes ago",
     "txt_hours_ago": "{{ value }} hours ago",
     "txt_days_ago" : "{{ value }} days ago",
