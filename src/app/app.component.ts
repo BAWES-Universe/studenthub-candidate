@@ -191,6 +191,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.platform.ready().then(() => {
 
+      if (this.authService.id) {
+        this.analyticsService.user(this.authService.id, {
+          name: this.authService.name,
+          email: this.authService.email,
+        });
+      }
+      
       /*if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }*/
@@ -318,6 +325,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogin$.subscribe(data => {
+
+      this.analyticsService.user(this.authService.id, {
+        name: this.authService.name,
+        email: this.authService.email,
+      });
+      
       this.loadCandidateProfile();
 
       if(data['isProfileCompleted']) {
