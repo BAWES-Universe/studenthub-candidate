@@ -62,9 +62,9 @@ export class PaymentsPage implements OnInit {
    * load page data
    */
   loadData(refresh = false) {
-    this.statisticService.get().subscribe(response => {
+    /*this.statisticService.get().subscribe(response => {
       this.statistics = response;
-    });
+    });*/
 
     // this.loadWorkHistoryData();
 

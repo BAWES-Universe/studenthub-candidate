@@ -7,6 +7,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 //models
 import { Request } from '../../models/request';
 import { Invitation } from "../../models/invitation";
+import { RequestInterview } from 'src/app/models/request-interview';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class RequestListingComponent implements OnInit {
 
   @Input() request: Request;
   @Input() invitation: Invitation;
- 
+  @Input() interview: RequestInterview;
+
   constructor(
     public authService: AuthService,
     public translateService: TranslateLabelService,

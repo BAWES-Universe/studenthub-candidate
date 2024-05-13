@@ -33,6 +33,16 @@ export class RequestService {
   }
 
   /**
+   * list interview requests 
+   * @param page 
+   * @returns 
+   */
+  listInterviewRequests(page: number, urlParams: string = "") : Observable<any> {
+    let url = this._endpoint + '/interview-requests?expand=request&page=' + page + urlParams;
+    return this._authhttp.get(url, true);
+  }
+
+  /**
    * apply for job/ request
    * @param request_uuid 
    * @returns 

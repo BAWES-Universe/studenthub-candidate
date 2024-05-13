@@ -83,6 +83,7 @@ ion-card {
     border-top: 2px solid var(--ion-color-custom-4);
   }
 }
+
 //
 //    ion-card-header {
 //        margin: 0;
@@ -272,3 +273,18 @@ ion-button {
   text-transform: none;
 }
  
+
+.interview-wrapper {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  margin-top: 12px;
+  
+  p {
+    font-size: 14px;
+
+    b {
+      font-weight: bold;
+    }
+  }
+}

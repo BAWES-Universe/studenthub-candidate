@@ -328,6 +328,16 @@ const routes: Routes = [
     }
   },
   {
+    path: 'interview-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/interview/interview-list/interview-list.module').then( m => m.InterviewListPageModule)
+  },
+  {
+    path: 'interview-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/interview/interview-view/interview-view.module').then( m => m.InterviewViewPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
