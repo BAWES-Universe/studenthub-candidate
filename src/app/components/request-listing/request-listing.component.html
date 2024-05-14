@@ -1,0 +1,64 @@
+<ion-card *ngIf="request" [class.pending]="request.request_status == 'pending'" tappable>
+  <ion-card-content>
+    <div class="inner-card-content">
+      <h1>{{request.request_position_title}}
+      </h1>
+
+      <h3 *ngIf="request.company">
+        {{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}
+      </h3>
+
+      <small class="time">{{ request.request_created_datetime | timeAgo }} </small>
+
+      <!--
+      <p *ngIf="request.request_additional_info" class="txt-additional-info">
+        {{request.request_additional_info.substr(0,85)}}
+        <ng-container *ngIf="request.request_additional_info.length > 85">
+          ...
+        </ng-container>
+      </p>-->
+
+      <div>
+        <ion-badge color="primary" *ngFor="let requestSkill of request.requestSkills">
+          {{ requestSkill.skill }}
+        </ion-badge>
+        
+        <ion-badge color="primary" *ngIf="request.request_position_type == 1">Full-time</ion-badge>
+        <ion-badge color="primary" *ngIf="request.request_position_type == 2">Part-time</ion-badge>
+        <ion-badge color="primary" *ngIf="request.request_location">{{request.request_location.length > 30 ? request.request_location.substr(0,30)+'...' : request.request_location }}</ion-badge>
+  
+        <ion-badge color="primary" *ngIf="request.company && request.company.country">
+          {{ request.company.country.country_name_en }} </ion-badge>        
+      
+      </div>
+
+      <p class="txt-applied" *ngIf="request.candidateApplication">
+        {{ "txt_applied_at" | translate : { value: translateService.toDate(request.candidateApplication.created_at) | date :'mediumDate': undefined: translateService.currentLang }  }} 
+       </p>
+       
+      <div *ngIf="interview" class="interview-wrapper">
+        <p class="interview-time">
+          <span *ngIf="interview.status == 0" [innerHTML]="'txt_requested_at' | translate : {
+            value: translateService.toDate(interview.interview_at) | date : 'MMM d, y, h:mm:ss a': undefined: translateService.currentLang
+          } ">
+          </span>
+          <span *ngIf="interview.status == 1" [innerHTML]="'txt_schedule_at' | translate : {
+            value: translateService.toDate(interview.interview_at) | date : 'MMM d, y, h:mm:ss a': undefined: translateService.currentLang
+          } ">
+        </span>
+          <span *ngIf="interview.status == 2">
+            {{ "Interview schedule request rejected" | translate }}
+          </span>
+          <span *ngIf="interview.status == 3">
+            {{ "Interview schedule request cancelled" | translate }}
+          </span>
+        </p> 
+
+        <div class="txt-interview-note" [innerHtml]="interview.interview_note"></div>
+      </div>
+
+
+    </div>
+
+  </ion-card-content> 
+</ion-card> 

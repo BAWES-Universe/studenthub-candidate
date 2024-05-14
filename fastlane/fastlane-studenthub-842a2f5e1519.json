@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "fastlane-studenthub",
+  "private_key_id": "842a2f5e15194ddaa8965b8e220edd436903119d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDy6tZyqQ7xUPv4\nq9pE9OnxgD4nX8xFsClc+vId54HOlm8y0RcWdNzmzW4VQ31h0GpJ+1APIOSE6cPB\no2UZ10pVc5q0TRErrKX/QymCmPzuVnxqb1cU2z2M7seZybaoJOALE72QYwyk7I0R\nFMN1DypSb+Er5D7OpwLFfferlWCqseT0cJnh0/mDG7zsvla+qdMUoWsTKIoOToMh\n/U3vPJWvqtdZAifoN47ZzLeP5a+PfxHYaOkZTVhxx3sIcaBjN2MNJhMW5UE0eG4W\nGUGrS+ZkkL4qWGeERATxCo7drtxtp/CMTJ+UbBWWNfJViympXwU2gbWRtfoeAgwU\ndOCng7bXAgMBAAECggEABlcPws1byPuan/poR31276kvthpffAAljDo2gIZO0oQF\nofdoGVtyeompEmABEUD9zTGEfOiYXkm1pMOte1etpn5Obt9GD/RBHuDzX+e7TkMu\nmx6N0MsKF7gRuJdVr5zKxi89NtwG8/UCl4wJr+/15FHsOBeMdhtQzLPFd5J+A+Z0\ntPeA1xprWZghKPrhxLj0cQ+FPdPgHODsYs4wCbn/knbhaatFy84IjNoxaGo9qflv\nr0HOYxLj206RBrSB0IXOuKQjDfOEyJ5+ayV3lp9q2RTJcE2zVwaSuB/Be9YjfBHN\naasR/Lm7fbjbUrDvv4I3Ek+XufDLhdZJQw1cKb6IpQKBgQD9ascA8WLfCIXRcMPJ\nPOwfmAETtAabcV4woDVLJk16gcQWyWw7T5rTJ25mGvSRn2RSDMZSmbRv0dKSgQvH\nJxCTZHH0JRnbhEpF6jScfQLTtYhBo2qSwTJn+78csPRXEZVCv8II0QLe/hJyBThb\n6ZVdVmLAibIRXJbu1P8byb8OiwKBgQD1ZKoAHdNwiJUPA1fn41z+ZCl2hkCMGKFo\n7Bs/VjYTs6ITKvvZuhZufMCbv607igTMtmJcTBJL5bYmOX4qf3to2P3NELBsLY6c\nEKvjM/jIYDcHZs4n3cv7l08/DPtG/lcnGx4PMs2HyzJi0qROBPAbfKUM5dBbAQ3b\n3nWpdlIuZQKBgCut298tu/z1WxtedGCbP5eye30J6pmgULvQ4V6ym2giNco3rZAL\niIQcp8qxmrX+4yvBR+200IT1hXX7CCyrbw/4oCuUuYA8rRCf7bGLWpFjGLk3kYb6\nBdYmbipj1bmsLi3zH16lp/kHkeZVQAGXoUcVPLAzC54yd1FzJQWFIIlBAoGBANtK\nl/j+rmMUS1BdRoM9VW8ohz0aADiyEhw3UqopGq5EiwPiF6qcd0tJRL5qbh6U2nEu\nU3vzpy4YG8zQ+AR2ZAxwTW6iCWbC13x0EYc6fIpkIQkGQBi0RoOQ1gqcSTlKNQwH\nWbdvSOifF2nkn1vxYbjOjJiYDrgkmwPvKurDh/FZAoGAP/Vt9cHOIJOUHFpe3roJ\ntNSEF78fdWMC3QZz0Oy1neh49ivNKveX3DciR7qYhkWHw+X4DxrfRpMB3+NOqDJY\n041s0wBWRgt/PTYNBAYE2R+DlXwgoPJ7b+OYdcJTWFjzbnQtTer8WvtynnZdNNYq\ntDOtVB3aOEVte4ZR/juHs50=\n-----END PRIVATE KEY-----\n",
+  "client_email": "service-fastlane@fastlane-studenthub.iam.gserviceaccount.com",
+  "client_id": "110610017459519069625",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/service-fastlane%40fastlane-studenthub.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

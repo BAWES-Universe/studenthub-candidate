@@ -306,7 +306,36 @@ const routes: Routes = [
   },
   {
     path: 'app-error',
-    loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
+    loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule),
+    data: {
+      name: 'AppPage'
+    }
+  },
+  {
+    path: 'request-list',
+    loadChildren: () => import('./pages/logged-in/request/request-list/request-list.module').then( m => m.RequestListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'RequestListPage'
+    }
+  },
+  {
+    path: 'request-view',
+    loadChildren: () => import('./pages/logged-in/request/request-view/request-view.module').then( m => m.RequestViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'RequestViewPage'
+    }
+  },
+  {
+    path: 'interview-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/interview/interview-list/interview-list.module').then( m => m.InterviewListPageModule)
+  },
+  {
+    path: 'interview-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/interview/interview-view/interview-view.module').then( m => m.InterviewViewPageModule)
   },
   {
     path: '**',

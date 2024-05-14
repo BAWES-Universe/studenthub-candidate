@@ -49,6 +49,7 @@ export class Candidate {
     profile_url: string;
     candidate_preferred_time: string;
     currency_code: string;
+    totalInterviewScheduled: number;
     pendingField: any[];
     isWorking: CandidateWorkingHour;
 

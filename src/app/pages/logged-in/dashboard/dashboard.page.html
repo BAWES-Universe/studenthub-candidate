@@ -13,6 +13,7 @@
   <ion-progress-bar *ngIf="updating" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width" *ngIf="!loadingProfile && !loading && candidate">
+
       <student-account-status [candidate]="candidate"></student-account-status>
 
       <div *ngIf="candidate">
@@ -29,6 +30,20 @@
             <ion-button class="download-btn" (click)="pushNotificationAvailable && setSubscription()" fill="outline"> {{"Enable notifications"| translate}}</ion-button>
             <p class="disabled-feature" *ngIf="!pushNotificationAvailable">({{ "Not supported on Safari, please change to Chrome" | translate }})</p>
 
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card-bank-details" *ngIf="candidate.totalInterviewScheduled > 0">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{ "Scheduled interviews" | translate }} </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p> 
+              {{ "txt_interview_scheduled" | translate : { value : candidate.totalInterviewScheduled } }}
+            </p>
+            <ion-button routerLink="/interview-list" class="btn-bank-detail">
+              {{ "View" | translate }}
+            </ion-button>
           </ion-card-content>
         </ion-card>
 

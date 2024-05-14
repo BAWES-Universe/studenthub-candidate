@@ -1,5 +1,9 @@
 {
+    "txt_interview_scheduled": "You have {{ value }} interviews scheduled. Please join with provided meeting link at scheduled time.",
+    "txt_schedule_at": "Interview scheduled at <b>{{ value }}</b>",
+    "txt_requested_at": "Requested to schedule interview at <b>{{ value }}</b>",
     "Welcome": "Welcome",
+    "txt_applied_at": "Applied at {{ value }}",
     "txt_minutes_ago": "{{ value }} minutes ago",
     "txt_hours_ago": "{{ value }} hours ago",
     "txt_days_ago" : "{{ value }} days ago",
