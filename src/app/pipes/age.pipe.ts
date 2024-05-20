@@ -26,7 +26,7 @@ export class AgePipe implements PipeTransform {
 		let hours = Math.round(Math.abs(minutes / 60));
 		let days = Math.round(Math.abs(hours / 24));
 		//let months = Math.round(Math.abs(days/30.416));
-		let years = Math.round(Math.abs(days/365));
+		let years = Math.floor(Math.abs(days/365));
 		
 		if (Number.isNaN(seconds)){
 			return '';
