@@ -48,7 +48,7 @@ const routes: Routes = [
           },
         ]
       },
-      {
+      /*{
         path: 'requests',
         children: [
           {
@@ -60,7 +60,7 @@ const routes: Routes = [
             }
           },
         ]
-      },
+      },*/
       {
         path: 'invitations',
         children: [
