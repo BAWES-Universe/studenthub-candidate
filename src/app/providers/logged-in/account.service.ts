@@ -235,7 +235,7 @@ export class AccountService {
    * @param civil_id
    * @param civil_expiry_date
    */
-  updateCivilIdAndExpiryDate(civil_id: string, civil_expiry_date: string): Observable<any> {
+  updateCivilIdAndExpiryDate(civil_id: string, civil_expiry_date: string = ""): Observable<any> {
     let url = `${this._accountEndpoint}` + '/update-civil-id-expiry-date';
     return this._authhttp.post(url, {
       civil_id: civil_id,

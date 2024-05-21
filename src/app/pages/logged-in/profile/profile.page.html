@@ -216,14 +216,10 @@
       <ion-item tappable class="id-number" (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">
         <div tabindex="0"></div>
         <ion-label>
-          <div *ngIf="candidate.candidate_civil_expiry_date">
-            <span>{{ "Civil ID" | translate }} <b>{{ candidate.candidate_civil_id | translate }}</b></span><br />
-            <span class="txt-expiring-on" *ngIf="translateService.currentLang != 'ar'"> 
-              {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang }}</span>
-            <span class="txt-expiring-on" *ngIf="translateService.currentLang == 'ar'"> 
-              {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d ، y': undefined: translateService.currentLang }}</span>
+          <div *ngIf="candidate.candidate_civil_id">
+            <span>{{ "Civil ID" | translate }} <b>{{ candidate.candidate_civil_id | translate }}</b></span>
           </div>
-          <span *ngIf="!candidate.candidate_civil_expiry_date || !candidate.candidate_civil_id">{{ "The details of your civil id card." | translate }}
+          <span *ngIf="!candidate.candidate_civil_id">{{ "The details of your civil id card." | translate }}
           </span>
         </ion-label>
       </ion-item>
@@ -245,6 +241,15 @@
           <img width="126" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
           <span *ngIf="!candidate.candidate_civil_photo_front">{{ "A photo of your civil id from the front" | translate }}
           </span>
+
+          <ng-container *ngIf="candidate.candidate_civil_photo_front">
+            <br />
+            
+            <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && translateService.currentLang != 'ar'"> 
+              {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang }}</span>
+            <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && translateService.currentLang == 'ar'"> 
+              {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d ، y': undefined: translateService.currentLang }}</span>
+          </ng-container>
         </ion-label>
       </ion-item>
 
@@ -255,6 +260,7 @@
           <img width="126" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
           <span *ngIf="!candidate.candidate_civil_photo_back">{{ "A photo of your civil id from the back" | translate }}
           </span>
+
         </ion-label>
       </ion-item>
 

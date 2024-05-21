@@ -38,11 +38,9 @@
       <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id || !candidate.candidate_civil_expiry_date">
         <div tabindex="0"></div>
         <ion-label>
-          <small>{{ "ID Number and Expiry Date" | translate }}</small>
+          <!-- "ID Number and Expiry Date"-->
+          <small>{{ "Civil ID number" | translate }}</small>
           <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
-          <span *ngIf="candidate.candidate_civil_expiry_date"> {{ "Expiring on" | translate }} {{ candidate.candidate_civil_expiry_date | translate }}</span>
-          <span *ngIf="!candidate.candidate_civil_expiry_date || !candidate.candidate_civil_id">{{ "The details of your civil id card." | translate }}
-          </span>
         </ion-label>
       </ion-item>
 
@@ -51,6 +49,9 @@
         <ion-label>
           <small>{{ "ID Photo (Front)" | translate }}</small>
           <img width="126" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front" src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+          <!--
+          <p *ngIf="candidate.candidate_civil_photo_front && candidate.candidate_civil_expiry_date"> {{ "Expiring on" | translate }} {{ candidate.candidate_civil_expiry_date | translate }}</p>
+          -->
           <span *ngIf="!candidate.candidate_civil_photo_front">{{ "A photo of your civil id from the front" | translate }}
           </span>
         </ion-label>
