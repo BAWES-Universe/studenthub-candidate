@@ -74,7 +74,7 @@ export class IdCardPage implements OnInit {
   _initForm() {
     this.form = this._fb.group({
       civil_id: [this.candidate.candidate_civil_id, Validators.required],
-      civil_expiry_date: [this.candidate.candidate_civil_expiry_date, Validators.required],
+      civil_expiry_date: [this.candidate.candidate_civil_expiry_date],//Validators.required
     });
   }
 
@@ -84,7 +84,8 @@ export class IdCardPage implements OnInit {
   submit() {
     this.isLoading = true;
 
-    const date = format(parseISO(this.form.value.civil_expiry_date), 'yyyy-MM-dd');
+    const date = this.form.value.civil_expiry_date?
+      format(parseISO(this.form.value.civil_expiry_date), 'yyyy-MM-dd'): null;
 
     this.accountService.updateCivilIdAndExpiryDate(this.form.value.civil_id, date).subscribe(res => {
 
@@ -92,7 +93,9 @@ export class IdCardPage implements OnInit {
 
       if(res.operation == 'success') {
         this.candidate.candidate_civil_id = this.form.value.civil_id;
-        this.candidate.candidate_civil_expiry_date = res.candidate_civil_expiry_date;
+        
+        if(res.candidate_civil_expiry_date)
+          this.candidate.candidate_civil_expiry_date = res.candidate_civil_expiry_date;
         this.dismiss();
       } else {
         this.alertCtrl.create({

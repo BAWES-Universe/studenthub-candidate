@@ -11,7 +11,6 @@
       <div *ngIf="!progress">
         <img tappable (click)="triggerUpdatePhoto($event)" *ngIf="form.controls.civil_photo_front.value && form.controls.civil_photo_front.value.length > 0" src="{{ awsService.permanentBucketUrl + 'photos/' + form.controls.civil_photo_front.value }}" class="circle" width="250"><br/>
 
-
         <div tappable (click)="triggerUpdatePhoto($event)" class="no-logo" *ngIf="!form.controls.civil_photo_front.value || form.controls.civil_photo_front.value.length == 0">
           <ion-icon src="assets/svg/ic_no_logo.svg" ></ion-icon>
         </div>

@@ -109,6 +109,8 @@ export class NationalIdPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+
+      
     });
     modal.present();
   }

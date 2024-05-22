@@ -389,17 +389,24 @@ export class CivilIdFrontPage implements OnInit {
         this.form.updateValueAndValidity();
 
         this.accountService.updateCivilPhotoFront(event.Key).subscribe(async response => {
+
           if (response.operation != 'success') {
+
+            this.form.reset();
+
             const alert = await this.alertCtrl.create({
-              message: response.message,
+              message: this.translateService.errorMessage(response.message),
               buttons: [this.translateService.transform('Okay')],
             });
             alert.present();
 
-            // this.progress = null;
+            clearInterval(this.interval);
+            this.progress = null;
 
           } else  {
             this.candidate.candidate_civil_photo_front = response.candidate_civil_photo_front;
+            this.candidate.candidate_civil_expiry_date = response.candidate_civil_expiry_date;
+
             clearInterval(this.interval);
             this.progress = 100;
             this.dismiss();

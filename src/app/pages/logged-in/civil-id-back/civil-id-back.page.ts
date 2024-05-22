@@ -387,7 +387,7 @@ export class CivilIdBackPage implements OnInit {
         this.accountService.updateCivilPhotoBack(event.Key).subscribe(async response => {
           if (response.operation != 'success') {
             const alert = await this.alertCtrl.create({
-              message: response.message,
+              message: this.translateService.errorMessage(response.message),
               buttons: [this.translateService.transform('Okay')],
             });
             alert.present();
@@ -396,6 +396,8 @@ export class CivilIdBackPage implements OnInit {
             
           } else  {
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
+            this.candidate.candidate_civil_expiry_date = response.candidate_civil_expiry_date;
+
             clearInterval(this.interval);
             this.progress = 100;
             this.dismiss();
