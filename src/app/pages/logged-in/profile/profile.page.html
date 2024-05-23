@@ -245,10 +245,10 @@
           <ng-container *ngIf="candidate.candidate_civil_photo_front">
             <br />
             
-            <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && translateService.currentLang != 'ar'"> 
+            <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && candidate.candidate_civil_expiry_date.length > 0 && translateService.currentLang != 'ar'"> 
               {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y' }}</span>
               
-            <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && translateService.currentLang == 'ar'"> 
+            <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && candidate.candidate_civil_expiry_date.length > 0 && translateService.currentLang == 'ar'"> 
               {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d ، y' }}</span>
               <!-- undefined: translateService.currentLang -->
           </ng-container>
