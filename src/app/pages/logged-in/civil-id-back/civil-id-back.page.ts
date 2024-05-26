@@ -396,7 +396,10 @@ export class CivilIdBackPage implements OnInit {
             
           } else  {
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
-            this.candidate.candidate_civil_expiry_date = response.candidate_civil_expiry_date;
+
+            if(response.candidate_civil_expiry_date) {
+              this.candidate.candidate_civil_expiry_date = response.candidate_civil_expiry_date;
+            }
 
             clearInterval(this.interval);
             this.progress = 100;

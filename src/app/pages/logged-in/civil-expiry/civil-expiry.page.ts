@@ -73,7 +73,8 @@ export class CivilExpiryPage implements OnInit {
    */
   submit() {
 
-    const date = format(parseISO(this.form.value.civil_expiry_date), 'yyyy-MM-dd');
+    const date = this.form.value.civil_expiry_date? 
+      format(parseISO(this.form.value.civil_expiry_date), 'yyyy-MM-dd'): null;
 
     this.isLoading = true;
     

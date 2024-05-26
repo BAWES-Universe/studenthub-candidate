@@ -96,6 +96,7 @@ export class IdCardPage implements OnInit {
         
         if(res.candidate_civil_expiry_date)
           this.candidate.candidate_civil_expiry_date = res.candidate_civil_expiry_date;
+        
         this.dismiss();
       } else {
         this.alertCtrl.create({
