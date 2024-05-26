@@ -38,3 +38,4 @@ out-tsc/*
 
 # Sentry Config File
 .sentryclirc
+dump.rdb
