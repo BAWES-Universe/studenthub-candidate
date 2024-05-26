@@ -1,0 +1,70 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Work Experience" | translate }}</h3>
+ 
+    <div *ngFor="let candidateEducation of candidate.candidateEducations">
+      <ion-item (click)="chooseUniversity(candidateEducation)">
+        <ion-label>
+          <h5>Choose University</h5>
+          <p *ngIf="candidateEducation.university">
+            {{ translateService.langContent(candidateEducation.university.university_name_en, candidateEducation.university.university_name_ar) }}
+          </p>
+        </ion-label>
+        <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+      </ion-item>
+      
+      <ion-item (click)="chooseDegree(candidateEducation)">
+        <ion-label>
+          <h5>Degree</h5>
+          <p *ngIf="candidateEducation.degree">
+            {{ translateService.langContent(candidateEducation.degree.degree_name_en, candidateEducation.degree.degree_name_ar) }}
+          </p>
+        </ion-label>
+        <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+      </ion-item>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size-sm="12" size-lg="8">
+            <ion-item (click)="chooseMajor(candidateEducation)">
+              <ion-label>
+                <h5>Field of Study</h5>
+                <p *ngIf="candidateEducation.major">
+                  {{ translateService.langContent(candidateEducation.major.major_name_en, candidateEducation.major.major_name_ar) }}
+                </p>
+              </ion-label>
+              <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+            </ion-item>
+          </ion-col>
+          <ion-col size-sm="12" size-lg="4">
+            <ion-item>
+              <ion-label>
+                <h5>Year of Graduation</h5>
+              </ion-label>
+              <ion-input [(ngModel)]="candidateEducation.graduation_year"></ion-input> 
+              <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+        
+      <ion-button (click)="addEducation()" fill="clear">
+        <ion-icon name="add-circle-outline"></ion-icon> Add education
+      </ion-button>
+
+      <ion-button (click)="save()">
+        <span *ngIf="!saving">Next</span>
+        <ion-spinner *ngIf="!saving"></ion-spinner>
+      </ion-button>
+      <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>
+ 
+    </div>
+   
+  </ion-list>
+
+</ion-content>

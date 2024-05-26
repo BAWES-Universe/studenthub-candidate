@@ -340,7 +340,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'education-form',
+    loadChildren: () => import('./pages/logged-in/education-form/education-form.module').then( m => m.EducationFormPageModule)
   },
+
 ];
 
 @NgModule({

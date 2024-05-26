@@ -25,12 +25,54 @@ export class CandidateEducationService {
   }
 
   /**
+   * @param page 
+   * @param urlParams 
+   * @returns 
+   */
+  listMajors(page: number, urlParams: string = ''): Observable<any> {
+    const url = this._endpoint + 'majors?page=' + page + urlParams;
+    return this._authhttp.get(url, true);
+  }
+  
+  /**
+   * @param page 
+   * @param urlParams 
+   * @returns 
+   */
+  listDegrees(page: number, urlParams: string = ''): Observable<any> {
+    const url = this._endpoint + 'degrees?page=' + page + urlParams;
+    return this._authhttp.get(url, true);
+  }
+  
+  /**
+   * @param page 
+   * @param urlParams 
+   * @returns 
+   */
+  listDegreeGroups(page: number, urlParams: string = ''): Observable<any> {
+    const url = this._endpoint + 'degree-groups?page=' + page + urlParams;
+    return this._authhttp.get(url, true);
+  }
+
+  /**
    * return education detail
    * @param education_uuid
    */
   detail(education_uuid): Observable<any>{
     const url = this._endpoint + '/' + education_uuid + '?expand=university,major,degree';
     return this._authhttp.get(url);
+  }
+
+  /**
+   * save education details
+   * @param candidateEducations 
+   * @returns 
+   */
+  save(candidateEducations: CandidateEducation[]): Observable<any>{
+    const url = this._endpoint + '/save';
+    return this._authhttp.post(url, {
+      candidateEducations: candidateEducations
+    });
   }
 
   /**

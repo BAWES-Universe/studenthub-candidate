@@ -1,3 +1,7 @@
+import { Degree } from "./degree";
+import { Major } from "./major";
+import { University } from "./university";
+
 export class CandidateEducation {
     education_uuid: string;
     candidate_id: number;
@@ -8,4 +12,7 @@ export class CandidateEducation {
     is_currently_studying: boolean;
     created_at: string;
     updated_at: string;
+    major: Major;
+    degree: Degree;
+    university: University;
 }

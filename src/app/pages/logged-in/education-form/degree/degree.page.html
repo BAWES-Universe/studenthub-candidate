@@ -1,0 +1,36 @@
+<ion-content [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>{{ "Degree" | translate }}</h3>
+
+    <ion-searchbar mode="md" searchIcon="../../assets/images/ic_searchbar.svg" class="no-shadow search-bar"
+      (ionChange)="onSearchInput($event)" [value]="query"
+      placeholder="{{ 'Type to search' | translate }}">
+    </ion-searchbar>
+
+    <ion-list>
+      
+      <ion-item *ngFor="let degree of degreeList" tappable (click)="rowSelected(degree)">
+        <div tabindex="0"></div>
+        <ion-label>
+          {{ translateService.langContent(degree.degree_name_en, degree.degree_name_ar) }}
+        </ion-label>
+      </ion-item>
+       
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+      <ion-infinite-scroll *ngIf="currentPage < totalPage" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      
+      <h2 class="no-result-found" *ngIf="degreeList && degreeList.length == 0 && !loading && query.length == 0">
+        {{ 'no_result_found' | translate : {'query' : query } }}
+      </h2>
+      
+    </ion-list>
+  </div>
+</ion-content>
