@@ -7,7 +7,7 @@
 
     <h3>{{ "Work Experience" | translate }}</h3>
  
-    <div *ngFor="let candidateEducation of candidate.candidateEducations">
+    <div *ngFor="let candidateEducation of candidateEducations">
       <ion-item (click)="chooseUniversity(candidateEducation)">
         <ion-label>
           <h5>Choose University</h5>
@@ -43,28 +43,28 @@
           </ion-col>
           <ion-col size-sm="12" size-lg="4">
             <ion-item>
-              <ion-label>
+              <ion-label position="floating">
                 <h5>Year of Graduation</h5>
               </ion-label>
               <ion-input [(ngModel)]="candidateEducation.graduation_year"></ion-input> 
-              <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
             </ion-item>
           </ion-col>
         </ion-row>
       </ion-grid>
         
-      <ion-button (click)="addEducation()" fill="clear">
-        <ion-icon name="add-circle-outline"></ion-icon> Add education
-      </ion-button>
-
-      <ion-button (click)="save()">
-        <span *ngIf="!saving">Next</span>
-        <ion-spinner *ngIf="!saving"></ion-spinner>
-      </ion-button>
-      <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>
- 
     </div>
    
-  </ion-list>
+    <ion-button (click)="addEducation()" fill="clear">
+      <ion-icon name="add-circle-outline"></ion-icon> Add education
+    </ion-button>
+
+    <ion-button (click)="save()" [disabled]="saving || candidateEducations.length == 0">
+      <span *ngIf="!saving">Next</span>
+      <ion-spinner *ngIf="!saving"></ion-spinner>
+    </ion-button>
+    <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>
+
+  </div>
 
 </ion-content>
+<!-- todo: save on enter + design -->

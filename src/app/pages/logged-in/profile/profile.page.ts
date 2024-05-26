@@ -495,7 +495,7 @@ export class ProfilePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: EducationFormPage,
       componentProps: {
-        candidate: this.candidate,
+        candidate: Object.assign({}, this.candidate),
       }
     });
     modal.onDidDismiss().then(e => {
@@ -503,6 +503,10 @@ export class ProfilePage implements OnInit {
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+ 
+      if (e.data && e.data.candidateEducations) {
+        this.candidate.candidateEducations = e.data.candidateEducations;
       }
     });
     modal.present();

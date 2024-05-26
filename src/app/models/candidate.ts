@@ -6,6 +6,7 @@ import { Country } from './country';
 import { CandidateExperience } from './candidate.experience';
 import { CandidateSkill } from './candidate.skill';
 import { Area } from './area';
+import { CandidateEducation } from './candidate-education';
  
 export class Candidate {
     employee_id:number;
@@ -63,6 +64,7 @@ export class Candidate {
     area: Area;    
     nationality: Country;
     bank: Bank;
+    candidateEducations: CandidateEducation[];
     candidateExperiences: CandidateExperience[];
     candidateSkills: CandidateSkill[];
 }

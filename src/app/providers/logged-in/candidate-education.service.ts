@@ -30,7 +30,7 @@ export class CandidateEducationService {
    * @returns 
    */
   listMajors(page: number, urlParams: string = ''): Observable<any> {
-    const url = this._endpoint + 'majors?page=' + page + urlParams;
+    const url = this._endpoint + '/majors?page=' + page + urlParams;
     return this._authhttp.get(url, true);
   }
   
@@ -40,7 +40,7 @@ export class CandidateEducationService {
    * @returns 
    */
   listDegrees(page: number, urlParams: string = ''): Observable<any> {
-    const url = this._endpoint + 'degrees?page=' + page + urlParams;
+    const url = this._endpoint + '/degrees?page=' + page + urlParams;
     return this._authhttp.get(url, true);
   }
   
@@ -50,7 +50,7 @@ export class CandidateEducationService {
    * @returns 
    */
   listDegreeGroups(page: number, urlParams: string = ''): Observable<any> {
-    const url = this._endpoint + 'degree-groups?page=' + page + urlParams;
+    const url = this._endpoint + '/degree-groups?page=' + page + urlParams;
     return this._authhttp.get(url, true);
   }
 

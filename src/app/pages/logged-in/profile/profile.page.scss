@@ -200,6 +200,7 @@ ion-item {
     --background: url('/assets/images/ic_swipe.svg') no-repeat 0px 15px;
 }
 
+.education,
 .university {
     --background: url('/assets/images/md-school.svg') no-repeat 0px 15px;
 }
@@ -263,6 +264,7 @@ ion-item {
         --background: url('/assets/images/ic_swipe.svg') no-repeat 100% 15px;
     }
 
+    .education,
     .university {
         --background: url('/assets/images/md-school.svg') no-repeat 100% 15px;
     }
@@ -290,6 +292,7 @@ ion-item {
 .email,
 .nationality,
 .gender,
+.education,
 .university,
 .driving-license,
 .mother-nationality,

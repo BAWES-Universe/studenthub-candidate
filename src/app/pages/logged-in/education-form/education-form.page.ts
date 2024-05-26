@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 //models
 import { CandidateEducation } from 'src/app/models/candidate-education';
+import { Candidate } from 'src/app/models/candidate';
 //services
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -19,8 +20,9 @@ import { CandidateEducationService } from 'src/app/providers/logged-in/candidate
 })
 export class EducationFormPage implements OnInit {
 
-  public candidate;
-  
+  public candidate: Candidate;
+  public candidateEducations: CandidateEducation[];
+
   public saving: boolean;
 
   constructor(
@@ -41,24 +43,50 @@ export class EducationFormPage implements OnInit {
     });
   }
 
-  /*ionViewDidEnter() { 
-    this.loading = true; 
+  ionViewDidEnter() { 
 
+    this.candidateEducations = Object.assign([], this.candidate.candidateEducations);
 
-  }*/
+    if(this.candidateEducations.length == 0) {
+      this.addEducation();
+    }
+  }
+
+  validateData() {
+    for(let e of this.candidateEducations) {
+      
+      if(e.university_id == null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   save() {
 
-    if(this.candidate.candidateEducations.length == 0) {
-      this.dismiss();
+    if(!this.validateData()) {
+    
+      this.alertCtrl.create({
+        message: this.translateService.errorMessage("University is required field"),
+        buttons: [this.translateService.transform('Okay')]
+      }).then(alert => {
+        alert.present();
+      });
+      
+      //this.dismiss();
+
+      return false;
     }
 
     this.saving = true; 
 
-    this.candidateEducationService.save(this.candidate.candidateEducations).subscribe(res => {
+    this.candidateEducationService.save(this.candidateEducations).subscribe(res => {
       if(res.operation == 'success') {
          
-        this.dismiss();
+        this.dismiss({
+          candidateEducations: this.candidateEducations
+        });
 
       } else {
         this.alertCtrl.create({
@@ -81,7 +109,7 @@ export class EducationFormPage implements OnInit {
     candidateEducation.graduation_year = null;
     candidateEducation.is_currently_studying = null;
 
-    this.candidate.candidateEducations.push(candidateEducation);
+    this.candidateEducations.push(candidateEducation);
   }
 
   async chooseUniversity(candidateEducation) {
@@ -114,7 +142,7 @@ export class EducationFormPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: DegreePage,
       componentProps: {
-        candidate: this.candidate,
+        //candidate: this.candidate,
       }
     });
     modal.onDidDismiss().then(e => {
@@ -138,7 +166,7 @@ export class EducationFormPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: MajorPage,
       componentProps: {
-        candidate: this.candidate,
+       //candidate: this.candidate,
       }
     });
     modal.onDidDismiss().then(e => {

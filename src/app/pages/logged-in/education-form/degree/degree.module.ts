@@ -8,6 +8,7 @@ import { DegreePageRoutingModule } from './degree-routing.module';
 
 import { DegreePage } from './degree.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     FormsModule,
     IonicModule,
     LoadingModalModule,
+    TranslateModule.forChild(),
     DegreePageRoutingModule
   ],
   declarations: [DegreePage]

@@ -8,6 +8,7 @@ import { MajorPageRoutingModule } from './major-routing.module';
 
 import { MajorPage } from './major.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     FormsModule,
     IonicModule,
     LoadingModalModule,
+    TranslateModule.forChild(),
     MajorPageRoutingModule
   ],
   declarations: [MajorPage]
