@@ -59,6 +59,10 @@ export class TranslateLabelService extends TranslateService {
 
         return enContent? enContent: arContent;
     }
+    
+    isString(x) {
+        return Object.prototype.toString.call(x) === "[object String]"
+    }
 
     /**
      * json to string error message
@@ -66,7 +70,7 @@ export class TranslateLabelService extends TranslateService {
      */
     errorMessage(message): string {
 
-        if (message.length)
+        if (this.isString(message))
         {
             return message + '';
 		}
