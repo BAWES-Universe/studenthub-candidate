@@ -48,6 +48,8 @@
         </ion-label>
       </ion-item>
 
+      <!-- when both photo uploaded but backend was not able to get data -->
+      
       <ng-container *ngIf="candidate.candidate_civil_photo_back &&
         candidate.candidate_civil_photo_front">
         <ion-item (click)="!candidate.candidate_civil_id && updateCandidateIdNumber()" 
