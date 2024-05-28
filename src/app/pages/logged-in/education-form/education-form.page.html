@@ -54,15 +54,17 @@
         
     </div>
    
-    <ion-button (click)="addEducation()" fill="clear">
+    <ion-button class="btn-add" (click)="addEducation()" fill="clear">
       <ion-icon name="add-circle-outline"></ion-icon> Add education
     </ion-button>
 
-    <ion-button (click)="save()" [disabled]="saving || candidateEducations.length == 0">
-      <span *ngIf="!saving">Next</span>
-      <ion-spinner *ngIf="!saving"></ion-spinner>
-    </ion-button>
-    <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>
+    <div class="btn-submit-wrapper">
+      <ion-button class="btn-submit" (click)="save()" [disabled]="saving || candidateEducations.length == 0">
+        <span *ngIf="!saving">Next</span>
+        <ion-spinner *ngIf="!saving"></ion-spinner>
+      </ion-button>
+      <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>
+    </div>
 
   </div>
 
