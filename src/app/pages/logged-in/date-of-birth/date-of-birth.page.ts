@@ -45,12 +45,15 @@ export class DateOfBirthPage implements OnInit {
     this.min = '1980-01-01';
 
     const today = new Date();
-    // var dd = today.getDate();
-    const mm = today.getMonth() + 1; // 0 is January, so we must add 1
-    const yyyy = today.getFullYear();
 
-    this.max = new Date((yyyy), mm).toISOString();
+    var dd = today.getDate();
+    const mm = today.getMonth();// + 1; // 0 is January, so we must add 1
+    const yyyy = today.getFullYear() - 16; // min 16 years 
 
+    this.max = new Date((yyyy), mm, dd).toISOString();
+
+    console.log(this.max);
+    
     this._initForm();
   }
 
