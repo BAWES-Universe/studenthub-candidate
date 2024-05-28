@@ -14,10 +14,9 @@
           placeholder="{{ 'The number on your civil id card' | translate }}"></ion-input>
       </ion-list>
 
-      <!--
       <ion-list>
         <app-date-dropdown [min]="min" [max]="max" presentation="date" formControlName="civil_expiry_date"></app-date-dropdown>
-      </ion-list>-->
+      </ion-list>
 
       <ion-button (click)="submit()" class="btn-submit" [disabled]="!form.valid || isLoading" type="submit">
         <ion-spinner *ngIf="isLoading"></ion-spinner>

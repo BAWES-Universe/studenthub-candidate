@@ -211,6 +211,11 @@ ion-label ion-item {
     --padding-start: 9px;
     border-bottom: solid 1px #bdbdbd;
 }
+
+ion-item.required {
+    cursor: pointer;
+}
+
 [dir="rtl"] {
     .translate-link {
         border-left: 1px solid;
