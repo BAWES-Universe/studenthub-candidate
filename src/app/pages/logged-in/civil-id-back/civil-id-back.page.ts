@@ -389,7 +389,7 @@ export class CivilIdBackPage implements OnInit {
           if (response.operation != 'success') {
 
             this.form.reset();
-            
+
             const alert = await this.alertCtrl.create({
               message: this.translateService.errorMessage(response.message),
               buttons: [this.translateService.transform('Okay')],
@@ -400,6 +400,7 @@ export class CivilIdBackPage implements OnInit {
             clearInterval(this.interval);
             
           } else  {
+            
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
 
             //if(response.candidate_civil_expiry_date) {
@@ -412,7 +413,9 @@ export class CivilIdBackPage implements OnInit {
 
             clearInterval(this.interval);
             this.progress = 100;
-            this.dismiss();
+            this.dismiss({
+              candidate: this.candidate
+            });
           }
         });
       };

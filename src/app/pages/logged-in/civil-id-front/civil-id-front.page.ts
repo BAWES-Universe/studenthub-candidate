@@ -415,7 +415,9 @@ export class CivilIdFrontPage implements OnInit {
 
             clearInterval(this.interval);
             this.progress = 100;
-            this.dismiss();
+            this.dismiss({
+              candidate: this.candidate
+            });
           }
         });
       };

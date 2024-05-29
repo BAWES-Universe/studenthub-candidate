@@ -377,7 +377,7 @@ export class ProfilePage implements OnInit {
     if(
       this.candidate.candidate_civil_photo_front && 
       this.candidate.candidate_civil_photo_back &&
-      (!this.candidate.candidate_civil_id || !this.candidate.candidate_birth_date)
+      (!this.candidate.candidate_civil_id || !this.candidate.candidate_civil_expiry_date)
     ) {
       this.updateCandidateIdNumber();
     }
