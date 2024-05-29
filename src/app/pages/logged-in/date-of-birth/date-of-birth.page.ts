@@ -52,8 +52,6 @@ export class DateOfBirthPage implements OnInit {
 
     this.max = new Date((yyyy), mm, dd).toISOString();
 
-    console.log(this.max);
-    
     this._initForm();
   }
 
