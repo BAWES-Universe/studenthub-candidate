@@ -35,6 +35,12 @@ export class EducationFormPage implements OnInit {
 
   ngOnInit() {  
     this.analyticsService.page('Education Form page'); 
+
+    this.candidateEducations = Object.assign([], this.candidate.candidateEducations);
+
+    if(this.candidateEducations.length == 0) {
+      this.addEducation();
+    }
   }
 
   ionViewWillLeave() {
@@ -45,11 +51,6 @@ export class EducationFormPage implements OnInit {
 
   ionViewDidEnter() { 
 
-    this.candidateEducations = Object.assign([], this.candidate.candidateEducations);
-
-    if(this.candidateEducations.length == 0) {
-      this.addEducation();
-    }
   }
 
   validateData() {

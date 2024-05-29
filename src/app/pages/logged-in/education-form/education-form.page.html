@@ -1,16 +1,17 @@
 <ion-content [attr.dir]="translateService.direction()">
 
-  <div class="max-width">
+  <div class="max-width form-wrapper">
+
     <ion-button fill="clear" (click)="dismiss()" class="btn-close">
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3>{{ "Work Experience" | translate }}</h3>
+    <h3>{{ "Where did you study?" | translate }}</h3>
  
-    <div *ngFor="let candidateEducation of candidateEducations">
-      <ion-item (click)="chooseUniversity(candidateEducation)">
+    <div *ngFor="let candidateEducation of candidateEducations; let i = index;">
+      <ion-item class="field-wrapper" [class.no-value]="!candidateEducation.university" (click)="chooseUniversity(candidateEducation)">
         <ion-label>
-          <h5>Choose University</h5>
+          <h5>{{ "Choose University" | translate }}</h5>
           <p *ngIf="candidateEducation.university">
             {{ translateService.langContent(candidateEducation.university.university_name_en, candidateEducation.university.university_name_ar) }}
           </p>
@@ -18,9 +19,9 @@
         <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
       </ion-item>
       
-      <ion-item (click)="chooseDegree(candidateEducation)">
+      <ion-item class="field-wrapper" [class.no-value]="!candidateEducation.degree" (click)="chooseDegree(candidateEducation)">
         <ion-label>
-          <h5>Degree</h5>
+          <h5>{{ "Degree" | translate }}</h5>
           <p *ngIf="candidateEducation.degree">
             {{ translateService.langContent(candidateEducation.degree.degree_name_en, candidateEducation.degree.degree_name_ar) }}
           </p>
@@ -31,20 +32,21 @@
       <ion-grid>
         <ion-row>
           <ion-col size-sm="12" size-lg="8">
-            <ion-item (click)="chooseMajor(candidateEducation)">
+            
+            <ion-item class="field-wrapper" [class.no-value]="!candidateEducation.major" (click)="chooseMajor(candidateEducation)">
               <ion-label>
-                <h5>Field of Study</h5>
+                <h5>{{ "Field of Study" | translate }}</h5>
                 <p *ngIf="candidateEducation.major">
                   {{ translateService.langContent(candidateEducation.major.major_name_en, candidateEducation.major.major_name_ar) }}
-                </p>
+                </p> 
               </ion-label>
               <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
             </ion-item>
           </ion-col>
           <ion-col size-sm="12" size-lg="4">
-            <ion-item>
+            <ion-item class="field-wrapper input-wrapper">
               <ion-label position="floating">
-                <h5>Year of Graduation</h5>
+                <h5>{{ "Year of Graduation" | translate }}</h5>
               </ion-label>
               <ion-input [(ngModel)]="candidateEducation.graduation_year"></ion-input> 
             </ion-item>
@@ -52,21 +54,23 @@
         </ion-row>
       </ion-grid>
         
+      <div class="sep" *ngIf="candidateEducations.length -1 > i"></div>
     </div>
    
     <ion-button class="btn-add" (click)="addEducation()" fill="clear">
-      <ion-icon name="add-circle-outline"></ion-icon> Add education
+      <ion-icon name="add-circle-outline"></ion-icon> {{ "Add education" | translate }}
     </ion-button>
 
     <div class="btn-submit-wrapper">
       <ion-button class="btn-submit" (click)="save()" [disabled]="saving || candidateEducations.length == 0">
-        <span *ngIf="!saving">Next</span>
-        <ion-spinner *ngIf="!saving"></ion-spinner>
+        <span *ngIf="!saving">{{ "Next" | translate }}</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
       </ion-button>
-      <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>
+      <!--
+      <p>Enter <ion-icon name="return-down-back-outline"></ion-icon></p>-->
     </div>
 
   </div>
 
 </ion-content>
-<!-- todo: save on enter + design -->
+<!-- todo: save on enter -->
