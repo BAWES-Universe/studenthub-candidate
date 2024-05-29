@@ -385,7 +385,11 @@ export class CivilIdBackPage implements OnInit {
         this.form.updateValueAndValidity();
 
         this.accountService.updateCivilPhotoBack(event.Key).subscribe(async response => {
+
           if (response.operation != 'success') {
+
+            this.form.reset();
+            
             const alert = await this.alertCtrl.create({
               message: this.translateService.errorMessage(response.message),
               buttons: [this.translateService.transform('Okay')],
@@ -393,6 +397,7 @@ export class CivilIdBackPage implements OnInit {
             alert.present();
 
             this.progress = null;
+            clearInterval(this.interval);
             
           } else  {
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
