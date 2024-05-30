@@ -83,10 +83,11 @@ export class EducationFormPage implements OnInit {
     this.saving = true; 
 
     this.candidateEducationService.save(this.candidateEducations).subscribe(res => {
+
       if(res.operation == 'success') {
          
         this.dismiss({
-          candidateEducations: this.candidateEducations
+          candidateEducations: res.candidateEducations
         });
 
       } else {
@@ -114,7 +115,7 @@ export class EducationFormPage implements OnInit {
   }
 
   async chooseUniversity(candidateEducation) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+    //window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: UniversityPage,
@@ -124,10 +125,10 @@ export class EducationFormPage implements OnInit {
     });
     modal.onDidDismiss().then(e => {
 
-      if (!e.data || e.data.from != 'native-back-btn') {
+      /*if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      }
+      }*/
 
       if(e.data && e.data.university) {
         candidateEducation.university = e.data.university;
@@ -138,7 +139,7 @@ export class EducationFormPage implements OnInit {
   }
 
   async chooseDegree(candidateEducation) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+   // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: DegreePage,
