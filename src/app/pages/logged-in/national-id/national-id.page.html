@@ -15,34 +15,15 @@
 
     <ion-list *ngIf="candidate">
 
-<!--      <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">-->
-<!--        <div tabindex="0"></div>-->
-<!--        <ion-label>-->
-<!--          <small>{{ "ID Number" | translate }}</small>-->
-<!--          <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>-->
-<!--          <span *ngIf="!candidate.candidate_civil_id">{{ "The number of on your civil id card." | translate }}-->
-<!--          </span>-->
-<!--        </ion-label>-->
-<!--      </ion-item>-->
-
-<!--      <ion-item tappable (click)="updateCandidateIdExpiryDate()" [class.required]="!candidate.candidate_civil_expiry_date">-->
-<!--        <div tabindex="0"></div>-->
-<!--        <ion-label>-->
-<!--          <small>{{ "ID Expiry Date" | translate }}</small>-->
-<!--          <span *ngIf="candidate.candidate_civil_expiry_date">{{ candidate.candidate_civil_expiry_date | translate }}</span>-->
-<!--          <span *ngIf="!candidate.candidate_civil_expiry_date">{{ "When does it expire?" | translate }}-->
-<!--          </span>-->
-<!--        </ion-label>-->
-<!--      </ion-item>-->
-
+<!--
       <ion-item tappable (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id || !candidate.candidate_civil_expiry_date">
         <div tabindex="0"></div>
         <ion-label>
-          <!-- "ID Number and Expiry Date"-->
+          <!-- "ID Number and Expiry Date"--
           <small>{{ "Civil ID number" | translate }}</small>
           <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
         </ion-label>
-      </ion-item>
+      </ion-item>-->
 
       <ion-item tappable (click)="updateCivilIdFront()" [class.required]="!candidate.candidate_civil_photo_front">
         <div tabindex="0"></div>
@@ -66,6 +47,33 @@
           </span>
         </ion-label>
       </ion-item>
+
+      <!-- when both photo uploaded but backend was not able to get data -->
+      
+      <ng-container *ngIf="candidate.candidate_civil_photo_back &&
+        candidate.candidate_civil_photo_front">
+        <ion-item (click)="!candidate.candidate_civil_id && updateCandidateIdNumber()" 
+          [class.required]="!candidate.candidate_civil_id">
+          <div tabindex="0"></div>
+          <ion-label>
+            <small>{{ "ID Number" | translate }}</small>
+            <span *ngIf="candidate.candidate_civil_id">{{ candidate.candidate_civil_id | translate }}</span>
+            <span *ngIf="!candidate.candidate_civil_id">{{ "The number of on your civil id card." | translate }}
+            </span>
+          </ion-label>
+        </ion-item>
+
+        <ion-item (click)="!candidate.candidate_civil_expiry_date && updateCandidateIdNumber()" 
+          [class.required]="!candidate.candidate_civil_expiry_date">
+          <div tabindex="0"></div>
+          <ion-label>
+            <small>{{ "ID Expiry Date" | translate }}</small>
+            <span *ngIf="candidate.candidate_civil_expiry_date">{{ candidate.candidate_civil_expiry_date | translate }}</span>
+            <span *ngIf="!candidate.candidate_civil_expiry_date">{{ "When does it expire?" | translate }}
+            </span>
+          </ion-label>
+        </ion-item>
+      </ng-container>
 
     </ion-list>
 

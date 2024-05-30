@@ -346,6 +346,8 @@ export class ProfilePage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+      
+      this.checkIfIDAvaialable();
     });
     modal.present();
   }
@@ -365,8 +367,20 @@ export class ProfilePage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+
+      this.checkIfIDAvaialable();
     });
     modal.present();
+  }
+
+  checkIfIDAvaialable() {
+    if(
+      this.candidate.candidate_civil_photo_front && 
+      this.candidate.candidate_civil_photo_back &&
+      (!this.candidate.candidate_civil_id || !this.candidate.candidate_civil_expiry_date)
+    ) {
+      this.updateCandidateIdNumber();
+    }
   }
 
   /**

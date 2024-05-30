@@ -406,12 +406,18 @@ export class CivilIdFrontPage implements OnInit {
           } else  {
             this.candidate.candidate_civil_photo_front = response.candidate_civil_photo_front;
 
-            if(response.candidate_civil_expiry_date)
+            //if(response.candidate_civil_expiry_date)
               this.candidate.candidate_civil_expiry_date = response.candidate_civil_expiry_date;
+
+            //if(response.candidate_civil_id) {
+              this.candidate.candidate_civil_id = response.candidate_civil_id;
+            //}
 
             clearInterval(this.interval);
             this.progress = 100;
-            this.dismiss();
+            this.dismiss({
+              candidate: this.candidate
+            });
           }
         });
       };

@@ -90,6 +90,8 @@ export class NationalIdPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+
+      this.checkIfIDAvaialable();
     });
     modal.present();
   }
@@ -109,14 +111,27 @@ export class NationalIdPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+ 
+      this.checkIfIDAvaialable();
 
-      
     });
     modal.present();
   }
 
+  checkIfIDAvaialable() {
+    if(
+      this.candidate.candidate_civil_photo_front && 
+      this.candidate.candidate_civil_photo_back &&
+      (!this.candidate.candidate_civil_id || !this.candidate.candidate_civil_expiry_date)
+    ) {
+      this.updateCandidateIdNumber();
+    }
+  }
+
   async updateCandidateIdNumber() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, 
+      window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: IdCardPage,

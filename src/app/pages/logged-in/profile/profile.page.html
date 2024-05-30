@@ -213,6 +213,7 @@
         </ion-label>
       </ion-item>
 
+      <!--
       <ion-item tappable class="id-number" (click)="updateCandidateIdNumber()" [class.required]="!candidate.candidate_civil_id">
         <div tabindex="0"></div>
         <ion-label>
@@ -222,7 +223,7 @@
           <span *ngIf="!candidate.candidate_civil_id">{{ "The details of your civil id card." | translate }}
           </span>
         </ion-label>
-      </ion-item>
+      </ion-item>-->
 
 <!--      <ion-item tappable (click)="updateCandidateIdExpiryDate()" [class.required]="!candidate.candidate_civil_expiry_date">-->
 <!--        <div tabindex="0"></div>-->
@@ -245,12 +246,17 @@
           <ng-container *ngIf="candidate.candidate_civil_photo_front">
             <br />
             
+            <p class="txt-civil-id" *ngIf="candidate.candidate_civil_id">
+              {{ "Civil ID" | translate }} <b>{{ candidate.candidate_civil_id }}</b>
+            </p>  
+            
             <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && candidate.candidate_civil_expiry_date.length > 0 && translateService.currentLang != 'ar'"> 
               {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y' }}</span>
               
             <span class="txt-expiring-on" *ngIf="candidate.candidate_civil_expiry_date && candidate.candidate_civil_expiry_date.length > 0 && translateService.currentLang == 'ar'"> 
               {{ "Expiring on" | translate }} {{ translateService.toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d ، y' }}</span>
               <!-- undefined: translateService.currentLang -->
+
           </ng-container>
         </ion-label>
       </ion-item>

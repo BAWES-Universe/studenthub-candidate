@@ -385,7 +385,11 @@ export class CivilIdBackPage implements OnInit {
         this.form.updateValueAndValidity();
 
         this.accountService.updateCivilPhotoBack(event.Key).subscribe(async response => {
+
           if (response.operation != 'success') {
+
+            this.form.reset();
+
             const alert = await this.alertCtrl.create({
               message: this.translateService.errorMessage(response.message),
               buttons: [this.translateService.transform('Okay')],
@@ -393,17 +397,25 @@ export class CivilIdBackPage implements OnInit {
             alert.present();
 
             this.progress = null;
+            clearInterval(this.interval);
             
           } else  {
+            
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
 
-            if(response.candidate_civil_expiry_date) {
+            //if(response.candidate_civil_expiry_date) {
               this.candidate.candidate_civil_expiry_date = response.candidate_civil_expiry_date;
-            }
+            //}
+
+            //if(response.candidate_civil_id) {
+              this.candidate.candidate_civil_id = response.candidate_civil_id;
+            //}
 
             clearInterval(this.interval);
             this.progress = 100;
-            this.dismiss();
+            this.dismiss({
+              candidate: this.candidate
+            });
           }
         });
       };
