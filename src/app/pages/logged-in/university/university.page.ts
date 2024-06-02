@@ -151,6 +151,7 @@ export class UniversityPage implements OnInit {
    * @param university
    */
   async rowSelected(university: University) {
+
     this.saving = true;
     this.candidate.university_id = university.university_id;
     this.candidate.university = university;
@@ -168,7 +169,10 @@ export class UniversityPage implements OnInit {
         // this.dismiss();
       }
     });
-    this.dismiss();
+
+    this.dismiss({
+      university: university
+    });
   }
 
   /**

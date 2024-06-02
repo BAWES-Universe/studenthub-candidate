@@ -19,7 +19,7 @@ export class AnalyticsService {
    * @param id 
    * @param params 
    */
-  user(id, params) {
+  async user(id, params) {
     
     //segment
 
@@ -40,7 +40,7 @@ export class AnalyticsService {
    * page event
    * @param name 
    */
-  page(name) {
+  async page(name) {
     if(window.analytics)
       window.analytics.page(name);
 
@@ -65,7 +65,7 @@ export class AnalyticsService {
    * @param eventName 
    * @param params 
    */
-  track(eventName, params) {
+  async track(eventName, params) {
     
     params.language = this.authService.language_pref; 
     params.channel = "Candidate Web App"; 
@@ -76,7 +76,7 @@ export class AnalyticsService {
     mixpanel.track(eventName, params);
   }
 
-  refresh() {
+  async refresh() {
     mixpanel.reset();
   }
 }

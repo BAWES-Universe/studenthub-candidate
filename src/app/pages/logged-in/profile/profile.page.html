@@ -130,6 +130,37 @@
         </ion-label>
       </ion-item>
 
+
+      <ion-item tappable class="education" (click)="updateEducations()" [class.required]="candidate.candidateEducations && candidate.candidateEducations.length == 0">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ "Educations" | translate }}</h5>
+          <!-- *ngIf="candidate.candidateEducations"-->
+          <ion-card *ngFor="let candidateEducation of candidate.candidateEducations">
+            
+            <ion-card-content>
+              <p *ngIf="candidateEducation.degree">
+                {{ translateService.langContent(candidateEducation.degree.degree_name_en, candidateEducation.degree.degree_name_ar) }}
+              </p>
+  
+              <p *ngIf="candidateEducation.major">
+                {{ translateService.langContent(candidateEducation.major.major_name_en, candidateEducation.major.major_name_ar) }}
+              </p>
+  
+              <p *ngIf="candidateEducation.university">
+                {{ translateService.langContent(candidateEducation.university.university_name_en, candidateEducation.university.university_name_ar) }}
+              </p> 
+
+              <ion-note slot="end" *ngIf="candidateEducation.graduation_year">
+                {{ candidateEducation.graduation_year }}
+              </ion-note>
+            </ion-card-content>
+          </ion-card>
+          <span *ngIf="candidate.candidateEducations && candidate.candidateEducations.length == 0">{{ "Where do you study?" | translate }}
+          </span>
+        </ion-label>
+      </ion-item>
+
       <ion-item tappable class="phone" (click)="updatePhone()" [class.required]="!candidate.candidate_phone">
         <div tabindex="0"></div>
         <ion-label>
@@ -183,6 +214,7 @@
         </ion-label>
       </ion-item>
 
+      <!--
       <ion-item tappable class="university" (click)="updateUniversity()" [class.required]="!candidate.university">
         <div tabindex="0"></div>
         <ion-label>
@@ -190,7 +222,7 @@
             *ngIf="candidate.university">{{ translateService.langContent(candidate.university.university_name_en, candidate.university.university_name_ar) }}</b>
           <b *ngIf="!candidate.university">{{ "Where do you study?" | translate }} </b>
         </ion-label>
-      </ion-item>
+      </ion-item>-->
 
       <ion-item tappable class="driving-license" (click)="updateDrivingLicense()" [class.required]="!candidate.candidate_driving_license">
         <div tabindex="0"></div>
