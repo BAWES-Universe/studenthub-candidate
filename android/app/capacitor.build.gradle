@@ -20,6 +20,7 @@ dependencies {
     implementation project(':capacitor-preferences')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
+    implementation project(':codetrix-studio-capacitor-google-auth')
     implementation "androidx.webkit:webkit:1.4.0"
     implementation "com.android.support:support-v4:27.+"
     implementation "com.onesignal:OneSignal:4.8.2"
