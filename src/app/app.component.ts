@@ -23,6 +23,7 @@ import { Preferences as Storage } from '@capacitor/preferences';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AnalyticsService } from './providers/analytics.service';
 import { CampaignService } from './providers/campaign.service';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 declare var window;
 
@@ -198,9 +199,9 @@ export class AppComponent implements OnInit, OnDestroy {
         });
       }
       
-      /*if (this.platform.is('hybrid')) {
+      if (this.platform.is('hybrid')) {
         SplashScreen.hide();
-      }*/
+      }
 
       /*if (!this.authService.currentLocation) { 
         this.authService.locate().subscribe(res => {

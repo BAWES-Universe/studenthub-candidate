@@ -4,6 +4,14 @@
 	"webDir": "www",
 	"bundledWebRuntime": false,
 	"plugins": {
+		"GoogleAuth": {
+			"scopes": [
+				"profile",
+				"email"
+			],
+			"serverClientId": "123188361193-od1ehqo4c35cle8mtplqetoenussu650.apps.googleusercontent.com",
+			"forceCodeForRefreshToken": true
+		},
 		"SplashScreen": {
 			"launchAutoHide": false,
 			"showSpinner": false,
