@@ -39,7 +39,7 @@ export class AwsService {
     /**
      * Initialize the AWS Service
      */
-    initAwsService(){
+    initAwsService(){ 
         AWS.config.region = this._region;
         AWS.config.accessKeyId = this._access_key_uuid;
         AWS.config.secretAccessKey = this._secret_access_key;

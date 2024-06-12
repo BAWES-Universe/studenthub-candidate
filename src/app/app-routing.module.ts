@@ -338,11 +338,28 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/interview/interview-view/interview-view.module').then( m => m.InterviewViewPageModule)
   },
   {
+    path: 'support',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-list/ticket-list.module').then( m => m.TicketListPageModule)
+  },
+  {
+    path: 'ticket-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-view/ticket-view.module').then( m => m.TicketViewPageModule)
+  },
+  {
+    path: 'ticket-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-form/ticket-form.module').then( m => m.TicketFormPageModule)
+  },
+  {
+    path: 'education-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/education-form/education-form.module').then( m => m.EducationFormPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
-  },  {
-    path: 'education-form',
-    loadChildren: () => import('./pages/logged-in/education-form/education-form.module').then( m => m.EducationFormPageModule)
   },
 
 ];

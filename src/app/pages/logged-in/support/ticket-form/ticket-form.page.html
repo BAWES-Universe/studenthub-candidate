@@ -1,0 +1,47 @@
+
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="max-width">
+
+    <ion-back-button slot="start" defaultHref="/"></ion-back-button>
+
+    <ion-title>
+      {{ "Ask for support" | translate }}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button [disabled]="saving || !form || !form.valid" (click)="save()">
+        <span *ngIf="!saving">{{ "Save" | translate }}</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <form class="max-width " *ngIf="form" [formGroup]="form" (ngSubmit)="save()">
+
+    <ion-item [class.have-errors]="form['controls'].detail.errors != null" lines="none">
+      <ion-label position="stacked"></ion-label>
+      <ckeditor *ngIf="this.authService.detectBrowserName() != 'safari' && editorConfig" [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)" [data]=""></ckeditor>
+      <ion-textarea *ngIf="this.authService.detectBrowserName() == 'safari'" rows="6" cols="20" formControlName="detail" class="text_area" [value]="ticket.ticket_detail"></ion-textarea>
+    </ion-item>
+
+    <div class="attachment-wrapper" *ngIf="attachments.length > 0">
+
+      <ion-button color="light" size="small" href="{{ attachment.Location }}" target="_blank" *ngFor="let attachment of attachments">
+        {{ attachment.Key }}
+      </ion-button>
+
+    </div>
+
+    <ion-button (click)="updatePhoto($event)" [disabled]="uploadingPhoto">
+      <span *ngIf="!uploadingPhoto">{{ "+ add attachment" | translate }} </span>
+      <ion-spinner *ngIf="uploadingPhoto"></ion-spinner>
+    </ion-button>
+
+    <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
+
+  </form>
+
+</ion-content>

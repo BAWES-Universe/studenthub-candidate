@@ -34,6 +34,7 @@ import { GenderPageModule } from './pages/logged-in/gender/gender.module';
 import { DrivingLicensePageModule } from './pages/logged-in/driving-license/driving-license.module';
 import { UploadCvPageModule } from './pages/logged-in/upload-cv/upload-cv.module';
 import { PhotoActionModule } from './components/photo-action/photo-action.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { DocumentPicker } from '@awesome-cordova-plugins/document-picker/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
@@ -95,6 +96,7 @@ const config: AuthConfig = {
   entryComponents: [],
   imports: [
     HttpClientModule,
+    CKEditorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
