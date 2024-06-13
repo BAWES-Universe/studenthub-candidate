@@ -36,6 +36,20 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'track',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../candidate-work-log/track-work/track-work.module').then(m => m.TrackWorkPageModule),
+            canActivate: [AuthService], 
+            data: {
+              preload: true
+            }
+          },
+        ]
+      },
+      
+      {
         path: 'profile',
         children: [
           {

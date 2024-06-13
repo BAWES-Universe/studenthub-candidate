@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController, Platform, IonContent } from '@ionic/angular';
+import {ActivatedRoute} from '@angular/router';
 // services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-// models
-
-import {CandidateWorkingHour} from 'src/app/models/candidate';
-import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
-import {ActivatedRoute} from '@angular/router';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
+// models
+import {CandidateWorkingHour} from 'src/app/models/candidate';
 
 
 declare var window;

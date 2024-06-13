@@ -360,7 +360,19 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'track-work',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/track-work/track-work.module').then( m => m.TrackWorkPageModule)
   },
+  {
+    path: 'log-time-manually',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/log-time-manually/log-time-manually.module').then( m => m.LogTimeManuallyPageModule)
+  },
+  {
+    path: 'end-session',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/end-session/end-session.module').then( m => m.EndSessionPageModule)
+  },
+
 
 ];
 

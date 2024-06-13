@@ -30,6 +30,12 @@
         <ion-label>{{ 'Invitation' | translate }}</ion-label>
         <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
+ 
+      <ion-tab-button tab="track" layout="icon-start">
+        <ion-icon class="not-current" src="assets/icons/track-tab.svg"></ion-icon>
+        <ion-icon class="icon-selected" src="assets/icons/track-selected.svg"></ion-icon>
+        <ion-label>{{ 'Track' | translate }}</ion-label>
+      </ion-tab-button>
 
       <ion-tab-button tab="payments" layout="icon-start">
         <ion-icon class="not-current" src="assets/icons/payment-tab.svg"></ion-icon>
@@ -58,6 +64,12 @@
         <ion-icon class="icon-selected" src="assets/icons/invitation-selected.svg"></ion-icon>
         <ion-label>{{ 'Invitation' | translate }}</ion-label>
         <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
+      </ion-tab-button>
+
+      <ion-tab-button tab="track">
+        <ion-icon class="not-current" src="assets/icons/track-tab.svg"></ion-icon>
+        <ion-icon class="icon-selected" src="assets/icons/track-selected.svg"></ion-icon>
+        <ion-label>{{ 'Track' | translate }}</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="payments">

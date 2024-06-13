@@ -43,6 +43,7 @@
         </ion-card>
       </ng-container>
     </div>
+    
     <p *ngIf="!candidateWorkingHourData">No record found</p>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

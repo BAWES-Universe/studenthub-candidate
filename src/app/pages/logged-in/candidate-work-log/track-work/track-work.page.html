@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar class="max-width">
+    <ion-title>Track Work</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="max-width">
+    <div class="current-datetime">
+      <b class="time">09:23 AM</b> <br />
+      <span class="date">Tue, Apr 23</span>
+    </div>
+
+    <div class="btn-wrapper">
+      <button class="btn-track btn-track-tracking" (click)="toggleTrack()">
+        <ion-ripple-effect></ion-ripple-effect>
+
+        <!-- <span>Start</span>  
+        <span>Tracking</span> -->
+
+        <span class="end">End</span>
+        <span class="txt-time">00:00:01</span>
+      </button>
+    </div>
+
+    <ion-button fill="clear" (click)="addManually()">
+      Manual Logging
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+
+    <div class="stats">
+      <div> 
+        <b>00:00</b>  
+        <span>Check-in</span>
+      </div>
+      <div>
+        <b>00:00</b>  
+        <span>Check-out</span>
+      </div>
+      <div>
+        <b>00:00</b>  
+        <span>Total hours</span>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="session-wrapper">
+
+      <h5 class="txt-session-heading">Sessions <span>(2)</span></h5>
+
+      <p>
+        <b>01:27:46</b>  
+        <span>11:17 am <ion-icon name="arrow-forward-outline"></ion-icon> 11:17 am </span>
+      </p>
+    </div>
+  </div>
+</ion-content>

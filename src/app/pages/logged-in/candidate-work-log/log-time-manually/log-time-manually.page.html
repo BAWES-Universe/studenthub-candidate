@@ -1,0 +1,37 @@
+<ion-content>
+
+  <h5>Log Time</h5>
+  
+  <button class="btn-close" (click)="close()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item line="none">
+          <ion-label position="floating">Check-in</ion-label>
+          <ion-input value="9:23 AM"></ion-input>
+          <ion-icon slot="end" name="time-outline"></ion-icon>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item line="none">
+          <ion-label position="floating">Check-out</ion-label>
+          <ion-input value="9:23 AM"></ion-input>
+          <ion-icon slot="end" name="time-outline"></ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+   
+  <ion-item line="none">
+    <ion-label position="floating">Notes</ion-label>
+    <ion-textarea value="Sorry I forgot to log my time in the morning as I came later than usual."></ion-textarea>
+  </ion-item>
+ 
+  <ion-button class="btn-submit">
+    Submit Time
+  </ion-button>
+</ion-content>
