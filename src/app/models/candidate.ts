@@ -80,6 +80,8 @@ export class CandidateWorkingHour {
     start_location_long: string;
     end_location_lat: string;
     end_location_long: string;
+    note: string;
+    status: number;
     created_at: string;
     updated_at: string;
     dateListByCandidate: any[];

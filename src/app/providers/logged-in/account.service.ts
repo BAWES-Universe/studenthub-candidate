@@ -388,6 +388,10 @@ export class AccountService {
     return this._authhttp.post(this._accountEndpoint + '/update-profile-url', params);
   }
 
+  discardSession() : Observable<any> {
+    return this._authhttp.delete(this._accountEndpoint + '/discard-session');
+  }
+
   startWork(lat, long): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/start-time', {lat, long});
   }

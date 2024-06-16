@@ -49,6 +49,10 @@ ion-content {
         }
     }
 
+    .btn-track:disabled {
+        opacity: 0.7;
+    }
+
     .btn-track-tracking {
         width: 112px;
         height: 112px;

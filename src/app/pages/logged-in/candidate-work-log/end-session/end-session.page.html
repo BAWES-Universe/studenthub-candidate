@@ -10,11 +10,11 @@
   <p>Do you want to end and submit this session? you can start more sessions later.</p>
 
   <div class="btn-wrapper">
-    <ion-button class="btn-end"  fill="outline" color="danger">
+    <ion-button class="btn-end" (click)="close({ discard: true })"  fill="outline" color="danger">
       End & Discard
     </ion-button>
   
-    <ion-button class="btn-submit">
+    <ion-button class="btn-submit" (click)="close({ submit: true })">
       Stop & Submit
     </ion-button>
   </div>

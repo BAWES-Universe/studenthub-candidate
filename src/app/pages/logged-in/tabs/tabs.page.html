@@ -31,7 +31,7 @@
         <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
  
-      <ion-tab-button tab="track" layout="icon-start">
+      <ion-tab-button tab="track" layout="icon-start" *ngIf="authService.candidate && authService.candidate.store_id">
         <ion-icon class="not-current" src="assets/icons/track-tab.svg"></ion-icon>
         <ion-icon class="icon-selected" src="assets/icons/track-selected.svg"></ion-icon>
         <ion-label>{{ 'Track' | translate }}</ion-label>
@@ -66,7 +66,7 @@
         <ion-badge *ngIf="authService.invitationCount > 0">{{ authService.invitationCount }}</ion-badge>
       </ion-tab-button>
 
-      <ion-tab-button tab="track">
+      <ion-tab-button tab="track" *ngIf="authService.candidate && authService.candidate.store_id">
         <ion-icon class="not-current" src="assets/icons/track-tab.svg"></ion-icon>
         <ion-icon class="icon-selected" src="assets/icons/track-selected.svg"></ion-icon>
         <ion-label>{{ 'Track' | translate }}</ion-label>

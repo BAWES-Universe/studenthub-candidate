@@ -1,26 +1,42 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar class="max-width">
     <ion-title>Track Work</ion-title>
   </ion-toolbar>
 </ion-header>
-
+-->
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="max-width">
-    <div class="current-datetime">
-      <b class="time">09:23 AM</b> <br />
-      <span class="date">Tue, Apr 23</span>
+    <div class="current-datetime" *ngIf="today">
+      <b class="time">{{ today | date: "hh:mm a": undefined: translateService.currentLang}}
+        </b> <br />
+      <span class="date">
+        {{ today | date: "EEE, MMM d": undefined: translateService.currentLang}}
+      </span>
     </div>
 
     <div class="btn-wrapper">
-      <button class="btn-track btn-track-tracking" (click)="toggleTrack()">
+      <button [disabled]="savingHours || startingWork" class="btn-track" [ngClass]="{'btn-track-tracking': started }" (click)="toggleTrack()">
         <ion-ripple-effect></ion-ripple-effect>
 
-        <!-- <span>Start</span>  
-        <span>Tracking</span> -->
+        <ion-spinner *ngIf="savingHours || startingWork"></ion-spinner>
 
-        <span class="end">End</span>
-        <span class="txt-time">00:00:01</span>
+        <ng-container *ngIf="!savingHours && !startingWork">
+          <ng-container *ngIf="!started">
+            <span>Start</span>  
+            <span>Tracking</span>  
+          </ng-container>
+
+          <ng-container *ngIf="started">
+            <span class="end">End</span>
+            <span class="txt-time">{{ started | timer }}</span>
+          </ng-container>
+        </ng-container>
+
       </button>
     </div>
 
@@ -31,29 +47,43 @@
 
     <div class="stats">
       <div> 
-        <b>00:00</b>  
+        <b *ngIf="stats && stats.checkIn">{{ 
+          translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</b>  
+        <b *ngIf="!stats || !stats.checkIn">00:00</b>
         <span>Check-in</span>
       </div>
       <div>
-        <b>00:00</b>  
+        <b *ngIf="stats && stats.checkOut">{{ translateService.toDate(stats.checkOut) | date: "shortTime": undefined: translateService.currentLang }}</b>  
+        <b *ngIf="!stats || !stats.checkOut">00:00</b>
         <span>Check-out</span>
       </div>
       <div>
-        <b>00:00</b>  
+        <b *ngIf="stats && stats.totalTime">{{ secondsToTime(stats.totalTime) }}</b>  
+        <b *ngIf="!stats || !stats.totalTime">00:00</b>
         <span>Total hours</span>
       </div>
     </div>
 
     <div class="clearfix"></div>
 
-    <div class="session-wrapper">
+    <div class="session-wrapper" *ngIf="totalCount > 0">
 
-      <h5 class="txt-session-heading">Sessions <span>(2)</span></h5>
+      <h5 class="txt-session-heading">Sessions <span>({{ totalCount }})</span></h5>
 
-      <p>
-        <b>01:27:46</b>  
-        <span>11:17 am <ion-icon name="arrow-forward-outline"></ion-icon> 11:17 am </span>
+      <p *ngFor="let hour of candidateWorkingHourData">
+        <b>{{ secondsToTime(hour.total_time) }}</b>  
+        <span>
+          {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+        </span>
       </p>
+
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content>
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      
     </div>
   </div>
 </ion-content>
