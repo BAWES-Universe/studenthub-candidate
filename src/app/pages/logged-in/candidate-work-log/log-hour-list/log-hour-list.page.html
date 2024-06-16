@@ -1,51 +1,76 @@
-<ion-header [translucent]="true" >
+<ion-header [translucent]="true" [collapse]="true">
   <ion-toolbar>
-    <ion-buttons [collapse]="true" slot="start">
-      <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="candidateWorkingHourData">{{candidateWorkingHourData.date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="candidateWorkingHourData">
+    <ion-title>{{ date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
-  <ion-header collapse="condense">
+  <ion-header *ngIf="candidateWorkingHourData" collapse="condense">
     <ion-toolbar>
-      <ion-buttons [collapse]="true" slot="start">
-        <ion-back-button defaultHref="/" text="{{'Back' | translate}}"></ion-back-button>
-      </ion-buttons>
-      <ion-title *ngIf="candidateWorkingHourData">{{candidateWorkingHourData.date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
+      <ion-title>{{ date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width">
-    <ion-list *ngIf="candidateWorkingHourData">
+    
+    <ion-card class="main-card" *ngIf="stats"> 
+      
+      <span class="txt-label">{{ "Total Time" | translate}}</span>
+    
+      <ion-badge class="warning" *ngIf="stats.status == 0">Pending</ion-badge>
+      <ion-badge class="success" *ngIf="stats.status == 1">Approved</ion-badge>
+      <ion-badge class="warning" *ngIf="stats.status == 2">Rejected</ion-badge>
 
-      <ion-card class="main-card">
-        <ion-card-content>
-          <h4>{{ "Total Time" | translate}}</h4>
-          <h3>{{secondsToTime(candidateWorkingHourData.total_time)}}</h3>
-          <ion-grid>
-            <ion-row>
-              <ion-col><span>{{"Start Time:" | translate}}</span> {{ translateService.toDate(getStartTime()) | date: "shortTime": undefined: translateService.currentLang}}</ion-col>
-              <ion-col><span>{{"End Time:" | translate}}</span> {{ translateService.toDate(getEndTime()) | date: "shortTime": undefined: translateService.currentLang}}</ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
+      <div class="clearfix"></div>
+      <h4 class="txt-time" *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</h4>  
+      <h4 class="txt-time" *ngIf="!stats || !stats.totalTime">00:00</h4>
 
-      <div class="lbl">{{"Session" | translate}} ({{candidateWorkingHourData.dateListByCandidate.length}})</div>
+      <div class="time-wrapper">
+        <div class="time-left">
+          <b>{{"Start Time:" | translate}}</b> 
 
-      <ng-container *ngFor="let hour of candidateWorkingHourData.dateListByCandidate">
-        <ion-card class="sub-card">
-          <ion-card-content>
-            <h3>{{secondsToTime(hour.total_time)}}</h3>
-            <span>{{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} -> 
-                {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang }}</span>
-          </ion-card-content>
-        </ion-card>
-      </ng-container>
-    </ion-list>
-    <p *ngIf="!candidateWorkingHourData">{{"No record found" | translate}}</p>
+          <span *ngIf="stats && stats.checkIn">{{ 
+            translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+          <span *ngIf="!stats || !stats.checkIn">00:00</span>
+        </div>  
+
+        <div class="time-right">
+          <b>{{"End Time:" | translate}}</b> 
+
+          <span *ngIf="stats && stats.checkOut">{{ translateService.toDate(stats.checkOut) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+          <span *ngIf="!stats || !stats.checkOut">00:00</span>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+
+    </ion-card>
+
+    <div class="session-wrapper" *ngIf="totalCount > 0">
+
+      <h5 class="txt-session-heading">Sessions <span>({{ totalCount }})</span></h5>
+
+      <p *ngFor="let hour of candidateWorkingHourData">
+        <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <span>
+          {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+        </span>
+      </p>
+
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content>
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+  
+    </div>
+
   </div>
 </ion-content>

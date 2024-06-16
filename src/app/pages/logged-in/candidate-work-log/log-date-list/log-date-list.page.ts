@@ -107,6 +107,7 @@ export class LogDateListPage implements OnInit {
       this.loading = false;
     });
   }
+  
   getStartTime(hour) {
     return hour.dateListByCandidate[0].start_time;
   }

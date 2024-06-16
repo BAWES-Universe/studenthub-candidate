@@ -1,67 +1,151 @@
+ion-content {
+  --padding-top: 25px;
+}
+
 .main-card {
-  h3 {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 28px;
-    text-align: center;
-    color: #23233D;
-    margin-top: 9px;
-    margin-bottom: 9px;
-  }
-  h4 {
-    font-family: 'Inter';
+  margin: 0;
+  padding: 16px;
+  border-radius: 8px;
+  --background: var(--Neutral-0, #FFF);
+  --box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.10);
+
+  ion-badge {
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    color: #7D7D8D;
+    line-height: 20px; /* 142.857% */
+    border-radius: 6px;
+    float: var(--end);
   }
-  ion-col {
-    font-family: 'Inter';
+
+  ion-badge.warning {
+    color: var(--Orange-Tint-8, #CA7F3E);
+    background: var(--Orange-Tint-1, #FFF7F0);
+  }
+  
+  ion-badge.success {
+    background: var(--Green-Tint-1, #EDFCF3);
+    color: var(--Green-Tint-Main, #29B564);
+  }
+
+  .txt-label {
+    color: var(--Neutral-70, #7D7D8D);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    color: #4B4B61;
-    span {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 20px;
-      color: #23233D;
-    }
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
   }
-}
-.lbl {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 28px;
-  margin: 0 19px;
-}
-.sub-card {
-  h3 {
-    font-family: 'Inter';
+
+  .time-wrapper {
+    border-top: 1px solid var(--Neutral-30, #EEEEF0);
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .txt-time {
+    color: var(--Neutral-95, #23233D);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 20px;
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
-    color: #23233D;
+    line-height: 28px; /* 140% */
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
-  span {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    color: #4B4B61;
+
+  .time-left, .time-right {
+    b {
+      color: var(--Neutral-95, #23233D);
+      font-weight: 600;
+      margin-inline-end: 4px;
+    }
+    
+    b, span {
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-size: 14px;
+      font-style: normal;
+      line-height: 20px; /* 142.857% */
+    }
+
+    span {
+      color: var(--Neutral-90, #4B4B61);
+      font-weight: 400;
+    }
+  }
+
+  .time-left {
+    float: var(--start);
+  }
+
+  .time-right {
+    float: var(--end);
   }
 }
-ion-list {
-  background: transparent;
+
+.session-wrapper {
+  margin-top: 24px;
+
+  .txt-session-heading {
+      color: var(--Neutral-95, #23233D);
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-family: Inter;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 28px; /* 155.556% */
+      border-top: 1px solid var(--Neutral-40, #E2E2E6);
+      padding-top: 24px;
+      text-align: var(--start);
+
+      span {
+          color: var(--Neutral-70, #7D7D8D);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-family: Inter;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 28px;
+      }
+  }
+
+  p {
+      height: 56px;
+      width: 100%;
+      padding: 16px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 8px;
+      border-radius: 8px;
+      background: var(--Neutral-0, #FFF);
+      box-shadow: 0px 0px 2px 0px rgba(35, 35, 38, 0.06), 0px 2px 4px 0px rgba(35, 35, 38, 0.06);
+
+      b { 
+          color: var(--Neutral-95, #23233D);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 24px; /* 150% */
+          float: var(--start);
+      }
+
+      span {
+          color: var(--Neutral-90, #4B4B61);
+          font-feature-settings: 'clig' off, 'liga' off;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 20px; /* 142.857% */
+          float: var(--end);
+
+          ion-icon {
+              margin: 0 8px;
+              position: relative;
+              top: 3px;
+          }
+      }
+  }
 }

@@ -9,7 +9,7 @@ const routes: Routes = [
     component: LogHourListPage
   },
   {
-    path: ':hour',
+    path: ':date',
     component: LogHourListPage
   }
 ];

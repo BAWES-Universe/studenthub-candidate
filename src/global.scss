@@ -29,10 +29,42 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+ion-toolbar,
 .max-width {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto; 
+}
+
+ion-toolbar ion-title {
+  padding-inline-start: 2px;
+}
+
+ion-content .max-width {
   margin-bottom: 50px;
+}
+
+ion-header {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  --background: #FFF;
+  background: #FFF;
+}
+
+ion-back-button {
+  --background: #F7F8FA;
+}
+
+.max-width {
+  background: #F7F8FA
+}
+
+ion-toolbar.max-width {
+  margin-bottom: 0px;
+}
+
+ion-content {
+  background: #F7F8FA;
+  --background: #F7F8FA;
 }
 
 .hidden {
@@ -170,14 +202,12 @@ ion-header.add-border:after {
       }
     }
   }
-  
-  .max-width {
-    background: #F7F8FA;
-  }
 
   ion-content {
-    background: #F7F8FA;
-    --background: #F7F8FA;
+    --padding-start: 25px;
+    --padding-end: 25px;
+    --padding-top: 25px;
+    --padding-bottom: 25px;
   }
 }
 

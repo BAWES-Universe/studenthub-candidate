@@ -58,7 +58,7 @@
         <span>Check-out</span>
       </div>
       <div>
-        <b *ngIf="stats && stats.totalTime">{{ secondsToTime(stats.totalTime) }}</b>  
+        <b *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</b>  
         <b *ngIf="!stats || !stats.totalTime">00:00</b>
         <span>Total hours</span>
       </div>
