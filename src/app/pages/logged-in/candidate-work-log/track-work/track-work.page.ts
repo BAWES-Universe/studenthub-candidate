@@ -265,6 +265,11 @@ export class TrackWorkPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+
+      if(e.data && e.data.refresh) {
+        this.loadSessions();
+        this.loadStats();
+      }
     });
     modal.present();
   }

@@ -15,8 +15,8 @@
             <ion-label position="floating">Check-in</ion-label>
             <ion-input formControlName="start_time"></ion-input>
 
-            <ion-button slot="end" (click)="selectStartDate($event)">
-              <ion-icon slot="end" name="time-outline"></ion-icon>
+            <ion-button slot="end" fill="clear" (click)="selectStartDate($event)">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
             </ion-button>
 
           </ion-item>
@@ -25,7 +25,9 @@
           <ion-item line="none">
             <ion-label position="floating">Check-out</ion-label>
             <ion-input formControlName="end_time"></ion-input>
-            <ion-icon slot="end" name="time-outline"></ion-icon>
+            <ion-button slot="end" fill="clear" (click)="selectEndDate($event)">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
           </ion-item>
         </ion-col>
       </ion-row>

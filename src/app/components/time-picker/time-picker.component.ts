@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-time-picker',
@@ -10,16 +11,24 @@ export class TimePickerComponent implements OnInit {
 
   public time;
 
-  constructor(public modalCtrl: ModalController) { }
+  constructor(public modalCtrl: PopoverController) { }
 
   ngOnInit() {}
 
   onChange(event) {
-    console.log(event);
+    this.time = format(parseISO(event.detail.value), 'hh:mm a')
+    //yyyy-MM-dd 
   }
 
   save() {
-    this.dismiss(this.time)
+
+    if(!this.time) {
+      this.time = format(parseISO((new Date()).toISOString()), 'hh:mm a')
+    }
+
+    this.dismiss({
+      time: this.time
+    })
   }
 
   dismiss(data = {}) {
