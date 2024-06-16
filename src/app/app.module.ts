@@ -52,8 +52,8 @@ import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
 import { KuwaitiNationalPageModule } from './pages/logged-in/kuwaiti-national/kuwaiti-national.module';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import * as Cloudinary from 'cloudinary-core';
+//import { CloudinaryModule } from '@cloudinary/angular-5.x';
+//import * as Cloudinary from 'cloudinary-core';
 
 import { registerLocaleData } from '@angular/common';
 import localeAr from '@angular/common/locales/ar-KW';
@@ -105,7 +105,7 @@ const config: AuthConfig = {
       }
     }),
     AuthModule.forRoot(config),
-    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
+    //CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

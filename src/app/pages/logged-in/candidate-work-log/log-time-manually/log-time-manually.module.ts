@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LogTimeManuallyPageRoutingModule } from './log-time-manually-routing.module';
 
 import { LogTimeManuallyPage } from './log-time-manually.page';
+import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { LogTimeManuallyPage } from './log-time-manually.page';
     IonicModule,
     //LogTimeManuallyPageRoutingModule
   ],
-  declarations: [LogTimeManuallyPage]
+  declarations: [LogTimeManuallyPage, TimePickerComponent]
 })
 export class LogTimeManuallyPageModule {}

@@ -14,7 +14,11 @@
           <ion-item line="none">
             <ion-label position="floating">Check-in</ion-label>
             <ion-input formControlName="start_time"></ion-input>
-            <ion-icon slot="end" name="time-outline"></ion-icon>
+
+            <ion-button slot="end" (click)="selectStartDate($event)">
+              <ion-icon slot="end" name="time-outline"></ion-icon>
+            </ion-button>
+
           </ion-item>
         </ion-col>
         <ion-col>

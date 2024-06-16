@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { Candidate, CandidateWorkingHour } from 'src/app/models/candidate';
 import { CandidateWorkingHourService } from 'src/app/providers/logged-in/candidate-working-hour.service';
+import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
 
 @Component({
   selector: 'app-log-time-manually',
@@ -21,6 +22,7 @@ export class LogTimeManuallyPage implements OnInit {
   public saving: boolean = false; 
 
   constructor(
+    public popoverCtrl: PopoverController,
     private _alertCtrl: AlertController,
     private _fb: FormBuilder, 
     public cwhService: CandidateWorkingHourService,
@@ -86,5 +88,31 @@ export class LogTimeManuallyPage implements OnInit {
     this.model.start_time = this.form.value.start_time;
     this.model.end_time = this.form.value.end_time;
     this.model.note = this.form.value.note;
+  }
+
+  async selectStartDate(event) {
+     
+    window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
+
+    const modal = await this.popoverCtrl.create({
+      component: TimePickerComponent, 
+      event: event,
+      componentProps: { 
+        time: this.form.value.start_time
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+ 
+      if (e.data && e.data.time) {
+        this.form.controls.start_time.setValue(e.data.time);
+        this.form.controls.start_time.updateValueAndValidity();
+      }
+    });
+    modal.present();
   }
 }
