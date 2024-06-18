@@ -145,11 +145,6 @@ ion-card.success {
 .bank-card ion-card-content{
     padding-left: 24px;
 }
-@media only screen and (max-width: 860px) {
-    ion-content .max-width {
-        padding: 24px;
-    }
-}
 h3 {
     font-family: 'effraLight', sans-serif !important;
     --ion-font-family: 'effraLight', sans-serif !important;

@@ -85,4 +85,9 @@ export class CandidateWorkingHour {
     created_at: string;
     updated_at: string;
     dateListByCandidate: any[];
+    checkIn: string;
+    checkOut: string;
+    dateStatus: number;
+    lastSession: CandidateWorkingHour;
+    firstSession: CandidateWorkingHour;
 }

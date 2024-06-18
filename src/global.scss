@@ -39,8 +39,12 @@ ion-toolbar ion-title {
   padding-inline-start: 2px;
 }
 
-ion-content .max-width {
-  margin-bottom: 50px;
+ion-content {
+  --padding-top: 25px;
+
+  .max-width {
+    margin-bottom: 50px;
+  }
 }
 
 ion-header {
@@ -196,11 +200,15 @@ ion-header.add-border:after {
         line-height: 48px;
         letter-spacing: -0.5px;
         color: #23233D;
-        padding-left: 32px;
-        padding-right: 32px;
+        //padding-left: 32px;
+        //padding-right: 32px;
         align-items: center;
       }
     }
+  }
+
+  ion-toolbar {
+    --padding-start: 25px;
   }
 
   ion-content {

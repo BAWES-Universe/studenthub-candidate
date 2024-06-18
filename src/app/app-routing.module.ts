@@ -357,10 +357,8 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/education-form/education-form.module').then( m => m.EducationFormPageModule)
   },
+  
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },  {
     path: 'track-work',
     loadChildren: () => import('./pages/logged-in/candidate-work-log/track-work/track-work.module').then( m => m.TrackWorkPageModule)
   },
@@ -371,6 +369,11 @@ const routes: Routes = [
   {
     path: 'end-session',
     loadChildren: () => import('./pages/logged-in/candidate-work-log/end-session/end-session.module').then( m => m.EndSessionPageModule)
+  },
+  
+  {
+    path: '**',
+    redirectTo: 'not-found'
   },
 
 

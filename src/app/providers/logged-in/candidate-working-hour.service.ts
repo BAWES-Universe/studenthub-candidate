@@ -17,8 +17,8 @@ export class CandidateWorkingHourService {
    * Return invitations
    * @returns {Observable<any>}
    */
-  list(page: number): Observable<any>{
-    const url = this._endpoint + '/date?page=' + page + '&expand=company,dateListByCandidate';
+  list(page: number, params = '&expand=company,dateListByCandidate'): Observable<any>{
+    const url = this._endpoint + '/date?page=' + page + params;
     return this._authhttp.get(url, true);
   }
 
