@@ -10,6 +10,7 @@ import { TrackWorkPage } from './track-work.page';
 import { LogTimeManuallyPageModule } from '../log-time-manually/log-time-manually.module';
 import { EndSessionPageModule } from '../end-session/end-session.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     PipesModule,
     IonicModule,
+    TranslateModule.forChild(),
     LogTimeManuallyPageModule,
     TrackWorkPageRoutingModule,
     EndSessionPageModule,

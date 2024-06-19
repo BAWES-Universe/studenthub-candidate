@@ -8,6 +8,7 @@ import { LogTimeManuallyPageRoutingModule } from './log-time-manually-routing.mo
 
 import { LogTimeManuallyPage } from './log-time-manually.page';
 import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
+    TranslateModule.forChild(),
     //LogTimeManuallyPageRoutingModule
   ],
   declarations: [LogTimeManuallyPage, TimePickerComponent]

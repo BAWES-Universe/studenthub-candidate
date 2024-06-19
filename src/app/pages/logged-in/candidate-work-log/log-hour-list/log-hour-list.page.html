@@ -23,9 +23,9 @@
       
       <span class="txt-label">{{ "Total Time" | translate}}</span>
     
-      <ion-badge class="warning" *ngIf="stats.status == 0">Pending</ion-badge>
-      <ion-badge class="success" *ngIf="stats.status == 1">Approved</ion-badge>
-      <ion-badge class="warning" *ngIf="stats.status == 2">Rejected</ion-badge>
+      <ion-badge class="warning" *ngIf="stats.status == 0">{{ "Pending" | translate }}</ion-badge>
+      <ion-badge class="success" *ngIf="stats.status == 1">{{ "Approved" | translate }}</ion-badge>
+      <ion-badge class="warning" *ngIf="stats.status == 2">{{ "Rejected" | translate }}</ion-badge>
 
       <div class="clearfix"></div>
       <h4 class="txt-time" *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</h4>  
@@ -33,7 +33,7 @@
 
       <div class="time-wrapper">
         <div class="time-left">
-          <b>{{"Start Time:" | translate}}</b> 
+          <b>{{ "Start Time:" | translate}}</b> 
 
           <span *ngIf="stats && stats.checkIn">{{ 
             translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</span>  
@@ -54,7 +54,7 @@
 
     <div class="session-wrapper" *ngIf="totalCount > 0">
 
-      <h5 class="txt-session-heading">Sessions <span>({{ totalCount }})</span></h5>
+      <h5 class="txt-session-heading">{{ "Sessions" | translate }} <span>({{ totalCount }})</span></h5>
 
       <p *ngFor="let hour of candidateWorkingHourData">
         <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->

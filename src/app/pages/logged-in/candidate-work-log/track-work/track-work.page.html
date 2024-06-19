@@ -27,12 +27,12 @@
 
         <ng-container *ngIf="!savingHours && !startingWork">
           <ng-container *ngIf="!started">
-            <span>Start</span>  
-            <span>Tracking</span>  
+            <span>{{ "Start" | translate }}</span>  
+            <span>{{ "Tracking" | translate }}</span>  
           </ng-container>
 
           <ng-container *ngIf="started">
-            <span class="end">End</span>
+            <span class="end">{{ "End" | translate }}</span>
             <span class="txt-time">{{ started | timer }}</span>
           </ng-container>
         </ng-container>
@@ -41,7 +41,7 @@
     </div>
 
     <ion-button fill="clear" (click)="addManually()">
-      Manual Logging
+      {{ "Manual Logging" | translate }}
       <ion-icon name="chevron-forward-outline"></ion-icon>
     </ion-button>
 
@@ -50,17 +50,17 @@
         <b *ngIf="stats && stats.checkIn">{{ 
           translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</b>  
         <b *ngIf="!stats || !stats.checkIn">00:00</b>
-        <span>Check-in</span>
+        <span>{{ "Check-in" | translate }}</span>
       </div>
       <div>
         <b *ngIf="stats && stats.checkOut">{{ translateService.toDate(stats.checkOut) | date: "shortTime": undefined: translateService.currentLang }}</b>  
         <b *ngIf="!stats || !stats.checkOut">00:00</b>
-        <span>Check-out</span>
+        <span>{{ "Check-out" | translate }}</span>
       </div>
       <div>
         <b *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</b>  
         <b *ngIf="!stats || !stats.totalTime">00:00</b>
-        <span>Total hours</span>
+        <span>{{ "Total hours" | translate }}</span>
       </div>
     </div>
 
@@ -68,7 +68,7 @@
 
     <div class="session-wrapper" *ngIf="totalCount > 0">
 
-      <h5 class="txt-session-heading">Sessions <span>({{ totalCount }})</span></h5>
+      <h5 class="txt-session-heading">{{ "Sessions" | translate }} <span>({{ totalCount }})</span></h5>
 
       <p *ngFor="let hour of candidateWorkingHourData">
         <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->

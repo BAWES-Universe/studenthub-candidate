@@ -5,10 +5,11 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-title>{{"Time Log" | translate}}</ion-title>
+    <ion-title>{{ "Time Log" | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+  
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-buttons [collapse]="true" slot="start">
@@ -37,9 +38,15 @@
     <div class="date-wrapper" tappable *ngFor="let hour of candidateWorkingHourData" [routerLink]="'/log-hour-list/' + hour.date">
       <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
       
-      <ion-badge class="warning" *ngIf="hour.dateStatus == 0">Pending</ion-badge>
-      <ion-badge class="success" *ngIf="hour.dateStatus == 1">Approved</ion-badge>
-      <ion-badge class="warning" *ngIf="hour.dateStatus == 2">Rejected</ion-badge>
+      <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
+        {{ "Pending" | translate }}
+      </ion-badge>
+      <ion-badge class="success" *ngIf="hour.dateStatus == 1">
+        {{ "Approved" | translate }}
+      </ion-badge>
+      <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
+        {{ "Rejected" | translate }}
+      </ion-badge>
 
       <div class="clearfix"></div>
 
@@ -54,7 +61,9 @@
     </div>
     
     <!-- todo: replace with placeholder image -->
-    <p *ngIf="candidateWorkingHourData.length == 0 && !loading">No record found</p>
+    <p *ngIf="candidateWorkingHourData.length == 0 && !loading">
+      {{ "No record found" | translate }}
+    </p>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content>
