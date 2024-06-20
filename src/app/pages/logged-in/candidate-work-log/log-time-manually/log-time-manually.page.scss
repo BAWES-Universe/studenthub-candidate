@@ -39,7 +39,8 @@ h5 {
     }
 }
 
-.rtl .btn-close {
+
+[dir="rtl"] .btn-close {
     right: auto;
     left: 24px;
 }

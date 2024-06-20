@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 -->
-<ion-content>
+<ion-content [attr.dir]="translateService.direction()">
 
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>

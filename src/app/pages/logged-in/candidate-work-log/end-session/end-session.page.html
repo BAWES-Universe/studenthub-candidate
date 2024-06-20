@@ -1,5 +1,5 @@
  
-<ion-content>
+<ion-content [attr.dir]="translateService.direction()">
   <h5>{{ "End Session?" | translate }}</h5>
   
   <button class="btn-close" (click)="close()">

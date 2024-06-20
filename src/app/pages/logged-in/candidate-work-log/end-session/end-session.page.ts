@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 //services
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 export class EndSessionPage implements OnInit {
   
   constructor(
+    public translateService: TranslateLabelService,
     public analyticsService: AnalyticsService,
     public modalCtrl: ModalController) { }
 
