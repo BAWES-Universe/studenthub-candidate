@@ -48,7 +48,19 @@ const routes: Routes = [
           },
         ]
       },
-      
+      {
+        path: 'discounts',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../discounts/discounts.module').then(m => m.DiscountsPageModule),
+            canActivate: [AuthService], 
+            data: {
+              preload: true
+            }
+          },
+        ]
+      },
       {
         path: 'profile',
         children: [

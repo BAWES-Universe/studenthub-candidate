@@ -182,6 +182,7 @@ export class AppModule {
 
   constructor(public injector: Injector) {
     AppModule.injector = injector;
+    
     registerLocaleData(localeAr, 'ar');
   }
 }

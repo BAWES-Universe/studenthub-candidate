@@ -374,7 +374,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'discounts',
+    loadChildren: () => import('./pages/logged-in/discounts/discounts.module').then( m => m.DiscountsPageModule)
   },
+
 
 
 ];
