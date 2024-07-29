@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 //services
 import { AuthHttpService } from './authhttp.service';
+import { CandidateWorkingHour } from 'src/app/models/candidate';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,19 @@ export class CandidateWorkingHourService {
    * Return invitations
    * @returns {Observable<any>}
    */
-  list(page: number): Observable<any>{
-    const url = this._endpoint + '/date?page=' + page + '&expand=company,dateListByCandidate';
+  list(page: number, params = '&expand=company,dateListByCandidate'): Observable<any>{
+    const url = this._endpoint + '/date?page=' + page + params;
     return this._authhttp.get(url, true);
+  }
+
+  /**
+   * add session manually 
+   * @param model 
+   * @returns 
+   */
+  add(model: CandidateWorkingHour): Observable<any>{
+    const url = this._endpoint;
+    return this._authhttp.post(url, model);
   }
 
   /**
@@ -30,11 +41,16 @@ export class CandidateWorkingHourService {
     return this._authhttp.get(url);
   }
 
+  stats(date): Observable<any>{
+    const url = `${this._endpoint}/stats?${date}`;
+    return this._authhttp.get(url);
+  }
+
   /**
    * Return invitations
    * @returns {Observable<any>}
    */
-  listByHour(page: number,param = null): Observable<any>{
+  listHours(page: number, param = null): Observable<any>{
     const url = this._endpoint + `/hour?page=${page}&expand=store,store.company${param}`;
     return this._authhttp.get(url, true);
   }

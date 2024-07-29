@@ -6,6 +6,7 @@ import { Country } from './country';
 import { CandidateExperience } from './candidate.experience';
 import { CandidateSkill } from './candidate.skill';
 import { Area } from './area';
+import { CandidateEducation } from './candidate-education';
  
 export class Candidate {
     employee_id:number;
@@ -63,6 +64,7 @@ export class Candidate {
     area: Area;    
     nationality: Country;
     bank: Bank;
+    candidateEducations: CandidateEducation[];
     candidateExperiences: CandidateExperience[];
     candidateSkills: CandidateSkill[];
 }
@@ -78,7 +80,14 @@ export class CandidateWorkingHour {
     start_location_long: string;
     end_location_lat: string;
     end_location_long: string;
+    note: string;
+    status: number;
     created_at: string;
     updated_at: string;
     dateListByCandidate: any[];
+    checkIn: string;
+    checkOut: string;
+    dateStatus: number;
+    lastSession: CandidateWorkingHour;
+    firstSession: CandidateWorkingHour;
 }

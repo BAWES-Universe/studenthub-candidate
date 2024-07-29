@@ -1,0 +1,49 @@
+
+.category-wrapper {
+    /*.category {
+        position: relative;
+        width: 250px; /* or any specific width *
+        height: 250px; /* 1:1 aspect ratio *
+        
+        ion-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* optional, to handle the aspect ratio *
+        }
+    }*/
+    .category.selected {
+        //outline: 1px solid var(--ion-color-primary);
+        --background: var(--ion-color-primary);
+        --color: var(--ion-color-primary-contrast);
+    }
+    
+}
+
+.card-discount {
+
+    ion-card-header {
+        background: #eee;
+
+        ion-item {
+            --padding-start: 0
+        }
+    }
+
+    ion-card-content {
+        padding-top: 16px;
+    }
+
+    ion-img {
+        width: 100%; /* or any specific width you need */
+        aspect-ratio: 1 / 1;
+        object-fit: cover; /* optional, to handle the aspect ratio */
+    }
+}
+
+ion-grid {
+    margin-left: -15px;
+    margin-right: -15px;
+}

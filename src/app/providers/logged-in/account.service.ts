@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 //services
 import { AuthHttpService } from './authhttp.service';
 //models
-import { Candidate } from 'src/app/models/candidate';
+//import { Candidate } from 'src/app/models/candidate';
 
 
 @Injectable({
@@ -16,13 +16,18 @@ export class AccountService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
+   * @returns Candidate
    * load profile details
    */
   profile(): Observable<any> {
-    const url = this._accountEndpoint + '/profile?expand=isWorking,bank,area,isProfileCompleted,nationality,country,university,candidateSkills,candidateExperiences,totalInterviewScheduled';
+    const url = this._accountEndpoint + '/profile?expand=candidateEducations,candidateEducations.major,candidateEducations.university,' +
+      'candidateEducations.degree,isWorking,bank,area,isProfileCompleted,nationality,country,university,candidateSkills,candidateExperiences,totalInterviewScheduled';
     return this._authhttp.get(url);
   }
 
+  /**
+   * @returns 
+   */
   profileWithBank(): Observable<any> {
     const url = this._accountEndpoint + '/profile?expand=bank';
     return this._authhttp.get(url);
@@ -381,6 +386,10 @@ export class AccountService {
 
   updateProfileUrl(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/update-profile-url', params);
+  }
+
+  discardSession() : Observable<any> {
+    return this._authhttp.delete(this._accountEndpoint + '/discard-session');
   }
 
   startWork(lat, long): Observable<any> {

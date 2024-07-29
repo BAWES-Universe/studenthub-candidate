@@ -1,0 +1,89 @@
+<!-- <ion-header>
+  <ion-toolbar class="max-width">
+    <ion-title>Track Work</ion-title>
+  </ion-toolbar>
+</ion-header>
+-->
+<ion-content [attr.dir]="translateService.direction()">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="max-width">
+    <div class="current-datetime" *ngIf="today">
+      <b class="time">{{ today | date: "hh:mm a": undefined: translateService.currentLang}}
+        </b> <br />
+      <span class="date">
+        {{ today | date: "EEE, MMM d": undefined: translateService.currentLang}}
+      </span>
+    </div>
+
+    <div class="btn-wrapper">
+      <button [disabled]="savingHours || startingWork" class="btn-track" [ngClass]="{'btn-track-tracking': started }" (click)="toggleTrack()">
+        <ion-ripple-effect></ion-ripple-effect>
+
+        <ion-spinner *ngIf="savingHours || startingWork"></ion-spinner>
+
+        <ng-container *ngIf="!savingHours && !startingWork">
+          <ng-container *ngIf="!started">
+            <span>{{ "Start" | translate }}</span>  
+            <span>{{ "Tracking" | translate }}</span>  
+          </ng-container>
+
+          <ng-container *ngIf="started">
+            <span class="end">{{ "End" | translate }}</span>
+            <span class="txt-time">{{ started | timer }}</span>
+          </ng-container>
+        </ng-container>
+
+      </button>
+    </div>
+
+    <ion-button fill="clear" (click)="addManually()">
+      {{ "Manual Logging" | translate }}
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+
+    <div class="stats">
+      <div> 
+        <b *ngIf="stats && stats.checkIn">{{ 
+          translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</b>  
+        <b *ngIf="!stats || !stats.checkIn">00:00</b>
+        <span>{{ "Check-in" | translate }}</span>
+      </div>
+      <div>
+        <b *ngIf="stats && stats.checkOut">{{ translateService.toDate(stats.checkOut) | date: "shortTime": undefined: translateService.currentLang }}</b>  
+        <b *ngIf="!stats || !stats.checkOut">00:00</b>
+        <span>{{ "Check-out" | translate }}</span>
+      </div>
+      <div>
+        <b *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</b>  
+        <b *ngIf="!stats || !stats.totalTime">00:00</b>
+        <span>{{ "Total hours" | translate }}</span>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="session-wrapper" *ngIf="totalCount > 0">
+
+      <h5 class="txt-session-heading">{{ "Sessions" | translate }} <span>({{ totalCount }})</span></h5>
+
+      <p *ngFor="let hour of candidateWorkingHourData">
+        <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <span>
+          {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+        </span>
+      </p>
+
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content>
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      
+    </div>
+  </div>
+</ion-content>

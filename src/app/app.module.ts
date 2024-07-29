@@ -34,6 +34,7 @@ import { GenderPageModule } from './pages/logged-in/gender/gender.module';
 import { DrivingLicensePageModule } from './pages/logged-in/driving-license/driving-license.module';
 import { UploadCvPageModule } from './pages/logged-in/upload-cv/upload-cv.module';
 import { PhotoActionModule } from './components/photo-action/photo-action.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { DocumentPicker } from '@awesome-cordova-plugins/document-picker/ngx';
 import { UpdateEmailPageModule } from './pages/logged-in/update-email/update-email.module';
@@ -51,8 +52,8 @@ import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
 import { UploadVideoPageModule } from './pages/logged-in/upload-video/upload-video.module';
 import { KuwaitiNationalPageModule } from './pages/logged-in/kuwaiti-national/kuwaiti-national.module';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import * as Cloudinary from 'cloudinary-core';
+//import { CloudinaryModule } from '@cloudinary/angular-5.x';
+//import * as Cloudinary from 'cloudinary-core';
 
 import { registerLocaleData } from '@angular/common';
 import localeAr from '@angular/common/locales/ar-KW';
@@ -95,6 +96,7 @@ const config: AuthConfig = {
   entryComponents: [],
   imports: [
     HttpClientModule,
+    CKEditorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -103,7 +105,7 @@ const config: AuthConfig = {
       }
     }),
     AuthModule.forRoot(config),
-    CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
+    //CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'studenthub' }),
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -180,6 +182,7 @@ export class AppModule {
 
   constructor(public injector: Injector) {
     AppModule.injector = injector;
+    
     registerLocaleData(localeAr, 'ar');
   }
 }

@@ -104,3 +104,6 @@ https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheats
 # google analytics 
 
 https://www.ultimateakash.com/blog-details/Ii1DRGAKYAo=/How-To-Integrate-Google-Analytics-in-Angular-2022
+
+# todo
+- replace university_id with candidate_education 

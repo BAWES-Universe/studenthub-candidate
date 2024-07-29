@@ -1,0 +1,58 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="max-width ">
+
+    <ion-back-button slot="start" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+
+    <ion-title>
+      {{ "Support" | translate }}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="showTicketForm()">
+        {{ "Request support" | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="max-width ">
+     
+    <ion-card class="status-{{ ticket.ticket_status }}" [routerLink]="'/ticket-view/' + ticket.ticket_uuid" *ngFor="let ticket of tickets">
+      <ion-card-content>
+        <ion-badge color="warning" *ngIf="ticket.ticket_status == 0">
+          {{ "Pending" | translate }}
+        </ion-badge>
+        <ion-badge *ngIf="ticket.ticket_status == 1">
+          {{ "In Progress" | translate }}
+        </ion-badge>
+        <ion-badge color="success" *ngIf="ticket.ticket_status == 10">
+          {{ "Completed" | translate }}
+        </ion-badge>
+        <p [innerHtml]="ticket.ticket_detail"></p>
+      </ion-card-content>
+      <ion-card-header>
+        <p *ngIf="ticket.staff">{{ "txt_assigned_to" | translate : { staff: ticket.staff.staff_name } }} </p>
+        <p>
+          {{ "txt_last_updated_on" | translate : { 
+                time: translateService.toDate(ticket.updated_at) | date : 'dd MMM - h:mm a'
+              } 
+          }}       
+          <small><ion-icon name="time-outline"></ion-icon> {{ translateService.toDate(ticket.created_at) | date : 'dd MMM - h:mm a' }}</small>
+        </p>
+      </ion-card-header>
+    </ion-card>
+
+    <no-items *ngIf="!loading && tickets.length == 0" icon="chatbox-outline" message="{{ 'No tickets yet!' | translate }}">
+    </no-items>
+    
+    <loading-modal type="ticket-list" [loading]="loading"></loading-modal>
+
+    <ion-infinite-scroll threshold="100px" *ngIf="currentPage < totalPages" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

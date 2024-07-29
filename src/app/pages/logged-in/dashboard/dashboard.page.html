@@ -18,6 +18,16 @@
 
       <div *ngIf="candidate">
 
+        <ion-card class="card-bank-details">
+          <ion-card-header class="white-bg">
+            <ion-card-title>{{ "Support" | translate}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button [routerLink]="'/support'" fill="outline" class="btn-video-recording">
+              {{ "File a Complain" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
+        
         <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
           *ngIf="authService.showOneSignalPrompt && pushNotificationAvailable">
           <ion-card-header class="white-bg">
@@ -66,6 +76,7 @@
             <ion-button  (click)="updateVideo($event)" fill="outline" class="btn-video-recording">{{"I’d like to start recording" | translate }}</ion-button>
           </ion-card-content>
         </ion-card>
+
         <ion-card class="card-bank-details" *ngIf="candidate.working_hour_count && candidate.working_hour_count > 0">
           <ion-card-header class="white-bg">
             <ion-card-title>{{"Working logs" | translate}}</ion-card-title>
@@ -83,7 +94,7 @@
             <ion-button [routerLink]="'/wallet-balance'" fill="outline" class="btn-video-recording">{{"Click here to view your wallet balance" | translate }}</ion-button>
           </ion-card-content>
         </ion-card>
-
+ 
         <ion-card class="card-work-details" *ngIf="workHistory.length > 0">
           <ion-card-header class="white-bg">
             <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
@@ -109,6 +120,7 @@
             </ion-button>
           </ion-card-content>
         </ion-card>
+
       </div>
 
       <!--
@@ -137,5 +149,6 @@
   </div>
 
 </ion-content>
-
+<!--
 <app-working-counter></app-working-counter>
+-->

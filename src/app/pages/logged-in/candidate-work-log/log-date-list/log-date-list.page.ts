@@ -28,7 +28,7 @@ export class LogDateListPage implements OnInit {
   public currentPage = 1;
   public totalCount = 0;
 
-  public candidateWorkingHourData: CandidateWorkingHour[];
+  public candidateWorkingHourData: CandidateWorkingHour[] = [];
 
   constructor(
     public platform: Platform,
@@ -67,7 +67,7 @@ export class LogDateListPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    this.candidateWorkingHour.list(this.currentPage).subscribe(response => {
+    this.candidateWorkingHour.list(this.currentPage, '&expand=dateStatus,checkIn,checkOut').subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -94,7 +94,7 @@ export class LogDateListPage implements OnInit {
 
     this.currentPage++;
 
-    this.candidateWorkingHour.list(this.currentPage).subscribe(response => {
+    this.candidateWorkingHour.list(this.currentPage, '&expand=dateStatus,checkIn,checkOut').subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -107,6 +107,7 @@ export class LogDateListPage implements OnInit {
       this.loading = false;
     });
   }
+  
   getStartTime(hour) {
     return hour.dateListByCandidate[0].start_time;
   }

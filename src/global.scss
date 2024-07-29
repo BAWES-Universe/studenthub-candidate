@@ -29,10 +29,46 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+ion-toolbar,
 .max-width {
   max-width: 800px;
-  margin: 0 auto;
-  margin-bottom: 50px;
+  margin: 0 auto; 
+}
+
+ion-toolbar ion-title {
+  padding-inline-start: 2px;
+}
+
+ion-content {
+  --padding-top: 25px;
+
+  .max-width {
+    margin-bottom: 50px;
+  }
+}
+
+ion-header {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  --background: #FFF;
+  background: #FFF;
+}
+
+ion-back-button {
+  --background: #F7F8FA;
+}
+
+.max-width {
+  background: #F7F8FA
+}
+
+ion-toolbar.max-width {
+  margin-bottom: 0px;
+}
+
+ion-content {
+  background: #F7F8FA;
+  --background: #F7F8FA;
 }
 
 .hidden {
@@ -164,20 +200,22 @@ ion-header.add-border:after {
         line-height: 48px;
         letter-spacing: -0.5px;
         color: #23233D;
-        padding-left: 32px;
-        padding-right: 32px;
+        //padding-left: 32px;
+        //padding-right: 32px;
         align-items: center;
       }
     }
   }
-  
-  .max-width {
-    background: #F7F8FA;
+
+  ion-toolbar {
+    --padding-start: 25px;
   }
 
   ion-content {
-    background: #F7F8FA;
-    --background: #F7F8FA;
+    --padding-start: 25px;
+    --padding-end: 25px;
+    --padding-top: 25px;
+    --padding-bottom: 25px;
   }
 }
 
@@ -205,6 +243,16 @@ ion-list {
   .modal-wrapper {
       height: 100%;
   }
+}
+
+.modal-sheet,
+.footer-modal {
+  --max-width: 800px;
+  --border-radius: 30px 30px 0px 0px !important;
+}
+ 
+.end-session-modal {
+  --height: 500px;
 }
 
 .grecaptcha-badge { 

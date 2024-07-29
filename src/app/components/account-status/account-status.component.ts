@@ -1,7 +1,6 @@
 import {Component, Output, EventEmitter, OnInit, Input} from '@angular/core';
 import {LoadingController, ModalController, ToastController} from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
-
+ 
 import {AuthService} from '../../providers/auth.service';
 import {AccountService} from '../../providers/logged-in/account.service';
 import {CompanyPage} from '../../pages/logged-in/company/company.page';
@@ -47,6 +46,11 @@ export class AccountStatusComponent implements OnInit {
 
     this.eventService.stopWork$.subscribe( async () => {
       this.stopWorking();
+    });
+
+    this.eventService.workStopped$.subscribe( async () => {
+      if(this.candidate) 
+        this.candidate.isWorking = null;
     });
   }
 
@@ -154,8 +158,6 @@ export class AccountStatusComponent implements OnInit {
         duration: 2000
       }).then(toast => toast.present());
     });
-
-
   }
 
   async stopWorking() {
@@ -194,6 +196,5 @@ export class AccountStatusComponent implements OnInit {
         duration: 2000
       }).then(toast => toast.present());
     });
-
   }
 }

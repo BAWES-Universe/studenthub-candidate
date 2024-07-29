@@ -71,12 +71,6 @@ p {
     }
 }
 
-@media only screen and (max-width: 750px) {
-    ion-content .max-width {
-        padding: 30px;
-    }
-}
-
 ion-list {
     margin: 0 -14px;
 
@@ -242,9 +236,8 @@ ion-label ion-item {
         top: calc(50% - 11px);
     }
 }
-.max-width {
-    margin-top: 27px;
-}
+
+
 .logout-btn {
     margin-top: 39px;
     position: relative;

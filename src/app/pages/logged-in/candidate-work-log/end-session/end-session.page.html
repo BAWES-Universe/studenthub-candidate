@@ -1,0 +1,24 @@
+ 
+<ion-content [attr.dir]="translateService.direction()">
+  <h5>{{ "End Session?" | translate }}</h5>
+  
+  <button class="btn-close" (click)="close()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <p>
+    {{ "Do you want to end and submit this session? you can start more sessions later." | translate }}
+  </p>
+
+  <div class="btn-wrapper">
+    <ion-button class="btn-end" (click)="close({ discard: true })"  fill="outline" color="danger">
+      {{ "End & Discard" | translate }}
+    </ion-button>
+  
+    <ion-button class="btn-submit" (click)="close({ submit: true })">
+      {{ "Stop & Submit" | translate }}
+    </ion-button>
+  </div>
+
+</ion-content>

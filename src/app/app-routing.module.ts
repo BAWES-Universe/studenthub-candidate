@@ -338,9 +338,49 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/interview/interview-view/interview-view.module').then( m => m.InterviewViewPageModule)
   },
   {
+    path: 'support',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-list/ticket-list.module').then( m => m.TicketListPageModule)
+  },
+  {
+    path: 'ticket-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-view/ticket-view.module').then( m => m.TicketViewPageModule)
+  },
+  {
+    path: 'ticket-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-form/ticket-form.module').then( m => m.TicketFormPageModule)
+  },
+  {
+    path: 'education-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/education-form/education-form.module').then( m => m.EducationFormPageModule)
+  },
+  
+  {
+    path: 'track-work',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/track-work/track-work.module').then( m => m.TrackWorkPageModule)
+  },
+  {
+    path: 'log-time-manually',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/log-time-manually/log-time-manually.module').then( m => m.LogTimeManuallyPageModule)
+  },
+  {
+    path: 'end-session',
+    loadChildren: () => import('./pages/logged-in/candidate-work-log/end-session/end-session.module').then( m => m.EndSessionPageModule)
+  },
+  
+  {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'discounts',
+    loadChildren: () => import('./pages/logged-in/discounts/discounts.module').then( m => m.DiscountsPageModule)
   },
+
+
+
 ];
 
 @NgModule({
