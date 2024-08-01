@@ -4,9 +4,10 @@ import { Observable, Observer } from 'rxjs';
 import * as AWS from 'aws-sdk';
 import { Platform, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { Filesystem, Encoding } from '@capacitor/filesystem';
 // services
 import { TranslateLabelService } from '../translate-label.service';
-import { Filesystem, Encoding } from '@capacitor/filesystem';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -18,9 +19,9 @@ export class AwsService {
     public cloudinaryUrl = environment.cloudinaryUrl;
 
     private _region = 'eu-west-2'; // London
-    private _access_key_uuid = 'AKIAWMITDJRKTSQ4T67K';
-    private _secret_access_key = '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';
-    private _bucket_name = 'studenthub-public-anyone-can-upload-24hr-expiry';
+    private _access_key_uuid = '';
+    private _secret_access_key = '';
+    private _bucket_name = '';
 
     public maxUploadSize = 18874368; // 18 MB
     public maxImageUploadSize = 5000000; // 5 MB //https://sentry.io/organizations/pogi/issues/1885937107/?project=168200&query=is%3Aunresolved&statsPeriod=14d
@@ -28,12 +29,44 @@ export class AwsService {
     public txtMaxUploadSize = '18MB';
 
     constructor(
+        private http: HttpClient,
         public platform: Platform,
         public alertController: AlertController,
         private _file: NativeFile,
         public translateService: TranslateLabelService,
     ) {
-        this.initAwsService();
+     //   this.initAwsService();
+    }
+
+    /**
+     * get temp aws access/ todo: can also get authorised link  
+     * @returns 
+     */
+    getConfig(): Observable<any> {
+        let url = environment.apiEndpoint + `/aws/config`;
+        return this.http.get(url);
+    }
+
+    /**
+     * @param config 
+     */
+    setConfig() {
+        return new Promise((resolve, reject) => {
+            this.getConfig().subscribe(config => {
+                this._region = config.region;
+                this._access_key_uuid = config.key;
+                this._secret_access_key = config.secret;
+                this._bucket_name = config.bucket;
+
+                AWS.config.region = this._region;
+                AWS.config.accessKeyId = this._access_key_uuid;
+                AWS.config.secretAccessKey = this._secret_access_key;
+
+                resolve(true);
+            }, err => {
+                reject(err);
+            });
+        });
     }
 
     /**

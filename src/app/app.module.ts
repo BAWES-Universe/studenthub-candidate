@@ -72,6 +72,11 @@ import { domain, clientId, callbackUri } from './auth.config';
 import {ProfileUrlPageModule} from "src/app/pages/logged-in/profile-url/profile-url.module";
 import { IntroductionPageModule } from './pages/logged-in/introduction/introduction.module';
 import { RequestViewPageModule } from './pages/logged-in/request/request-view/request-view.module';
+import { AwsService } from './providers/logged-in/aws.service';
+
+export function awsStartupServiceFactory(awsService) {
+  return () => awsService.setConfig();
+}
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -155,6 +160,13 @@ const config: AuthConfig = {
     RequestViewPageModule
   ],
   providers: [
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: awsStartupServiceFactory,
+      deps: [AwsService],
+      multi: true
+    },
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
