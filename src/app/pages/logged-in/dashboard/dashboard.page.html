@@ -18,6 +18,7 @@
 
       <div *ngIf="candidate">
 
+        <!--
         <ion-card class="card-bank-details">
           <ion-card-header class="white-bg">
             <ion-card-title>{{ "Support" | translate}}</ion-card-title>
@@ -26,7 +27,7 @@
             <ion-button [routerLink]="'/support'" fill="outline" class="btn-video-recording">
               {{ "File a Complain" | translate }}</ion-button>
           </ion-card-content>
-        </ion-card>
+        </ion-card>-->
         
         <ion-card class="card-notification" [class.pushNotificationAvailable]="pushNotificationAvailable"
           *ngIf="authService.showOneSignalPrompt && pushNotificationAvailable">
