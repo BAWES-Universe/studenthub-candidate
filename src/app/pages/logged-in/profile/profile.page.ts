@@ -73,10 +73,12 @@ export class ProfilePage implements OnInit {
     public toastCtrl: ToastController,
     public platform: Platform,
   ) {
-    this.update = location.href.indexOf('view/profile') > -1;
+    
   }
 
   ngOnInit() {
+    this.update = location.href.indexOf('view/profile') > -1;
+
     this.analyticsService.page('Profile page');
   }
 
@@ -122,6 +124,16 @@ export class ProfilePage implements OnInit {
         this.navCtrl.navigateRoot(['/']);
       }*/
 
+      if (window.history.state) {
+        if (window.history.state.updateCivilId) {
+          /*this.candidate.candidate_civil_photo_back = null;
+          this.candidate.candidate_civil_photo_front = null;
+          this.candidate.candidate_civil_expiry_date = null; 
+          this.candidate.candidate_civil_id = null;*/
+          this.updateCivilIdFront();
+        }
+      }
+      
       this.loading = false;
     }, () => {
       this.loading = false;
@@ -347,8 +359,23 @@ export class ProfilePage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
-      
-      this.checkIfIDAvaialable();
+       
+      if (e && e.data && e.data.refresh) {
+
+        //this.candidate.candidate_civil_photo_back = e.data.candidate.candidate_civil_photo_back;
+        this.candidate.candidate_civil_photo_front = e.data.candidate.candidate_civil_photo_front;
+        this.candidate.candidate_civil_expiry_date = e.data.candidate.candidate_civil_expiry_date;
+        this.candidate.candidate_civil_id = e.data.candidate.candidate_civil_id;
+        this.candidate.civilExpired = e.data.candidate.civilExpired;
+
+        if (!this.candidate.candidate_civil_photo_back || window.history.state.updateCivilId) {
+          setTimeout(() => {
+            this.updateCivilIdBack();
+          }, 200);
+        } else {
+          this.checkIfIDAvaialable();
+        }
+      }
     });
     modal.present();
   }
@@ -369,7 +396,21 @@ export class ProfilePage implements OnInit {
         window.history.back();
       }
 
-      this.checkIfIDAvaialable();
+      if (e && e.data && e.data.refresh) {
+        this.candidate.candidate_civil_photo_back = e.data.candidate.candidate_civil_photo_back;
+        //this.candidate.candidate_civil_photo_front = e.data.candidate.candidate_civil_photo_front;
+        this.candidate.candidate_civil_expiry_date = e.data.candidate.candidate_civil_expiry_date;
+        this.candidate.candidate_civil_id = e.data.candidate.candidate_civil_id;
+        this.candidate.civilExpired = e.data.candidate.civilExpired;
+        
+        if (!this.candidate.candidate_civil_photo_front) {
+          setTimeout(() => {
+            this.updateCivilIdFront();
+          }, 200)
+        } else {
+          this.checkIfIDAvaialable();
+        }
+      }
     });
     modal.present();
   }

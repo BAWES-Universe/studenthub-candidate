@@ -58,6 +58,19 @@
           </ion-card-content>
         </ion-card>
 
+        <ion-card class="card-bank-details" 
+          *ngIf="!candidate.candidate_civil_photo_front || !candidate.candidate_civil_photo_back 
+          || !candidate.candidate_civil_expiry_date || candidate.civilExpired" 
+          (click)="updateCivilID($event)">
+          <ion-card-header class="white-bg">
+            <ion-card-title [innerHTML]="'urgent_civil_detail' | translate"></ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ "You won’t be able to receive payments until we have your valid civil id to process your transfers." | translate }}</p>
+            <ion-button fill="outline" (click)="updateCivilID($event)" class="btn-civil-detail">{{ "Upload Civil ID" | translate }}</ion-button>
+          </ion-card-content>
+        </ion-card>
+
         <ion-card class="card-bank-details" *ngIf="candidate.bank_account_needed" (click)="updateBank($event)">
           <ion-card-header class="white-bg">
             <ion-card-title [innerHTML]="'urgent_bank_detail' | translate"></ion-card-title>

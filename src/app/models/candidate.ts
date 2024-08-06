@@ -54,6 +54,8 @@ export class Candidate {
     pendingField: any[];
     isWorking: CandidateWorkingHour;
 
+    civilExpired: any;
+    
     tempLocation: any; //temp profile photo location while photo upload 
     bank_account_needed: number; //temp profile photo location while photo upload
 

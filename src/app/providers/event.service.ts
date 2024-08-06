@@ -42,5 +42,7 @@ export class EventService {
   
   public locationUpdated$ = new Subject();
   
+  public civilUpdated$ = new Subject();
+  
   constructor() { }
 }

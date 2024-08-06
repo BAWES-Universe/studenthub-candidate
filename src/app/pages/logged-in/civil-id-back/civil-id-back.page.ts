@@ -21,6 +21,7 @@ import { CameraService } from 'src/app/providers/logged-in/camera.service';
 // components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class CivilIdBackPage implements OnInit {
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
     public accountService: AccountService,
+    public eventService: EventService,
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
@@ -401,6 +403,9 @@ export class CivilIdBackPage implements OnInit {
             
           } else  {
             
+            this.candidate.candidate_civil_photo_front = response.candidate_civil_photo_front;
+            this.candidate.civilExpired = response.civilExpired;
+
             this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
 
             //if(response.candidate_civil_expiry_date) {
@@ -413,7 +418,11 @@ export class CivilIdBackPage implements OnInit {
 
             clearInterval(this.interval);
             this.progress = 100;
+
+            this.eventService.civilUpdated$.next(response);
+
             this.dismiss({
+              refresh: true,
               candidate: this.candidate
             });
           }
@@ -453,8 +462,13 @@ export class CivilIdBackPage implements OnInit {
     this.accountService.updateCivilPhotoBack(this.form.value.civil_photo_back).subscribe(res => {
       this.saving = false;
 
+      this.eventService.civilUpdated$.next(res);
+
       if (res.operation == 'success') {
-        this.dismiss();
+        this.dismiss({
+          refresh: true,
+          ...res
+        });
       }
     }, () => {
       this.saving = false;
