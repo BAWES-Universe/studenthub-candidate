@@ -28,6 +28,7 @@ import { CameraService } from 'src/app/providers/logged-in/camera.service';
 // components
 import { PhotoActionComponent } from 'src/app/components/photo-action/photo-action';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class CivilIdFrontPage implements OnInit {
 
   public candidate: Candidate;
   public cloudinaryUrl;
+
   constructor(
     private _ngzone: NgZone,
     private _fb: FormBuilder,
@@ -64,6 +66,7 @@ export class CivilIdFrontPage implements OnInit {
     public actionSheetCtrl: ActionSheetController,
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
+    public eventService: EventService,
     public accountService: AccountService,
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
@@ -386,6 +389,7 @@ export class CivilIdFrontPage implements OnInit {
         this.form.controls.civil_photo_front_path.setValue(event.Location);
         this.form.controls.civil_photo_front.setValue(event.Key);
         this.form.controls.civil_photo_front.markAsDirty();
+
         this.form.updateValueAndValidity();
 
         this.accountService.updateCivilPhotoFront(event.Key).subscribe(async response => {
@@ -404,6 +408,10 @@ export class CivilIdFrontPage implements OnInit {
             this.progress = null;
 
           } else  {
+
+            this.candidate.candidate_civil_photo_back = response.candidate_civil_photo_back;
+            this.candidate.civilExpired = response.civilExpired;
+            
             this.candidate.candidate_civil_photo_front = response.candidate_civil_photo_front;
 
             //if(response.candidate_civil_expiry_date)
@@ -415,7 +423,11 @@ export class CivilIdFrontPage implements OnInit {
 
             clearInterval(this.interval);
             this.progress = 100;
+            
+            this.eventService.civilUpdated$.next(response);
+
             this.dismiss({
+              refresh: true,
               candidate: this.candidate
             });
           }
@@ -454,9 +466,16 @@ export class CivilIdFrontPage implements OnInit {
 
     this.accountService.updateCivilPhotoFront(this.form.value.civil_photo_front).subscribe(res => {
       this.saving = false;
-
+ 
       if (res.operation == 'success') {
-        this.dismiss();
+        this.eventService.civilUpdated$.next(res);
+
+        const data = {
+          refresh: true,
+          ...res
+        };
+ 
+        this.dismiss(data);
       }
     }, () => {
       this.saving = false;

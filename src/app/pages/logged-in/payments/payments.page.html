@@ -55,6 +55,8 @@
             {{"txt_transfer_pending" | translate : { company : salary.company_name, store : salary.store_name } }}</p>
           <p *ngIf="salary.status =='Unpaid'" class="pending-status">
             {{ "Transfer pending, please contact us if you don’t receive it" | translate}}</p>
+
+            
           <div *ngIf="salary.status =='Paid'">
             <span class="transfer-to">{{'Transferred to' | translate}}</span>
             <span class="name" *ngIf="salary.bank">{{salary.bank.bank_name}}</span>

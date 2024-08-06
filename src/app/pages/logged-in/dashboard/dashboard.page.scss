@@ -175,8 +175,9 @@ ion-card {
 app-invitation:last-child {
     margin-bottom: 10px;
 }
+
 .btn-bank-detail {
-    width: 215px;
+    min-width: 215px;
     height: 39px;
     flex-grow: 0;
     border-radius: 5px;

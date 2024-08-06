@@ -71,6 +71,17 @@ export class DashboardPage implements OnInit, OnDestroy {
 
     this.loadProfile();
 
+    this.eventService.civilUpdated$.subscribe((data: any) => {
+
+      if (this.candidate) {
+        this.candidate.candidate_civil_photo_back = data.candidate_civil_photo_back;
+        this.candidate.candidate_civil_photo_front = data.candidate_civil_photo_front;
+        this.candidate.candidate_civil_expiry_date = data.candidate_civil_expiry_date;
+        this.candidate.candidate_civil_id = data.candidate_civil_id;
+        this.candidate.civilExpired = data.civilExpired;
+      }
+    });
+
     this.eventService.bankUpdated$.subscribe((data: any) => {
 
       if (this.candidate) {
@@ -137,6 +148,17 @@ export class DashboardPage implements OnInit, OnDestroy {
     });
   }
 
+  updateCivilID(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.navCtrl.navigateForward('/view/profile', {
+      state: {
+        updateCivilId: true
+      }
+    });
+  }
+
   async updateBank($e) {
     $e.preventDefault();
     $e.stopPropagation();
@@ -192,7 +214,6 @@ export class DashboardPage implements OnInit, OnDestroy {
     });
     modal.present();
   }
-
 
   async downloadCertificate(event) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
