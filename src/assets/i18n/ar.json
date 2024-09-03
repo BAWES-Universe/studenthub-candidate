@@ -1,4 +1,12 @@
 {
+    "Chat": "دردشة",
+    "Chats": "الدردشات",
+    "Refreshing...": "جارٍ التحديث...",
+    "You have no active chats": "ليس لديك دردشات نشطة",
+    "You": "أنت",
+    "New message": "رسالة جديدة",
+    "Type message here": "اكتب الرسالة هنا",
+    "Send": "إرسال",
     "urgent_civil_detail": "<span class='urgent-txt'>عاجل!</span> نحتاج إلى معلومات بطاقتك المدنية",
     "You won’t be able to receive payments until we have your valid civil id to process your transfers.": "لن تتمكن من استلام المدفوعات إلا بعد أن نحصل على بطاقة هويتك المدنية الصالحة لمعالجة التحويلات الخاصة بك.",
     "Upload Civil ID": "تحميل البطاقة المدنية",

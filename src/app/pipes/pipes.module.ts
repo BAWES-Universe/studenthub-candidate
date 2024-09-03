@@ -6,6 +6,7 @@ import { TimerPipe } from './timer.pipe';
 import {SplitPipe} from "./split.pipe";
 import {TimeAgoPipe} from "./timeago.pipe";
 import { SecondsToTimePipe } from "./secondToTime.pipe";
+import { ConvertToBoldPipe } from "./convert-to-bold";
 
 // import custom pipes here
 @NgModule({
@@ -15,7 +16,8 @@ import { SecondsToTimePipe } from "./secondToTime.pipe";
         SplitPipe,
         TimeAgoPipe,
         TimeSpentPipe,
-        SecondsToTimePipe
+        SecondsToTimePipe,
+        ConvertToBoldPipe
     ],
     imports: [],
     exports: [
@@ -24,7 +26,8 @@ import { SecondsToTimePipe } from "./secondToTime.pipe";
         SplitPipe,
         TimeAgoPipe,
         TimeSpentPipe,
-        SecondsToTimePipe
+        SecondsToTimePipe,
+        ConvertToBoldPipe
     ]
 })
 export class PipesModule {}
