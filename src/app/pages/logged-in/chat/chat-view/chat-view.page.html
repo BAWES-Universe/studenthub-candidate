@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="max-width">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="btn-close">
+        <img src="assets/images/ic_cancel.svg" />
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-skeleton-text *ngIf="!chat" [animated]="true" style="width: 80px"></ion-skeleton-text>
+      <ng-container *ngIf="chat && chat.contact">{{ chat.contact.contact_name }} </ng-container>
+      <ng-container *ngIf="chat && chat.staff">{{ chat.staff.staff_name }}</ng-container>
+    </ion-title>
+    <ion-subtitle *ngIf="chat && chat.store">
+      {{ chat.store.store_name }}
+    </ion-subtitle>
+  </ion-toolbar>
+</ion-header>
+<ion-content (ionScroll)="onScroll($event)" [scrollEvents]="true" [attr.dir]="this.translateService.direction()">
+  <ion-header collapse="condense">
+    <ion-toolbar class="max-width">
+      <ion-title size="large">
+        <ion-skeleton-text *ngIf="!chat" [animated]="true" style="width: 80px"></ion-skeleton-text>
+        <ng-container *ngIf="chat && chat.contact">{{ chat.contact.contact_name }} </ng-container>
+        <ng-container *ngIf="chat && chat.staff">{{ chat.staff.staff_name }}</ng-container>
+      </ion-title>
+      <ion-subtitle *ngIf="chat && chat.store">
+        {{ chat.store.store_name }}
+      </ion-subtitle>
+    </ion-toolbar>
+  </ion-header>
+   
+  <div class="max-width">
+    <div class="msg-box-container" #panel1>
+        
+        <!--<loading-modal [loading]="loading" type="chat-view"></loading-modal>-->
+
+        <div id="messages-wrapper">
+          <div class="ion-text-center">
+            <ion-spinner name="crescent" *ngIf="loadingMoreMessages"></ion-spinner>
+          </div>
+          <ng-container *ngFor="let messageGroup of messageGroups">
+
+            <div class="date">{{ messageGroup.date }}</div>
+
+            <ng-container *ngFor="let message of messageGroup.messages">
+              <div id="message-{{ message.message_index }}" [class.sent]="message.from == 'candidate'"
+                [class.received]="message.from != 'candidate'">
+
+                <div class="author" *ngIf="message.from == 'candidate'">
+                  {{ "You" | translate }}
+                </div>
+
+                <div class="author" *ngIf="chat && chat.contact && message.from == 'contact'">
+                  {{ chat.contact.contact_name }} 
+                </div>
+
+                <div class="author" *ngIf="chat && chat.staff &&  message.from == 'staff'">
+                  {{ chat.staff.staff_name }} 
+                </div>
+
+                <div class="chat-content">
+                  <p [innerHTML]="message.message | convertToBold" class="message-text"></p>
+                  <span class="message-created_at">{{ toDate(message.created_at) | date: 'hh:mm a':undefined: translateService.currentLang }}</span>
+                </div>
+
+                <div class="clearfix"></div>
+              </div>
+
+            </ng-container>
+          </ng-container>
+
+        </div>
+
+        <ion-button fill="clear" class="alert-new-message" *ngIf="haveUnreadMessage && showNewMsgBar()" (click)="markRead();scrollToBottom();">
+          {{ "New message" | translate }}
+        </ion-button>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer [attr.dir]="translateService.direction()">
+  <ion-toolbar class="ion-no-padding">
+    <div class="message-form">
+
+      <input (keyup.enter)="sendMessage()" [(ngModel)]="txtMessage" placeholder="{{ 'Type message here' | translate }}"
+        class="txt-message">
+
+      <ion-button class="btn-send skip-hover" fill="clear"
+        [disabled]="!chat || sendingMessage || !txtMessage"
+        (click)="sendMessage()">
+        <span *ngIf="!sendingMessage">{{ "Send" | translate }}</span>
+        <ion-spinner *ngIf="sendingMessage"></ion-spinner>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+<!-- todo: translations -->

@@ -1,5 +1,101 @@
 <div [attr.dir]="translateService.direction()">
 
+
+    <!----------------------------- chat-view -------------------------------->
+
+    <div class="chat-view" *ngIf="loading && type == 'chat-view'">
+      <ion-skeleton-text animated class="received"></ion-skeleton-text>
+      <ion-skeleton-text animated class="sent"></ion-skeleton-text>
+      <ion-skeleton-text animated class="received"></ion-skeleton-text>
+      <ion-skeleton-text animated class="sent"></ion-skeleton-text>
+      <ion-skeleton-text animated class="received"></ion-skeleton-text>
+      <ion-skeleton-text animated class="sent"></ion-skeleton-text>
+  </div>
+
+  <!----------------------------- chat-list -------------------------------->
+
+  <div class="chat-list" *ngIf="loading && type == 'chat-list'">
+
+      <ion-card>
+
+          <div class="thumbnail-wrapper">
+              <ion-thumbnail>
+                  <ion-img class="no-logo" src="assets/img/building.svg">
+                  </ion-img>
+              </ion-thumbnail>
+          </div>
+
+          <div class="chat-info-col">
+              <span class="company-name">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </span>
+
+              <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </p>
+
+              <span class="date-added">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </span>
+
+          </div><!-- END .chat-info-col -->
+
+      </ion-card>
+
+      <ion-card>
+
+          <div class="thumbnail-wrapper">
+              <ion-thumbnail>
+                  <ion-img class="no-logo" src="assets/img/building.svg">
+                  </ion-img>
+              </ion-thumbnail>
+          </div>
+
+          <div class="chat-info-col">
+              <span class="company-name">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </span>
+
+              <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </p>
+
+              <span class="date-added">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </span>
+
+          </div><!-- END .chat-info-col -->
+
+      </ion-card>
+
+      <ion-card>
+
+          <div class="thumbnail-wrapper">
+              <ion-thumbnail>
+                  <ion-img class="no-logo" src="assets/img/building.svg">
+                  </ion-img>
+              </ion-thumbnail>
+          </div>
+
+          <div class="chat-info-col">
+              <span class="company-name">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </span>
+
+              <p>
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </p>
+
+              <span class="date-added">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+              </span>
+
+          </div><!-- END .chat-info-col -->
+
+      </ion-card>
+
+  </div>
+
   <!------------------ text-list -------------------->
 
   <div class="text-list" *ngIf="loading && type == 'text-list'">

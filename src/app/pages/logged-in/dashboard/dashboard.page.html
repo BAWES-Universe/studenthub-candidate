@@ -111,7 +111,7 @@
  
         <ion-card class="card-work-details" *ngIf="workHistory.length > 0">
           <ion-card-header class="white-bg">
-            <ion-card-title>{{"Your history with StudentHub" | translate}}</ion-card-title>
+            <ion-card-title>{{ "Your history with StudentHub" | translate}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ng-container *ngFor="let history of workHistory; let i = index;" >
@@ -129,9 +129,10 @@
                   </p>
               </div>
             </ng-container>
-            <ion-button slot="end" *ngIf="workHistory.length > 0" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> 
+            <ion-button slot="end" class="download-btn certificate" (click)="downloadCertificate($event)" fill="outline"> 
               {{"Download Certificates"| translate}}
             </ion-button>
+
           </ion-card-content>
         </ion-card>
 

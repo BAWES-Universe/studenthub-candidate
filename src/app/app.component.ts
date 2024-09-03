@@ -1,7 +1,7 @@
 import {Component, OnInit, ApplicationRef, OnDestroy, Inject, NgZone} from '@angular/core';
-import { Platform, NavController, AlertController, ModalController, PopoverController } from '@ionic/angular';
+import { Platform, NavController, AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { filter, first, map } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
 import OneSignal from 'onesignal-cordova-plugin';
@@ -24,6 +24,7 @@ import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { AnalyticsService } from './providers/analytics.service';
 import { CampaignService } from './providers/campaign.service';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { ChatService } from './providers/logged-in/chat.service';
 
 declare var window;
 
@@ -34,6 +35,8 @@ declare var window;
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+  public alertSubscription;
+  
   public updatesAvailable: boolean = false;
 
   public notificationScriptLoaded: boolean = false;
@@ -44,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public callbackUri = `co.studenthub.candidate://bawes.us.auth0.com/capacitor/co.studenthub.candidate/callback`;
 
   constructor(
+    @Inject(DOCUMENT)  public document: Document, 
     public zone: NgZone,
     public updates: SwUpdate,
     public appRef: ApplicationRef,
@@ -53,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public campaignService: CampaignService,
     public analyticsService: AnalyticsService,
     public languageService: LanguageService,
@@ -60,9 +65,10 @@ export class AppComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     public eventService: EventService,
     public accountService: AccountService,
+    public chatService: ChatService,
     public invitationService: InvitationService,
     public auth: Auth0Service,
-    @Inject(DOCUMENT) public document: Document,
+    
   ) {
   }
 
@@ -73,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @returns 
    */
   getTitle(state: RouterState, parent: ActivatedRoute): string[] {
-    const data = [];
+    let data: any[] = [];
     if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
       data.push(parent.snapshot.data['title']);
     }
@@ -103,7 +109,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const urlParams = new URLSearchParams(queryString);
     
     if(urlParams.get('auth_key')) {
-      this.authService.loginByKey(urlParams.get('auth_key'));
+      this.authService.loginByKey(urlParams.get('auth_key') + "");
     }
 
     if(urlParams.get('utm_id')) {
@@ -212,6 +218,11 @@ export class AppComponent implements OnInit, OnDestroy {
         });
       }*/
 
+      if (this.authService.isLogin) {
+        this._updateAlert();
+        this.alertSubscribe();
+      }
+      
       this.setServiceWorker();
 
       // use hook after platform dom ready
@@ -310,7 +321,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.navCtrl.navigateForward(['/no-internet']);
     });
 
-
     this.eventService.error500$.subscribe(userEventData => {
       this.navCtrl.navigateRoot(['/server-error']);
     });
@@ -325,7 +335,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     // On Login Event, set root to Internal app page
-    this.eventService.userLogin$.subscribe(data => {
+    this.eventService.userLogin$.subscribe((data: any) => {
 
       this.analyticsService.user(this.authService.id, {
         name: this.authService.name,
@@ -341,6 +351,10 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       this.oneSignalActionBasedOnStatus();
+
+      this._updateAlert();
+
+      this.alertSubscribe();
     });
 
     /**
@@ -367,6 +381,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // On Logout Event, set root to Login Page
     this.eventService.userLogout$.subscribe((logoutReason) => {
+
+      if (this.alertSubscription) {
+        clearInterval(this.alertSubscription);
+        this.alertSubscription = null;
+      }
+
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/landing']);
 
@@ -418,6 +438,50 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log(logoutReason);
       }
     });
+
+    /**
+     * Update alert count
+     */
+    this.eventService.alertUpdate$.subscribe(() => {
+      this._updateAlert();
+    });
+  }
+
+  /**
+    * Get notification count after every minute
+    */
+  async alertSubscribe() {
+    if (this.alertSubscription) {
+      return null;
+    }
+
+    this.alertSubscription = setInterval(x => {
+      this._updateAlert();
+    }, 1 * 1000);
+  }
+
+  /**
+   * Update alert count on app
+   */
+  async _updateAlert() {
+    this.chatService.unreadCount().subscribe(async data => {
+
+      if (data.operation && data.operation == 'error') {
+        const toast = await this.toastCtrl.create({
+          message: this.translateService.transform('Account deactivated'),
+          duration: 3000,
+          position: 'top',
+          cssClass: 'error_toast_' + this.translateService.direction()
+        });
+        await toast.present();
+
+        this.eventService.userLogout$.next({});
+      } 
+      else 
+      {
+        this.eventService.alertCount$.next(data);
+      }
+    });
   }
 
   /**
@@ -427,7 +491,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.platform.is('capacitor') && this.platform.is('mobile')) {
 
-      Storage.get({ key: 'oneSignal' }).then(ret => {
+      Storage.get({ key: 'oneSignal' }).then((ret: any) => {
 
         let data = JSON.parse(ret.value);
 
@@ -627,7 +691,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // load script and call callback to initialize
 
-    const callback = _ => {
+    const callback = () => {
 
       const wOneSignal = window.OneSignal || [];
 
@@ -721,7 +785,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param url
    * @param callback
    */
-  async loadScript(url: string, callback = null) {
+  async loadScript(url: string, callback : () => void = () => {}) {
     const body = <HTMLDivElement>document.body;
     const script = document.createElement('script');
     script.innerHTML = '';

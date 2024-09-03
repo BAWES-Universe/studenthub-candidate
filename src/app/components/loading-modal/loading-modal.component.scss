@@ -21,6 +21,112 @@
     }
 }
 
+
+.chat-view {
+    .received {
+        border-radius: 15px 15px 15px 0;
+        height: 67px;
+        width: 80%;
+        margin-bottom: 20px;
+        float: var(--start);
+    }
+
+    .sent {
+        border-radius: 15px 15px 0 15px;
+        height: 67px;
+        width: 80%;
+        margin-bottom: 20px;
+        float: var(--end);
+    }
+}
+
+[dir="ltr"] .chat-list {
+    .chat-info-col {
+        padding-left: 10px;
+
+        .date-added {
+            padding-right: 8px;
+            right: 0;
+        }
+    }
+}
+
+[dir="rtl"] .chat-list {
+
+    .company-info-col,
+    .chat-info-col {
+        padding-right: 10px;
+
+        .date-added {
+            padding-left: 8px;
+            left: 0;
+        }
+    }
+}
+
+.chat-list {
+    ion-card {
+        background: white;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+        margin: 0px 0px 4px 0px;
+        padding: 10px;
+
+        .thumbnail-wrapper {
+            width: 50px;
+            float: var(--start);
+        }
+
+        .company-info-col,
+        .chat-info-col {
+            vertical-align: top;
+            width: auto;
+            padding-right: 50px;
+            float: var(--start);
+            width: calc(100% - 50px);
+
+            .company-name ion-skeleton-text {
+                height: 15px;
+                max-width: 210px;
+            }
+
+            p ion-skeleton-text {
+                height: 12px;
+                max-width: 310px;
+            }
+
+            .date-added {
+                position: absolute;
+                top: 10px;
+
+                ion-skeleton-text {
+                    height: 12px;
+                    max-width: 40px;
+                    min-width: 30px;
+                }
+            }
+        }
+
+        ion-thumbnail {
+            background-color: #f5f7fb;
+            position: relative;
+            border-radius: 10px;
+            width: 54px;
+            height: 54px;
+
+            .no-logo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 22.5px;
+                height: 25px;
+            }
+        }
+    }
+}
+
 //------------------ complete-profile --------------------
 
 .complete-profile {
