@@ -206,3 +206,34 @@ ion-toolbar.main-toolbar {
         color: #4C70F2!important;
     }
 }
+
+ion-fab {
+    ion-badge {
+        border-radius: 100%;
+        width: auto;
+        aspect-ratio: 1;
+        padding: 4px 8px;
+        position: absolute;
+        top: -5px;
+        right: 0px;
+    }
+}
+
+[dir="ltr"] {
+    ion-fab {
+        ion-badge {
+            left: auto;
+            right: 0px;
+        }
+    }
+}
+
+[dir="rtl"] {
+    ion-fab {
+        ion-badge {
+            left: 0px;
+            right: auto;
+        }
+    }
+}
+

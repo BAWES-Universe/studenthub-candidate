@@ -55,6 +55,8 @@ export class TabsPage implements OnInit {
       this.alerts = counts.total > 0 ? counts.total : null;
     });
 
+    
+
     this.loadJobSearchStatus();
   }
 
