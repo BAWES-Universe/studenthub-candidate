@@ -42,7 +42,6 @@ export class TabsPage implements OnInit {
       this.showHeader = (data['scrollTop'] > 0);
     });
 
-
     this.eventService.alertCount$.subscribe((
       counts : {
         total,
@@ -55,7 +54,7 @@ export class TabsPage implements OnInit {
       this.alerts = counts.total > 0 ? counts.total : null;
     });
 
-    
+
 
     this.loadJobSearchStatus();
   }
