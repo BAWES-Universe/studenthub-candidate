@@ -1,0 +1,258 @@
+.header {
+    background: white !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  ion-content {
+    --padding-top: 7px;
+    --padding-bottom: 5px;
+    --padding-start: 5px;
+    --padding-end: 5px;
+  }
+  
+  .toolbar-title {
+    color: #424242;
+    margin: 18px !important;
+  }
+  
+  ion-content div.scroll-content {
+    padding: 7px !important;
+  }
+  
+  ion-header {
+    box-shadow: 0 0.5px 4px 0 #b2b2b2;
+    background-color: #fff;
+  }
+  
+  .inbox-txt {
+    text-align: start;
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0px;
+    color: #292f38;
+  }
+  
+  .invitation-section,
+  .chat-section {
+    margin-top: 16px;
+    margin-bottom: 20px;
+  
+    h3 {
+      font-size: 22px;
+      font-weight: 500;
+      color: #292f38;
+      margin-bottom: 20px;
+    }
+    
+    ion-card {
+      background: white;
+      background-color: white;
+      border-radius: 4px;
+      --border-radius: 4px;
+      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+      margin: 0px 0px 4px 0px;
+      padding: 10px; 
+      
+      .thumbnail-wrapper {
+        width: 50px; 
+        float: var(--start);
+      }
+      
+      .company-info-col,
+      .chat-info-col { 
+        vertical-align: top; 
+        width: auto;
+        padding-right: 50px;
+        float: var(--start);
+        width: calc(100% - 50px);
+       
+        .company-name {
+          font-size: 16px;
+          font-weight: 500;
+          color: #292f38; 
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          margin-top: 2px;
+        }
+  
+        .time {
+          font-size: 14px;
+          line-height: 1.41;
+          color: #eb5757;
+          margin-top: 1px;
+        }
+  
+        p {
+          padding: 0px;
+          margin: 0px;
+          white-space: nowrap; 
+          overflow: hidden;
+          text-overflow: ellipsis; 
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: block;
+  
+          span {
+            display: inline-block;
+          }
+        }
+  
+        .invitation-message {
+          margin-top: 4px;
+          margin-bottom: 4px;
+        }
+  
+        .chat-message {
+          margin-top: 3px;
+        }
+  
+        .date-added {
+          position: absolute;
+          top: 15px;
+          color: #bdbdbd;
+          font-size: 12px;
+        }
+  
+        span {
+          display: block;
+        }
+  
+        .unread-email-count-badge {
+          position: absolute;
+          border-radius: 10px;
+          height: 20px;
+          width: 25px;
+          top: 40px;
+        }
+      } 
+  
+      ion-thumbnail {
+        background-color: #f5f7fb;
+        position: relative;
+        border-radius: 10px;
+        width: 50px;
+        height: 50px;
+  
+        .employer-logo { 
+          width: 100%;
+          height: 100%;
+          border-radius: 10px;
+          border: solid 2px #e9e9e9;
+        }
+  
+        .no-logo {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 22.5px;
+          height: 25px;
+        }
+      }
+    }
+  }
+  
+  .no-chats-section {
+    margin-top: 21px;
+  
+    p {
+      text-align: start;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.41;
+      letter-spacing: normal;
+      color: #292f38;
+    }
+  }
+  
+  .inbox-wraper {
+    margin-top: 8px;
+  }
+   
+  
+  [dir="ltr"] {
+    .inbox-txt,
+    .invitation-section h3,
+    .no-chats-section,
+    .chat-section h3 {
+      margin-left: 10px;
+    }
+  
+    .onesingal-prompt {
+      text-align: left;
+      .btn-close {
+        right: 0;
+      }
+    }
+  
+    .invitation-section,
+    .chat-section {
+      ion-grid {
+        padding-left: 10px !important;
+      }
+  
+      .company-info-col,
+      .chat-info-col {
+        padding-left: 10px;
+  
+        .date-added {
+          padding-right: 8px;
+          right: 0;
+        }
+      }
+  
+      .unread-email-count-badge {
+        right: 0;
+        margin-right: 10px;
+      }
+    }
+  }
+  
+  [dir="rtl"] {
+    .inbox-txt,
+    .invitation-section h3,
+    .no-chats-section,
+    .chat-section h3 {
+      margin-right: 10px;
+    }
+  
+    .onesingal-prompt {
+      text-align: right;
+      .btn-close {
+        left: 0;
+      }
+    }
+  
+    .invitation-section,
+    .chat-section {
+      ion-grid {
+        padding-right: 10px !important;
+      }
+      .company-info-col,
+      .chat-info-col {
+        padding-right: 10px;
+  
+        .date-added {
+          padding-left: 8px;
+          left: 0;
+        }
+      }
+  
+      .unread-email-count-badge {
+        left: 0;
+        margin-left: 10px;
+      }
+    }
+  }
+  
+  .position {
+    font-size: 14px;
+    line-height: 1.41;
+    color: #292f38;
+  }
+  

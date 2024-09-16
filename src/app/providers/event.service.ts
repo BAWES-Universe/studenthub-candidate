@@ -44,5 +44,8 @@ export class EventService {
   
   public civilUpdated$ = new Subject();
   
+  public alertCount$ = new Subject();
+  public alertUpdate$ = new Subject();
+
   constructor() { }
 }

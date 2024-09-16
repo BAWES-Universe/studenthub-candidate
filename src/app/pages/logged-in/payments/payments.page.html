@@ -50,13 +50,21 @@
         [class.success]="salary.status =='Paid'">
         <ion-card-content>
           <span class="date">{{ salary.tc_created_at }}</span>
+          <p class="totals">
+            <span *ngIf="salary.hours > 0">{{ salary.hours }} {{ "hours" | translate }} </span>
+            <span *ngIf="salary.minutes > 0">{{ salary.minutes }} {{ "minutes" | translate }} </span>
+            <span *ngIf="salary.seconds > 0">{{ salary.seconds }} {{ "seconds" | translate }} </span>
+            x {{ salary.candidate_hourly_rate | number:'1.3-3' }} {{ "per hour" | translate }}
+            <span *ngIf="salary.candidate_bonus > 0">+ {{ (salary.candidate_bonus) | number:'1.3-3' }} {{ salary.currency_code }} {{ "bonus" | translate }}</span>
+          </p>
           <p class="sal"> {{salary.candidate_total | number:'1.3-3' }} {{ salary.currency_code }}</p>
+          
           <p class="from">
             {{"txt_transfer_pending" | translate : { company : salary.company_name, store : salary.store_name } }}</p>
+          
           <p *ngIf="salary.status =='Unpaid'" class="pending-status">
             {{ "Transfer pending, please contact us if you don’t receive it" | translate}}</p>
-
-            
+  
           <div *ngIf="salary.status =='Paid'">
             <span class="transfer-to">{{'Transferred to' | translate}}</span>
             <span class="name" *ngIf="salary.bank">{{salary.bank.bank_name}}</span>

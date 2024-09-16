@@ -73,6 +73,7 @@ import {ProfileUrlPageModule} from "src/app/pages/logged-in/profile-url/profile-
 import { IntroductionPageModule } from './pages/logged-in/introduction/introduction.module';
 import { RequestViewPageModule } from './pages/logged-in/request/request-view/request-view.module';
 import { AwsService } from './providers/logged-in/aws.service';
+import { ChatViewPageModule } from './pages/logged-in/chat/chat-view/chat-view.module';
 
 export function awsStartupServiceFactory(awsService) {
   return () => awsService.setConfig();
@@ -157,7 +158,8 @@ const config: AuthConfig = {
     InvitationModule,
     WorkHistoryPageModule,
     ProfileUrlPageModule,
-    RequestViewPageModule
+    RequestViewPageModule,
+    ChatViewPageModule
   ],
   providers: [
     {

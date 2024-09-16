@@ -1,0 +1,80 @@
+<ion-header [translucent]="true" *ngIf="platform.is('mobile')">
+  <ion-toolbar>
+    <ion-title>{{"Chats" | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" [attr.dir]="translateService.direction()">
+  <ion-header collapse="condense" *ngIf="platform.is('mobile')">
+    <ion-toolbar>
+      <ion-title size="large">{{"Chats" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="caret-down-sharp" refreshingSpinner="circles"
+        refreshingText="{{ 'Refreshing...' | translate }}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="max-width">
+
+    <section class="chat-section">
+ 
+      <ion-card *ngFor="let chat of chats" tappable (click)="detail(chat)">
+
+        <div class="thumbnail-wrapper">
+          <ion-thumbnail>
+
+            <ion-img *ngIf="chat.staff" class="no-logo" src="assets/logo.svg">
+            </ion-img>
+
+            <ion-img *ngIf="chat.company && !chat.company.company_logo" class="no-logo" src="assets/images/building.svg">
+            </ion-img>
+
+            <ion-img *ngIf="chat.company && chat.company.company_logo" class="employer-logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
+             (ionError)="onLogoError(chat.company)"></ion-img>
+          </ion-thumbnail>
+        </div>
+
+        <div class="chat-info-col">
+
+          <span class="company-name" *ngIf="chat.contact">
+            {{ chat.contact.contact_name }} <ng-container *ngIf="chat.store">@ {{ chat.store.store_name }}</ng-container>
+          </span>
+          
+          <span class="company-name" *ngIf="chat.staff">
+            {{ chat.staff.staff_name }} 
+          </span>
+
+          <p> {{ chat.recentMessage.message }}</p>
+
+          <span *ngIf="chat.created_at" class="date-added">
+            {{ chat.created_at | timeAgo }}
+          </span>
+
+          <ion-badge color="danger" class="unread-email-count-badge" *ngIf=" chat.candidateUnreadCount > 0">
+            <span *ngIf="chat.candidateUnreadCount < 9">{{chat.candidateUnreadCount}}</span>
+            <span *ngIf="chat.candidateUnreadCount > 9">9+</span>
+          </ion-badge>
+
+        </div><!-- END .chat-info-col -->
+
+      </ion-card>
+
+      <loading-modal [loading]="loading" type="chat-list"></loading-modal>
+
+      <ion-infinite-scroll *ngIf="chats && currentPage < pageCount - 1" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </section>
+
+    <section *ngIf="!loading && chats && chats.length == 0" class="no-chats-section">
+      <p>
+        {{ "You have no active chats" | translate }}
+      </p>
+    </section>
+
+  </div>
+
+</ion-content>
+<!-- todo: translation + delete safe data access -->

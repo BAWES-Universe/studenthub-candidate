@@ -360,27 +360,38 @@ const routes: Routes = [
   
   {
     path: 'track-work',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate-work-log/track-work/track-work.module').then( m => m.TrackWorkPageModule)
   },
   {
     path: 'log-time-manually',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate-work-log/log-time-manually/log-time-manually.module').then( m => m.LogTimeManuallyPageModule)
   },
   {
     path: 'end-session',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate-work-log/end-session/end-session.module').then( m => m.EndSessionPageModule)
   },
-  
+  {
+    path: 'discounts',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/discounts/discounts.module').then( m => m.DiscountsPageModule)
+  },
+  {
+    path: 'chat-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/chat/chat-list/chat-list.module').then( m => m.ChatListPageModule)
+  },
+  {
+    path: 'chat-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/chat/chat-view/chat-view.module').then( m => m.ChatViewPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
-  },  {
-    path: 'discounts',
-    loadChildren: () => import('./pages/logged-in/discounts/discounts.module').then( m => m.DiscountsPageModule)
-  },
-
-
-
+  }
 ];
 
 @NgModule({

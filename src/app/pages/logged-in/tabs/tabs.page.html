@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [attr.dir]="translateService.direction()">
 
   <ion-tabs #tabRef [attr.dir]="this.translateService.direction()">
 
@@ -98,4 +98,14 @@
 
     </ion-tab-bar>
   </ion-tabs>
+
+  <ion-fab [horizontal]="translateService.currentLang == 'en'? 'end': 'start'" vertical="bottom" slot="fixed">
+    <ion-fab-button class="btn-fab" id="btn-fab" (click)="startChat()">
+      <ion-icon name="chatbubbles" mode="ios" *ngIf="!startingChat"></ion-icon>
+      <ion-spinner *ngIf="startingChat"></ion-spinner>
+    </ion-fab-button>
+    <ion-badge color="warning" *ngIf="alerts">{{ alerts }}</ion-badge>
+    
+  </ion-fab>
+  
 </ion-content>
