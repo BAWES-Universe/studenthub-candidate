@@ -70,10 +70,15 @@
       </ion-row>
     </ion-grid>
     
+    <no-items *ngIf="!loading && discounts.length == 0" 
+      image="assets/icons/no-invitation.svg"
+      message="Coming soon..."></no-items>
+
     <ion-infinite-scroll *ngIf="currentPage < pageCount"
       (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
 
   </div>
  

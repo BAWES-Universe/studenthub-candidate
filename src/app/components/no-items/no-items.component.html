@@ -1,4 +1,7 @@
 <div class="no-items">
-  <ion-icon name="albums"></ion-icon>
-  <p>{{ message | translate }}</p>
-</div>
+  <ion-icon [name]="icon" *ngIf="icon"></ion-icon>
+  <ion-img [src]="image" *ngIf="image"></ion-img>
+  <ion-icon name="albums" *ngIf="!icon && !image"></ion-icon>
+   
+  <h5>{{ message | translate }}</h5>
+</div> 
