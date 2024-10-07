@@ -229,11 +229,11 @@ export class TrackWorkPage implements OnInit {
         window.history.back();
       }
 
-      this.started = null; 
-
       if (e.data && e.data.submit) {
+        this.started = null; 
         this.stopWork();
       } else if (e.data && e.data.discard) {
+        this.started = null; 
         this.discardSession();
       }
     });
