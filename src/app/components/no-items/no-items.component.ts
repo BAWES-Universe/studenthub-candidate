@@ -9,8 +9,14 @@ export class NoItemsComponent implements OnInit {
 
   @Input() message: string;
 
+  @Input() icon: string;
+
+  @Input() image: string;
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.image, this.icon, this.message);
+  }
 
-}
+} 

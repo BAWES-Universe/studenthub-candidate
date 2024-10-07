@@ -18,6 +18,7 @@
     </app-invitation>
  
     <no-items *ngIf="!loading && invitations.length == 0" 
+      image="assets/icons/no-invitation.svg"
       message="~ No invitation yet ~"></no-items>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
