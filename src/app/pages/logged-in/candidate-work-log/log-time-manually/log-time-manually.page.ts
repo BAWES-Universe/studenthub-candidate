@@ -7,6 +7,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { CandidateWorkingHour } from 'src/app/models/candidate';
 import { CandidateWorkingHourService } from 'src/app/providers/logged-in/candidate-working-hour.service';
 import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
+import { CustomValidator } from 'src/app/validators/custom.validator';
 
 @Component({
   selector: 'app-log-time-manually',
@@ -37,7 +38,7 @@ export class LogTimeManuallyPage implements OnInit {
       start_time: ["", Validators.required],
       end_time: ["", Validators.required],
       note: ["", Validators.required]
-    });
+    }, { validators: CustomValidator.timeComparisonValidator('start_time', 'end_time') });
   }
 
   close(data = {}) {
@@ -111,6 +112,7 @@ export class LogTimeManuallyPage implements OnInit {
       if (e.data && e.data.time) {
         this.form.controls.end_time.setValue(e.data.time);
         this.form.controls.end_time.updateValueAndValidity();
+        this.form.updateValueAndValidity();
       }
     });
     modal.present();
@@ -137,6 +139,7 @@ export class LogTimeManuallyPage implements OnInit {
       if (e.data && e.data.time) {
         this.form.controls.start_time.setValue(e.data.time);
         this.form.controls.start_time.updateValueAndValidity();
+        this.form.updateValueAndValidity();
       }
     });
     modal.present();
