@@ -20,8 +20,17 @@ export class AccountService {
    * load profile details
    */
   profile(): Observable<any> {
-    const url = this._accountEndpoint + '/profile?expand=candidateEducations,candidateEducations.major,candidateEducations.university,' +
+    const url = this._accountEndpoint + '/profile?expand=certificates,certificates.exam,certificates.store,certificates.company,candidateTags,' +
+      'candidateEducations,candidateEducations.major,candidateEducations.university,' +
       'candidateEducations.degree,isWorking,bank,area,isProfileCompleted,nationality,country,university,candidateSkills,candidateExperiences,totalInterviewScheduled';
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * return work history
+   */
+  workHistory(): Observable<any> {
+    const url = this._accountEndpoint + '/work-history?expand=store,company';
     return this._authhttp.get(url);
   }
 
