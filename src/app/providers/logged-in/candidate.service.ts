@@ -13,6 +13,11 @@ export class CandidateService {
 
   constructor(private _authhttp: AuthHttpService) { }
 
+  workHistoryDetail(id: string | number): Observable<any> {
+    const url = this._candidateEndpoint + '/work-history/' + id + '?expand=store,company,company.parentCompany';
+    return this._authhttp.get(url);
+  }
+
   /**
    * return work history
    * @param candidate

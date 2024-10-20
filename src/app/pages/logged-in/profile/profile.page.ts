@@ -65,6 +65,7 @@ export class ProfilePage implements OnInit {
   public borderLimit;
 
   public workHistory: any[] = [];
+  public currentAssignments: any[] = [];
 
   public salaryTransfers: any[] = [];
 
@@ -232,8 +233,13 @@ export class ProfilePage implements OnInit {
    */
   loadWorkHistoryData() {
     this.candidateService.workHistory().subscribe(response => {
-      this.workHistory = response;
+      this.workHistory = response.filter(e => e.end_date != null);
+      this.currentAssignments = response.filter(e => e.end_date == null);
     });
+  }
+
+  openAssignment(history, $event) {
+    this.navCtrl.navigateForward("/candidate-assignment/" + history.id);
   }
 
   /**
