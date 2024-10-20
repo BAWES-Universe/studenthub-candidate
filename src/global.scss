@@ -111,6 +111,20 @@ ion-content {
   }
 }
 
+ion-segment {
+  ion-segment-button {
+    text-transform: capitalize;
+  }
+}
+
+.pull-right {
+  float: var(--end);
+}
+
+.pull-left {
+  float: var(--start);
+}
+
 ion-progress-bar {
   background: #fff;
   position: absolute;
@@ -257,4 +271,8 @@ ion-list {
 
 .grecaptcha-badge { 
   visibility: hidden !important;
+}
+
+ion-tabs {
+  background: #fff;
 }

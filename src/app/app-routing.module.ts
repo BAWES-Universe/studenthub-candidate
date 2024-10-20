@@ -388,6 +388,13 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/chat/chat-view/chat-view.module').then( m => m.ChatViewPageModule)
   },
+
+  {
+    path: 'candidate-assignment',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate-assignment/candidate-assignment.module').then( m => m.CandidateAssignmentPageModule)
+  },
+
   {
     path: '**',
     redirectTo: 'not-found'

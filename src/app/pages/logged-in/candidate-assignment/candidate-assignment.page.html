@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar class="max-width">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="max-width">
+    <ion-title *ngIf="history && history.store"> 
+      {{ history.store.store_name }}
+    </ion-title>
+    <ion-title *ngIf="history && !history.store">{{ history.company.company_name }}</ion-title>
+    <!-- todo: request move/ remove 
+    <ion-button slot="end">
+       <ion-icon name=""></ion-icon>
+    </ion-buttons>
+-->
+  </ion-toolbar>
+  <ion-toolbar class="max-width">
+    <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+      <ion-segment-button mode="md" value="details">
+        <ion-label>{{ "Details" | translate }}</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button mode="md" value="logs">
+        <ion-label>{{ "Logs" | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" [dir]="translateService.direction()">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="max-width" *ngIf="history && segment == 'details'">
+
+    <h4>{{ "Assignment Details" | translate }}</h4>
+
+    <div class="detail-item">
+      <div class="txt-label">{{ "Employer" | translate }}</div>
+      <div class="txt-value">{{ history.company.company_name }}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="txt-label">{{ "Compensation" | translate }}</div>
+      <div class="txt-value">{{ history.candidate_hourly_rate }}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="txt-label">{{ "Start Date" | translate }}</div>
+      <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>
+    </div>
+
+  </div>
+
+  <div class="max-width session-wrapper" *ngIf="history && segment == 'logs'">
+    
+    <div class="date-wrapper" tappable *ngFor="let hour of candidateWorkingHourData" 
+    [routerLink]="['/log-hour-list', hour.date]">
+    
+      <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+      
+      <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
+        {{ "Pending" | translate }}
+      </ion-badge>
+      <ion-badge class="success" *ngIf="hour.dateStatus == 1">
+        {{ "Approved" | translate }}
+      </ion-badge>
+      <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
+        {{ "Rejected" | translate }}
+      </ion-badge>
+
+      <div class="clearfix"></div>
+
+      <div class="time-wrapper">
+        <b>{{ hour.total_time | secondsToTime }}</b>  
+        <span>
+          {{ translateService.toDate(hour.checkIn) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
+        </span>
+      </div>
+    </div>
+    
+    <!-- todo: replace with placeholder image -->
+    <p *ngIf="candidateWorkingHourData.length == 0 && !loading">
+      {{ "No record found" | translate }}
+    </p>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

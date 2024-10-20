@@ -97,6 +97,22 @@ export class PaymentsPage implements OnInit {
     });
   }
 
+
+
+  /**
+   * Load list of transfers
+   */
+  async profile() {
+
+    this.accountService.profileWithBank().subscribe(response => {
+      this.candidate = response;
+    },
+    error => { },
+    () => {
+      this.loading = false;
+    });
+  }
+  
   /**
    * Load list of transfers
    * @param page
@@ -125,20 +141,6 @@ export class PaymentsPage implements OnInit {
       () => {
         this.loading = false;
       });
-  }
-
-  /**
-   * Load list of transfers
-   */
-  async profile() {
-
-    this.accountService.profileWithBank().subscribe(response => {
-      this.candidate = response;
-    },
-    error => { },
-    () => {
-      this.loading = false;
-    });
   }
 
   /**
