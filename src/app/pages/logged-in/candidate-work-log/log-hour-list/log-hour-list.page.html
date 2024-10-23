@@ -56,14 +56,18 @@
 
       <h5 class="txt-session-heading">{{ "Sessions" | translate }} <span>({{ totalCount }})</span></h5>
 
+      <app-work-log [hour]="hour" *ngFor="let hour of candidateWorkingHourData">
+      </app-work-log>
+
+      <!--
       <p *ngFor="let hour of candidateWorkingHourData">
-        <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b>{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(--
         <span>
           {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
           <ion-icon name="arrow-forward-outline"></ion-icon> 
           {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
         </span>
-      </p>
+      </p>-->
 
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content>

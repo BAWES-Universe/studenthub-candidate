@@ -119,7 +119,6 @@ export class CandidateAssignmentPage implements OnInit {
     }
   }
 
-
   async selectEndDate(event)  {
     window.history.pushState({ navigationId: window.history.state.navigationId }, "", window.location.pathname);
 
