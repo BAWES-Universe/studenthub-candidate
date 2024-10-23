@@ -17,12 +17,11 @@
   </ion-toolbar>
   <ion-toolbar class="max-width">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
-      <ion-segment-button mode="md" value="details">
-        <ion-label>{{ "Details" | translate }}</ion-label>
-      </ion-segment-button>
-
       <ion-segment-button mode="md" value="logs">
         <ion-label>{{ "Logs" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button mode="md" value="details">
+        <ion-label>{{ "Details" | translate }}</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -57,32 +56,68 @@
 
   <div class="max-width session-wrapper" *ngIf="history && segment == 'logs'">
     
-    <div class="date-wrapper" tappable *ngFor="let hour of candidateWorkingHourData" 
-    [routerLink]="['/log-hour-list', hour.date]">
     
-      <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button class="btn-date-range" (click)="openCalendar()" [class.active]="start_date || end_date">
+            <ion-icon src="assets/icons/filter.svg"></ion-icon> {{ "Filter by Date" | translate }}
+          </button>
+        </ion-col>
+        <ion-col *ngIf="start_date">
+          <ion-item line="none"  (click)="selectStartDate($event)" >
+            <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+            <ion-input readonly [value]="start_date"></ion-input>
+
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="end_date">
+          <ion-item line="none" (click)="selectEndDate($event)">
+            <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+            <ion-input readonly [value]="end_date"></ion-input>
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+     
+    <ng-container *ngFor="let group of candidateWorkingHourData | groupBy : 'date'">
+      <h4 class="txt-date">{{ group.name }}</h4>
+
+      <div class="date-wrapper" tappable *ngFor="let hour of group.resources" 
+      [routerLink]="['/log-hour-list', hour.date]">
       
-      <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
-        {{ "Pending" | translate }}
-      </ion-badge>
-      <ion-badge class="success" *ngIf="hour.dateStatus == 1">
-        {{ "Approved" | translate }}
-      </ion-badge>
-      <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
-        {{ "Rejected" | translate }}
-      </ion-badge>
+        <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+        
+        <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
+          {{ "Pending" | translate }}
+        </ion-badge>
+        <ion-badge class="success" *ngIf="hour.dateStatus == 1">
+          {{ "Approved" | translate }}
+        </ion-badge>
+        <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
+          {{ "Rejected" | translate }}
+        </ion-badge>
 
-      <div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-      <div class="time-wrapper">
-        <b>{{ hour.total_time | secondsToTime }}</b>  
-        <span>
-          {{ translateService.toDate(hour.checkIn) | date: "shortTime": undefined: translateService.currentLang}} 
-          <ion-icon name="arrow-forward-outline"></ion-icon> 
-          {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
-        </span>
+        <div class="time-wrapper">
+          <b>{{ hour.total_time | secondsToTime }}</b>  
+          <span>
+            {{ translateService.toDate(hour.checkIn) | date: "shortTime": undefined: translateService.currentLang}} 
+            <ion-icon name="arrow-forward-outline"></ion-icon> 
+            {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
+          </span>
+        </div>
       </div>
-    </div>
+    </ng-container> 
     
     <!-- todo: replace with placeholder image -->
     <p *ngIf="candidateWorkingHourData.length == 0 && !loading">

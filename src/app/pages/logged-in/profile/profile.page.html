@@ -528,8 +528,6 @@
         {{ "Enter Bank Information" | translate }}
       </ion-button>
 
-      <h4 *ngIf="salaryTransfers.length > 0">{{ "Payments" | translate }}</h4>
-
       <ion-card *ngIf="candidate && candidate.bank_id" class="bank-card">
         <ion-card-content>
           <div class="card-bank-details">
@@ -541,7 +539,6 @@
         </ion-card-content>
       </ion-card>
  
-      <br />
       <br />
 
       <h5 *ngIf="salaryTransfers.length > 0">

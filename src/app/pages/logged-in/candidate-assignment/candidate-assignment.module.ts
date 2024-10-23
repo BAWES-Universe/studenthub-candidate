@@ -9,6 +9,8 @@ import { CandidateAssignmentPageRoutingModule } from './candidate-assignment-rou
 import { CandidateAssignmentPage } from './candidate-assignment.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { CalendarModule } from 'ion2-calendar';
+import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     PipesModule,
+    CalendarModule,
+    DatePickerModule,
     TranslateModule.forChild(),
     CandidateAssignmentPageRoutingModule
   ],

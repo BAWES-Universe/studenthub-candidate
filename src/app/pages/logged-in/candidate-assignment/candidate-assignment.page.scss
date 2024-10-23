@@ -16,6 +16,46 @@ ion-title {
   text-transform: capitalize;
 }
 
+.btn-date-range {
+  border-radius: 8px;
+  border: 1px solid var(--Neutral-50, #C5C5CC);
+  background: var(--Neutral-10, #FAFAFA);
+  display: flex;
+  height: 57px;
+  width: 100%;
+  min-width: 260px;
+  padding: 16px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
+  color: var(--Neutral-70, #7D7D8D);
+  font-feature-settings: 'liga' off, 'clig' off;
+  /* Medium Text/16 pt · Text Bold */
+  //font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+}
+
+.active {
+  border: 0.5px solid var(--Blue-Tint-Main, #4C70F2);
+  background: var(--Neutral-0, #FFF);
+  color: var(--Primary-Main, #4C70F2);
+}
+
+.txt-date {
+  color: #000;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; /* 133.333% */
+  margin-bottom: 24px;
+  margin-top: 24px;
+}
+
 h4 {
     color: var(--Neutral-95, #23233D);
     font-feature-settings: 'clig' off, 'liga' off;
@@ -50,6 +90,46 @@ h4 {
     }
 }
 
+ion-grid {
+  margin: 0 -10px;
+}
+
+ion-item {
+  --color: var(--Neutral-95, #23233D);
+  --placeholder-color: var(--Neutral-80, #68687A);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  /*align-items: flex-start;
+  gap: 10px;
+  display: flex; 
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;*/
+  --box-shadow: 0px 2px 2px 0px rgba(218, 227, 225, 0.10), 0px -1px 1px 0px rgba(218, 227, 225, 0.15) inset;
+  --inner-border-width: 0px; 
+  --border-width: 0px;
+  margin-bottom: 16px;
+
+  border-radius: 8px;
+  --border-radius: 8px;
+  border: 1px solid var(--Neutral-40, #E2E2E6);
+  --background: var(--Neutral-0, #FFF);
+  --height: 48px;
+
+  ion-label {
+    color: var(--Neutral-80, #68687A);
+    --color: var(--Neutral-80, #68687A);
+    font-weight: 500;
+  }
+
+  ion-button {
+      height: 42px;
+  }
+}
 
 .session-wrapper {
 
