@@ -3,6 +3,16 @@
     <div class="brand">
       <img src="assets/logo.svg">
     </div>
+
+    <ion-buttons slot="end">
+      <!-- todo: count -->
+      <ion-button routerLink="/activity" class="btn-alert">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge *ngIf="totalUnreadActity > 0" color="warning" >
+          {{ totalUnreadActity }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -107,7 +117,6 @@
       <ion-spinner *ngIf="startingChat"></ion-spinner>
     </ion-fab-button>
     <ion-badge color="warning" *ngIf="alerts">{{ alerts }}</ion-badge>
-    
   </ion-fab>
   
 </ion-content>

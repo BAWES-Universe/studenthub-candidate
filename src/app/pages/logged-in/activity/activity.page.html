@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="max-width">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="max-width">
+    <ion-title>{{ "Activity" | translate}}</ion-title>
+  </ion-toolbar>
+  <!-- todo: more icon with actions: mark all read -->
+</ion-header>
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" 
+  [attr.dir]="translateService.direction()">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ "Activity" | translate}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <div class="max-width">
+
+    <ng-container *ngFor="let candidateNotification of candidateNotifications">
+
+      <ng-container [ngSwitch]="candidateNotification.type">
+ 
+        <app-work-hour-approved *ngSwitchCase="3"
+          [candidateNotification]="candidateNotification"></app-work-hour-approved>
+            
+        <app-work-hour-rejected *ngSwitchCase="4"
+            [candidateNotification]="candidateNotification"></app-work-hour-rejected>
+
+        <app-invitation *ngSwitchCase="0"
+            [model]="candidateNotification.invitation"></app-invitation>
+            
+        <app-assigned *ngSwitchCase="1"
+          [candidateNotification]="candidateNotification"></app-assigned>
+
+        <app-unassigned *ngSwitchCase="2"
+            [candidateNotification]="candidateNotification"></app-unassigned>
+
+
+    <!--
+    const TYPE_TRANSFER_INIT = 5;
+    const TYPE_TRANSFER_PAID = 6;
+    const TYPE_TRANSFER_UNPAID = 7;-->
+
+        <ion-card *ngSwitchDefault>
+          <ion-card-content>
+            {{ candidateNotification.message }}
+          </ion-card-content>
+        </ion-card>
+
+      </ng-container>
+      
+      <!-- 
+      TODO: 
+      
+      const CN_TYPE_TRANSFER_INIT = 5;
+      const CN_TYPE_TRANSFER_PAID = 6;
+      const CN_TYPE_TRANSFER_UNPAID = 7;
+
+      -->
+    </ng-container>
+ 
+    <no-items *ngIf="!loading && candidateNotifications.length == 0" 
+      image="assets/icons/no-invitation.svg"
+      message="~ No activity yet ~"></no-items>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+
+</ion-content> 

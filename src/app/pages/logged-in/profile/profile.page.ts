@@ -74,6 +74,8 @@ export class ProfilePage implements OnInit {
   public pageCount;
   public currentPage;
 
+  public downloading: boolean; 
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,

@@ -396,9 +396,15 @@ const routes: Routes = [
   },
 
   {
+    path: 'activity',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/activity/activity.module').then( m => m.ActivityPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
-  }
+  },
+
 ];
 
 @NgModule({

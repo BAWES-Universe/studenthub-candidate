@@ -1,4 +1,5 @@
 import { Candidate } from "./candidate";
+import { Contact } from "./contact";
 
 export class CandidateWorkLogFeedback {
     cwlf_uuid: string;
@@ -14,4 +15,5 @@ export class CandidateWorkLogFeedback {
     created_at : string;
     updated_at : string;
     candidate: Candidate;
-}
+    createdBy: Contact;
+} 

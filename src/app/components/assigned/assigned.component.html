@@ -1,0 +1,26 @@
+<ion-card>
+  <ion-card-content>
+    
+    <h5 *ngIf="candidateNotification.store">
+      {{ "txt_assigned_to_store" | translate : { store: candidateNotification.store.store_name } }}
+    </h5>
+    <p class="txt-meta">
+      {{ 
+        "txt_assigned_on" | translate : { 
+         on: translateService.toDate(candidateNotification.created_at) | date : "EEE, MMM d"
+        } 
+      }}
+    </p>
+    <p class="txt-detail" *ngIf="candidateNotification.store">
+      {{ "txt_assigned_to_work_for" | translate : { store: candidateNotification.store.store_name } }}
+    </p>
+    <p class="txt-meta">
+      {{ 
+        "hired_by" | translate : { 
+          by: candidateNotification.staff.staff_name
+        } 
+      }}
+    </p>
+
+  </ion-card-content>
+</ion-card>  

@@ -8,12 +8,15 @@
 
     <ion-title>
       <ion-skeleton-text *ngIf="!chat" [animated]="true" style="width: 80px"></ion-skeleton-text>
-      <ng-container *ngIf="chat && chat.contact">{{ chat.contact.contact_name }} </ng-container>
-      <ng-container *ngIf="chat && chat.staff">{{ chat.staff.staff_name }}</ng-container>
+      
+      <div *ngIf="chat && chat.contact">{{ chat.contact.contact_name }} </div>
+      <div *ngIf="chat && chat.staff">{{ chat.staff.staff_name }}</div>
+
+      <small *ngIf="chat && chat.store">
+        {{ chat.store.store_name }}
+      </small>
+      
     </ion-title>
-    <ion-subtitle *ngIf="chat && chat.store">
-      {{ chat.store.store_name }}
-    </ion-subtitle>
   </ion-toolbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)" [scrollEvents]="true" [attr.dir]="this.translateService.direction()">
@@ -21,12 +24,12 @@
     <ion-toolbar class="max-width">
       <ion-title size="large">
         <ion-skeleton-text *ngIf="!chat" [animated]="true" style="width: 80px"></ion-skeleton-text>
-        <ng-container *ngIf="chat && chat.contact">{{ chat.contact.contact_name }} </ng-container>
-        <ng-container *ngIf="chat && chat.staff">{{ chat.staff.staff_name }}</ng-container>
+        <div *ngIf="chat && chat.contact">{{ chat.contact.contact_name }} </div>
+        <div *ngIf="chat && chat.staff">{{ chat.staff.staff_name }}</div>
+        <small *ngIf="chat && chat.store">
+          {{ chat.store.store_name }}
+        </small>
       </ion-title>
-      <ion-subtitle *ngIf="chat && chat.store">
-        {{ chat.store.store_name }}
-      </ion-subtitle>
     </ion-toolbar>
   </ion-header>
    

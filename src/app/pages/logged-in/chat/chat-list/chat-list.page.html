@@ -31,7 +31,7 @@
             <ion-img *ngIf="chat.company && !chat.company.company_logo" class="no-logo" src="assets/images/building.svg">
             </ion-img>
 
-            <ion-img *ngIf="chat.company && chat.company.company_logo" class="employer-logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
+            <ion-img *ngIf="chat.company && chat.company.company_logo" class="employer-logo" src="{{ aws.cloudinaryUrl + chat.company.company_logo }}"
              (ionError)="onLogoError(chat.company)"></ion-img>
           </ion-thumbnail>
         </div>
