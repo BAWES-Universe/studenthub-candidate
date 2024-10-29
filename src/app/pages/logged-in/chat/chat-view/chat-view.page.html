@@ -42,6 +42,7 @@
           <div class="ion-text-center">
             <ion-spinner name="crescent" *ngIf="loadingMoreMessages"></ion-spinner>
           </div>
+          
           <ng-container *ngFor="let messageGroup of messageGroups">
 
             <div class="date">{{ messageGroup.date }}</div>

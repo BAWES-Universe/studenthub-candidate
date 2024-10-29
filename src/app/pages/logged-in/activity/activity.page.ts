@@ -6,6 +6,7 @@ import { AnalyticsService } from '../../../providers/analytics.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
 // models
 import { CandidateNotification } from '../../../models/candidate-notification';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -23,12 +24,17 @@ export class ActivityPage implements OnInit {
   public currentPage = 1;
   public totalCount = 0;
 
+  public totalUnreadActity: number = 0;
+
   public candidateNotifications: CandidateNotification[] = [];
 
+  public showRefresh: boolean = false; 
+  
   constructor(
     public platform: Platform,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
+    public eventService: EventService,
     public translateService: TranslateLabelService,
     public analyticsService: AnalyticsService,
     public candidateNotificationService: CandidateNotificationService
@@ -37,6 +43,25 @@ export class ActivityPage implements OnInit {
 
   ngOnInit() {
     this.analyticsService.page('Activity List page');
+
+    this.eventService.alertCount$.subscribe((
+      counts : {
+        total,
+        pendingInvitations,
+        totalUnreadActity
+      }
+    ) => {
+      if(!counts)
+        return null; 
+         
+      if (this.totalUnreadActity > 0 && this.totalUnreadActity != counts.totalUnreadActity) {
+        this.showRefresh = true;
+      } /*else {
+        this.showRefresh = false;
+      }*/
+
+      this.totalUnreadActity = counts.totalUnreadActity;
+    });
   }
 
   ionViewWillEnter() {
@@ -66,6 +91,8 @@ export class ActivityPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.candidateNotifications = response.body;
+
+      this.totalUnreadActity = parseInt(response.headers.get('X-Total-Unread-Actity'));
 
       if (event && event.target) {
         event.target.complete();
@@ -101,14 +128,19 @@ export class ActivityPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.candidateNotifications = this.candidateNotifications.concat(response.body);
+
+      this.totalUnreadActity = parseInt(response.headers.get('X-Total-Unread-Actity'));
     }, err => {
       this.loading = false;
     });
   }
 
-  doRefresh(event) {
-    event.preventDefault();
-    event.stopPropagation();
+  doRefresh(event = null) {
+
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
     this.loadData(event);
   }

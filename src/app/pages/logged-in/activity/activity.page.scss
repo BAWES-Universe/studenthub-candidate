@@ -11,3 +11,29 @@ ion-card {
 app-invitation {
     margin: 0 12px 16px;
 }
+
+.btn-refresh { 
+    --color: #fff;
+    --border-radius: 12px;
+    text-transform: none;
+    margin: auto;
+    z-index: 99999999;
+    position: fixed;
+    width: 120px; 
+    left: calc(100% / 2 - 60px);
+
+    ion-icon {
+        margin-inline-start: 5px;
+        position: relative;
+    }
+}
+
+[dir="ltr"] .btn-refresh ion-icon { 
+    right: -8px;
+    left: auto;
+}
+
+[dir="rtl"] .btn-refresh ion-icon { 
+    left: -8px;
+    right: auto;
+}

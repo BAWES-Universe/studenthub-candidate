@@ -23,7 +23,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-
+  <ion-button *ngIf="showRefresh" (click)="doRefresh()" class="btn-refresh" color="warning">
+    {{ "Refresh" | translate }} <ion-icon name="refresh-outline"></ion-icon>
+  </ion-button>
+  
   <div class="max-width">
 
     <ng-container *ngFor="let candidateNotification of candidateNotifications">
