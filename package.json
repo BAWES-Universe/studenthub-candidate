@@ -78,6 +78,7 @@
     "cordova-plugin-media-capture": "^4.0.0",
     "date-fns": "^2.29.3",
     "file-saver": "^2.0.5",
+    "ion2-calendar": "^3.5.0",
     "ionic-cache": "^6.0.3",
     "ionicons": "^6.0.3",
     "mixpanel-browser": "^2.45.0",

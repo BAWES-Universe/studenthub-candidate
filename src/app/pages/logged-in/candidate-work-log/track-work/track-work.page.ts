@@ -253,7 +253,7 @@ export class TrackWorkPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: LogTimeManuallyPage, 
-      initialBreakpoint: 0.5,
+      initialBreakpoint: 0.75,
       breakpoints: [0, 0.25, 0.5, 0.75],
       cssClass: "footer-modal track-manual-modal",
       componentProps: { 

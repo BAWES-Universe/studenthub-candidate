@@ -7,7 +7,9 @@ import { CandidateExperience } from './candidate.experience';
 import { CandidateSkill } from './candidate.skill';
 import { Area } from './area';
 import { CandidateEducation } from './candidate-education';
- 
+import { Certificate } from "./certificate";
+import { CandidateTag } from "./candidate-tag";
+
 export class Candidate {
     employee_id:number;
     candidate_id: string;
@@ -66,10 +68,13 @@ export class Candidate {
     area: Area;    
     nationality: Country;
     bank: Bank;
+    certificates : Certificate[];
     candidateEducations: CandidateEducation[];
     candidateExperiences: CandidateExperience[];
     candidateSkills: CandidateSkill[];
+    candidateTags: CandidateTag[];
 }
+
 export class CandidateWorkingHour {
     candidate_working_hour_uuid: string;
     candidate_id: number;

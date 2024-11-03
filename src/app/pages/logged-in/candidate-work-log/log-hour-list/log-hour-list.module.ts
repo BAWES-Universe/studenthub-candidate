@@ -8,6 +8,7 @@ import { LogHourListPageRoutingModule } from './log-hour-list-routing.module';
 import { LogHourListPage } from './log-hour-list.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import {PipesModule} from "../../../../pipes/pipes.module";
+import { WorkLogModule } from "../../../../components/work-log/work-log.module";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {PipesModule} from "../../../../pipes/pipes.module";
     TranslateModule.forChild(),
     LoadingModalModule,
     PipesModule,
+    WorkLogModule,
     LogHourListPageRoutingModule
   ],
   declarations: [

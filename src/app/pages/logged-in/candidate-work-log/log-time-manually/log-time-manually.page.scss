@@ -14,7 +14,7 @@ h5 {
     line-height: 28px; /* 140% */
     margin: 0 -24px 18px;
     border-bottom: 1px solid #E2E2E6;
-    padding: 24px;
+    padding: 0 24px 24px 24px;
 }
 
 .btn-close {
@@ -94,7 +94,6 @@ ion-item {
     }
 }
 
- 
 ion-textarea {
     width: calc(100% - 48px);
     height: 92px;

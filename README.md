@@ -107,3 +107,13 @@ https://www.ultimateakash.com/blog-details/Ii1DRGAKYAo=/How-To-Integrate-Google-
 
 # todo
 - replace university_id with candidate_education 
+
+todo
+- new notifications / transfer notification 
+    - transfer initiated
+    - trasfer paid
+    - marked as unpaid/ reverted 
+- devide notifications by "this week" "older" "Pending"
+- auto update notification
+- arabic 
+- ui testing in all devices (engish + arabic)

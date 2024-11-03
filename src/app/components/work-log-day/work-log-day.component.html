@@ -1,0 +1,65 @@
+<ion-card tappable 
+  [routerLink]="['/log-hour-list', candidateWorkingDate.candidate_id, candidateWorkingDate.date, candidateWorkingDate.store_id]"> 
+      
+  <span class="txt-label">{{ "Total Time" | translate}}</span>
+
+  <ul *ngIf="candidateWorkingDate.health" class="health-indicator">
+    <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
+      {{ candidateWorkingDate.health[0] }}
+    </li>
+    <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
+      {{ candidateWorkingDate.health[1] }}
+    </li>
+    <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
+      {{ candidateWorkingDate.health[2] }}
+    </li>
+  </ul>
+  
+  <!--
+  <ion-badge class="warning" *ngIf="candidateWorkingDate.status == 0">
+    {{ "Pending" | translate }}
+  </ion-badge>
+  <ion-badge class="success" *ngIf="candidateWorkingDate.status == 1">
+    {{ "Approved" | translate }}
+  </ion-badge>
+  <ion-badge class="warning" *ngIf="candidateWorkingDate.status == 2">
+    {{ "Rejected" | translate }}
+  </ion-badge>-->
+
+  <div class="clearfix"></div>
+  <h4 class="txt-time" *ngIf="candidateWorkingDate.total_time">{{ candidateWorkingDate.total_time | secondsToTime }}</h4>  
+  <h4 class="txt-time" *ngIf="!candidateWorkingDate.total_time">00:00</h4>
+
+  <div class="time-wrapper">
+    <div class="time-left">
+      <b>{{ "Start Time:" | translate}}</b> 
+
+      <span *ngIf="candidateWorkingDate.start_time">{{ 
+        translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+      <span *ngIf="!candidateWorkingDate.start_time">00:00</span>
+    </div>  
+
+    <div class="time-right">
+      <b>{{"End Time:" | translate}}</b> 
+
+      <span *ngIf="candidateWorkingDate.end_time">{{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+      <span *ngIf="!candidateWorkingDate.end_time">00:00</span>
+    </div>
+
+    <div class="clearfix"></div>
+  </div>
+
+  <ul *ngIf="candidateWorkingDate.health" class="health-bar">
+    <li *ngIf="candidateWorkingDate.health[0] > 0" class="pending">
+      {{ candidateWorkingDate.health[0] }} {{ "Pending" | translate }}
+    </li>
+    <li *ngIf="candidateWorkingDate.health[1] > 0" class="approved">
+      {{ candidateWorkingDate.health[1] }} {{ "Approved" | translate }}
+    </li>
+    <li *ngIf="candidateWorkingDate.health[2] > 0" class="rejected">
+      {{ candidateWorkingDate.health[2] }} {{ "Rejected" | translate }}
+    </li>
+  </ul>
+
+</ion-card>
+ 

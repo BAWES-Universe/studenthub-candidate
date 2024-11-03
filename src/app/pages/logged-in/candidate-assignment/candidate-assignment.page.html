@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar class="max-width">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="max-width">
+    <ion-title *ngIf="history && history.store"> 
+      {{ history.store.store_name }}
+    </ion-title>
+    <ion-title *ngIf="history && !history.store">{{ history.company.company_name }}</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name=""></ion-icon>
+      </ion-button> 
+    </ion-buttons>-->
+
+  </ion-toolbar>
+  <ion-toolbar class="max-width">
+    <ion-segment mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+      <ion-segment-button mode="md" value="logs">
+        <ion-label>{{ "Logs" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button mode="md" value="details">
+        <ion-label>{{ "Details" | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" [dir]="translateService.direction()">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="max-width" *ngIf="history && segment == 'details'">
+
+    <h4>{{ "Assignment Details" | translate }}</h4>
+
+    <div class="detail-item">
+      <div class="txt-label">{{ "Employer" | translate }}</div>
+      <div class="txt-value">{{ history.company.company_name }}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="txt-label">{{ "Compensation" | translate }}</div>
+
+      <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}</div>
+
+      <ng-container *ngIf="history.contract && history.contract.amount">
+        <div class="txt-value" *ngIf=" history.contract.type == 'HOURLY'">
+          {{ history.contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
+        </div>
+        
+        <div class="txt-value" *ngIf="history.contract.type == 'FIXED_PRICE'">
+          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }} 
+        </div>
+        
+        <div class="txt-value" *ngIf="history.contract.type == 'MONTHLY_SALARY'">
+          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
+        </div>
+      </ng-container>
+
+    </div>
+
+    <div class="detail-item">
+      <div class="txt-label">{{ "Start Date" | translate }}</div>
+      <div class="txt-value">{{ translateService.toDate(history.start_date) | date : 'MMMM d, y': undefined: translateService.currentLang }} </div>
+    </div>
+
+  </div>
+
+  <div class="max-width session-wrapper" *ngIf="history && segment == 'logs'">
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button class="btn-date-range" (click)="openCalendar()" [class.active]="start_date || end_date">
+            <ion-icon src="assets/icons/filter.svg"></ion-icon> {{ "Filter by Date" | translate }}
+          </button>
+        </ion-col>
+        <ion-col *ngIf="start_date">
+          <ion-item line="none"  (click)="selectStartDate($event)" >
+            <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+            <ion-input readonly [value]="start_date"></ion-input>
+
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+
+          </ion-item>
+        </ion-col>
+        <ion-col *ngIf="end_date">
+          <ion-item line="none" (click)="selectEndDate($event)">
+            <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+            <ion-input readonly [value]="end_date"></ion-input>
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+     
+    <ng-container *ngFor="let group of candidateWorkingHourData | groupBy : 'date'">
+      <h4 class="txt-date">{{ group.name }}</h4>
+
+      <div class="date-wrapper" tappable *ngFor="let hour of group.resources" 
+      [routerLink]="['/log-hour-list', hour.date]">
+      
+        <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
+        
+        <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
+          {{ "Pending" | translate }}
+        </ion-badge>
+        <ion-badge class="success" *ngIf="hour.dateStatus == 1">
+          {{ "Approved" | translate }}
+        </ion-badge>
+        <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
+          {{ "Rejected" | translate }}
+        </ion-badge>
+
+        <div class="clearfix"></div>
+
+        <div class="time-wrapper">
+          <b>{{ hour.total_time | secondsToTime }}</b>  
+          <span>
+            {{ translateService.toDate(hour.checkIn) | date: "shortTime": undefined: translateService.currentLang}} 
+            <ion-icon name="arrow-forward-outline"></ion-icon> 
+            {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
+          </span>
+        </div>
+      </div>
+    </ng-container> 
+    
+    <!-- todo: replace with placeholder image -->
+    <p *ngIf="candidateWorkingHourData.length == 0 && !loading">
+      {{ "No record found" | translate }}
+    </p>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

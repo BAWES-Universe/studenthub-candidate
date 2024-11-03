@@ -1,0 +1,78 @@
+<ion-card>
+  <ion-card-content class="content">
+    <h5>{{ "Work Hour Rejected" | translate }}</h5>
+    <p class="txt-meta">
+      {{ 
+        "txt_reject_by" | translate : {
+          "by": candidateNotification.candidateWorkLogFeedback.createdBy.contact_name || "employer",
+          "on": translateService.toDate(candidateNotification.created_at) | date: "EEE, MMM d"
+        }
+      }}
+    </p>
+      
+    <p class="txt-meta" *ngIf="candidateNotification.store">
+      {{ 
+        "txt_worked_at" | translate : {
+          store: candidateNotification.store.store_name
+        }
+      }}
+    </p> 
+    <p class="txt-detail">
+      {{ 
+        "txt_hours_rejected_on" | translate : { 
+          day: translateService.toDate(candidateNotification.created_at) | date: "MMMM d"
+        }
+      }}</p>
+    <p class="txt-meta">
+      {{ 
+        "txt_hours_rejection_reason" | translate : {
+          by: candidateNotification.candidateWorkLogFeedback.createdBy.contact_name || "employer",
+          reason: candidateNotification.candidateWorkLogFeedback.reason
+        } 
+      }}
+    </p>
+
+    <ion-card>
+      <ion-card-content>
+
+        <h5 class="txt-total-hours">{{ "Total Hours" | translate}}</h5>
+
+        <ul *ngIf="candidateNotification.candidateWorkingDate.health" class="health-indicator">
+          <li *ngIf="candidateNotification.candidateWorkingDate.health[0] > 0" class="pending">
+            {{ candidateNotification.candidateWorkingDate.health[0] }}
+          </li>
+          <li *ngIf="candidateNotification.candidateWorkingDate.health[1] > 0" class="approved">
+            {{ candidateNotification.candidateWorkingDate.health[1] }}
+          </li>
+          <li *ngIf="candidateNotification.candidateWorkingDate.health[2] > 0" class="rejected">
+            {{ candidateNotification.candidateWorkingDate.health[2] }}
+          </li>
+        </ul>
+
+        <div class="clearfix"></div>
+
+        <p class="time-wrapper">
+          <b *ngIf="candidateNotification.candidateWorkingDate.total_time">{{ candidateNotification.candidateWorkingDate.total_time | secondsToTime }}</b>  
+          <b *ngIf="!candidateNotification.candidateWorkingDate.total_time">00:00</b>
+
+          <span>
+            {{ translateService.toDate(candidateNotification.candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+            <ion-icon name="arrow-forward-outline"></ion-icon> 
+            <ng-container *ngIf="candidateNotification.candidateWorkingDate.end_time">
+              {{ translateService.toDate(candidateNotification.candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+            </ng-container>
+            <ng-container *ngIf="!candidateNotification.candidateWorkingDate.end_time">
+              {{ "Now" | translate }}
+            </ng-container>
+          </span>
+        </p>  
+
+        <div class="clearfix"></div>
+
+      </ion-card-content>
+    </ion-card>
+    
+    <!--
+    <app-work-log-day></app-work-log-day>-->
+  </ion-card-content>
+</ion-card>  

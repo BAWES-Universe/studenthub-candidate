@@ -3,6 +3,16 @@
     <div class="brand">
       <img src="assets/logo.svg">
     </div>
+
+    <ion-buttons slot="end">
+      <!-- todo: count -->
+      <ion-button routerLink="/activity" class="btn-alert">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge *ngIf="totalUnreadActity > 0" color="warning" >
+          {{ totalUnreadActity }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -37,11 +47,12 @@
         <ion-label>{{ 'Track' | translate }}</ion-label>
       </ion-tab-button>
 
+      <!-- 
       <ion-tab-button tab="payments" layout="icon-start">
         <ion-icon class="not-current" src="assets/icons/payment-tab.svg"></ion-icon>
         <ion-icon class="icon-selected" src="assets/icons/payment-selected.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
-      </ion-tab-button>
+      </ion-tab-button>-->
 
       <ion-tab-button tab="discounts" layout="icon-start">
         <ion-icon class="not-current" src="assets/icons/payment-tab.svg"></ion-icon>
@@ -78,11 +89,12 @@
         <ion-label>{{ 'Track' | translate }}</ion-label>
       </ion-tab-button>
 
+      <!--
       <ion-tab-button tab="payments">
         <ion-icon class="not-current" src="assets/icons/payment-tab.svg"></ion-icon>
         <ion-icon class="icon-selected" src="assets/icons/payment-selected.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
-      </ion-tab-button>
+      </ion-tab-button>-->
 
       <ion-tab-button tab="discounts">
         <ion-icon class="not-current" src="assets/icons/profile-tab.svg"></ion-icon>
@@ -105,7 +117,6 @@
       <ion-spinner *ngIf="startingChat"></ion-spinner>
     </ion-fab-button>
     <ion-badge color="warning" *ngIf="alerts">{{ alerts }}</ion-badge>
-    
   </ion-fab>
   
 </ion-content>

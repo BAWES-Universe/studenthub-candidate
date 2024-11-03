@@ -21,6 +21,7 @@ export class TabsPage implements OnInit {
   public showHeader: boolean = false;
 
   public alerts: number = 0;
+  public totalUnreadActity: number = 0;
   
   public startingChat: boolean = false; 
 
@@ -45,16 +46,17 @@ export class TabsPage implements OnInit {
     this.eventService.alertCount$.subscribe((
       counts : {
         total,
-        pendingInvitations
+        pendingInvitations,
+        totalUnreadActity
       }
     ) => {
       if(!counts)
         return null; 
         
       this.alerts = counts.total > 0 ? counts.total : null;
+
+      this.totalUnreadActity = counts.totalUnreadActity;
     });
-
-
 
     this.loadJobSearchStatus();
   }

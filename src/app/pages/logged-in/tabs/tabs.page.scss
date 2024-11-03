@@ -3,6 +3,7 @@ ion-tab-bar {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
+
 .dummy-btn-wrapper {
     visibility: hidden;
 }
@@ -237,3 +238,14 @@ ion-fab {
     }
 }
 
+
+.btn-alert {
+    border-radius: 8px;
+    background: var(--Blue-Tint-1, #F5F7FF);
+    --border-radius: 8px !important;
+    --background: var(--Blue-Tint-1, #F5F7FF);
+
+    ion-badge {
+        margin-inline-start: 5px;
+    }
+}

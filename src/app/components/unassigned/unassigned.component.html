@@ -1,0 +1,24 @@
+<ion-card>
+  <ion-card-content>
+
+    <h5 *ngIf="candidateNotification.store">
+      {{ "txt_unassigned_from" | translate : { store : candidateNotification.store.store_name } }}
+    </h5>
+    <p class="txt-meta">
+      {{ 
+        "txt_unassigned_on" | translate : { 
+         on: translateService.toDate(candidateNotification.created_at) | date : "EEE, MMM d"
+        } 
+      }}
+    </p>
+    <p class="txt-detail" *ngIf="candidateNotification.store">
+      {{ "txt_no_longer_working_for" | translate : { store : candidateNotification.store.store_name } }}
+    </p>
+    
+    <p class="txt-meta">
+      {{ "Reason stated" | translate }}: {{ candidateNotification.message }}
+    </p>
+
+    
+  </ion-card-content>
+</ion-card>  

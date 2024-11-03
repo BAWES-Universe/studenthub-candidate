@@ -36,6 +36,9 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 import {ProfileUrlPage} from "src/app/pages/logged-in/profile-url/profile-url.page";
 import { IntroductionPage } from '../introduction/introduction.page';
 import { EducationFormPage } from '../education-form/education-form.page';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { WorkHistoryPage } from '../work-history/work-history.page';
+import { UpdateBankPage } from '../update-bank/update-bank.page';
 
 
 @Component({
@@ -59,6 +62,20 @@ export class ProfilePage implements OnInit {
 
   public pendingFields = '';
 
+  public borderLimit;
+
+  public workHistory: any[] = [];
+  public currentAssignments: any[] = [];
+
+  public salaryTransfers: any[] = [];
+
+  segment = "work-details";
+
+  public pageCount;
+  public currentPage;
+
+  public downloading: boolean; 
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -66,6 +83,7 @@ export class ProfilePage implements OnInit {
     public authService: AuthService,
     public accountService: AccountService,
     public eventService: EventService,
+    public candidateService: CandidateService,
     public awsService: AwsService,
     public translateService: TranslateLabelService,
     public analyticsService: AnalyticsService,
@@ -84,6 +102,146 @@ export class ProfilePage implements OnInit {
 
   ionViewWillEnter() {
     this.loadData();
+    this.loadWorkHistoryData();
+    this.listSalary(1);
+  }
+ 
+  toggleOpen(history, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    history.isOpen = !history.isOpen;
+  }
+
+  /**
+   * Load list of transfers
+   * @param page
+   * @param refresher
+   */
+  async listSalary(page: number, refresher: any = null) {
+
+    if (!refresher) {
+      this.loading = true;
+    }
+
+    this.accountService.listSalary(page).subscribe(response => {
+
+      this.salaryTransfers = response.body;
+
+      // Dismiss the refresher if available
+      if (refresher && refresher.target) {
+        refresher.target.complete();
+      }
+
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+    },
+      error => { },
+      () => {
+        this.loading = false;
+      });
+  }
+
+  /**
+   * load more data on scroll to bottom
+   * @param event
+   */
+  doInfiniteSalary(event) {
+
+    this.loading = true;
+
+    this.currentPage++;
+
+    this.accountService.listSalary(this.currentPage).subscribe(response => {
+
+      this.salaryTransfers = this.salaryTransfers.concat(response.body)
+
+      if (event && event.target) {
+        event.target.complete();
+      }
+    },
+      error => { },
+      () => {
+        this.loading = false;
+      });
+  }
+
+  imageError(history) {
+    history.company.company_logo = null;
+  }
+
+  async updateBank($e) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: UpdateBankPage,
+      componentProps: {
+        candidate: this.candidate,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.bank && this.candidate) {
+        this.candidate.bank_account_name = e.data.bank_account_name;
+        this.candidate.candidate_iban = e.data.candidate_iban;
+        this.candidate.bank_id = e.data.bank.bank_id;
+        this.candidate.bank = e.data.bank;
+      }
+    });
+    modal.present();
+  }
+
+  async downloadCertificate(event) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: WorkHistoryPage,
+      componentProps: {
+        candidate: Object.assign({}, this.candidate),
+        workHistory: this.workHistory,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  isFutureDate(date) {
+    return new Date(date) > new Date();
+  }
+
+  /*segmentChanged(event) {
+    this.segment = event.detail.value;
+  }*/
+
+    doRefresh(event) {
+      this.loadData();
+      this.loadWorkHistoryData();
+      event.target.complete();
+    }
+
+  /**
+   * Load candidate work history data
+   */
+  loadWorkHistoryData() {
+    this.candidateService.workHistory().subscribe(response => {
+      this.workHistory = response.filter(e => e.end_date != null);
+      this.currentAssignments = response.filter(e => e.end_date == null);
+    });
+  }
+
+  openAssignment(history, $event) {
+    this.navCtrl.navigateForward("/candidate-assignment/" + history.id);
   }
 
   /**
@@ -243,6 +401,8 @@ export class ProfilePage implements OnInit {
    * @param e
    */
   logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+
     this.eventService.tabScrolled$.next({ scrollTop: e.detail.scrollTop });
   }
 

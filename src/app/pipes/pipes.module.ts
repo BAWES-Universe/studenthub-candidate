@@ -7,10 +7,12 @@ import {SplitPipe} from "./split.pipe";
 import {TimeAgoPipe} from "./timeago.pipe";
 import { SecondsToTimePipe } from "./secondToTime.pipe";
 import { ConvertToBoldPipe } from "./convert-to-bold";
+import { GroupByPipe } from "./groupby-pipe";
 
 // import custom pipes here
 @NgModule({
     declarations: [
+        GroupByPipe,
         TimerPipe,
         AgePipe,
         SplitPipe,
@@ -21,6 +23,7 @@ import { ConvertToBoldPipe } from "./convert-to-bold";
     ],
     imports: [],
     exports: [
+        GroupByPipe,
         TimerPipe,
         AgePipe,
         SplitPipe,
