@@ -208,3 +208,7 @@ ion-item {
   .time-wrapper {
     margin-top: 8px;
   }
+
+  [dir="rtl"] ion-back-button {
+    rotate: 180deg;
+  }
