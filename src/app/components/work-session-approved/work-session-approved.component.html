@@ -1,0 +1,20 @@
+<div class="card" [attr.dir]="translateService.direction()" >
+  <h5>{{ "Work Session Approved" | translate }}</h5>
+  
+  <p>
+    {{ 
+      "txt_session_approved" | translate : {
+        start_time: translateService.toDate(candidateNotification.candidateWorkingHour.start_time) | date: "shortTime": undefined: translateService.currentLang,
+        end_time: translateService.toDate(candidateNotification.candidateWorkingHour.end_time) | date: "shortTime": undefined: translateService.currentLang,
+        date: translateService.toDate(candidateNotification.candidateWorkingHour.date) | date : "EEE, MMM d"
+      }
+    }}
+  </p>
+
+  <p class="txt-time">
+    {{ 
+        translateService.toDate(candidateNotification.created_at) | date : "MMM d"
+    }}
+  </p>
+  <span class="unread" *ngIf="candidateNotification.is_new"></span>
+ </div>

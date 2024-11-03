@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" [attr.dir]="translateService.direction()">
   <ion-toolbar class="max-width">
     <ion-buttons slot="start">
       <ion-back-button mode="md" icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
@@ -51,6 +51,16 @@
           (click)="markRead(candidateNotification)"
             [candidateNotification]="candidateNotification"></app-work-hour-rejected>
 
+        <app-work-session-approved *ngSwitchCase="8"
+        tappable
+          (click)="markRead(candidateNotification)"
+          [candidateNotification]="candidateNotification"></app-work-session-approved>
+            
+        <app-work-session-rejected *ngSwitchCase="9"
+        tappable
+          (click)="markRead(candidateNotification)"
+            [candidateNotification]="candidateNotification"></app-work-session-rejected>    
+        
         <app-invitation-notification *ngSwitchCase="0"
           tappable
           (click)="markRead(candidateNotification)"

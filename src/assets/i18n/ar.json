@@ -1,4 +1,9 @@
 {
+    "txt_session_rejected": "تم رفض جلستك ({{ start_time }} - {{ end_time }}) في تاريخ {{ date }}.",
+    "Work Session Approved": "تمت الموافقة على جلستك ({{ start_time }} - {{ end_time }}) في تاريخ {{ date }}.",
+    "Work Session Rejected": "تم رفض الجلسة العملية.",
+    "txt_work_session_approved": "تمت الموافقة على الجلسة العملية.",
+    "txt_invited_for": "لقد تمت دعوتك للعمل مع {{ company }} لوظيفة {{ position }}.",
     "Logs": "السجلات",
     "Details": "التفاصيل",
     "Employer": "الجهة الموظفة",
@@ -12,7 +17,6 @@
     "Your compensation transfer has been initiated. It should be completed within 1-2 business days.": "تم بدء تحويل التعويض الخاص بك. يجب أن يتم خلال 1-2 أيام عمل.",
     "Activity": "النشاط",
     "Experiences": "الخبرات",
-    "txt_invitated_for": "You've been invited to work with {{ company }} for the position of {{ position }}.",
     "Older": "أقدم",
     "This Week": "هذا الأسبوع",
     "txt_no_longer_working_for": "أنت لم تعد تعمل لدى {{ store }}",

@@ -1,4 +1,6 @@
 {
+    "txt_session_rejected" : "Your Session ({{ start_time }} - {{ end_time }}) has been rejected for {{ date }}",
+    "txt_session_approved": "Your Session ({{ start_time }} - {{ end_time }}) has been approved for {{ date }}",
     "txt_invitated_for": "You've been invited to work with {{ company }} for the position of {{ position }}.",
     "hired_by": "Hired by {{ by }}",
     "txt_no_longer_working_for": "You are no longer working for {{ store }}",

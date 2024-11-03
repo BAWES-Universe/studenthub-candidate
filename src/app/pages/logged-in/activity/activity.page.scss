@@ -7,11 +7,15 @@ app-transfer-init,
 app-transfer-paid,
 app-invitation-notification,
 app-transfer-unpaid,
+app-work-session-approved,
+app-work-session-rejected,
 ion-card {
     margin-bottom: 16px;
     display: block;
 }
 
+app-work-session-approved,
+app-work-session-rejected,
 app-invitation-notification,
 app-transfer-init,
 app-transfer-paid,
@@ -62,6 +66,10 @@ ion-card {
 [dir="rtl"] .btn-refresh ion-icon { 
     left: -8px;
     right: auto;
+}
+
+[dir="rtl"] ion-back-button {
+    rotate: 180deg;
 }
 
 h5 {

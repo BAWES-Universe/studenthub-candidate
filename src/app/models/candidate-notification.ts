@@ -1,4 +1,4 @@
-import { Candidate} from "./candidate";
+import { Candidate, CandidateWorkingHour} from "./candidate";
 import { CandidateWorkHistory} from "./candidate-work-history";
 import { CandidateWorkingDate} from "./candidate-working-date";
 import { Company} from "./company";
@@ -24,6 +24,7 @@ export class CandidateNotification {
     type: number;
     candidate_work_history_id: number;
     candidate_working_date_uuid: string;
+    candidate_working_hour_uuid: string;
     invitation_uuid: string;
     request_uuid: string;
     number: number;
@@ -39,6 +40,7 @@ export class CandidateNotification {
     candidate: Candidate;
     candidateWorkHistory: CandidateWorkHistory;
     candidateWorkingDate: CandidateWorkingDate;
+    candidateWorkingHour: CandidateWorkingHour;
     company: Company;
     invitation: Invitation;
     request: Request;

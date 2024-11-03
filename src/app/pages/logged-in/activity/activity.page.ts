@@ -4,9 +4,9 @@ import { ModalController, NavController, Platform, IonContent } from '@ionic/ang
 // services
 import { AnalyticsService } from '../../../providers/analytics.service';
 import { TranslateLabelService } from '../../../providers/translate-label.service';
+import { EventService } from '../../../providers/event.service';
 // models
 import { CandidateNotification } from '../../../models/candidate-notification';
-import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -103,9 +103,9 @@ export class ActivityPage implements OnInit {
   }
 
   getUrlParams() {
-    return "&expand=invitation,invitation.request,invitation.company,invitation.request.requestSkills,candidateWorkingDate," + 
-      "candidateWorkingDate.health,candidateWorkLogFeedback,candidateWorkLogFeedback.createdBy," +
-      "company,staff,store,";
+    //invitation.request.requestSkills,candidateWorkingDate,candidateWorkingDate.health,,
+    return "&expand=invitation,invitation.request,invitation.company," + 
+      "company,staff,store,candidateWorkingHour,candidateWorkingDate,candidateWorkLogFeedback,candidateWorkLogFeedback.createdBy";
   }
 
   doInfinite(event) {
