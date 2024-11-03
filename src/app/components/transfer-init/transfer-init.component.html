@@ -1,0 +1,10 @@
+ <div class="card" [attr.dir]="translateService.direction()" >
+  <h5>{{ "Compensation Transfer Initiated" | translate }}</h5>
+  <p>{{ "Your compensation transfer has been initiated. It should be completed within 1-2 business days." | translate }}</p>
+  <p class="txt-time">
+    {{ 
+        translateService.toDate(candidateNotification.created_at) | date : "MMM d"
+    }}
+  </p>
+  <span class="unread" *ngIf="candidateNotification.is_new"></span>
+ </div>

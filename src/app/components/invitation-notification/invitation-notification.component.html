@@ -1,0 +1,20 @@
+<div class="card" [attr.dir]="translateService.direction()" >
+  <h5>{{ "New Part-Time Invitation" | translate }} </h5>
+  <p>{{
+      "txt_invitated_for" | translate : {
+        company: translateService.langContent(
+          candidateNotification.company.company_common_name_en, candidateNotification.company.company_common_name_ar),
+        position: candidateNotification.invitation.request && candidateNotification.invitation.request.request_position_title ?
+          candidateNotification.invitation.request.request_position_title : translateService.transform("Part-timer")
+      }
+    }}
+  </p>
+   
+  <p class="txt-time">
+    {{ 
+      translateService.toDate(candidateNotification.created_at) | date : "MMM d"
+  }}
+  </p>
+
+  <span class="unread" *ngIf="candidateNotification.is_new"></span>
+ </div>

@@ -23,44 +23,66 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <!--
   <ion-button *ngIf="showRefresh" (click)="doRefresh()" class="btn-refresh" color="warning">
     {{ "Refresh" | translate }} <ion-icon name="refresh-outline"></ion-icon>
-  </ion-button>
+  </ion-button>-->
   
   <div class="max-width">
 
+    <!--
     <h5>{{ "Pending" | translate }}</h5>
 
     <h5>{{ "This Week" | translate }}</h5>
 
-    <h5>{{ "Older" | translate }}</h5>
+    <h5>{{ "Older" | translate }}</h5>-->
 
     <ng-container *ngFor="let candidateNotification of candidateNotifications">
 
       <ng-container [ngSwitch]="candidateNotification.type">
  
         <app-work-hour-approved *ngSwitchCase="3"
+        tappable
+          (click)="markRead(candidateNotification)"
           [candidateNotification]="candidateNotification"></app-work-hour-approved>
             
         <app-work-hour-rejected *ngSwitchCase="4"
+        tappable
+          (click)="markRead(candidateNotification)"
             [candidateNotification]="candidateNotification"></app-work-hour-rejected>
 
-        <app-invitation *ngSwitchCase="0"
-            [model]="candidateNotification.invitation"></app-invitation>
+        <app-invitation-notification *ngSwitchCase="0"
+          tappable
+          (click)="markRead(candidateNotification)"
+            [candidateNotification]="candidateNotification"></app-invitation-notification>
             
         <app-assigned *ngSwitchCase="1"
+        tappable
+        (click)="markRead(candidateNotification)"
           [candidateNotification]="candidateNotification"></app-assigned>
 
         <app-unassigned *ngSwitchCase="2"
+        tappable
+        (click)="markRead(candidateNotification)"
             [candidateNotification]="candidateNotification"></app-unassigned>
 
+        <app-transfer-init *ngSwitchCase="5"
+        tappable
+        (click)="markRead(candidateNotification)"
+            [candidateNotification]="candidateNotification"></app-transfer-init>
+  
+        <app-transfer-paid *ngSwitchCase="6"
+        tappable
+        (click)="markRead(candidateNotification)"
+          [candidateNotification]="candidateNotification"></app-transfer-paid>
 
-    <!--
-    const TYPE_TRANSFER_INIT = 5;
-    const TYPE_TRANSFER_PAID = 6;
-    const TYPE_TRANSFER_UNPAID = 7;-->
+        <app-transfer-unpaid *ngSwitchCase="7"
+        tappable
+        (click)="markRead(candidateNotification)"
+          [candidateNotification]="candidateNotification"></app-transfer-unpaid>
 
-        <ion-card *ngSwitchDefault>
+        <ion-card *ngSwitchDefault tappable
+          (click)="markRead(candidateNotification)"> 
           <ion-card-content>
             {{ candidateNotification.message }}
           </ion-card-content>

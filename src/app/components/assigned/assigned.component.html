@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card [attr.dir]="translateService.direction()" > 
   <ion-card-content>
     
     <h5 *ngIf="candidateNotification.store">
@@ -22,5 +22,11 @@
       }}
     </p>
 
+  <p class="txt-time">
+    {{ 
+      translateService.toDate(candidateNotification.created_at) | date : "MMM d"
+  }}
+
+  <span class="unread" *ngIf="candidateNotification.is_new"></span>
   </ion-card-content>
 </ion-card>  
