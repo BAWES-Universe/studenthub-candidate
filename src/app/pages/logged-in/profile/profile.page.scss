@@ -140,7 +140,7 @@ ion-header {
       font-style: normal;
       line-height: normal;
       letter-spacing: normal;
-      text-align: left;
+      text-align: var(--start);
       color: var(--black);
     }
   }
@@ -502,13 +502,13 @@ ion-header {
       font-style: normal;
       line-height: normal;
       letter-spacing: normal;
-      text-align: left;
+      text-align: var(--start);
       color: var(--ion-color-custom-6);
   
       ion-icon {
         margin-inline-end: 7px;
         font-size: 24px;
-        float: left;
+        float: var(--start);
       }
     }
   
@@ -586,7 +586,7 @@ ion-header {
           font-style: normal;
           line-height: 1.5;
           letter-spacing: normal;
-          text-align: left;
+          text-align: var(--start);
           color: var(--ion-color-custom-6);
           text-transform: capitalize;
           margin: 0 0 4px 0;
@@ -599,7 +599,7 @@ ion-header {
           font-style: normal;
           line-height: 1.43;
           letter-spacing: normal;
-          text-align: left;
+          text-align: var(--start);
           color: var(--ion-color-custom-5);
         }
       }
@@ -637,7 +637,7 @@ ion-header {
         font-style: normal;
         line-height: 1.43;
         letter-spacing: normal;
-        text-align: left;
+        text-align: var(--start);
         color: var(--ion-color-custom-34);
         text-decoration: none;
       }
@@ -663,7 +663,7 @@ ion-header {
       font-style: normal;
       line-height: 1.43;
       letter-spacing: normal;
-      text-align: left;
+      text-align: var(--start);
       color: var(--ion-color-custom-14);
       text-transform: capitalize;
       --padding-start: 20px;
@@ -686,7 +686,7 @@ ion-header {
       font-style: normal;
       line-height: 1.43;
       letter-spacing: normal;
-      text-align: left;
+      text-align: var(--start);
       color: var(--ion-color-custom-17);
     }
   
@@ -1046,7 +1046,7 @@ ion-header {
         font-style: normal;
         line-height: 1.43;
         letter-spacing: normal;
-        text-align: left;
+        text-align: var(--start);
         color: var(--ion-color-custom-17);
         margin-inline-end: 8px;
         margin-bottom: 8px;
