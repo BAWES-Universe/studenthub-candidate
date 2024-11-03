@@ -14,6 +14,10 @@ import { WorkHourRejectedModule } from "../../../components/work-hour-rejected/w
 import { InvitationModule } from "../../../components/invitation/invitation.module";
 import { TranslateModule } from '@ngx-translate/core';
 import { NoItemsModule } from "../../../components/no-items/no-items.module";
+import { TransferUnpaidModule } from '../../../components/transfer-unpaid/transfer-unpaid.module';
+import { TransferPaidModule } from '../../../components/transfer-paid/transfer-paid.module';
+import { TransferInitModule } from '../../../components/transfer-init/transfer-init.module';
+import { InvitationNotificationModule }from '../../../components/invitation-notification/invitation-notification.module';
 
 @NgModule({
   imports: [
@@ -22,10 +26,14 @@ import { NoItemsModule } from "../../../components/no-items/no-items.module";
     IonicModule,
     WorkHourApprovedModule,
     WorkHourRejectedModule,
-    InvitationModule,
+    //InvitationModule,
+    InvitationNotificationModule,
     AssignedModule,
     UnassignedModule,
     NoItemsModule,
+    TransferUnpaidModule,
+    TransferPaidModule,
+    TransferInitModule,
     TranslateModule.forChild(),
     ActivityPageRoutingModule
   ],

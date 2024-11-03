@@ -14,6 +14,9 @@ ion-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+    display: block;
+    position: relative;
+    
 
     h5 {
         color: var(--Neutral-95, #23233D);
@@ -33,6 +36,10 @@ ion-card {
         line-height: 16px; /* 133.333% */
     }   
 
+    p.txt-time {
+        text-align: end;
+    }
+    
     .txt-detail {
         color: var(--Neutral-95, #23233D);
         font-feature-settings: 'liga' off, 'clig' off;
@@ -40,5 +47,26 @@ ion-card {
         font-style: normal;
         font-weight: 400;
         line-height: 20px; /* 142.857% */
+    }
+}
+
+
+.unread {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    background: var(--Blue-Tint-Main, #4C70F2);
+    display: block;
+    content: "";
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border-radius: 100%;
+}
+
+[dir="rtl"] {
+    .unread { 
+        right: auto;
+        left: 16px;
     }
 }

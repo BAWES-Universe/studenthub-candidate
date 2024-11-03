@@ -68,7 +68,7 @@ export class ActivityPage implements OnInit {
     this.loadData();
 
     //mark invitations as viewed 
-    this.candidateNotificationService.markReadAll().subscribe();
+   // this.candidateNotificationService.markReadAll().subscribe();
   }
  
   ionViewWillLeave() {
@@ -136,15 +136,22 @@ export class ActivityPage implements OnInit {
   }
 
   doRefresh(event = null) {
+    this.showRefresh = false;
 
-    if (event) {
+    /*if (event) {
       event.preventDefault();
       event.stopPropagation();
-    }
+    }*/
 
     this.loadData(event);
   }
 
+  markRead(candidateNotification) {
+    candidateNotification.is_new = false; 
+
+    this.candidateNotificationService.markRead(candidateNotification.cn_uuid).subscribe();
+  }
+  
   /**
    * broadcast scroll event
    * @param e

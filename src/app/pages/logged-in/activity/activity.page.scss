@@ -3,11 +3,19 @@ app-work-hour-rejected,
 app-invitation,
 app-assigned,
 app-unassigned,
+app-transfer-init,
+app-transfer-paid,
+app-invitation-notification,
+app-transfer-unpaid,
 ion-card {
     margin-bottom: 16px;
     display: block;
 }
 
+app-invitation-notification,
+app-transfer-init,
+app-transfer-paid,
+app-transfer-unpaid,
 app-invitation {
     margin: 0 12px 16px;
 }
