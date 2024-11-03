@@ -18,12 +18,16 @@ import { TransferUnpaidModule } from '../../../components/transfer-unpaid/transf
 import { TransferPaidModule } from '../../../components/transfer-paid/transfer-paid.module';
 import { TransferInitModule } from '../../../components/transfer-init/transfer-init.module';
 import { InvitationNotificationModule }from '../../../components/invitation-notification/invitation-notification.module';
+import { WorkSessionRejectedModule } from "../../../components/work-session-rejected/work-session-rejected.module";
+import { WorkSessionApprovedModule } from "../../../components/work-session-approved/work-session-approved.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    WorkSessionRejectedModule,
+    WorkSessionApprovedModule,
     WorkHourApprovedModule,
     WorkHourRejectedModule,
     //InvitationModule,
