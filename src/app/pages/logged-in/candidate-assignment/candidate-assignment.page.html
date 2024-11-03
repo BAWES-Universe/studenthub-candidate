@@ -45,7 +45,23 @@
 
     <div class="detail-item">
       <div class="txt-label">{{ "Compensation" | translate }}</div>
-      <div class="txt-value">{{ history.candidate_hourly_rate }}</div>
+
+      <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}</div>
+
+      <ng-container *ngIf="history.contract && history.contract.amount">
+        <div class="txt-value" *ngIf=" history.contract.type == 'HOURLY'">
+          {{ history.contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
+        </div>
+        
+        <div class="txt-value" *ngIf="history.contract.type == 'FIXED_PRICE'">
+          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }} 
+        </div>
+        
+        <div class="txt-value" *ngIf="history.contract.type == 'MONTHLY_SALARY'">
+          {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
+        </div>
+      </ng-container>
+
     </div>
 
     <div class="detail-item">

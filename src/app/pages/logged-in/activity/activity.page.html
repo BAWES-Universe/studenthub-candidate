@@ -29,6 +29,12 @@
   
   <div class="max-width">
 
+    <h5>{{ "Pending" | translate }}</h5>
+
+    <h5>{{ "This Week" | translate }}</h5>
+
+    <h5>{{ "Older" | translate }}</h5>
+
     <ng-container *ngFor="let candidateNotification of candidateNotifications">
 
       <ng-container [ngSwitch]="candidateNotification.type">

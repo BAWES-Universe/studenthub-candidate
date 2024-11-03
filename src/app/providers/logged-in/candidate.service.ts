@@ -13,8 +13,13 @@ export class CandidateService {
 
   constructor(private _authhttp: AuthHttpService) { }
 
+  /**
+   * assignment details
+   * @param id 
+   * @returns 
+   */
   workHistoryDetail(id: string | number): Observable<any> {
-    const url = this._candidateEndpoint + '/work-history/' + id + '?expand=store,company,company.parentCompany';
+    const url = this._candidateEndpoint + '/work-history/' + id + '?expand=store,company,company.parentCompany,contract,contract.amount';
     return this._authhttp.get(url);
   }
 
