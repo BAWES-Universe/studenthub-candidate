@@ -103,7 +103,7 @@ export class ActivityPage implements OnInit {
   }
 
   getUrlParams() {
-    //invitation.request.requestSkills,candidateWorkingDate,candidateWorkingDate.health,,
+    //invitation.request.requestSkills,candidateWorkingDate.health,,
     return "&expand=invitation,invitation.request,invitation.company," + 
       "company,staff,store,candidateWorkingHour,candidateWorkingDate,candidateWorkLogFeedback,candidateWorkLogFeedback.createdBy";
   }
