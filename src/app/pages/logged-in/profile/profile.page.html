@@ -550,13 +550,14 @@
           [class.success]="salary.status =='Paid'">
           <ion-card-content>
             <span class="date">{{ salary.tc_created_at }}</span>
-            <p class="totals">
+            <p class="totals" *ngIf="salary.candidate_bonus > 0">
               <span *ngIf="salary.hours > 0">{{ salary.hours }} {{ "hours" | translate }} </span>
               <span *ngIf="salary.minutes > 0">{{ salary.minutes }} {{ "minutes" | translate }} </span>
               <span *ngIf="salary.seconds > 0">{{ salary.seconds }} {{ "seconds" | translate }} </span>
               x {{ salary.candidate_hourly_rate | number:'1.3-3' }} {{ "per hour" | translate }}
               <span *ngIf="salary.candidate_bonus > 0">+ {{ (salary.candidate_bonus) | number:'1.3-3' }} {{ salary.currency_code }} {{ "bonus" | translate }}</span>
             </p>
+
             <p class="sal"> {{salary.candidate_total | number:'1.3-3' }} {{ salary.currency_code }}</p>
             
             <p class="from">
