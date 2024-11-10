@@ -220,6 +220,10 @@ ion-fab {
     }
 }
 
+ion-fab.mobile {
+    bottom: 100px;
+}
+
 [dir="ltr"] {
     ion-fab {
         ion-badge {
