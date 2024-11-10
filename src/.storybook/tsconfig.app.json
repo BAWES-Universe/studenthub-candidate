@@ -1,0 +1,8 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  // Exclude all files that are not needed for documentation generation.
+  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
+  // Please make sure to include all files from which Compodoc should generate documentation.
+  "include": ["../src/**/*"],
+  "files": ["./typings.d.ts"]
+}
