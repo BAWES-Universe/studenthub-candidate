@@ -61,9 +61,10 @@
 
   </ion-toolbar>
 
-  <ion-toolbar class="container">
+  <ion-toolbar class="container" class="segment-wrapper">
 
-    <ion-segment mode="md" *ngIf="!platform.is('mobile')" [(ngModel)]="segment">
+    <!-- *ngIf="!platform.is('mobile')"-->
+    <ion-segment mode="md"  [(ngModel)]="segment">
  
       <ion-segment-button mode="md" value="work-details">
         <ion-label>{{ "Work Details" | translate }}</ion-label>
@@ -73,18 +74,18 @@
         <ion-label>{{ "Personal Details" | translate }}</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="financials">
+      <ion-segment-button mode="md" value="financials" *ngIf="!platform.is('mobile')">
         <ion-label>{{ "Financials" | translate }}</ion-label>
       </ion-segment-button>
 
     </ion-segment>
 
-    <!-- (ionChange)="segmentChanged($event)" -->
-    <ion-select *ngIf="platform.is('mobile')" interface="popover" [(ngModel)]="segment">
+    <!-- (ionChange)="segmentChanged($event)"interface="popover" 
+    <ion-select *ngIf="platform.is('mobile')" interface="action" [(ngModel)]="segment">
       <ion-select-option value="work-details">{{ "Work Details" | translate }}</ion-select-option>
       <ion-select-option value="personal-details">{{ "Personal Details" | translate }}</ion-select-option>
       <ion-select-option value="financials">{{ "Financials" | translate }}</ion-select-option>
-    </ion-select>
+    </ion-select>-->
   </ion-toolbar>
 
   <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>

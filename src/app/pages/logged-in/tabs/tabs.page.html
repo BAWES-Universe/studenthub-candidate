@@ -88,13 +88,12 @@
         <ion-icon class="icon-selected" src="assets/icons/track-selected.svg"></ion-icon>
         <ion-label>{{ 'Track' | translate }}</ion-label>
       </ion-tab-button>
-
-      <!--
+ 
       <ion-tab-button tab="payments">
         <ion-icon class="not-current" src="assets/icons/payment-tab.svg"></ion-icon>
         <ion-icon class="icon-selected" src="assets/icons/payment-selected.svg"></ion-icon>
         <ion-label>{{ 'Payments' | translate }}</ion-label>
-      </ion-tab-button>-->
+      </ion-tab-button> 
 
       <ion-tab-button tab="discounts">
         <ion-icon class="not-current" src="assets/icons/profile-tab.svg"></ion-icon>
@@ -111,7 +110,9 @@
     </ion-tab-bar>
   </ion-tabs>
 
-  <ion-fab [horizontal]="translateService.currentLang == 'en'? 'end': 'start'" vertical="bottom" slot="fixed">
+  <ion-fab [horizontal]="translateService.currentLang == 'en'? 'end': 'start'" 
+    [class.mobile]="platform.is('mobile')"
+    vertical="bottom" slot="fixed">
     <ion-fab-button class="btn-fab" id="btn-fab" (click)="startChat()">
       <ion-icon name="chatbubbles" mode="ios" *ngIf="!startingChat"></ion-icon>
       <ion-spinner *ngIf="startingChat"></ion-spinner>
