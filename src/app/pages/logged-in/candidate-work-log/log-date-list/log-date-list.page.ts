@@ -50,6 +50,11 @@ export class LogDateListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   ionViewWillEnter() {
     this.loadData();
   }
@@ -107,15 +112,7 @@ export class LogDateListPage implements OnInit {
       this.loading = false;
     });
   }
-  
-  getStartTime(hour) {
-    return hour.dateListByCandidate[0].start_time;
-  }
-
-  getEndTime(hour) {
-    return hour.dateListByCandidate[hour.dateListByCandidate.length - 1].end_time;
-  }
-
+   
   secondsToTime(secs){
     var h = Math.floor(secs / (60 * 60));
 

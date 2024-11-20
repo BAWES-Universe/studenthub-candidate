@@ -10,6 +10,10 @@
 </ion-header>
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
   
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-buttons [collapse]="true" slot="start">
@@ -28,7 +32,6 @@
 <!--  </ion-toolbar>-->
 <!--</ion-header>-->
 
-
 <!--<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">-->
 
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
@@ -38,24 +41,34 @@
     <div class="date-wrapper" tappable *ngFor="let hour of candidateWorkingHourData" [routerLink]="'/log-hour-list/' + hour.date">
       <h2>{{ hour.date | date : 'mediumDate': undefined: translateService.currentLang}}</h2>
       
+      <!--
       <ion-badge class="warning" *ngIf="hour.dateStatus == 0">
         {{ "Pending" | translate }}
       </ion-badge>
+      
       <ion-badge class="success" *ngIf="hour.dateStatus == 1">
         {{ "Approved" | translate }}
       </ion-badge>
+
       <ion-badge class="warning" *ngIf="hour.dateStatus == 2">
         {{ "Rejected" | translate }}
-      </ion-badge>
+      </ion-badge>-->
 
       <div class="clearfix"></div>
 
       <div class="time-wrapper">
-        <b>{{ hour.total_time | secondsToTime }}</b>  
+        <b *ngIf="hour.checkOut">{{ hour.total_time | secondsToTime }}</b>  
+        <b *ngIf="!hour.checkOut">{{ "On-Going" | translate }}</b>  
         <span>
           {{ translateService.toDate(hour.checkIn) | date: "shortTime": undefined: translateService.currentLang}} 
           <ion-icon name="arrow-forward-outline"></ion-icon> 
-          {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
+
+          <ng-container *ngIf="!hour.checkOut">
+            {{ "Now" | translate }}
+          </ng-container>
+          <ng-container *ngIf="hour.checkOut">
+            {{ translateService.toDate(hour.checkOut) | date: "shortTime": undefined: translateService.currentLang}}
+          </ng-container>
         </span>
       </div>
     </div>

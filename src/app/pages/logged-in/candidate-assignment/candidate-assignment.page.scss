@@ -212,3 +212,69 @@ ion-item {
   [dir="rtl"] ion-back-button {
     rotate: 180deg;
   }
+
+.health-indicator {
+  float: var(--end);
+  margin: 0;
+  border-radius: 6px;
+  background: var(--Neutral-20, #F5F5F7);    
+  padding: 2px 6px;
+  
+}
+
+.health-bar {
+  padding: 0px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  
+  li {
+      border-radius: 6px;
+      background: var(--Neutral-20, #F5F5F7);
+      padding: 2px 6px;
+  
+  }
+}
+
+.health-bar,
+.health-indicator {
+  display: flex;
+  height: 24px;
+  align-items: center;
+  gap: 10px;
+  color: var(--Neutral-95, #23233D);
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 133.333% */
+  list-style: none;
+
+  li {
+      display: inline-flex;
+  }
+
+  li::before {
+      width: 14px;
+      height: 14px;
+      content: "";
+      display: inline-block;
+      border-radius: 100%;
+      margin-inline-end: 6px;    
+  }
+
+  li.pending::before { 
+      background: #F2994A;
+  }
+
+  li.approved::before { 
+      background: #29B564;
+  }
+
+  li.rejected::before { 
+      background: #EB5757;
+  }
+
+  li.working::before { 
+      background: #4C70F2;
+    }
+}

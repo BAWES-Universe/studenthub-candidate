@@ -33,7 +33,16 @@ export class CandidateWorkingHourService {
   }
 
   /**
-   * return detail
+   * return date detail 
+   * @param date
+   */
+  dateDetail(date): Observable<any>{
+    const url = `${this._endpoint}/date-detail/${date}`;
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * return day detail by hours
    * @param date
    */
   detail(date): Observable<any>{
@@ -41,17 +50,32 @@ export class CandidateWorkingHourService {
     return this._authhttp.get(url);
   }
 
+  /**
+   * @param date 
+   * @returns 
+   */
   stats(date): Observable<any>{
     const url = `${this._endpoint}/stats?${date}`;
     return this._authhttp.get(url);
   }
 
   /**
-   * Return invitations
+   * Return hours/ sessions
    * @returns {Observable<any>}
    */
   listHours(page: number, param = null): Observable<any>{
     const url = this._endpoint + `/hour?page=${page}&expand=store,store.company${param}`;
+    return this._authhttp.get(url, true);
+  }
+
+  /**
+   * list dates 
+   * @param page 
+   * @param param 
+   * @returns 
+   */
+  listDates(page: number, param = null): Observable<any>{
+    const url = this._endpoint + `/working-dates?page=${page}&expand=store,store.company${param}`;
     return this._authhttp.get(url, true);
   }
 }

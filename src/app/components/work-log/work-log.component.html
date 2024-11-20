@@ -1,23 +1,11 @@
 <ion-card>
   <ion-card-content>
-     
-    <p> 
-      <b *ngIf="hour.total_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
-      <b *ngIf="!hour.total_time">{{ "On-going" | translate }}</b>
-      
-      <ion-badge class="warning" *ngIf="hour.status == 0">
-        {{ "Pending" | translate }}
-      </ion-badge>
-      <ion-badge class="success" *ngIf="hour.status == 1">
-        {{ "Approved" | translate }}
-      </ion-badge>
-      <ion-badge class="warning" *ngIf="hour.status == 2">
-        {{ "Rejected" | translate }}
-      </ion-badge>
-    </p>
-
-    <p>
-      {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+    
+    <p *ngIf="hour.status == 0">
+      <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+      <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
+      <span>
+        {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
         <ion-icon name="arrow-forward-outline"></ion-icon> 
         <ng-container *ngIf="hour.end_time">
           {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
@@ -25,7 +13,36 @@
         <ng-container *ngIf="!hour.end_time">
           {{ "Now" | translate }}
         </ng-container>
+      </span>  
     </p>
+
+    <ng-container *ngIf="hour.status != 0">
+      <p> 
+        <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
+        
+        <ion-badge class="warning" *ngIf="hour.status == 0">
+          {{ "Pending" | translate }}
+        </ion-badge>
+        <ion-badge class="success" *ngIf="hour.status == 1">
+          {{ "Approved" | translate }}
+        </ion-badge>
+        <ion-badge class="warning" *ngIf="hour.status == 2">
+          {{ "Rejected" | translate }}
+        </ion-badge>
+      </p>
+
+      <p>
+        {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          <ng-container *ngIf="hour.end_time">
+            {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+          </ng-container>
+          <ng-container *ngIf="!hour.end_time">
+            {{ "Now" | translate }}
+          </ng-container>
+      </p>
+    </ng-container>
     
     <p>
       <b>{{ "Tracking Method" | translate }}:</b>
@@ -35,5 +52,6 @@
     </p>  
     
     <div class="clearfix"></div>
+ 
   </ion-card-content>
 </ion-card>

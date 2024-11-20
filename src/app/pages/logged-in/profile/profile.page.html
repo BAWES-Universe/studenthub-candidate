@@ -393,7 +393,7 @@
           <ion-icon src="assets/images/icon-assignment.svg"></ion-icon> {{ "Current Assignments" | translate }}
         </h5>
 
-        <ion-card class="card-history" *ngFor="let history of currentAssignments">
+        <ion-card class="card-history" [routerLink]="'/candidate-assignment/' + history.id"  *ngFor="let history of currentAssignments">
           <ion-card-header>
             <ion-item lines="none" *ngIf="history.store">
               <div tabindex="0"></div>
@@ -426,7 +426,7 @@
           <ion-icon src="assets/images/icon-suitcase.svg"></ion-icon> {{ "Work History" | translate }}
         </h5>
 
-        <ion-card class="card-history" *ngFor="let history of workHistory">
+        <ion-card class="card-history" [routerLink]="'/candidate-assignment/' + history.id" *ngFor="let history of workHistory">
           <ion-card-header>
             <ion-item lines="none" *ngIf="history.store">
               <div tabindex="0"></div>
