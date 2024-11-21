@@ -1,8 +1,8 @@
 <ion-card>
   <ion-card-content>
-    
+    <!--
     <p *ngIf="hour.status == 0">
-      <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+      <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(--
       <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
       <span>
         {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
@@ -14,22 +14,28 @@
           {{ "Now" | translate }}
         </ng-container>
       </span>  
-    </p>
+    </p>-->
 
-    <ng-container *ngIf="hour.status != 0">
+    <ng-container>
       <p> 
         <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
         <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
         
-        <ion-badge class="warning" *ngIf="hour.status == 0">
-          {{ "Pending" | translate }}
-        </ion-badge>
-        <ion-badge class="success" *ngIf="hour.status == 1">
-          {{ "Approved" | translate }}
-        </ion-badge>
-        <ion-badge class="warning" *ngIf="hour.status == 2">
-          {{ "Rejected" | translate }}
-        </ion-badge>
+        <!--<ion-badge class="working" *ngIf="!hour.end_time">
+          {{ "Working" | translate }}
+        </ion-badge>-->
+
+        <ng-container *ngIf="hour.end_time">
+          <ion-badge class="warning" *ngIf="hour.status == 0">
+            {{ "Pending" | translate }}
+          </ion-badge>
+          <ion-badge class="success" *ngIf="hour.status == 1">
+            {{ "Approved" | translate }}
+          </ion-badge>
+          <ion-badge class="warning" *ngIf="hour.status == 2">
+            {{ "Rejected" | translate }}
+          </ion-badge>
+        </ng-container>
       </p>
 
       <p>
