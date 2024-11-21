@@ -5,10 +5,9 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
-import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
-import {CandidateWorkingHour} from "../../../../models/candidate";
-import {CandidateWorkingHourService} from "../../../../providers/logged-in/candidate-working-hour.service";
+import {CandidateWorkingDate} from "../../../../models/candidate-working-date";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
 
 declare var window;
@@ -28,26 +27,21 @@ export class LogDateListPage implements OnInit {
   public currentPage = 1;
   public totalCount = 0;
 
-  public candidateWorkingHourData: CandidateWorkingHour[] = [];
+  public candidateWorkingDates: CandidateWorkingDate[] = [];
 
   constructor(
     public platform: Platform,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public authService: AuthService,
-    public candidateWorkingHour: CandidateWorkingHourService,
-    public eventService: EventService,
-    public invitationService: InvitationService,
+    public candidateService: CandidateService,
+    public eventService: EventService, 
     public translateService: TranslateLabelService,
     public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
     this.analyticsService.page('Candidate Working Hours');
-
-    this.eventService.requestUpdated$.subscribe(_ => {
-      this.loadData();
-    });
   }
 
   doRefresh(event) {
@@ -72,12 +66,12 @@ export class LogDateListPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    this.candidateWorkingHour.list(this.currentPage, '&expand=dateStatus,checkIn,checkOut').subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage, '&expand=dateStatus,checkIn,checkOut').subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.candidateWorkingHourData = response.body;
+      this.candidateWorkingDates = response.body;
     });
   }
 
@@ -99,12 +93,12 @@ export class LogDateListPage implements OnInit {
 
     this.currentPage++;
 
-    this.candidateWorkingHour.list(this.currentPage, '&expand=dateStatus,checkIn,checkOut').subscribe(response => {
+    this.candidateService.listCandidateWorkingDates(this.currentPage).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-        this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
+        this.candidateWorkingDates = this.candidateWorkingDates.concat(response.body);
         event.target.complete();
     },
     error => { },

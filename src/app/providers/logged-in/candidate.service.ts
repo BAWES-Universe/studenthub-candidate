@@ -24,6 +24,16 @@ export class CandidateService {
   }
 
   /**
+   * @param currentPage 
+   * @param urlParams 
+   * @returns 
+   */
+  listCandidateWorkingDates(page: number, urlParams: string = "") : Observable<any> {
+    let url = `${this._candidateEndpoint}/working-dates?page=${page}&${urlParams}`;
+    return this._authhttp.get(url, true);
+  }
+
+  /**
    * return work history
    * @param candidate
    */
