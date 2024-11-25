@@ -10,7 +10,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
 // models
 import {CandidateWorkingHour} from 'src/app/models/candidate';
-
+import { CandidateWorkingDate } from "../../../../models/candidate-working-date";
 
 declare var window;
 
@@ -33,7 +33,9 @@ export class LogHourListPage implements OnInit {
 
   public candidateWorkingHourData: CandidateWorkingHour[] = [];
 
-  public stats: any; 
+  //public stats: any; 
+
+  public candidateWorkingDate: CandidateWorkingDate;
 
   constructor(
     public platform: Platform,
@@ -54,14 +56,26 @@ export class LogHourListPage implements OnInit {
 
   ionViewWillEnter() {
     this.loadData();
-    this.loadStats();
+    this.loadDetail();
   }
 
-  loadStats() {
+  doRefresh(event) {
+    this.loadData();
+    this.loadDetail();
+    event.target.complete();
+  }
+
+  loadDetail() {
+    this.candidateWorkingHour.dateDetail(this.date).subscribe(res => {
+      this.candidateWorkingDate = res;
+    });
+  }
+
+  /*loadStats() {
     this.candidateWorkingHour.stats(this.getUrlParams()).subscribe(response => {
       this.stats = response;
     });
-  }
+  }*/
 
   ionViewWillLeave() {
 

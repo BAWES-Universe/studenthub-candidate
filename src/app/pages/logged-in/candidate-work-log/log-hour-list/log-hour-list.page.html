@@ -9,6 +9,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-header *ngIf="candidateWorkingHourData" collapse="condense">
     <ion-toolbar>
       <ion-title>{{ date | date : 'mediumDate': undefined: translateService.currentLang}}</ion-title>
@@ -19,36 +24,68 @@
 
   <div class="max-width">
     
-    <ion-card class="main-card" *ngIf="stats"> 
+    <ion-card class="main-card" *ngIf="candidateWorkingDate"> 
       
       <span class="txt-label">{{ "Total Time" | translate}}</span>
     
-      <ion-badge class="warning" *ngIf="stats.status == 0">{{ "Pending" | translate }}</ion-badge>
-      <ion-badge class="success" *ngIf="stats.status == 1">{{ "Approved" | translate }}</ion-badge>
-      <ion-badge class="warning" *ngIf="stats.status == 2">{{ "Rejected" | translate }}</ion-badge>
+      <ul *ngIf="candidateWorkingDate.end_time" class="health-indicator">
+        <li *ngIf="candidateWorkingDate.total_pending > 0" class="pending">
+          {{ candidateWorkingDate.total_pending }}
+        </li>
+        <li *ngIf="candidateWorkingDate.total_approved > 0" class="approved">
+          {{ candidateWorkingDate.total_approved }}
+        </li>
+        <li *ngIf="candidateWorkingDate.total_rejected > 0" class="rejected">
+          {{ candidateWorkingDate.total_rejected }}
+        </li>
+      </ul>
 
+      <!--
+      <ion-badge class="warning" *ngIf="candidateWorkingDate.status == 0">{{ "Pending" | translate }}</ion-badge>
+      <ion-badge class="success" *ngIf="candidateWorkingDate.status == 1">{{ "Approved" | translate }}</ion-badge>
+      <ion-badge class="warning" *ngIf="candidateWorkingDate.status == 2">{{ "Rejected" | translate }}</ion-badge>
+-->
       <div class="clearfix"></div>
-      <h4 class="txt-time" *ngIf="stats && stats.totalTime">{{ stats.totalTime | secondsToTime }}</h4>  
-      <h4 class="txt-time" *ngIf="!stats || !stats.totalTime">00:00</h4>
+
+      <h4 class="txt-time" *ngIf="candidateWorkingDate.total_time">{{ candidateWorkingDate.total_time | secondsToTime }}</h4>  
+      <h4 class="txt-time" *ngIf="!candidateWorkingDate.total_time">{{ "On-Going" | translate }}</h4>
 
       <div class="time-wrapper">
         <div class="time-left">
           <b>{{ "Start Time:" | translate}}</b> 
 
-          <span *ngIf="stats && stats.checkIn">{{ 
-            translateService.toDate(stats.checkIn) | date: "shortTime": undefined: translateService.currentLang }}</span>  
-          <span *ngIf="!stats || !stats.checkIn">00:00</span>
+          <span *ngIf="candidateWorkingDate.start_time">{{ 
+            translateService.toDate(candidateWorkingDate.start_time) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+          <span *ngIf="!candidateWorkingDate.start_time">-</span>
         </div>  
 
         <div class="time-right">
           <b>{{"End Time:" | translate}}</b> 
 
-          <span *ngIf="stats && stats.checkOut">{{ translateService.toDate(stats.checkOut) | date: "shortTime": undefined: translateService.currentLang }}</span>  
-          <span *ngIf="!stats || !stats.checkOut">00:00</span>
+          <span *ngIf="candidateWorkingDate.end_time">{{ translateService.toDate(candidateWorkingDate.end_time) | date: "shortTime": undefined: translateService.currentLang }}</span>  
+          <span *ngIf="!candidateWorkingDate.end_time">{{ "Now" | translate }}</span>
         </div>
 
         <div class="clearfix"></div>
       </div>
+
+      <ul *ngIf="candidateWorkingDate.end_time" class="health-bar">
+        <li *ngIf="candidateWorkingDate.total_pending > 0" class="pending">
+          {{ candidateWorkingDate.total_pending }} {{ "Pending" | translate }}
+        </li>
+        <li *ngIf="candidateWorkingDate.total_approved > 0" class="approved">
+          {{ candidateWorkingDate.total_approved }} {{ "Approved" | translate }}
+        </li>
+        <li *ngIf="candidateWorkingDate.total_rejected > 0" class="rejected">
+          {{ candidateWorkingDate.total_rejected }} {{ "Rejected" | translate }}
+        </li>
+      </ul>
+
+      <ul *ngIf="!candidateWorkingDate.end_time" class="health-bar">
+        <li class="working">
+          {{ "Working" | translate }}
+        </li>
+      </ul>
 
     </ion-card>
 

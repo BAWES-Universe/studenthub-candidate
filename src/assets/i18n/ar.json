@@ -1,4 +1,7 @@
+
 {
+    "Working": "عمل",
+    "On-Going": "مستمر",
     "txt_session_rejected": "تم رفض جلستك ({{ start_time }} - {{ end_time }}) في تاريخ {{ date }}.",
     "Work Session Approved": "تمت الموافقة على جلستك ({{ start_time }} - {{ end_time }}) في تاريخ {{ date }}.",
     "Work Session Rejected": "تم رفض الجلسة العملية.",

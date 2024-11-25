@@ -19,4 +19,7 @@ export class CandidateWorkingDate {
     company: Company;
     store: Store;
     health: any;
+    total_rejected: number;
+    total_approved: number;
+    total_pending: number;
 }

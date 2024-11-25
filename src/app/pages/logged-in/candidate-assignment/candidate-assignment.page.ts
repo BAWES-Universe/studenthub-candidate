@@ -12,6 +12,7 @@ import {
 import { DatePickerComponent } from 'src/app/components/date-picker/date-picker.component';
 //models
 import { CandidateWorkingHour } from 'src/app/models/candidate';
+import { CandidateWorkingDate } from "src/app/models/candidate-working-date";
 import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
 //services
 import { AnalyticsService } from 'src/app/providers/analytics.service';
@@ -37,7 +38,7 @@ export class CandidateAssignmentPage implements OnInit {
 
   public history: CandidateWorkHistory;
 
-  public candidateWorkingHourData: CandidateWorkingHour[] = [];
+  public candidateWorkingDates: CandidateWorkingDate[] = [];
 
   public segment: string = "logs";
   
@@ -173,7 +174,7 @@ export class CandidateAssignmentPage implements OnInit {
   }
 
   getUrlParams() {
-    let url = '&expand=dateStatus,checkIn,checkOut&candidate_id=' + this.history.candidate_id + 
+    let url = '&candidate_id=' + this.history.candidate_id + 
       "&store_id=" + this.history.store_id;
 
       if (this.start_date) {
@@ -193,12 +194,12 @@ export class CandidateAssignmentPage implements OnInit {
   loadData() {
     this.loading = true;
      
-    this.candidateWorkingHour.list(this.currentPage, this.getUrlParams()).subscribe(response => {
+    this.candidateWorkingHour.listDates(this.currentPage, this.getUrlParams()).subscribe(response => {
       this.loading =  false;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.candidateWorkingHourData = response.body;
+      this.candidateWorkingDates = response.body;
     });
   }
 
@@ -212,12 +213,12 @@ export class CandidateAssignmentPage implements OnInit {
 
     this.currentPage++;
  
-    this.candidateWorkingHour.list(this.currentPage, this.getUrlParams()).subscribe(response => {
+    this.candidateWorkingHour.listDates(this.currentPage, this.getUrlParams()).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
-        this.candidateWorkingHourData = this.candidateWorkingHourData.concat(response.body);
+        this.candidateWorkingDates = this.candidateWorkingDates.concat(response.body);
         event.target.complete();
     },
     error => { },

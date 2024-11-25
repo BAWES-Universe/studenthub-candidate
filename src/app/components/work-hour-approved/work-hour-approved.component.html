@@ -31,15 +31,15 @@
       <ion-card-content>
         <h5 class="txt-total-hours">{{ "Total Hours" | translate}}</h5>
 
-        <ul *ngIf="candidateNotification.candidateWorkingDate.health" class="health-indicator">
-          <li *ngIf="candidateNotification.candidateWorkingDate.health[0] > 0" class="pending">
-            {{ candidateNotification.candidateWorkingDate.health[0] }}
+        <ul class="health-indicator">
+          <li *ngIf="candidateNotification.candidateWorkingDate.total_pending > 0" class="pending">
+            {{ candidateNotification.candidateWorkingDate.total_pending }}
           </li>
-          <li *ngIf="candidateNotification.candidateWorkingDate.health[1] > 0" class="approved">
-            {{ candidateNotification.candidateWorkingDate.health[1] }}
+          <li *ngIf="candidateNotification.candidateWorkingDate.total_approved > 0" class="approved">
+            {{ candidateNotification.candidateWorkingDate.total_approved }}
           </li>
-          <li *ngIf="candidateNotification.candidateWorkingDate.health[2] > 0" class="rejected">
-            {{ candidateNotification.candidateWorkingDate.health[2] }}
+          <li *ngIf="candidateNotification.candidateWorkingDate.total_rejected > 0" class="rejected">
+            {{ candidateNotification.candidateWorkingDate.total_rejected }}
           </li>
         </ul>
 

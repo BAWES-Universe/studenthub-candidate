@@ -93,7 +93,7 @@
 
         <ion-card class="card-bank-details" *ngIf="candidate.working_hour_count && candidate.working_hour_count > 0">
           <ion-card-header class="white-bg">
-            <ion-card-title>{{"Working logs" | translate}}</ion-card-title>
+            <ion-card-title>{{ "Working logs" | translate}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-button [routerLink]="'/log-date-list'" fill="outline" class="btn-video-recording">{{"Click here to view your working logs" | translate }}</ion-button>

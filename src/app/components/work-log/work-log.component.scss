@@ -39,6 +39,12 @@ ion-card {
             color: var(--Green-Tint-Main, #29B564);
         }
     
+        ion-badge.working { 
+            --background: #4C70F2;
+            background: #4C70F2;
+            color: var(--Orange-Tint-1, #FFF7F0);
+        }
+        
         p {
             //height: 56px;
             width: 100%;
