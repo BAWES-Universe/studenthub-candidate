@@ -8,6 +8,8 @@ import { LogDateListPageRoutingModule } from './log-date-list-routing.module';
 import { LogDateListPage } from './log-date-list.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import {PipesModule} from 'src/app/pipes/pipes.module';
+import { CalendarModule } from 'ion2-calendar';
+import { DatePickerModule } from 'src/app/components/date-picker/date-picker.module';
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import {PipesModule} from 'src/app/pipes/pipes.module';
     TranslateModule.forChild(),
     LoadingModalModule,
     PipesModule,
+    CalendarModule,
+    DatePickerModule,
     LogDateListPageRoutingModule
   ],
   declarations: [
