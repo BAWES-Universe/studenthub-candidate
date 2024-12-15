@@ -146,10 +146,19 @@ export class TrackWorkPage implements OnInit {
           this.loadSessions(); 
           this.loadStats();
           //this.checkStatus();
-        });
-      }
 
-      this.savingHours = false;
+          this.savingHours = false;
+        });
+      } else {
+        this.savingHours = false;
+
+        this.alertCtrl.create({
+          message: this.translateService.transform('Location permission required to save the work'),
+          buttons: [
+            this.translateService.transform("Okay")
+          ]
+        }).then(alert => alert.present());
+      }
 
     }).catch((error) => {
      
@@ -184,10 +193,19 @@ export class TrackWorkPage implements OnInit {
             this.checkStatus()
             this.loadStats();
           } 
-        });
-      }
 
-      this.startingWork = false; 
+          this.startingWork = false; 
+        });
+      } else {
+        this.startingWork = false; 
+
+        this.alertCtrl.create({
+          message: this.translateService.transform('Location permission required to start the work'),
+          buttons: [
+            this.translateService.transform("Okay")
+          ]
+        }).then(alert => alert.present());
+      }
 
     }).catch((error) => {
        
@@ -204,6 +222,10 @@ export class TrackWorkPage implements OnInit {
 
   async toggleTrack() {
     
+    if (this.startingWork || this.savingHours) {
+      return false;
+    }
+
     if (this.started) {
       this.confirmStopWork();
     } else {
