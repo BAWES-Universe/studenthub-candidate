@@ -46,7 +46,7 @@
     <div class="detail-item">
       <div class="txt-label">{{ "Compensation" | translate }}</div>
 
-      <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}</div>
+      <div *ngIf="!history.contract" class="txt-value">{{ history.candidate_hourly_rate }}/hr</div>
 
       <ng-container *ngIf="history.contract && history.contract.amount">
         <div class="txt-value" *ngIf=" history.contract.type == 'HOURLY'">
