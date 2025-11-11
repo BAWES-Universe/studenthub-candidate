@@ -1,8 +1,8 @@
 {
   "name": "studenthub-candidate",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "BAWES",
+  "homepage": "https://bawes.net/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,8 +14,7 @@
     "build:devserver:mobile": "ng build --configuration=dev-mobile",
     "build:production": "ng build --configuration=production",
     "build:production:mobile": "ng build --configuration=production-mobile",
-    "ionic:serve:khalid": "ionic serve --configuration=khalid",
-    "serve-kk": "ionic serve --configuration=krushn",
+    "ionic:serve:local": "ionic serve --configuration=local",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pogi --project sh-student-app ./www && sentry-cli sourcemaps upload --org pogi --project sh-student-app ./www"
   },
   "private": true,
@@ -122,5 +121,5 @@
     "ts-node": "~8.3.0",
     "typescript": "~4.8.4"
   },
-  "description": "An Ionic project"
+  "description": "Candidate app (frontend) for StudentHub"
 }
