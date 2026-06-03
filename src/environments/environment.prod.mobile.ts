@@ -9,6 +9,5 @@ export const environment = {
   mixpanelKey: 'bfe2ac5e039a3d8d1c8e281967d6f954',
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto/v1596453482/",
   permanentBucketUrl: "https://studenthub-uploads.s3.amazonaws.com/",
-  apiEndpoint: 'https://student.api.studenthub.co/v1',
-  sentryDsn: 'https://f672e69e130f805ea58e12014bf31b0f@o70039.ingest.us.sentry.io/4511495398293504'
+  apiEndpoint: 'https://student.api.studenthub.co/v1'
 };

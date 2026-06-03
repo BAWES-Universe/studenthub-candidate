@@ -14,7 +14,6 @@ export const environment = {
   cloudinaryUrl: "https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto:low/v1596453482/dev/",
   permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
   apiEndpoint: 'http://localhost/~BAWES/payroll/payroll/candidate/web/v1',
-  sentryDsn: 'https://f672e69e130f805ea58e12014bf31b0f@o70039.ingest.us.sentry.io/4511495398293504',
 };
 
 /*
